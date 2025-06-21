@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==/" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <style>
         /* Base Light Mode Variables */
         :root {
@@ -37,6 +38,8 @@
             --accent-orange: #F6AD55; /* Accent color for badges */
             --shadow-light: rgba(0,0,0,0.4); /* Darker, more subtle shadow */
             --shadow-medium: rgba(0,0,0,0.6); /* Even darker shadow */
+            --dark-card: #1A202C; /* Darker card background in dark mode */
+            --dark-border: rgba(255, 255, 255, 0.15); /* Light border in dark mode */
 
             background-color: var(--off-white);
             color: var(--medium-text);
@@ -70,22 +73,9 @@
         }
 
         body.dark-mode .hero {
-            background: linear-gradient(135deg, #111827, #0B0F19); /* Dark gradient for hero */
-            color: var(--dark-text);
+            background: #111827; /* Dark background for hero */
             box-shadow: 0 6px 25px var(--shadow-medium);
         }
-
-        /* Adjust blob colors for dark mode */
-        body.dark-mode .hero-bg .blob:nth-child(1) {
-            background: linear-gradient(135deg, rgba(99, 179, 237, 0.25), rgba(72, 187, 120, 0.25));
-        }
-        body.dark-mode .hero-bg .blob:nth-child(2) {
-            background: linear-gradient(135deg, rgba(72, 187, 120, 0.25), rgba(99, 179, 237, 0.25));
-        }
-        body.dark-mode .hero-bg .blob:nth-child(3) {
-            background: linear-gradient(135deg, rgba(246, 173, 85, 0.25), rgba(99, 179, 237, 0.25));
-        }
-
 
         body.dark-mode .section-title {
             color: var(--primary-blue); /* Titles stand out with primary blue */
@@ -115,7 +105,7 @@
         body.dark-mode .content-card-general,
         body.dark-mode .stat-item {
             background: var(--dark-card);
-            border: 1px solid var(--dark-border);
+            border: 1px solid var(--dark-border); /* Apply light border */
             box-shadow: 0 2px 10px var(--shadow-light);
             color: var(--dark-text); /* Ensure card text is light */
         }
@@ -165,7 +155,7 @@
         body.dark-mode #how-it-works {
             background: linear-gradient(135deg, #1A202C, #0B0F19); /* Dark gradient */
             box-shadow: 0 6px 20px var(--shadow-medium);
-            border: 1px solid var(--dark-border);
+            border: 1px solid var(--dark-border); /* Apply light border */
         }
         body.dark-mode #how-it-works .step-icon-circle {
             background: var(--primary-blue);
@@ -190,7 +180,7 @@
         body.dark-mode .stats-section {
             background: linear-gradient(135deg, #1A202C, #0B0F19); /* Dark gradient */
             box-shadow: 0 8px 25px var(--shadow-medium);
-            border: 1px solid var(--dark-border);
+            border: 1px solid var(--dark-border); /* Apply light border */
         }
         body.dark-mode .stats-section::before {
             background-image: radial-gradient(var(--medium-text) 1px, transparent 1px);
@@ -221,7 +211,7 @@
         /* About Us & Contact Us Sections */
         body.dark-mode .content-card-general {
             background: var(--dark-card);
-            border: 1px solid var(--dark-border);
+            border: 1px solid var(--dark-border); /* Apply light border */
             box-shadow: 0 4px 18px var(--shadow-medium);
         }
         body.dark-mode .content-card-general h2 {
@@ -361,10 +351,9 @@
         /* Hero Section with Enhanced Animated Background */
         .hero {
             position: relative;
-            background: #eef5fb; /* Light base color */
+            background: #1A202C; /* Dark charcoal grey for light mode */
             padding: 90px 15px 70px; /* Reduced padding */
             text-align: center;
-            color: var(--dark-text);
             border-bottom-left-radius: 50px; /* Reduced radius */
             border-bottom-right-radius: 50px; /* Reduced radius */
             box-shadow: 0 6px 20px var(--shadow-light); /* Lighter shadow */
@@ -375,47 +364,8 @@
             justify-content: center;
         }
 
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-        }
-        .hero-bg .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(120px); /* Increased blur for softer edges */
-            opacity: 0.8; /* Increased opacity for more visibility */
-            animation: blob-animation 22s infinite alternate ease-in-out;
-            transform-origin: center center;
-        }
-        .hero-bg .blob:nth-child(1) {
-            background: linear-gradient(135deg, rgba(13, 110, 253, 0.35), rgba(32, 201, 151, 0.35)); /* Stronger colors */
-            width: 750px; height: 750px; /* Larger blobs */
-            top: -25%; left: -25%;
-            animation-delay: 0s;
-        }
-        .hero-bg .blob:nth-child(2) {
-            background: linear-gradient(135deg, rgba(32, 201, 151, 0.35), rgba(13, 110, 253, 0.35)); /* Stronger colors */
-            width: 850px; height: 850px; /* Larger blobs */
-            bottom: -30%; right: -30%;
-            animation-delay: 2s;
-        }
-        .hero-bg .blob:nth-child(3) {
-            background: linear-gradient(135deg, rgba(253, 126, 20, 0.35), rgba(13, 110, 253, 0.35)); /* Stronger colors */
-            width: 650px; height: 650px; /* Larger blobs */
-            top: 30%; right: -15%;
-            animation-delay: 4s;
-        }
-
-        @keyframes blob-animation {
-            0% { transform: scale(1) translate(0, 0); }
-            33% { transform: scale(1.1) translate(40px, -40px); } /* Increased movement */
-            66% { transform: scale(0.9) translate(-20px, 20px); } /* Increased movement */
-            100% { transform: scale(1) translate(0, 0); }
+        .hero h1, .hero p {
+            color: #FFFFFF; /* White text for dark background */
         }
 
         .hero-content {
@@ -432,7 +382,6 @@
         }
         .hero p {
             font-size: 1.05rem; /* Reduced font size */
-            color: var(--medium-text);
             margin-bottom: 30px; /* Reduced margin */
             max-width: 650px; /* Reduced max-width */
             margin-left: auto;
@@ -595,59 +544,45 @@
             padding: 50px 15px; /* Reduced padding */
         }
         .step-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 12px; /* Reduced padding */
+            text-align: center; /* Ensure all content within step-item is centered */
         }
         .step-icon-circle {
-            width: 65px; /* Reduced size */
-            height: 65px; /* Reduced size */
+            width: 65px; /* Original size */
+            height: 65px; /* Original size */
             border-radius: 50%;
-            background: var(--primary-blue);
-            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px; /* Reduced font size */
-            margin-bottom: 12px; /* Reduced margin */
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08); /* Lighter shadow */
+            margin: 0 auto 15px auto; /* Centered margin */
+            font-size: 30px; /* Original font size */
+            background: var(--primary-blue);
+            color: var(--white);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
-        .step-item:hover .step-icon-circle {
-            transform: translateY(-5px) scale(1.02); /* Reduced transform */
-            background: var(--secondary-green);
-            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+        body.dark-mode #how-it-works {
+            background: linear-gradient(135deg, #1A202C, #0B0F19); /* Dark gradient */
+            box-shadow: 0 6px 20px var(--shadow-medium);
+            border: 1px solid var(--dark-border); /* Apply light border */
         }
-        .step-item h4 {
-            font-size: 1.2rem; /* Reduced font size */
-            margin-bottom: 6px; /* Reduced margin */
+        body.dark-mode #how-it-works .step-icon-circle {
+            background: var(--primary-blue);
+            color: var(--dark-text);
+            box-shadow: 0 3px 10px var(--shadow-light);
+        }
+        body.dark-mode #how-it-works .step-item:hover .step-icon-circle {
+            background: var(--secondary-green);
+            box-shadow: 0 5px 12px var(--shadow-medium);
+        }
+        body.dark-mode #how-it-works .step-item h4 {
             color: var(--dark-text);
         }
-        .step-item p {
-            font-size: 0.8rem; /* Reduced font size */
+        body.dark-mode #how-it-works .step-item p {
             color: var(--medium-text);
-            line-height: 1.3;
         }
-        .step-arrow {
-            font-size: 2rem; /* Reduced font size */
-            color: var(--light-gray);
-            margin: 0 -8px; /* Adjusted to bring steps closer */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
+        body.dark-mode .step-arrow {
+            color: var(--dark-border); /* Darker arrows */
         }
-        @media (max-width: 767px) {
-            .step-arrow {
-                display: none;
-            }
-            .step-item {
-                margin-bottom: 20px;
-            }
-        }
-
 
         /* Stats Section */
         .stats-section {
@@ -662,6 +597,11 @@
             overflow: hidden;
             border: 1px solid rgba(0,0,0,0.05);
         }
+        body.dark-mode .stats-section {
+            background: linear-gradient(135deg, #1A202C, #0B0F19); /* Dark gradient */
+            box-shadow: 0 8px 25px var(--shadow-medium);
+            border: 1px solid var(--dark-border); /* Apply light border */
+        }
         .stats-section::before {
             content: '';
             position: absolute;
@@ -673,16 +613,30 @@
             opacity: 0.6;
             z-index: 0;
         }
+        body.dark-mode .stats-section::before {
+            background-image: radial-gradient(var(--medium-text) 1px, transparent 1px);
+            opacity: 0.05;
+        }
         .stats-section .container {
             position: relative;
             z-index: 1;
         }
+        body.dark-mode .stats-section .container {
+                    position: relative;
+                    z-index: 1;
+                }
         .stats-section .section-title, .stats-section .section-description {
             color: var(--dark-text);
         }
+        body.dark-mode .stats-section .section-title, body.dark-mode .stats-section .section-description {
+                    color: var(--dark-text);
+                }
         .stats-section .section-title::after {
             background: var(--primary-blue);
         }
+        body.dark-mode .stats-section .section-title::after {
+                    background: var(--primary-blue);
+                }
         .stat-item {
             display: flex;
             align-items: center;
@@ -693,9 +647,20 @@
             transition: all 0.3s ease;
             border: 1px solid var(--light-gray);
         }
+        body.dark-mode .stat-item {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border); /* Apply light border */
+            box-shadow: 0 2px 10px var(--shadow-light);
+            color: var(--dark-text); /* Ensure card text is light */
+        }
         .stat-item:hover {
             transform: translateY(-4px); /* Reduced transform */
             box-shadow: 0 6px 15px rgba(0,0,0,0.12); /* Lighter shadow */
+        }
+        body.dark-mode .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--shadow-medium);
+            border-color: var(--primary-blue); /* Highlight hover with primary blue */
         }
         .stat-icon-wrap {
             width: 50px; /* Reduced size */
@@ -711,16 +676,27 @@
             background: rgba(32, 201, 151, 0.1);
             box-shadow: 0 1px 6px rgba(0,0,0,0.04); /* Lighter shadow */
         }
+        body.dark-mode .stat-icon-wrap {
+            background: rgba(72, 187, 120, 0.15); /* Secondary green with transparency */
+            color: var(--secondary-green);
+            box-shadow: 0 1px 6px var(--shadow-light);
+        }
         .stat-value {
             font-size: 2.8rem; /* Reduced font size */
             font-weight: 700;
             color: var(--primary-blue);
             line-height: 1;
         }
+        body.dark-mode .stat-value {
+            color: var(--primary-blue); /* Stat values in primary blue */
+        }
         .stat-label {
             font-size: 0.9rem; /* Reduced font size */
             color: var(--medium-text);
             margin-top: 3px; /* Reduced margin */
+        }
+        body.dark-mode .stat-label {
+            color: var(--medium-text);
         }
 
         /* About Us & Contact Us Sections */
@@ -734,10 +710,18 @@
             text-align: center;
             border: 1px solid var(--light-gray);
         }
+        body.dark-mode .content-card-general {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border); /* Apply light border */
+            box-shadow: 0 4px 18px var(--shadow-medium);
+        }
         .content-card-general h2 {
             font-size: 2.2rem; /* Reduced font size */
             font-weight: 700;
             margin-bottom: 18px; /* Reduced margin */
+            color: var(--dark-text);
+        }
+        body.dark-mode .content-card-general h2 {
             color: var(--dark-text);
         }
         .content-card-general p {
@@ -745,6 +729,9 @@
             color: var(--medium-text);
             line-height: 1.5;
             margin-bottom: 15px; /* Reduced margin */
+        }
+        body.dark-mode .content-card-general p {
+            color: var(--medium-text);
         }
         /* Styling for the new contact cards */
         .contact-card-item {
@@ -761,17 +748,32 @@
             align-items: center;
             justify-content: center;
         }
+        body.dark-mode .contact-card-item {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border); /* Apply light border */
+            box-shadow: 0 2px 10px var(--shadow-light);
+            color: var(--dark-text); /* Ensure card text is light */
+        }
         .contact-card-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px var(--shadow-medium);
+        }
+        body.dark-mode .contact-card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--shadow-medium);
+            border-color: var(--primary-blue); /* Highlight hover with primary blue */
         }
         .contact-card-item .contact-icon {
             font-size: 40px; /* Reduced font size */
             margin-bottom: 12px; /* Reduced margin */
             color: var(--primary-blue); /* Default color, overridden below */
         }
+        body.dark-mode .contact-card-item .contact-icon {
+            color: var(--secondary-green); /* Icons with secondary green */
+        }
         /* Specific brand colors for social icons */
         .contact-card-item .fa-whatsapp { color: #25D366; } /* WhatsApp Green */
+        .contact-card-item .fa-square-whatsapp { color: #25D366 !important; } /* Ensure WhatsApp square icon is also green */
         .contact-card-item .fa-facebook-f { color: #1877F2; } /* Facebook Blue */
         .contact-card-item .fa-users { color: var(--primary-blue); } /* Keep general group icon blue */
 
@@ -782,6 +784,9 @@
             margin-bottom: 10px; /* Reduced margin */
             color: var(--dark-text);
         }
+        body.dark-mode .contact-card-item h6 {
+            color: var(--dark-text);
+        }
         .contact-card-item a {
             font-size: 0.85rem; /* Reduced font size */
             color: var(--primary-blue);
@@ -789,9 +794,15 @@
             word-break: break-word; /* Ensure long links wrap */
             transition: color 0.3s ease;
         }
+        body.dark-mode .contact-card-item a {
+            color: var(--primary-blue);
+        }
         .contact-card-item a:hover {
             color: var(--secondary-green);
             text-decoration: underline;
+        }
+        body.dark-mode .contact-card-item a:hover {
+            color: var(--secondary-green);
         }
 
         /* Footer */
@@ -803,14 +814,25 @@
             font-size: 0.8rem; /* Reduced font size */
             margin-top: 60px; /* Reduced margin */
         }
+        body.dark-mode footer {
+            background: #0B0F19;
+            color: var(--medium-text);
+            border-top: 1px solid var(--dark-border);
+        }
         footer a {
             color: var(--primary-blue);
             text-decoration: none;
             transition: color 0.3s ease;
         }
+        body.dark-mode footer a {
+            color: var(--primary-blue);
+        }
         footer a:hover {
             color: var(--secondary-green);
             text-decoration: underline;
+        }
+        body.dark-mode footer a:hover {
+            color: var(--secondary-green);
         }
 
         /* Floating WhatsApp Button */
@@ -830,11 +852,18 @@
             z-index: 1000;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+        body.dark-mode .whatsapp-bubble {
+            background: #25D366; /* Keep original WhatsApp green for brand consistency */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
         .whatsapp-bubble:hover {
             transform: scale(1.03); /* Reduced scale */
             box-shadow: 0 6px 18px rgba(0,0,0,0.3);
             text-decoration: none;
             color: white;
+        }
+        body.dark-mode .whatsapp-bubble:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.7);
         }
         .whatsapp-bubble i {
             font-size: 22px; /* Reduced font size */
@@ -863,9 +892,16 @@
             align-items: center;
             justify-content: center;
         }
+        body.dark-mode #backToTop {
+            background: var(--primary-blue);
+            box-shadow: 0 3px 12px var(--shadow-medium);
+        }
         #backToTop:hover {
             background: var(--primary-dark-blue);
             transform: translateY(-2px); /* Reduced transform */
+        }
+        body.dark-mode #backToTop:hover {
+            background: var(--primary-dark-blue);
         }
 
         /* Animations (for fade-in-up) */
@@ -950,7 +986,7 @@
             .stat-item div { text-align: center; }
             .content-card-general { padding: 25px 18px; margin: 40px auto; }
             .content-card-general h2 { font-size: 1.6rem; margin-bottom: 12px; }
-            .content-card-general p { font-size: 0.8rem; margin-bottom: 10px; }
+            .content-card-general p { font-size: 0.85rem; margin-bottom: 10px; }
             .contact-card-item { padding: 15px; }
             .contact-card-item .contact-icon { font-size: 30px; margin-bottom: 8px; }
             .contact-card-item h6 { font-size: 0.9rem; margin-bottom: 6px; }
@@ -1013,11 +1049,7 @@ body.dark-mode nav .nav-link:hover {
 </nav>
 
 <div class="hero fade-in-up" id="home">
-    <div class="hero-bg">
-        <div class="blob"></div>
-        <div class="blob"></div>
-        <div class="blob"></div>
-    </div>
+    <div id="particles-js" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 0;"></div>
     <div class="container hero-content">
         <h1>Ace Your Exams, Confidently.</h1>
         <p>Your ultimate platform for high-quality mock tests, designed to help you excel in competitive examinations.</p>
@@ -1090,57 +1122,6 @@ body.dark-mode nav .nav-link:hover {
                     <div class="step-icon-circle"><i class="fa-solid fa-3"></i></div>
                     <h4>Analyze Results</h4>
                     <p>Receive instant feedback and detailed performance analysis.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="section-padding" id="features">
-    <div class="container">
-        <h2 class="section-title fade-in-up gradient-text">Why Mock Test Hub Stands Out</h2>
-        <p class="section-description fade-in-up">Discover the advantages that make us the preferred choice.</p>
-        <div class="row g-4 justify-content-center mt-4">
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card">
-                    <div class="icon"><i class="fa-solid fa-award"></i></div>
-                    <h5>Realistic Exam Simulation</h5>
-                    <p>Tests mirror actual conditions, building confidence & reducing anxiety.</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card">
-                    <div class="icon"><i class="fa-solid fa-chart-line"></i></div>
-                    <h5>In-depth Performance Analysis</h5>
-                    <p>Detailed reports identify strengths & weaknesses, guiding your study.</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card">
-                    <div class="icon"><i class="fa-solid fa-headset"></i></div>
-                    <h5>Prompt & Friendly Support</h5>
-                    <p>Our team and community assist you every step of the way.</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card">
-                    <div class="icon"><i class="fa-solid fa-mobile-alt"></i></div>
-                    <h5>Anytime, Anywhere Access</h5>
-                    <p>Study on the go with our fully responsive platform, on any device.</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card">
-                    <div class="icon"><i class="fa-solid fa-brain"></i></div>
-                    <h5>Curated by Experts</h5>
-                    <p>Questions developed by subject matter experts ensure accuracy & relevance.</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card">
-                    <div class="icon"><i class="fa-solid fa-rotate"></i></div>
-                    <h5>Continuously Updated Content</h5>
-                    <p>Tests regularly updated to reflect latest syllabus & exam pattern changes.</p>
                 </div>
             </div>
         </div>
@@ -1231,7 +1212,7 @@ body.dark-mode nav .nav-link:hover {
             </div>
             <div class="col-md-6 col-lg-3 fade-in-up">
                 <div class="contact-card-item">
-                    <div class="contact-icon"><i class="fa-solid fa-whatsapp"></i></div>
+                    <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
                     <h6>WhatsApp Group</h6>
                     <a href="https://chat.whatsapp.com/JsizrcizF4KBfprilR3EQP" target="_blank">Join Our WhatsApp Group</a>
                 </div>
@@ -1360,6 +1341,118 @@ body.dark-mode nav .nav-link:hover {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
             themeToggle.textContent = isDark ? '☀️' : '🌙';
+        });
+
+        // Particles.js initialization
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    },
+                    "image": {
+                        "src": "img/github.svg",
+                        "width": 100,
+                        "height": 100
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 6, // Increased particle size
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
         });
 
     });
