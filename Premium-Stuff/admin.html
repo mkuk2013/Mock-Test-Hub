@@ -6,8 +6,11 @@
     <title>Admin Panel - Premium Educational Hub</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
     
+    <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -221,17 +224,20 @@
         .admin-section-content.active {
             display: block;
         }
-        .delete-section, .data-display-section {
+        .add-update-section, .delete-section, .data-display-section {
             margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid #e2e8f0;
         }
-        .delete-section h3, .data-display-section h3 {
+        .add-update-section h3, .delete-section h3, .data-display-section h3 {
             font-size: 1.5rem;
             font-weight: 700;
             color: #e53e3e;
             margin-bottom: 15px;
             text-align: center;
+        }
+        .add-update-section h3 {
+            color: #667eea;
         }
         .data-display-section h3 {
             color: #667eea;
@@ -265,7 +271,7 @@
             gap: 10px;
             margin-top: 15px;
         }
-        .btn-group .btn-danger {
+        .btn-group .btn-danger, .btn-group .btn-primary, .btn-group .btn-success, .btn-group .btn-info {
             flex-grow: 1;
         }
         .data-table-container {
@@ -334,6 +340,7 @@
             <i class="fas fa-tools mr-3 text-purple-600"></i>Admin Panel
         </h2>
 
+        <!-- Login Form -->
         <div id="login-section" class="login-form">
             <p class="text-center text-gray-600 mb-6">
                 Admin Panel mein dakhil hone ke liye login karein.
@@ -355,6 +362,7 @@
             <div id="login-message-box" class="message-box"></div>
         </div>
 
+        <!-- Admin Content (Hidden by default) -->
         <div id="admin-content-section" class="admin-content">
             <button id="logout-btn" class="logout-btn">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
@@ -381,45 +389,50 @@
                 </button>
             </div>
 
+            <!-- Add PDF Book Section -->
             <div id="add-pdf-section" class="admin-section-content active">
-                <p class="text-center text-gray-600 mb-6">
-                    Yahan se aap apni website ke PDF Books section mein naye entries add kar sakte hain.
-                </p>
-                <form id="add-pdf-form">
-                    <input type="hidden" id="pdf-object-id"> 
-                    <div class="form-group">
-                        <label for="pdf-title">Book Title:</label>
-                        <input type="text" id="pdf-title" placeholder="Enter book title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="pdf-description">Description:</label>
-                        <textarea id="pdf-description" placeholder="Enter book description" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="pdf-link">PDF Link (URL):</label>
-                        <input type="url" id="pdf-link" placeholder="e.g., https://example.com/my-book.pdf" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="pdf-icon">Icon Class (Font Awesome):</label>
-                        <input type="text" id="pdf-icon" placeholder="e.g., fas fa-book" value="fas fa-book" required>
-                        <p class="text-sm text-gray-500 mt-1">Font Awesome icons ke liye class name, maslan 'fas fa-book'</p>
-                    </div>
-                    <div class="form-group">
-                        <label for="pdf-actionText">Action Button Text:</label>
-                        <input type="text" id="pdf-actionText" placeholder="e.g., Download Book" value="Download Book" required>
-                    </div>
-                    
-                    <div class="btn-group">
-                        <button type="submit" class="btn-primary w-full" id="submit-pdf-btn">
-                            <i class="fas fa-plus-circle mr-2"></i> Add New PDF Book
-                            <span id="pdf-loading-spinner" class="loading-spinner"></span>
-                        </button>
-                        <button type="button" class="btn-info w-full hidden" id="cancel-pdf-edit-btn">
-                            <i class="fas fa-times-circle mr-2"></i> Cancel Edit
-                        </button>
-                    </div>
-                </form>
-                <div id="pdf-message-box" class="message-box"></div>
+                <div class="add-update-section">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-gray-800"><i class="fas fa-plus-circle mr-2 text-green-600"></i>Add/Update PDF Book</h3>
+                    <p class="text-center text-gray-600 mb-6">
+                        Yahan se aap apni website ke PDF Books section mein naye entries add ya maujooda entries update kar sakte hain.
+                    </p>
+                    <form id="add-pdf-form">
+                        <!-- Hidden input to store objectId for update operations -->
+                        <input type="hidden" id="pdf-object-id"> 
+                        <div class="form-group">
+                            <label for="pdf-title">Book Title:</label>
+                            <input type="text" id="pdf-title" placeholder="Enter book title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pdf-description">Description:</label>
+                            <textarea id="pdf-description" placeholder="Enter book description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="pdf-link">PDF Link (URL):</label>
+                            <input type="url" id="pdf-link" placeholder="e.g., https://example.com/my-book.pdf" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pdf-icon">Icon Class (Font Awesome):</label>
+                            <input type="text" id="pdf-icon" placeholder="e.g., fas fa-book" value="fas fa-book" required>
+                            <p class="text-sm text-gray-500 mt-1">Font Awesome icons ke liye class name, maslan 'fas fa-book'</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="pdf-actionText">Action Button Text:</label>
+                            <input type="text" id="pdf-actionText" placeholder="e.g., Download Book" value="Download Book" required>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button type="submit" class="btn-primary w-full" id="submit-pdf-btn">
+                                <i class="fas fa-plus-circle mr-2"></i> Add New PDF Book
+                                <span id="pdf-loading-spinner" class="loading-spinner"></span>
+                            </button>
+                            <button type="button" class="btn-info w-full hidden" id="cancel-pdf-edit-btn">
+                                <i class="fas fa-times-circle mr-2"></i> Cancel Edit
+                            </button>
+                        </div>
+                    </form>
+                    <div id="pdf-message-box" class="message-box"></div>
+                </div>
 
                 <div class="data-display-section">
                     <h3><i class="fas fa-database mr-2"></i>Current PDF Books Data</h3>
@@ -429,21 +442,15 @@
                     </button>
                     <div id="pdf-display-message-box" class="message-box"></div>
                     <div id="pdf-data-display" class="data-table-container">
-                        </div>
+                        <!-- PDF data table will be rendered here -->
+                    </div>
                 </div>
 
                 <div class="delete-section">
-                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete PDF Books</h3>
-                    <form id="delete-pdf-form">
-                        <div class="form-group">
-                            <label for="delete-pdf-id">Delete by Object ID:</label>
-                            <input type="text" id="delete-pdf-id" placeholder="Enter Object ID to delete">
-                        </div>
-                        <button type="submit" class="btn-danger w-full" id="delete-single-pdf-btn">
-                            <i class="fas fa-minus-circle mr-2"></i> Delete Selected PDF
-                            <span id="delete-pdf-spinner" class="loading-spinner"></span>
-                        </button>
-                    </form>
+                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete All PDF Books</h3>
+                    <p class="text-center text-gray-600 mb-4">
+                        Yeh button table mein maujood saare records ko delete kar dega. Yeh action wapas nahi liya ja sakta.
+                    </p>
                     <div class="btn-group mt-4">
                         <button type="button" class="btn-danger w-full" id="delete-all-pdfs-btn">
                             <i class="fas fa-exclamation-triangle mr-2"></i> Delete All PDF Books
@@ -454,44 +461,48 @@
                 </div>
             </div>
 
+            <!-- Add Test Note Section -->
             <div id="add-note-section" class="admin-section-content">
-                <p class="text-center text-gray-600 mb-6">
-                    Yahan se aap Test Notes section mein naye entries add kar sakte hain.
-                </p>
-                <form id="add-note-form">
-                    <input type="hidden" id="note-object-id">
-                    <div class="form-group">
-                        <label for="note-title">Note Title:</label>
-                        <input type="text" id="note-title" placeholder="Enter note title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="note-description">Description:</label>
-                        <textarea id="note-description" placeholder="Enter note description" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="note-link">Note Link (URL):</label>
-                        <input type="url" id="note-link" placeholder="e.g., https://example.com/my-note.pdf" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="note-icon">Icon Class (Font Awesome):</label>
-                        <input type="text" id="note-icon" placeholder="e.g., fas fa-sticky-note" value="fas fa-sticky-note" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="note-actionText">Action Button Text:</label>
-                        <input type="text" id="note-actionText" placeholder="e.g., View Note" value="View Note" required>
-                    </div>
-                    
-                    <div class="btn-group">
-                        <button type="submit" class="btn-primary w-full" id="submit-note-btn">
-                            <i class="fas fa-plus-circle mr-2"></i> Add New Test Note
-                            <span id="note-loading-spinner" class="loading-spinner"></span>
-                        </button>
-                        <button type="button" class="btn-info w-full hidden" id="cancel-note-edit-btn">
-                            <i class="fas fa-times-circle mr-2"></i> Cancel Edit
-                        </button>
-                    </div>
-                </form>
-                <div id="note-message-box" class="message-box"></div>
+                <div class="add-update-section">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-gray-800"><i class="fas fa-plus-circle mr-2 text-green-600"></i>Add/Update Test Note</h3>
+                    <p class="text-center text-gray-600 mb-6">
+                        Yahan se aap Test Notes section mein naye entries add ya maujooda entries update kar sakte hain.
+                    </p>
+                    <form id="add-note-form">
+                        <input type="hidden" id="note-object-id">
+                        <div class="form-group">
+                            <label for="note-title">Note Title:</label>
+                            <input type="text" id="note-title" placeholder="Enter note title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="note-description">Description:</label>
+                            <textarea id="note-description" placeholder="Enter note description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="note-link">Note Link (URL):</label>
+                            <input type="url" id="note-link" placeholder="e.g., https://example.com/my-note.pdf" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="note-icon">Icon Class (Font Awesome):</label>
+                            <input type="text" id="note-icon" placeholder="e.g., fas fa-sticky-note" value="fas fa-sticky-note" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="note-actionText">Action Button Text:</label>
+                            <input type="text" id="note-actionText" placeholder="e.g., View Note" value="View Note" required>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button type="submit" class="btn-primary w-full" id="submit-note-btn">
+                                <i class="fas fa-plus-circle mr-2"></i> Add New Test Note
+                                <span id="note-loading-spinner" class="loading-spinner"></span>
+                            </button>
+                            <button type="button" class="btn-info w-full hidden" id="cancel-note-edit-btn">
+                                <i class="fas fa-times-circle mr-2"></i> Cancel Edit
+                            </button>
+                        </div>
+                    </form>
+                    <div id="note-message-box" class="message-box"></div>
+                </div>
 
                 <div class="data-display-section">
                     <h3><i class="fas fa-database mr-2"></i>Current Test Notes Data</h3>
@@ -501,21 +512,15 @@
                     </button>
                     <div id="note-display-message-box" class="message-box"></div>
                     <div id="note-data-display" class="data-table-container">
-                        </div>
+                        <!-- Note data table will be rendered here -->
+                    </div>
                 </div>
 
                 <div class="delete-section">
-                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete Test Notes</h3>
-                    <form id="delete-note-form">
-                        <div class="form-group">
-                            <label for="delete-note-id">Delete by Object ID:</label>
-                            <input type="text" id="delete-note-id" placeholder="Enter Object ID to delete">
-                        </div>
-                        <button type="submit" class="btn-danger w-full" id="delete-single-note-btn">
-                            <i class="fas fa-minus-circle mr-2"></i> Delete Selected Note
-                            <span id="delete-note-spinner" class="loading-spinner"></span>
-                        </button>
-                    </form>
+                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete All Test Notes</h3>
+                    <p class="text-center text-gray-600 mb-4">
+                        Yeh button table mein maujood saare records ko delete kar dega. Yeh action wapas nahi liya ja sakta.
+                    </p>
                     <div class="btn-group mt-4">
                         <button type="button" class="btn-danger w-full" id="delete-all-notes-btn">
                             <i class="fas fa-exclamation-triangle mr-2"></i> Delete All Test Notes
@@ -526,48 +531,52 @@
                 </div>
             </div>
 
+            <!-- Add Past Paper Section -->
             <div id="add-paper-section" class="admin-section-content">
-                <p class="text-center text-gray-600 mb-6">
-                    Yahan se aap Past Papers section mein naye entries add kar sakte hain.
-                </p>
-                <form id="add-paper-form">
-                    <input type="hidden" id="paper-object-id">
-                    <div class="form-group">
-                        <label for="paper-title">Paper Title:</label>
-                        <input type="text" id="paper-title" placeholder="Enter paper title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="paper-description">Description:</label>
-                        <textarea id="paper-description" placeholder="Enter paper description" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="paper-link">Paper Link (URL):</label>
-                        <input type="url" id="paper-link" placeholder="e.g., https://example.com/past-paper.pdf" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="paper-year">Year:</label>
-                        <input type="text" id="paper-year" placeholder="e.g., 2023" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="paper-icon">Icon Class (Font Awesome):</label>
-                        <input type="text" id="paper-icon" placeholder="e.g., fas fa-history" value="fas fa-history" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="paper-actionText">Action Button Text:</label>
-                        <input type="text" id="paper-actionText" placeholder="e.g., Download Paper" value="Download Paper" required>
-                    </div>
-                    
-                    <div class="btn-group">
-                        <button type="submit" class="btn-primary w-full" id="submit-paper-btn">
-                            <i class="fas fa-plus-circle mr-2"></i> Add New Past Paper
-                            <span id="paper-loading-spinner" class="loading-spinner"></span>
-                        </button>
-                        <button type="button" class="btn-info w-full hidden" id="cancel-paper-edit-btn">
-                            <i class="fas fa-times-circle mr-2"></i> Cancel Edit
-                        </button>
-                    </div>
-                </form>
-                <div id="paper-message-box" class="message-box"></div>
+                <div class="add-update-section">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-gray-800"><i class="fas fa-plus-circle mr-2 text-green-600"></i>Add/Update Past Paper</h3>
+                    <p class="text-center text-gray-600 mb-6">
+                        Yahan se aap Past Papers section mein naye entries add ya maujooda entries update kar sakte hain.
+                    </p>
+                    <form id="add-paper-form">
+                        <input type="hidden" id="paper-object-id">
+                        <div class="form-group">
+                            <label for="paper-title">Paper Title:</label>
+                            <input type="text" id="paper-title" placeholder="Enter paper title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="paper-description">Description:</label>
+                            <textarea id="paper-description" placeholder="Enter paper description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="paper-link">Paper Link (URL):</label>
+                            <input type="url" id="paper-link" placeholder="e.g., https://example.com/past-paper.pdf" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="paper-year">Year:</label>
+                            <input type="text" id="paper-year" placeholder="e.g., 2023" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="paper-icon">Icon Class (Font Awesome):</label>
+                            <input type="text" id="paper-icon" placeholder="e.g., fas fa-history" value="fas fa-history" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="paper-actionText">Action Button Text:</label>
+                            <input type="text" id="paper-actionText" placeholder="e.g., Download Paper" value="Download Paper" required>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button type="submit" class="btn-primary w-full" id="submit-paper-btn">
+                                <i class="fas fa-plus-circle mr-2"></i> Add New Past Paper
+                                <span id="paper-loading-spinner" class="loading-spinner"></span>
+                            </button>
+                            <button type="button" class="btn-info w-full hidden" id="cancel-paper-edit-btn">
+                                <i class="fas fa-times-circle mr-2"></i> Cancel Edit
+                            </button>
+                        </div>
+                    </form>
+                    <div id="paper-message-box" class="message-box"></div>
+                </div>
 
                 <div class="data-display-section">
                     <h3><i class="fas fa-database mr-2"></i>Current Past Papers Data</h3>
@@ -577,21 +586,15 @@
                     </button>
                     <div id="paper-display-message-box" class="message-box"></div>
                     <div id="paper-data-display" class="data-table-container">
-                        </div>
+                        <!-- Paper data table will be rendered here -->
+                    </div>
                 </div>
 
                 <div class="delete-section">
-                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete Past Papers</h3>
-                    <form id="delete-paper-form">
-                        <div class="form-group">
-                            <label for="delete-paper-id">Delete by Object ID:</label>
-                            <input type="text" id="delete-paper-id" placeholder="Enter Object ID to delete">
-                        </div>
-                        <button type="submit" class="btn-danger w-full" id="delete-single-paper-btn">
-                            <i class="fas fa-minus-circle mr-2"></i> Delete Selected Paper
-                            <span id="delete-paper-spinner" class="loading-spinner"></span>
-                        </button>
-                    </form>
+                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete All Past Papers</h3>
+                    <p class="text-center text-gray-600 mb-4">
+                        Yeh button table mein maujood saare records ko delete kar dega. Yeh action wapas nahi liya ja sakta.
+                    </p>
                     <div class="btn-group mt-4">
                         <button type="button" class="btn-danger w-full" id="delete-all-papers-btn">
                             <i class="fas fa-exclamation-triangle mr-2"></i> Delete All Past Papers
@@ -602,44 +605,48 @@
                 </div>
             </div>
 
+            <!-- Add Mock Test (Offline) Section -->
             <div id="add-mock-offline-section" class="admin-section-content">
-                <p class="text-center text-gray-600 mb-6">
-                    Yahan se aap Offline Mock Tests section mein naye entries add kar sakte hain.
-                </p>
-                <form id="add-mock-offline-form">
-                    <input type="hidden" id="mock-offline-object-id">
-                    <div class="form-group">
-                        <label for="mock-offline-title">Test Title:</label>
-                        <input type="text" id="mock-offline-title" placeholder="Enter test title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mock-offline-description">Description:</label>
-                        <textarea id="mock-offline-description" placeholder="Enter test description" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="mock-offline-link">Test File Link (URL):</label>
-                        <input type="url" id="mock-offline-link" placeholder="e.g., https://example.com/mock-test.pdf" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mock-offline-icon">Icon Class (Font Awesome):</label>
-                        <input type="text" id="mock-offline-icon" placeholder="e.g., fas fa-stopwatch" value="fas fa-stopwatch" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mock-offline-actionText">Action Button Text:</label>
-                        <input type="text" id="mock-offline-actionText" placeholder="e.g., Download Test" value="Download Test" required>
-                    </div>
-                    
-                    <div class="btn-group">
-                        <button type="submit" class="btn-primary w-full" id="submit-mock-offline-btn">
-                            <i class="fas fa-plus-circle mr-2"></i> Add New Offline Mock Test
-                            <span id="mock-offline-loading-spinner" class="loading-spinner"></span>
-                        </button>
-                        <button type="button" class="btn-info w-full hidden" id="cancel-mock-offline-edit-btn">
-                            <i class="fas fa-times-circle mr-2"></i> Cancel Edit
-                        </button>
-                    </div>
-                </form>
-                <div id="mock-offline-message-box" class="message-box"></div>
+                <div class="add-update-section">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-gray-800"><i class="fas fa-plus-circle mr-2 text-green-600"></i>Add/Update Offline Mock Test</h3>
+                    <p class="text-center text-gray-600 mb-6">
+                        Yahan se aap Offline Mock Tests section mein naye entries add ya maujooda entries update kar sakte hain.
+                    </p>
+                    <form id="add-mock-offline-form">
+                        <input type="hidden" id="mock-offline-object-id">
+                        <div class="form-group">
+                            <label for="mock-offline-title">Test Title:</label>
+                            <input type="text" id="mock-offline-title" placeholder="Enter test title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mock-offline-description">Description:</label>
+                            <textarea id="mock-offline-description" placeholder="Enter test description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="mock-offline-link">Test File Link (URL):</label>
+                            <input type="url" id="mock-offline-link" placeholder="e.g., https://example.com/mock-test.pdf" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mock-offline-icon">Icon Class (Font Awesome):</label>
+                            <input type="text" id="mock-offline-icon" placeholder="e.g., fas fa-stopwatch" value="fas fa-stopwatch" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mock-offline-actionText">Action Button Text:</label>
+                            <input type="text" id="mock-offline-actionText" placeholder="e.g., Download Test" value="Download Test" required>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button type="submit" class="btn-primary w-full" id="submit-mock-offline-btn">
+                                <i class="fas fa-plus-circle mr-2"></i> Add New Offline Mock Test
+                                <span id="mock-offline-loading-spinner" class="loading-spinner"></span>
+                            </button>
+                            <button type="button" class="btn-info w-full hidden" id="cancel-mock-offline-edit-btn">
+                                <i class="fas fa-times-circle mr-2"></i> Cancel Edit
+                            </button>
+                        </div>
+                    </form>
+                    <div id="mock-offline-message-box" class="message-box"></div>
+                </div>
 
                 <div class="data-display-section">
                     <h3><i class="fas fa-database mr-2"></i>Current Offline Mock Tests Data</h3>
@@ -649,21 +656,15 @@
                     </button>
                     <div id="mock-offline-display-message-box" class="message-box"></div>
                     <div id="mock-offline-data-display" class="data-table-container">
-                        </div>
+                        <!-- Mock Offline data table will be rendered here -->
+                    </div>
                 </div>
 
                 <div class="delete-section">
-                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete Offline Mock Tests</h3>
-                    <form id="delete-mock-offline-form">
-                        <div class="form-group">
-                            <label for="delete-mock-offline-id">Delete by Object ID:</label>
-                            <input type="text" id="delete-mock-offline-id" placeholder="Enter Object ID to delete">
-                        </div>
-                        <button type="submit" class="btn-danger w-full" id="delete-single-mock-offline-btn">
-                            <i class="fas fa-minus-circle mr-2"></i> Delete Selected Item
-                            <span id="delete-mock-offline-spinner" class="loading-spinner"></span>
-                        </button>
-                    </form>
+                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete All Offline Mock Tests</h3>
+                    <p class="text-center text-gray-600 mb-4">
+                        Yeh button table mein maujood saare records ko delete kar dega. Yeh action wapas nahi liya ja sakta.
+                    </p>
                     <div class="btn-group mt-4">
                         <button type="button" class="btn-danger w-full" id="delete-all-mock-offline-btn">
                             <i class="fas fa-exclamation-triangle mr-2"></i> Delete All Offline Mock Tests
@@ -674,44 +675,48 @@
                 </div>
             </div>
 
+            <!-- Add Mock Test (Online) Section -->
             <div id="add-mock-online-section" class="admin-section-content">
-                <p class="text-center text-gray-600 mb-6">
-                    Yahan se aap Online Mock Tests section mein naye entries add kar sakte hain.
-                </p>
-                <form id="add-mock-online-form">
-                    <input type="hidden" id="mock-online-object-id">
-                    <div class="form-group">
-                        <label for="mock-online-title">Test Title:</label>
-                        <input type="text" id="mock-online-title" placeholder="Enter test title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mock-online-description">Description:</label>
-                        <textarea id="mock-online-description" placeholder="Enter test description" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="mock-online-link">Test Link (URL):</label>
-                        <input type="url" id="mock-online-link" placeholder="e.g., https://example.com/online-test" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mock-online-icon">Icon Class (Font Awesome):</label>
-                        <input type="text" id="mock-online-icon" placeholder="e.g., fas fa-laptop" value="fas fa-laptop" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mock-online-actionText">Action Button Text:</label>
-                        <input type="text" id="mock-online-actionText" placeholder="e.g., Start Test" value="Start Test" required>
-                    </div>
-                    
-                    <div class="btn-group">
-                        <button type="submit" class="btn-primary w-full" id="submit-mock-online-btn">
-                            <i class="fas fa-plus-circle mr-2"></i> Add New Online Mock Test
-                            <span id="mock-online-loading-spinner" class="loading-spinner"></span>
-                        </button>
-                        <button type="button" class="btn-info w-full hidden" id="cancel-mock-online-edit-btn">
-                            <i class="fas fa-times-circle mr-2"></i> Cancel Edit
-                        </button>
-                    </div>
-                </form>
-                <div id="mock-online-message-box" class="message-box"></div>
+                <div class="add-update-section">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-gray-800"><i class="fas fa-plus-circle mr-2 text-green-600"></i>Add/Update Online Mock Test</h3>
+                    <p class="text-center text-gray-600 mb-6">
+                        Yahan se aap Online Mock Tests section mein naye entries add ya maujooda entries update kar sakte hain.
+                    </p>
+                    <form id="add-mock-online-form">
+                        <input type="hidden" id="mock-online-object-id">
+                        <div class="form-group">
+                            <label for="mock-online-title">Test Title:</label>
+                            <input type="text" id="mock-online-title" placeholder="Enter test title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mock-online-description">Description:</label>
+                            <textarea id="mock-online-description" placeholder="Enter test description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="mock-online-link">Test Link (URL):</label>
+                            <input type="url" id="mock-online-link" placeholder="e.g., https://example.com/online-test" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mock-online-icon">Icon Class (Font Awesome):</label>
+                            <input type="text" id="mock-online-icon" placeholder="e.g., fas fa-laptop" value="fas fa-laptop" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mock-online-actionText">Action Button Text:</label>
+                            <input type="text" id="mock-online-actionText" placeholder="e.g., Start Test" value="Start Test" required>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button type="submit" class="btn-primary w-full" id="submit-mock-online-btn">
+                                <i class="fas fa-plus-circle mr-2"></i> Add New Online Mock Test
+                                <span id="mock-online-loading-spinner" class="loading-spinner"></span>
+                            </button>
+                            <button type="button" class="btn-info w-full hidden" id="cancel-mock-online-edit-btn">
+                                <i class="fas fa-times-circle mr-2"></i> Cancel Edit
+                            </button>
+                        </div>
+                    </form>
+                    <div id="mock-online-message-box" class="message-box"></div>
+                </div>
 
                 <div class="data-display-section">
                     <h3><i class="fas fa-database mr-2"></i>Current Online Mock Tests Data</h3>
@@ -721,21 +726,15 @@
                     </button>
                     <div id="mock-online-display-message-box" class="message-box"></div>
                     <div id="mock-online-data-display" class="data-table-container">
-                        </div>
+                        <!-- Mock Online data table will be rendered here -->
+                    </div>
                 </div>
 
                 <div class="delete-section">
-                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete Online Mock Tests</h3>
-                    <form id="delete-mock-online-form">
-                        <div class="form-group">
-                            <label for="delete-mock-online-id">Delete by Object ID:</label>
-                            <input type="text" id="delete-mock-online-id" placeholder="Enter Object ID to delete">
-                        </div>
-                        <button type="submit" class="btn-danger w-full" id="delete-single-mock-online-btn">
-                            <i class="fas fa-minus-circle mr-2"></i> Delete Selected Item
-                            <span id="delete-mock-online-spinner" class="loading-spinner"></span>
-                        </button>
-                    </form>
+                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete All Online Mock Tests</h3>
+                    <p class="text-center text-gray-600 mb-4">
+                        Yeh button table mein maujood saare records ko delete kar dega. Yeh action wapas nahi liya ja sakta.
+                    </p>
                     <div class="btn-group mt-4">
                         <button type="button" class="btn-danger w-full" id="delete-all-mock-online-btn">
                             <i class="fas fa-exclamation-triangle mr-2"></i> Delete All Online Mock Tests
@@ -746,48 +745,52 @@
                 </div>
             </div>
 
+            <!-- Add Video Lecture Section -->
             <div id="add-video-section" class="admin-section-content">
-                <p class="text-center text-gray-600 mb-6">
-                    Yahan se aap Video Lectures section mein naye entries add kar sakte hain.
-                </p>
-                <form id="add-video-form">
-                    <input type="hidden" id="video-object-id">
-                    <div class="form-group">
-                        <label for="video-title">Video Title:</label>
-                        <input type="text" id="video-title" placeholder="Enter video title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="video-description">Description:</label>
-                        <textarea id="video-description" placeholder="Enter video description" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="video-link">Video Link (URL):</label>
-                        <input type="url" id="video-link" placeholder="e.g., https://youtube.com/watch?v=xyz" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="video-duration">Duration (e.g., 15 min):</label>
-                        <input type="text" id="video-duration" placeholder="e.g., 45 min" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="video-icon">Icon Class (Font Awesome):</label>
-                        <input type="text" id="video-icon" placeholder="e.g., fas fa-play-circle" value="fas fa-play-circle" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="video-actionText">Action Button Text:</label>
-                        <input type="text" id="video-actionText" placeholder="e.g., Watch Lecture" value="Watch Lecture" required>
-                    </div>
-                    
-                    <div class="btn-group">
-                        <button type="submit" class="btn-primary w-full" id="submit-video-btn">
-                            <i class="fas fa-plus-circle mr-2"></i> Add New Video Lecture
-                            <span id="video-loading-spinner" class="loading-spinner"></span>
-                        </button>
-                        <button type="button" class="btn-info w-full hidden" id="cancel-video-edit-btn">
-                            <i class="fas fa-times-circle mr-2"></i> Cancel Edit
-                        </button>
-                    </div>
-                </form>
-                <div id="video-message-box" class="message-box"></div>
+                <div class="add-update-section">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-gray-800"><i class="fas fa-plus-circle mr-2 text-green-600"></i>Add/Update Video Lecture</h3>
+                    <p class="text-center text-gray-600 mb-6">
+                        Yahan se aap Video Lectures section mein naye entries add ya maujooda entries update kar sakte hain.
+                    </p>
+                    <form id="add-video-form">
+                        <input type="hidden" id="video-object-id">
+                        <div class="form-group">
+                            <label for="video-title">Video Title:</label>
+                            <input type="text" id="video-title" placeholder="Enter video title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="video-description">Description:</label>
+                            <textarea id="video-description" placeholder="Enter video description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="video-link">Video Link (URL):</label>
+                            <input type="url" id="video-link" placeholder="e.g., https://youtube.com/watch?v=xyz" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="video-duration">Duration (e.g., 15 min):</label>
+                            <input type="text" id="video-duration" placeholder="e.g., 45 min" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="video-icon">Icon Class (Font Awesome):</label>
+                            <input type="text" id="video-icon" placeholder="e.g., fas fa-play-circle" value="fas fa-play-circle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="video-actionText">Action Button Text:</label>
+                            <input type="text" id="video-actionText" placeholder="e.g., Watch Lecture" value="Watch Lecture" required>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button type="submit" class="btn-primary w-full" id="submit-video-btn">
+                                <i class="fas fa-plus-circle mr-2"></i> Add New Video Lecture
+                                <span id="video-loading-spinner" class="loading-spinner"></span>
+                            </button>
+                            <button type="button" class="btn-info w-full hidden" id="cancel-video-edit-btn">
+                                <i class="fas fa-times-circle mr-2"></i> Cancel Edit
+                            </button>
+                        </div>
+                    </form>
+                    <div id="video-message-box" class="message-box"></div>
+                </div>
 
                 <div class="data-display-section">
                     <h3><i class="fas fa-database mr-2"></i>Current Video Lectures Data</h3>
@@ -797,21 +800,15 @@
                     </button>
                     <div id="video-display-message-box" class="message-box"></div>
                     <div id="video-data-display" class="data-table-container">
-                        </div>
+                        <!-- Video data table will be rendered here -->
+                    </div>
                 </div>
                 
                 <div class="delete-section">
-                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete Video Lectures</h3>
-                    <form id="delete-video-form">
-                        <div class="form-group">
-                            <label for="delete-video-id">Delete by Object ID:</label>
-                            <input type="text" id="delete-video-id" placeholder="Enter Object ID to delete">
-                        </div>
-                        <button type="submit" class="btn-danger w-full" id="delete-single-video-btn">
-                            <i class="fas fa-minus-circle mr-2"></i> Delete Selected Item
-                            <span id="delete-video-spinner" class="loading-spinner"></span>
-                        </button>
-                    </form>
+                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete All Video Lectures</h3>
+                    <p class="text-center text-gray-600 mb-4">
+                        Yeh button table mein maujood saare records ko delete kar dega. Yeh action wapas nahi liya ja sakta.
+                    </p>
                     <div class="btn-group mt-4">
                         <button type="button" class="btn-danger w-full" id="delete-all-videos-btn">
                             <i class="fas fa-exclamation-triangle mr-2"></i> Delete All Video Lectures
@@ -864,10 +861,7 @@
         const submitPdfBtn = document.getElementById('submit-pdf-btn');
         const cancelPdfEditBtn = document.getElementById('cancel-pdf-edit-btn');
         const pdfLoadingSpinner = document.getElementById('pdf-loading-spinner');
-        const deletePdfForm = document.getElementById('delete-pdf-form');
-        const deleteSinglePdfBtn = document.getElementById('delete-single-pdf-btn');
         const deleteAllPdfsBtn = document.getElementById('delete-all-pdfs-btn');
-        const deletePdfSpinner = document.getElementById('delete-pdf-spinner');
         const deleteAllPdfsSpinner = document.getElementById('delete-all-pdfs-spinner');
         const deletePdfMessageBox = document.getElementById('delete-pdf-message-box');
         const pdfDisplayMessageBox = document.getElementById('pdf-display-message-box');
@@ -885,10 +879,7 @@
         const submitNoteBtn = document.getElementById('submit-note-btn');
         const cancelNoteEditBtn = document.getElementById('cancel-note-edit-btn');
         const noteLoadingSpinner = document.getElementById('note-loading-spinner');
-        const deleteNoteForm = document.getElementById('delete-note-form');
-        const deleteSingleNoteBtn = document.getElementById('delete-single-note-btn');
         const deleteAllNotesBtn = document.getElementById('delete-all-notes-btn');
-        const deleteNoteSpinner = document.getElementById('delete-note-spinner');
         const deleteAllNotesSpinner = document.getElementById('delete-all-notes-spinner');
         const deleteNoteMessageBox = document.getElementById('delete-note-message-box');
         const noteDisplayMessageBox = document.getElementById('note-display-message-box');
@@ -907,10 +898,7 @@
         const submitPaperBtn = document.getElementById('submit-paper-btn');
         const cancelPaperEditBtn = document.getElementById('cancel-paper-edit-btn');
         const paperLoadingSpinner = document.getElementById('paper-loading-spinner');
-        const deletePaperForm = document.getElementById('delete-paper-form');
-        const deleteSinglePaperBtn = document.getElementById('delete-single-paper-btn');
         const deleteAllPapersBtn = document.getElementById('delete-all-papers-btn');
-        const deletePaperSpinner = document.getElementById('delete-paper-spinner');
         const deleteAllPapersSpinner = document.getElementById('delete-all-papers-spinner');
         const deletePaperMessageBox = document.getElementById('delete-paper-message-box');
         const paperDisplayMessageBox = document.getElementById('paper-display-message-box');
@@ -928,10 +916,7 @@
         const submitMockOfflineBtn = document.getElementById('submit-mock-offline-btn');
         const cancelMockOfflineEditBtn = document.getElementById('cancel-mock-offline-edit-btn');
         const mockOfflineLoadingSpinner = document.getElementById('mock-offline-loading-spinner');
-        const deleteMockOfflineForm = document.getElementById('delete-mock-offline-form');
-        const deleteSingleMockOfflineBtn = document.getElementById('delete-mock-offline-single-btn');
         const deleteAllMockOfflineBtn = document.getElementById('delete-all-mock-offline-btn');
-        const deleteMockOfflineSpinner = document.getElementById('delete-mock-offline-spinner');
         const deleteAllMockOfflineSpinner = document.getElementById('delete-all-mock-offline-spinner');
         const mockOfflineDeleteMessageBox = document.getElementById('mock-offline-delete-message-box');
         const mockOfflineDisplayMessageBox = document.getElementById('mock-offline-display-message-box');
@@ -949,10 +934,7 @@
         const submitMockOnlineBtn = document.getElementById('submit-mock-online-btn');
         const cancelMockOnlineEditBtn = document.getElementById('cancel-mock-online-edit-btn');
         const mockOnlineLoadingSpinner = document.getElementById('mock-online-loading-spinner');
-        const deleteMockOnlineForm = document.getElementById('delete-mock-online-form');
-        const deleteSingleMockOnlineBtn = document.getElementById('delete-mock-online-single-btn');
         const deleteAllMockOnlineBtn = document.getElementById('delete-all-mock-online-btn');
-        const deleteMockOnlineSpinner = document.getElementById('delete-mock-online-spinner');
         const deleteAllMockOnlineSpinner = document.getElementById('delete-all-mock-online-spinner');
         const mockOnlineDeleteMessageBox = document.getElementById('mock-online-delete-message-box');
         const mockOnlineDisplayMessageBox = document.getElementById('mock-online-display-message-box');
@@ -971,10 +953,7 @@
         const submitVideoBtn = document.getElementById('submit-video-btn');
         const cancelVideoEditBtn = document.getElementById('cancel-video-edit-btn');
         const videoLoadingSpinner = document.getElementById('video-loading-spinner');
-        const deleteVideoForm = document.getElementById('delete-video-form');
-        const deleteSingleVideoBtn = document.getElementById('delete-video-single-btn');
         const deleteAllVideosBtn = document.getElementById('delete-all-videos-btn');
-        const deleteVideoSpinner = document.getElementById('delete-video-spinner');
         const deleteAllVideosSpinner = document.getElementById('delete-all-videos-spinner');
         const videoDeleteMessageBox = document.getElementById('video-delete-message-box');
         const videoDisplayMessageBox = document.getElementById('video-display-message-box');
@@ -1323,48 +1302,48 @@
                             case 'pdfs':
                                 currentTableUrl = BACKENDLESS_API_URL_PDFS;
                                 currentMessageBox = deletePdfMessageBox;
-                                currentSpinner = deletePdfSpinner;
-                                currentSubmitBtn = deleteSinglePdfBtn;
+                                currentSpinner = pdfDisplaySpinner; // Use display spinner for individual delete
+                                currentSubmitBtn = deleteAllPdfsBtn; // Use the "Delete All" button as a dummy submit button for disabling
                                 break;
                             case 'notes':
                                 currentTableUrl = BACKENDLESS_API_URL_NOTES;
                                 currentMessageBox = deleteNoteMessageBox;
-                                currentSpinner = deleteNoteSpinner;
-                                currentSubmitBtn = deleteSingleNoteBtn;
+                                currentSpinner = noteDisplaySpinner;
+                                currentSubmitBtn = deleteAllNotesBtn;
                                 break;
                             case 'papers':
                                 currentTableUrl = BACKENDLESS_API_URL_PAPERS;
                                 currentMessageBox = deletePaperMessageBox;
-                                currentSpinner = deletePaperSpinner;
-                                currentSubmitBtn = deleteSinglePaperBtn;
+                                currentSpinner = paperDisplaySpinner;
+                                currentSubmitBtn = deleteAllPapersBtn;
                                 break;
                             case 'mockOffline':
                                 currentTableUrl = BACKENDLESS_API_URL_MOCK_OFFLINE;
                                 currentMessageBox = mockOfflineDeleteMessageBox;
-                                currentSpinner = deleteMockOfflineSpinner;
-                                currentSubmitBtn = document.getElementById('delete-single-mock-offline-btn'); // Specific ID needed here due to dynamic naming
+                                currentSpinner = mockOfflineDisplaySpinner;
+                                currentSubmitBtn = deleteAllMockOfflineBtn;
                                 break;
                             case 'mockOnline':
                                 currentTableUrl = BACKENDLESS_API_URL_MOCK_ONLINE;
                                 currentMessageBox = mockOnlineDeleteMessageBox;
-                                currentSpinner = deleteMockOnlineSpinner;
-                                currentSubmitBtn = document.getElementById('delete-single-mock-online-btn'); // Specific ID needed here due to dynamic naming
+                                currentSpinner = mockOnlineDisplaySpinner;
+                                currentSubmitBtn = deleteAllMockOnlineBtn;
                                 break;
                             case 'videos':
                                 currentTableUrl = BACKENDLESS_API_URL_VIDEOS;
                                 currentMessageBox = videoDeleteMessageBox;
-                                currentSpinner = deleteVideoSpinner;
-                                currentSubmitBtn = document.getElementById('delete-single-video-btn'); // Specific ID needed here due to dynamic naming
+                                currentSpinner = videoDisplaySpinner;
+                                currentSubmitBtn = deleteAllVideosBtn;
                                 break;
                         }
 
-                        const success = await deleteData(currentTableUrl, item.objectId, currentMessageBox, currentSpinner, currentSubmitBtn);
+                        const success = await deleteData(currentTableUrl, item.objectId, currentMessageBox, currentSpinner, deleteButton); // Pass deleteButton directly as the submit element
                         if (success) {
                             // Refresh the table after successful deletion
                             fetchAndDisplayData(currentTableUrl, displayElementId, messageBoxElement, loadingSpinnerElement, tableType);
                         }
                     } else {
-                        // Using PDF message box as a generic fallback for now, ideally specific to current tab
+                        // Using specific message box for current tab
                         showMessage(document.getElementById(`${tableType.replace('s', '')}-delete-message-box`) || deletePdfMessageBox, 'Delete operation cancel kar diya gaya.', 'success'); 
                     }
                 });
@@ -1464,7 +1443,7 @@
             }
 
             objectIdInput.value = item.objectId; // Set the objectId
-            submitBtn.textContent = `Update ${tableType.replace('s', '').replace('mock', 'Mock ')} Item`;
+            submitBtn.innerHTML = `<i class="fas fa-edit mr-2"></i> Update ${tableType.replace('s', '').replace('mock', 'Mock ')} Item <span class="loading-spinner"></span>`;
             submitBtn.classList.remove('btn-primary');
             submitBtn.classList.add('btn-success'); // Change button style to indicate update
             cancelBtn.classList.remove('hidden'); // Show cancel button
@@ -1620,8 +1599,13 @@
 
         // --- Generic Delete Function ---
         async function deleteData(tableUrl, objectId, messageBoxElement, loadingSpinnerElement, submitButtonElement) {
-            submitButtonElement.disabled = true;
-            loadingSpinnerElement.classList.add('show');
+            // Check if submitButtonElement is valid before trying to disable it
+            if (submitButtonElement) {
+                submitButtonElement.disabled = true;
+            }
+            if (loadingSpinnerElement) {
+                loadingSpinnerElement.classList.add('show');
+            }
             hideMessage(messageBoxElement);
 
             const userToken = localStorage.getItem('user-token');
@@ -1674,8 +1658,12 @@
                 showMessage(messageBoxElement, `Failed to delete: ${error.message}. Permissions ya Object ID check karein.`, 'error');
                 return false;
             } finally {
-                submitButtonElement.disabled = false;
-                loadingSpinnerElement.classList.remove('show');
+                if (submitButtonElement) {
+                    submitButtonElement.disabled = false;
+                }
+                if (loadingSpinnerElement) {
+                    loadingSpinnerElement.classList.remove('show');
+                }
             }
         }
 
@@ -1701,21 +1689,6 @@
         });
 
         cancelPdfEditBtn.addEventListener('click', () => resetForm('pdf'));
-
-        // --- Delete PDF Form Submission (by ID) ---
-        deletePdfForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const objectId = document.getElementById('delete-pdf-id').value;
-            if (!objectId) {
-                showMessage(deletePdfMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
-                return;
-            }
-            const success = await deleteData(BACKENDLESS_API_URL_PDFS, objectId, deletePdfMessageBox, deletePdfSpinner, deleteSinglePdfBtn);
-            if (success) {
-                document.getElementById('delete-pdf-id').value = ''; // Clear input after attempt
-                fetchAndDisplayData(BACKENDLESS_API_URL_PDFS, 'pdf-data-display', pdfDisplayMessageBox, pdfDisplaySpinner, 'pdfs'); // Refresh table
-            }
-        });
 
         // --- Delete All PDFs Button Click ---
         deleteAllPdfsBtn.addEventListener('click', async function() {
@@ -1753,21 +1726,6 @@
 
         cancelNoteEditBtn.addEventListener('click', () => resetForm('note'));
 
-        // --- Delete Note Form Submission (by ID) ---
-        deleteNoteForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const objectId = document.getElementById('delete-note-id').value;
-            if (!objectId) {
-                showMessage(deleteNoteMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
-                return;
-            }
-            const success = await deleteData(BACKENDLESS_API_URL_NOTES, objectId, deleteNoteMessageBox, deleteNoteSpinner, deleteSingleNoteBtn);
-            if (success) {
-                document.getElementById('delete-note-id').value = ''; // Clear input after attempt
-                fetchAndDisplayData(BACKENDLESS_API_URL_NOTES, 'note-data-display', noteDisplayMessageBox, noteDisplaySpinner, 'notes'); // Refresh table
-            }
-        });
-
         // --- Delete All Notes Button Click ---
         deleteAllNotesBtn.addEventListener('click', async function() {
             const confirmDelete = confirm('Kya aap waqai saare Test Notes delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
@@ -1804,21 +1762,6 @@
 
         cancelPaperEditBtn.addEventListener('click', () => resetForm('paper'));
 
-        // --- Delete Paper Form Submission (by ID) ---
-        deletePaperForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const objectId = document.getElementById('delete-paper-id').value;
-            if (!objectId) {
-                showMessage(deletePaperMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
-                return;
-            }
-            const success = await deleteData(BACKENDLESS_API_URL_PAPERS, objectId, deletePaperMessageBox, deletePaperSpinner, deleteSinglePaperBtn);
-            if (success) {
-                document.getElementById('delete-paper-id').value = ''; // Clear input after attempt
-                fetchAndDisplayData(BACKENDLESS_API_URL_PAPERS, 'paper-data-display', paperDisplayMessageBox, paperDisplaySpinner, 'papers'); // Refresh table
-            }
-        });
-
         // --- Delete All Papers Button Click ---
         deleteAllPapersBtn.addEventListener('click', async function() {
             const confirmDelete = confirm('Kya aap waqai saare Past Papers delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
@@ -1854,21 +1797,6 @@
 
         cancelMockOfflineEditBtn.addEventListener('click', () => resetForm('mockOffline'));
 
-        // --- Delete Mock Test (Offline) Form Submission (by ID) ---
-        deleteMockOfflineForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const objectId = document.getElementById('delete-mock-offline-id').value;
-            if (!objectId) {
-                showMessage(mockOfflineDeleteMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
-                return;
-            }
-            const success = await deleteData(BACKENDLESS_API_URL_MOCK_OFFLINE, objectId, mockOfflineDeleteMessageBox, deleteMockOfflineSpinner, deleteSingleMockOfflineBtn);
-            if (success) {
-                document.getElementById('delete-mock-offline-id').value = ''; // Clear input after attempt
-                fetchAndDisplayData(BACKENDLESS_API_URL_MOCK_OFFLINE, 'mock-offline-data-display', mockOfflineDisplayMessageBox, mockOfflineDisplaySpinner, 'mockOffline'); // Refresh table
-            }
-        });
-
         // --- Delete All Mock Tests (Offline) Button Click ---
         deleteAllMockOfflineBtn.addEventListener('click', async function() {
             const confirmDelete = confirm('Kya aap waqai saare Offline Mock Tests delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
@@ -1903,21 +1831,6 @@
         });
 
         cancelMockOnlineEditBtn.addEventListener('click', () => resetForm('mockOnline'));
-
-        // --- Delete Mock Test (Online) Form Submission (by ID) ---
-        deleteMockOnlineForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const objectId = document.getElementById('delete-mock-online-id').value;
-            if (!objectId) {
-                showMessage(mockOnlineDeleteMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
-                return;
-            }
-            const success = await deleteData(BACKENDLESS_API_URL_MOCK_ONLINE, objectId, mockOnlineDeleteMessageBox, deleteMockOnlineSpinner, deleteSingleMockOnlineBtn);
-            if (success) {
-                document.getElementById('delete-mock-online-id').value = ''; // Clear input after attempt
-                fetchAndDisplayData(BACKENDLESS_API_URL_MOCK_ONLINE, 'mock-online-data-display', mockOnlineDisplayMessageBox, mockOnlineDisplaySpinner, 'mockOnline'); // Refresh table
-            }
-        });
 
         // --- Delete All Mock Tests (Online) Button Click ---
         deleteAllMockOnlineBtn.addEventListener('click', async function() {
@@ -1955,21 +1868,6 @@
 
         cancelVideoEditBtn.addEventListener('click', () => resetForm('video'));
 
-        // --- Delete Video Form Submission (by ID) ---
-        deleteVideoForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const objectId = document.getElementById('delete-video-id').value;
-            if (!objectId) {
-                showMessage(videoDeleteMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
-                return;
-            }
-            const success = await deleteData(BACKENDLESS_API_URL_VIDEOS, objectId, videoDeleteMessageBox, deleteVideoSpinner, deleteSingleVideoBtn);
-            if (success) {
-                document.getElementById('delete-video-id').value = ''; // Clear input after attempt
-                fetchAndDisplayData(BACKENDLESS_API_URL_VIDEOS, 'video-data-display', videoDisplayMessageBox, videoDisplaySpinner, 'videos'); // Refresh table
-            }
-        });
-
         // --- Delete All Videos Button Click ---
         deleteAllVideosBtn.addEventListener('click', async function() {
             const confirmDelete = confirm('Kya aap waqai saare Video Lectures delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
@@ -1998,13 +1896,6 @@
             resetForm('mockOnline');
             resetForm('video');
             hideMessage(loginMessageBox); // Also hide login message after logout
-            // Clear delete ID inputs
-            document.getElementById('delete-pdf-id').value = '';
-            document.getElementById('delete-note-id').value = '';
-            document.getElementById('delete-paper-id').value = '';
-            document.getElementById('delete-mock-offline-id').value = '';
-            document.getElementById('delete-mock-online-id').value = '';
-            document.getElementById('delete-video-id').value = '';
             // Clear all data display sections
             document.getElementById('pdf-data-display').innerHTML = '';
             document.getElementById('note-data-display').innerHTML = '';
