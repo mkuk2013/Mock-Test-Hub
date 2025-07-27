@@ -6,13 +6,12 @@
     <title>Admin Panel - Premium Educational Hub</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
     
-    <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <script src="//unpkg.com/backendless@latest/dist/backendless.min.js"></script>
+
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -36,7 +35,7 @@
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            box-sizing: border-box; /* Crucial for preventing overflow */
         }
 
         body {
@@ -128,6 +127,7 @@
             min-height: 100vh;
             background: #f8fafc;
             position: relative;
+            display: flex; /* Changed to flex to maintain layout when active */
         }
 
         .admin-layout.active {
@@ -263,11 +263,12 @@
 
         /* Main Content Area */
         .main-content {
-            margin-left: 300px;
+            margin-left: 300px; /* Adjusted for sidebar width */
             flex: 1;
             padding: 32px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             min-height: 100vh;
+            width: calc(100% - 300px); /* Ensures content stays within bounds */
         }
 
         /* Enhanced Top Header */
@@ -635,6 +636,7 @@
             overflow: hidden;
             box-shadow: var(--shadow-lg);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%; /* Ensure it takes full width of its parent */
         }
 
         .table-header {
@@ -653,6 +655,7 @@
 
         .table-wrapper {
             max-height: 600px;
+            overflow-x: auto; /* Added for horizontal scrolling on smaller screens */
             overflow-y: auto;
         }
 
@@ -661,6 +664,23 @@
             border-collapse: collapse;
             font-size: 0.95rem;
         }
+
+        .data-table th, .data-table td {
+            min-width: 150px; /* Ensure columns have a minimum width */
+            white-space: nowrap; /* Prevent text wrapping in cells */
+        }
+
+        .data-table th:nth-child(2), .data-table td:nth-child(2) { /* Description column */
+            min-width: 250px;
+            white-space: normal; /* Allow description to wrap */
+        }
+
+        .data-table th:nth-child(3), .data-table td:nth-child(3) { /* Link column */
+            min-width: 200px;
+            white-space: normal; /* Allow link to wrap */
+            word-break: break-all;
+        }
+
 
         .data-table th {
             background: #f8fafc;
@@ -788,6 +808,7 @@
             .main-content {
                 margin-left: 0;
                 padding: 20px;
+                width: 100%; /* Take full width when sidebar is hidden */
             }
 
             .mobile-menu-btn {
@@ -947,7 +968,6 @@
     </style>
 </head>
 <body>
-    <!-- Login Section -->
     <div id="login-section" class="login-container">
         <div class="login-card">
             <div class="login-header">
@@ -976,12 +996,9 @@
         </div>
     </div>
 
-    <!-- Admin Dashboard -->
     <div id="admin-dashboard" class="admin-layout">
-        <!-- Sidebar Overlay for Mobile -->
         <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
         
-        <!-- Enhanced Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h2>
@@ -1029,9 +1046,7 @@
             </nav>
         </div>
 
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Enhanced Top Header -->
             <div class="top-header">
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <button class="mobile-menu-btn tooltip" data-tooltip="Menu" onclick="toggleMobileSidebar()">
@@ -1054,7 +1069,6 @@
                 </div>
             </div>
 
-            <!-- Stats Overview -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon">
@@ -1086,9 +1100,7 @@
                 </div>
             </div>
 
-            <!-- PDF Books Section -->
             <div id="pdf-books-section" class="content-section active">
-                <!-- Add/Update Form -->
                 <div class="content-card">
                     <div class="section-header">
                         <h3 class="section-title">
@@ -1148,7 +1160,6 @@
                     <div id="pdf-message-box" class="message-box"></div>
                 </div>
 
-                <!-- Current Data Display -->
                 <div class="content-card">
                     <div class="table-container">
                         <div class="table-header">
@@ -1170,15 +1181,13 @@
                                     </tr>
                                 </thead>
                                 <tbody id="pdf-data-tbody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Test Notes Section -->
             <div id="test-notes-section" class="content-section">
                 <div class="content-card">
                     <div class="section-header">
@@ -1259,15 +1268,13 @@
                                     </tr>
                                 </thead>
                                 <tbody id="note-data-tbody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Past Papers Section -->
             <div id="past-papers-section" class="content-section">
                 <div class="content-card">
                     <div class="section-header">
@@ -1348,15 +1355,13 @@
                                     </tr>
                                 </thead>
                                 <tbody id="paper-data-tbody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Mock Tests Offline Section -->
             <div id="mock-offline-section" class="content-section">
                 <div class="content-card">
                     <div class="section-header">
@@ -1437,15 +1442,13 @@
                                     </tr>
                                 </thead>
                                 <tbody id="mock-offline-data-tbody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Mock Tests Online Section -->
             <div id="mock-online-section" class="content-section">
                 <div class="content-card">
                     <div class="section-header">
@@ -1526,15 +1529,13 @@
                                     </tr>
                                 </thead>
                                 <tbody id="mock-online-data-tbody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Video Lectures Section -->
             <div id="video-lectures-section" class="content-section">
                 <div class="content-card">
                     <div class="section-header">
@@ -1615,8 +1616,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="video-data-tbody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
@@ -1625,7 +1625,6 @@
         </div>
     </div>
 
-    <!-- Floating Action Button -->
     <div class="fab tooltip" data-tooltip="Quick Add" onclick="showQuickAddModal()">
         <i class="fas fa-plus"></i>
     </div>
@@ -1636,34 +1635,53 @@
         let currentEditingId = null;
         let currentSection = 'pdf-books';
 
+        // Backendless Configuration
+        const APP_ID = '9E4D9285-8A10-4218-95FC-A09EF96833E0';
+        const API_KEY = '2D09C0C5-B73C-4206-A772-D062E0E96503F'; // Corrected API Key
+
+        Backendless.initApp(APP_ID, API_KEY);
+
+        // Map section names to Backendless table names
+        const tableMap = {
+            'pdf': 'PdfBooks',
+            'note': 'TestNotes',
+            'paper': 'PastPapers',
+            'mock-offline': 'MockTestsOffline',
+            'mock-online': 'MockTestsOnline',
+            'video': 'VideoLectures'
+        };
+
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is already logged in
-            checkLoginStatus();
+            checkLoginStatus(); // Check login status first
             
-            // Add event listeners
             document.getElementById('login-form').addEventListener('submit', handleLogin);
             document.getElementById('logout-btn').addEventListener('click', handleLogout);
             
-            // Add form event listeners for all sections
             setupFormListeners();
-            
-            // Load initial data
-            if (isLoggedIn) {
-                loadAllData();
-                updateStats();
-            }
-
-            // Add smooth scrolling
-            document.documentElement.style.scrollBehavior = 'smooth';
         });
 
-        // Check login status
-        function checkLoginStatus() {
-            // For demo purposes, we'll assume user is not logged in
-            // In a real application, you would check session storage or make an API call
-            isLoggedIn = false;
-            updateUIBasedOnLoginStatus();
+        // Check login status (using Backendless user service for persistence)
+        async function checkLoginStatus() {
+            try {
+                const user = await Backendless.UserService.getCurrentUser(true);
+                if (user) {
+                    isLoggedIn = true;
+                    // You might want to display the logged-in user's name
+                    document.querySelector('.user-info span').textContent = user.email || user.name || 'Admin User';
+                } else {
+                    isLoggedIn = false;
+                }
+            } catch (error) {
+                console.error("Error checking login status:", error);
+                isLoggedIn = false;
+            } finally {
+                updateUIBasedOnLoginStatus();
+                if (isLoggedIn) {
+                    loadAllData();
+                    updateStats();
+                }
+            }
         }
 
         // Update UI based on login status
@@ -1690,33 +1708,25 @@
             const spinner = document.getElementById('login-spinner');
             const messageBox = document.getElementById('login-message-box');
             
-            // Show loading state
             loginBtn.disabled = true;
             spinner.classList.add('show');
             loginBtn.style.transform = 'scale(0.98)';
             
             try {
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                const user = await Backendless.UserService.login(email, password, true); // true for stay logged in
+                isLoggedIn = true;
+                document.querySelector('.user-info span').textContent = user.email || user.name || 'Admin User';
                 
-                // For demo purposes, accept any credentials
-                if (email && password) {
-                    isLoggedIn = true;
-                    
-                    // Add success animation
-                    loginBtn.style.background = 'var(--success-gradient)';
-                    loginBtn.innerHTML = '<i class="fas fa-check"></i> Login Successful!';
-                    
-                    setTimeout(() => {
-                        updateUIBasedOnLoginStatus();
-                        loadAllData();
-                        updateStats();
-                    }, 1000);
-                    
-                    showMessage(messageBox, 'Welcome to Admin Panel!', 'success');
-                } else {
-                    throw new Error('Invalid credentials');
-                }
+                loginBtn.style.background = 'var(--success-gradient)';
+                loginBtn.innerHTML = '<i class="fas fa-check"></i> Login Successful!';
+                
+                setTimeout(() => {
+                    updateUIBasedOnLoginStatus();
+                    loadAllData();
+                    updateStats();
+                }, 1000);
+                
+                showMessage(messageBox, 'Welcome to Admin Panel!', 'success');
                 
             } catch (error) {
                 showMessage(messageBox, 'Login failed: ' + error.message, 'error');
@@ -1730,35 +1740,36 @@
         }
 
         // Handle logout
-        function handleLogout() {
-            // Add confirmation
+        async function handleLogout() {
             if (confirm('Are you sure you want to logout?')) {
-                isLoggedIn = false;
-                updateUIBasedOnLoginStatus();
-                
-                // Clear forms
-                clearAllForms();
-                
-                // Reset to first section
-                showSection('pdf-books');
-                
-                // Reset login form
-                document.getElementById('login-form').reset();
-                const loginBtn = document.getElementById('login-btn');
-                loginBtn.style.background = '';
-                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login <span id="login-spinner" class="loading-spinner"></span>';
+                try {
+                    await Backendless.UserService.logout();
+                    isLoggedIn = false;
+                    updateUIBasedOnLoginStatus();
+                    clearAllForms();
+                    showSection('pdf-books');
+                    document.getElementById('login-form').reset();
+                    const loginBtn = document.getElementById('login-btn');
+                    loginBtn.style.background = '';
+                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login <span id="login-spinner" class="loading-spinner"></span>';
+                } catch (error) {
+                    console.error("Logout failed:", error);
+                    alert("Logout failed: " + error.message);
+                }
             }
         }
 
         // Show section with enhanced animations
         function showSection(sectionName) {
-            // Update navigation
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
-            event.target.classList.add('active');
+            // Find the correct nav item to activate (using a little trick for event.target in general call)
+            const activeNavItem = document.querySelector(`.nav-item[onclick*="showSection('${sectionName}')"]`);
+            if (activeNavItem) {
+                activeNavItem.classList.add('active');
+            }
             
-            // Update content sections with fade effect
             document.querySelectorAll('.content-section').forEach(section => {
                 if (section.classList.contains('active')) {
                     section.style.opacity = '0';
@@ -1776,7 +1787,6 @@
                 newSection.style.transform = 'translateY(0)';
             }, 150);
             
-            // Update page title
             const titles = {
                 'pdf-books': { icon: 'fas fa-file-pdf', text: 'PDF Books Management' },
                 'test-notes': { icon: 'fas fa-sticky-note', text: 'Test Notes Management' },
@@ -1796,8 +1806,9 @@
             
             currentSection = sectionName;
             
-            // Close mobile sidebar if open
             closeMobileSidebar();
+            loadSectionData(sectionName.replace('-books', '').replace('-lectures', '')); // Reload data for the active section
+            resetForm(sectionName.replace('-books', '').replace('-lectures', '')); // Clear form when switching sections
         }
 
         // Mobile sidebar functions
@@ -1843,36 +1854,35 @@
             const submitBtn = document.getElementById(`submit-${section}-btn`);
             const spinner = document.getElementById(`${section}-loading-spinner`);
             const messageBox = document.getElementById(`${section}-message-box`);
+            const tableName = tableMap[section];
             
-            // Show loading state with animation
             submitBtn.disabled = true;
             spinner.classList.add('show');
             submitBtn.style.transform = 'scale(0.98)';
             
             try {
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
+                let result;
                 if (currentEditingId) {
-                    // Update existing item
+                    formData.objectId = currentEditingId;
+                    result = await Backendless.Data.of(tableName).save(formData);
                     submitBtn.style.background = 'var(--success-gradient)';
                     submitBtn.innerHTML = '<i class="fas fa-check"></i> Updated Successfully!';
                     showMessage(messageBox, 'Item updated successfully!', 'success');
-                    setTimeout(() => resetForm(section), 1500);
                 } else {
-                    // Add new item
+                    result = await Backendless.Data.of(tableName).save(formData);
                     submitBtn.style.background = 'var(--success-gradient)';
                     submitBtn.innerHTML = '<i class="fas fa-check"></i> Added Successfully!';
                     showMessage(messageBox, 'Item added successfully!', 'success');
-                    setTimeout(() => {
-                        document.getElementById(`add-${section}-form`).reset();
-                        resetSubmitButton(section);
-                    }, 1500);
                 }
                 
-                // Reload data and update stats
-                loadSectionData(section);
-                updateStats();
+                setTimeout(() => {
+                    document.getElementById(`add-${section}-form`).reset();
+                    resetSubmitButton(section);
+                    loadSectionData(section);
+                    updateStats();
+                    currentEditingId = null; // Important: reset editing ID after save
+                    document.getElementById(`cancel-${section}-edit-btn`).style.display = 'none'; // Hide cancel button
+                }, 1500);
                 
             } catch (error) {
                 showMessage(messageBox, 'Operation failed: ' + error.message, 'error');
@@ -1904,10 +1914,10 @@
             
             inputs.forEach(input => {
                 if (input.type !== 'hidden') {
-                    formData[input.id] = input.value;
+                    // Backendless column names are usually lowercase. Adjust if yours are different.
+                    formData[input.id.replace(`${section}-`, '')] = input.value; 
                 }
             });
-            
             return formData;
         }
 
@@ -1919,69 +1929,56 @@
             });
         }
 
-        // Load section data
-        function loadSectionData(section) {
+        // Load section data from Backendless
+        async function loadSectionData(section) {
             const tbody = document.getElementById(`${section}-data-tbody`);
+            const tableName = tableMap[section];
             
-            // Sample data with more realistic content
-            const sampleData = [
-                {
-                    id: '1',
-                    title: 'Mathematics Complete Guide 2024',
-                    description: 'Comprehensive mathematics guide covering all topics for competitive exams',
-                    link: 'https://example.com/math-guide-2024.pdf',
-                    icon: 'fas fa-calculator',
-                    actionText: 'Download PDF'
-                },
-                {
-                    id: '2',
-                    title: 'Physics Fundamentals',
-                    description: 'Essential physics concepts with solved examples and practice questions',
-                    link: 'https://example.com/physics-fundamentals.pdf',
-                    icon: 'fas fa-atom',
-                    actionText: 'View Content'
-                },
-                {
-                    id: '3',
-                    title: 'Chemistry Quick Reference',
-                    description: 'Quick reference guide for important chemistry formulas and reactions',
-                    link: 'https://example.com/chemistry-reference.pdf',
-                    icon: 'fas fa-flask',
-                    actionText: 'Download'
-                }
-            ];
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Loading data...</td></tr>'; // Loading indicator
             
-            tbody.innerHTML = '';
-            sampleData.forEach((item, index) => {
-                const row = createTableRow(item, section);
-                row.style.opacity = '0';
-                row.style.transform = 'translateY(20px)';
-                tbody.appendChild(row);
+            try {
+                const data = await Backendless.Data.of(tableName).find();
                 
-                // Animate row appearance
-                setTimeout(() => {
-                    row.style.transition = 'all 0.3s ease';
-                    row.style.opacity = '1';
-                    row.style.transform = 'translateY(0)';
-                }, index * 100);
-            });
+                tbody.innerHTML = '';
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">No data available. Add new items!</td></tr>';
+                } else {
+                    data.forEach((item, index) => {
+                        const row = createTableRow(item, section);
+                        row.style.opacity = '0';
+                        row.style.transform = 'translateY(20px)';
+                        tbody.appendChild(row);
+                        
+                        setTimeout(() => {
+                            row.style.transition = 'all 0.3s ease';
+                            row.style.opacity = '1';
+                            row.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    });
+                }
+            } catch (error) {
+                console.error(`Error loading ${section} data:`, error);
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-red-500">Error loading data: ${error.message}</td></tr>`;
+            }
         }
 
         // Create table row with enhanced styling
         function createTableRow(item, section) {
             const row = document.createElement('tr');
+            // Ensure objectId exists for edit/delete functions
+            const objectId = item.objectId || item.Id; // Backendless uses objectId, sometimes 'Id' is used depending on schema setup.
             row.innerHTML = `
-                <td><strong>${item.title}</strong></td>
-                <td>${item.description}</td>
-                <td><a href="${item.link}" target="_blank" class="text-blue-600 hover:underline" style="word-break: break-all;">${item.link}</a></td>
-                <td><i class="${item.icon}"></i> ${item.icon}</td>
-                <td><span style="background: var(--primary-gradient); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">${item.actionText}</span></td>
+                <td><strong>${item.title || ''}</strong></td>
+                <td>${item.description || ''}</td>
+                <td><a href="${item.link || '#'}" target="_blank" class="text-blue-600 hover:underline" style="word-break: break-all;">${item.link || ''}</a></td>
+                <td><i class="${item.icon || 'fas fa-question-circle'}"></i> ${item.icon || ''}</td>
+                <td><span style="background: var(--primary-gradient); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">${item.actionText || ''}</span></td>
                 <td class="table-actions">
-                    <button class="btn btn-info btn-sm tooltip" data-tooltip="Edit Item" onclick="editItem('${item.id}', '${section}')">
+                    <button class="btn btn-info btn-sm tooltip" data-tooltip="Edit Item" onclick="editItem('${objectId}', '${section}')">
                         <i class="fas fa-edit"></i>
                         Edit
                     </button>
-                    <button class="btn btn-danger btn-sm tooltip" data-tooltip="Delete Item" onclick="deleteItem('${item.id}', '${section}')">
+                    <button class="btn btn-danger btn-sm tooltip" data-tooltip="Delete Item" onclick="deleteItem('${objectId}', '${section}')">
                         <i class="fas fa-trash"></i>
                         Delete
                     </button>
@@ -1991,80 +1988,68 @@
         }
 
         // Edit item with smooth scrolling
-        function editItem(id, section) {
+        async function editItem(id, section) {
             currentEditingId = id;
+            const tableName = tableMap[section];
             
-            // Sample data for editing
-            const sampleData = {
-                title: 'Sample Title for Editing',
-                description: 'Sample description for editing with more detailed content',
-                link: 'https://example.com/edit-sample.pdf',
-                icon: 'fas fa-edit',
-                actionText: 'Edit Action'
-            };
-            
-            // Populate form with animation
-            const form = document.getElementById(`add-${section}-form`);
-            form.style.transform = 'scale(0.98)';
-            
-            setTimeout(() => {
-                document.getElementById(`${section}-object-id`).value = id;
-                document.getElementById(`${section}-title`).value = sampleData.title;
-                document.getElementById(`${section}-description`).value = sampleData.description;
-                document.getElementById(`${section}-link`).value = sampleData.link;
-                document.getElementById(`${section}-icon`).value = sampleData.icon;
-                document.getElementById(`${section}-actionText`).value = sampleData.actionText;
-                
-                // Update UI for editing mode
-                const submitBtn = document.getElementById(`submit-${section}-btn`);
-                const cancelBtn = document.getElementById(`cancel-${section}-edit-btn`);
-                
-                submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Item <span id="' + section + '-loading-spinner" class="loading-spinner"></span>';
-                submitBtn.style.background = 'var(--warning-gradient)';
-                cancelBtn.style.display = 'block';
-                
-                form.style.transform = 'scale(1)';
-                
-                // Smooth scroll to form
-                form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 150);
+            try {
+                const item = await Backendless.Data.of(tableName).findById(id);
+                if (item) {
+                    const form = document.getElementById(`add-${section}-form`);
+                    form.style.transform = 'scale(0.98)';
+                    
+                    setTimeout(() => {
+                        document.getElementById(`${section}-object-id`).value = item.objectId;
+                        document.getElementById(`${section}-title`).value = item.title || '';
+                        document.getElementById(`${section}-description`).value = item.description || '';
+                        document.getElementById(`${section}-link`).value = item.link || '';
+                        document.getElementById(`${section}-icon`).value = item.icon || '';
+                        document.getElementById(`${section}-actionText`).value = item.actionText || '';
+                        
+                        const submitBtn = document.getElementById(`submit-${section}-btn`);
+                        const cancelBtn = document.getElementById(`cancel-${section}-edit-btn`);
+                        
+                        submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Item <span id="' + section + '-loading-spinner" class="loading-spinner"></span>';
+                        submitBtn.style.background = 'var(--warning-gradient)';
+                        cancelBtn.style.display = 'block';
+                        
+                        form.style.transform = 'scale(1)';
+                        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 150);
+                }
+            } catch (error) {
+                console.error("Error fetching item for edit:", error);
+                showMessage(document.getElementById(`${section}-message-box`), 'Error loading item for edit: ' + error.message, 'error');
+            }
         }
 
         // Delete item with confirmation
         async function deleteItem(id, section) {
-            // Enhanced confirmation dialog
             const confirmed = confirm('⚠️ Are you sure you want to delete this item?\n\nThis action cannot be undone.');
             
             if (!confirmed) return;
             
+            const tableName = tableMap[section];
+            const messageBox = document.getElementById(`${section}-message-box`);
+            const row = event.target.closest('tr');
+            
             try {
-                // Show loading state in the row
-                const row = event.target.closest('tr');
                 row.style.opacity = '0.5';
                 row.style.pointerEvents = 'none';
                 
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                await Backendless.Data.of(tableName).markDelete(id);
                 
-                // Animate row removal
                 row.style.transform = 'translateX(-100%)';
                 setTimeout(() => {
                     row.remove();
+                    showMessage(messageBox, '✅ Item deleted successfully!', 'success');
+                    updateStats();
                 }, 300);
                 
-                // Show success message
-                const messageBox = document.getElementById(`${section}-message-box`);
-                showMessage(messageBox, '✅ Item deleted successfully!', 'success');
-                
-                // Update stats
-                updateStats();
-                
             } catch (error) {
-                const messageBox = document.getElementById(`${section}-message-box`);
+                console.error("Delete failed:", error);
                 showMessage(messageBox, '❌ Delete failed: ' + error.message, 'error');
                 
-                // Restore row state
-                const row = event.target.closest('tr');
                 row.style.opacity = '1';
                 row.style.pointerEvents = 'auto';
             }
@@ -2083,11 +2068,9 @@
             form.style.transform = 'scale(0.98)';
             
             setTimeout(() => {
-                // Clear form
                 form.reset();
                 document.getElementById(`${section}-object-id`).value = '';
                 
-                // Reset UI
                 const submitBtn = document.getElementById(`submit-${section}-btn`);
                 const cancelBtn = document.getElementById(`cancel-${section}-edit-btn`);
                 
@@ -2112,7 +2095,6 @@
             messageBox.textContent = message;
             messageBox.className = `message-box ${type} show`;
             
-            // Auto-hide message after 5 seconds
             setTimeout(() => {
                 messageBox.style.opacity = '0';
                 messageBox.style.transform = 'translateY(-10px)';
@@ -2125,21 +2107,26 @@
         }
 
         // Update statistics
-        function updateStats() {
-            // Simulate counting animation
-            const stats = {
-                'pdf-count': Math.floor(Math.random() * 50) + 10,
-                'notes-count': Math.floor(Math.random() * 30) + 5,
-                'papers-count': Math.floor(Math.random() * 40) + 8,
-                'videos-count': Math.floor(Math.random() * 25) + 3
-            };
-            
-            Object.entries(stats).forEach(([id, targetValue]) => {
-                const element = document.getElementById(id);
-                if (element) {
-                    animateCounter(element, 0, targetValue, 1500);
-                }
-            });
+        async function updateStats() {
+            try {
+                const pdfCount = await Backendless.Data.of('PdfBooks').getObjectCount();
+                const notesCount = await Backendless.Data.of('TestNotes').getObjectCount();
+                const papersCount = await Backendless.Data.of('PastPapers').getObjectCount();
+                const videosCount = await Backendless.Data.of('VideoLectures').getObjectCount();
+                const mockOfflineCount = await Backendless.Data.of('MockTestsOffline').getObjectCount();
+                const mockOnlineCount = await Backendless.Data.of('MockTestsOnline').getObjectCount();
+
+                animateCounter(document.getElementById('pdf-count'), 0, pdfCount, 1500);
+                animateCounter(document.getElementById('notes-count'), 0, notesCount, 1500);
+                animateCounter(document.getElementById('papers-count'), 0, papersCount, 1500);
+                animateCounter(document.getElementById('videos-count'), 0, videosCount, 1500);
+                // Assuming you might want to show total mock tests or separate them
+                // For simplicity, let's just use existing video count for another placeholder
+                // If you want to show separate mock tests counts, add new stat cards in HTML
+                // For now, these are not directly tied to a visible stat card, but fetched
+            } catch (error) {
+                console.error("Error fetching stats:", error);
+            }
         }
 
         // Animate counter
@@ -2172,13 +2159,10 @@
 
         // Add keyboard shortcuts
         document.addEventListener('keydown', function(e) {
-            // Ctrl/Cmd + K for quick search (placeholder)
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault();
                 alert('Quick search feature coming soon! 🔍');
             }
-            
-            // Escape to close mobile sidebar
             if (e.key === 'Escape') {
                 closeMobileSidebar();
             }
@@ -2191,4 +2175,3 @@
     </script>
 </body>
 </html>
-
