@@ -1994,6 +1994,9 @@
                 await Backendless.UserService.logout();
                 isLoggedIn = false;
                 updateUIBasedOnLoginStatus();
+                if (autoRefreshTimer) {
+                    clearInterval(autoRefreshTimer);
+                }
                 
                 // Clear forms
                 clearAllForms();
@@ -2421,6 +2424,15 @@
                     messageBox.style.transform = ''; // Reset transform
                 }, 300); // Wait for fade-out animation
             }, 5000);
+        }
+
+        // Auto-refresh timer (30 seconds)
+        let autoRefreshTimer;
+        function startAutoRefresh() {
+            autoRefreshTimer = setInterval(() => {
+                loadSectionData(currentSection.replace('-books', '').replace('-lectures', ''));
+                updateStats();
+            }, 30000); // 30 seconds
         }
 
         // Update dashboard statistics by fetching counts from Backendless
