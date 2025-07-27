@@ -177,17 +177,20 @@
         .admin-section-content.active {
             display: block;
         }
-        .delete-section {
+        .delete-section, .data-display-section {
             margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid #e2e8f0;
         }
-        .delete-section h3 {
+        .delete-section h3, .data-display-section h3 {
             font-size: 1.5rem;
             font-weight: 700;
             color: #e53e3e;
             margin-bottom: 15px;
             text-align: center;
+        }
+        .data-display-section h3 {
+            color: #667eea;
         }
         .btn-danger {
             background-color: #e53e3e;
@@ -220,6 +223,50 @@
         }
         .btn-group .btn-danger {
             flex-grow: 1;
+        }
+        .data-table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .data-table th {
+            background-color: #edf2f7;
+            font-weight: 700;
+            color: #4a5568;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        .data-table tbody tr:hover {
+            background-color: #f7fafc;
+        }
+        .data-table .delete-row-btn {
+            background-color: #e53e3e;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+        .data-table .delete-row-btn:hover {
+            background-color: #c53030;
+        }
+        .data-table td.break-word {
+            word-break: break-all;
         }
     </style>
 </head>
@@ -313,6 +360,18 @@
                 </form>
                 <div id="pdf-message-box" class="message-box"></div>
 
+                <div class="data-display-section">
+                    <h3><i class="fas fa-database mr-2"></i>Current PDF Books Data</h3>
+                    <button type="button" class="btn-primary mb-4" onclick="fetchAndDisplayData(BACKENDLESS_API_URL_PDFS, 'pdf-data-display', 'pdf-display-message-box', 'pdf-display-spinner', 'pdfs')">
+                        <i class="fas fa-sync-alt mr-2"></i> Refresh Data
+                        <span id="pdf-display-spinner" class="loading-spinner"></span>
+                    </button>
+                    <div id="pdf-display-message-box" class="message-box"></div>
+                    <div id="pdf-data-display" class="data-table-container">
+                        <!-- PDF data table will be rendered here -->
+                    </div>
+                </div>
+
                 <div class="delete-section">
                     <h3><i class="fas fa-trash-alt mr-2"></i>Delete PDF Books</h3>
                     <form id="delete-pdf-form">
@@ -368,6 +427,18 @@
                     </button>
                 </form>
                 <div id="note-message-box" class="message-box"></div>
+
+                <div class="data-display-section">
+                    <h3><i class="fas fa-database mr-2"></i>Current Test Notes Data</h3>
+                    <button type="button" class="btn-primary mb-4" onclick="fetchAndDisplayData(BACKENDLESS_API_URL_NOTES, 'note-data-display', 'note-display-message-box', 'note-display-spinner', 'notes')">
+                        <i class="fas fa-sync-alt mr-2"></i> Refresh Data
+                        <span id="note-display-spinner" class="loading-spinner"></span>
+                    </button>
+                    <div id="note-display-message-box" class="message-box"></div>
+                    <div id="note-data-display" class="data-table-container">
+                        <!-- Note data table will be rendered here -->
+                    </div>
+                </div>
 
                 <div class="delete-section">
                     <h3><i class="fas fa-trash-alt mr-2"></i>Delete Test Notes</h3>
@@ -429,6 +500,18 @@
                 </form>
                 <div id="paper-message-box" class="message-box"></div>
 
+                <div class="data-display-section">
+                    <h3><i class="fas fa-database mr-2"></i>Current Past Papers Data</h3>
+                    <button type="button" class="btn-primary mb-4" onclick="fetchAndDisplayData(BACKENDLESS_API_URL_PAPERS, 'paper-data-display', 'paper-display-message-box', 'paper-display-spinner', 'papers')">
+                        <i class="fas fa-sync-alt mr-2"></i> Refresh Data
+                        <span id="paper-display-spinner" class="loading-spinner"></span>
+                    </button>
+                    <div id="paper-display-message-box" class="message-box"></div>
+                    <div id="paper-data-display" class="data-table-container">
+                        <!-- Paper data table will be rendered here -->
+                    </div>
+                </div>
+
                 <div class="delete-section">
                     <h3><i class="fas fa-trash-alt mr-2"></i>Delete Past Papers</h3>
                     <form id="delete-paper-form">
@@ -485,6 +568,18 @@
                 </form>
                 <div id="mock-offline-message-box" class="message-box"></div>
 
+                <div class="data-display-section">
+                    <h3><i class="fas fa-database mr-2"></i>Current Offline Mock Tests Data</h3>
+                    <button type="button" class="btn-primary mb-4" onclick="fetchAndDisplayData(BACKENDLESS_API_URL_MOCK_OFFLINE, 'mock-offline-data-display', 'mock-offline-display-message-box', 'mock-offline-display-spinner', 'mockOffline')">
+                        <i class="fas fa-sync-alt mr-2"></i> Refresh Data
+                        <span id="mock-offline-display-spinner" class="loading-spinner"></span>
+                    </button>
+                    <div id="mock-offline-display-message-box" class="message-box"></div>
+                    <div id="mock-offline-data-display" class="data-table-container">
+                        <!-- Mock Offline data table will be rendered here -->
+                    </div>
+                </div>
+
                 <div class="delete-section">
                     <h3><i class="fas fa-trash-alt mr-2"></i>Delete Offline Mock Tests</h3>
                     <form id="delete-mock-offline-form">
@@ -540,6 +635,18 @@
                     </button>
                 </form>
                 <div id="mock-online-message-box" class="message-box"></div>
+
+                <div class="data-display-section">
+                    <h3><i class="fas fa-database mr-2"></i>Current Online Mock Tests Data</h3>
+                    <button type="button" class="btn-primary mb-4" onclick="fetchAndDisplayData(BACKENDLESS_API_URL_MOCK_ONLINE, 'mock-online-data-display', 'mock-online-display-message-box', 'mock-online-display-spinner', 'mockOnline')">
+                        <i class="fas fa-sync-alt mr-2"></i> Refresh Data
+                        <span id="mock-online-display-spinner" class="loading-spinner"></span>
+                    </button>
+                    <div id="mock-online-display-message-box" class="message-box"></div>
+                    <div id="mock-online-data-display" class="data-table-container">
+                        <!-- Mock Online data table will be rendered here -->
+                    </div>
+                </div>
 
                 <div class="delete-section">
                     <h3><i class="fas fa-trash-alt mr-2"></i>Delete Online Mock Tests</h3>
@@ -601,6 +708,18 @@
                 </form>
                 <div id="video-message-box" class="message-box"></div>
 
+                <div class="data-display-section">
+                    <h3><i class="fas fa-database mr-2"></i>Current Video Lectures Data</h3>
+                    <button type="button" class="btn-primary mb-4" onclick="fetchAndDisplayData(BACKENDLESS_API_URL_VIDEOS, 'video-data-display', 'video-display-message-box', 'video-display-spinner', 'videos')">
+                        <i class="fas fa-sync-alt mr-2"></i> Refresh Data
+                        <span id="video-display-spinner" class="loading-spinner"></span>
+                    </button>
+                    <div id="video-display-message-box" class="message-box"></div>
+                    <div id="video-data-display" class="data-table-container">
+                        <!-- Video data table will be rendered here -->
+                    </div>
+                </div>
+                
                 <div class="delete-section">
                     <h3><i class="fas fa-trash-alt mr-2"></i>Delete Video Lectures</h3>
                     <form id="delete-video-form">
@@ -663,6 +782,8 @@
         const deletePdfSpinner = document.getElementById('delete-pdf-spinner');
         const deleteAllPdfsSpinner = document.getElementById('delete-all-pdfs-spinner');
         const deletePdfMessageBox = document.getElementById('delete-pdf-message-box');
+        const pdfDisplayMessageBox = document.getElementById('pdf-display-message-box');
+        const pdfDisplaySpinner = document.getElementById('pdf-display-spinner');
 
 
         const addNoteForm = document.getElementById('add-note-form');
@@ -675,6 +796,8 @@
         const deleteNoteSpinner = document.getElementById('delete-note-spinner');
         const deleteAllNotesSpinner = document.getElementById('delete-all-notes-spinner');
         const deleteNoteMessageBox = document.getElementById('delete-note-message-box');
+        const noteDisplayMessageBox = document.getElementById('note-display-message-box');
+        const noteDisplaySpinner = document.getElementById('note-display-spinner');
 
         const addPaperForm = document.getElementById('add-paper-form');
         const paperMessageBox = document.getElementById('paper-message-box');
@@ -686,6 +809,8 @@
         const deletePaperSpinner = document.getElementById('delete-paper-spinner');
         const deleteAllPapersSpinner = document.getElementById('delete-all-papers-spinner');
         const deletePaperMessageBox = document.getElementById('delete-paper-message-box');
+        const paperDisplayMessageBox = document.getElementById('paper-display-message-box');
+        const paperDisplaySpinner = document.getElementById('paper-display-spinner');
 
         const addMockOfflineForm = document.getElementById('add-mock-offline-form');
         const mockOfflineMessageBox = document.getElementById('mock-offline-message-box');
@@ -697,6 +822,8 @@
         const deleteMockOfflineSpinner = document.getElementById('delete-mock-offline-spinner');
         const deleteAllMockOfflineSpinner = document.getElementById('delete-all-mock-offline-spinner');
         const mockOfflineDeleteMessageBox = document.getElementById('mock-offline-delete-message-box');
+        const mockOfflineDisplayMessageBox = document.getElementById('mock-offline-display-message-box');
+        const mockOfflineDisplaySpinner = document.getElementById('mock-offline-display-spinner');
 
 
         const addMockOnlineForm = document.getElementById('add-mock-online-form');
@@ -709,6 +836,8 @@
         const deleteMockOnlineSpinner = document.getElementById('delete-mock-online-spinner');
         const deleteAllMockOnlineSpinner = document.getElementById('delete-all-mock-online-spinner');
         const mockOnlineDeleteMessageBox = document.getElementById('mock-online-delete-message-box');
+        const mockOnlineDisplayMessageBox = document.getElementById('mock-online-display-message-box');
+        const mockOnlineDisplaySpinner = document.getElementById('mock-online-display-spinner');
 
         const addVideoForm = document.getElementById('add-video-form');
         const videoMessageBox = document.getElementById('video-message-box');
@@ -720,6 +849,8 @@
         const deleteVideoSpinner = document.getElementById('delete-video-spinner');
         const deleteAllVideosSpinner = document.getElementById('delete-all-videos-spinner');
         const videoDeleteMessageBox = document.getElementById('video-delete-message-box');
+        const videoDisplayMessageBox = document.getElementById('video-display-message-box');
+        const videoDisplaySpinner = document.getElementById('video-display-spinner');
 
 
         // --- Check for existing session on load ---
@@ -763,7 +894,7 @@
         function showAdminContent() {
             loginSection.style.display = 'none';
             adminContentSection.style.display = 'block';
-            // Show the first admin section by default when logged in
+            // Show the first admin section and fetch its data by default when logged in
             showAdminSection('add-pdf'); 
         }
 
@@ -794,6 +925,28 @@
 
             // Add active class to the clicked tab
             document.querySelector(`.admin-nav-tab[onclick="showAdminSection('${sectionId}')"]`).classList.add('active');
+
+            // Fetch and display data for the newly active section
+            switch(sectionId) {
+                case 'add-pdf':
+                    fetchAndDisplayData(BACKENDLESS_API_URL_PDFS, 'pdf-data-display', pdfDisplayMessageBox, pdfDisplaySpinner, 'pdfs');
+                    break;
+                case 'add-note':
+                    fetchAndDisplayData(BACKENDLESS_API_URL_NOTES, 'note-data-display', noteDisplayMessageBox, noteDisplaySpinner, 'notes');
+                    break;
+                case 'add-paper':
+                    fetchAndDisplayData(BACKENDLESS_API_URL_PAPERS, 'paper-data-display', paperDisplayMessageBox, paperDisplaySpinner, 'papers');
+                    break;
+                case 'add-mock-offline':
+                    fetchAndDisplayData(BACKENDLESS_API_URL_MOCK_OFFLINE, 'mock-offline-data-display', mockOfflineDisplayMessageBox, mockOfflineDisplaySpinner, 'mockOffline');
+                    break;
+                case 'add-mock-online':
+                    fetchAndDisplayData(BACKENDLESS_API_URL_MOCK_ONLINE, 'mock-online-data-display', mockOnlineDisplayMessageBox, mockOnlineDisplaySpinner, 'mockOnline');
+                    break;
+                case 'add-video':
+                    fetchAndDisplayData(BACKENDLESS_API_URL_VIDEOS, 'video-data-display', videoDisplayMessageBox, videoDisplaySpinner, 'videos');
+                    break;
+            }
         }
 
 
@@ -855,6 +1008,237 @@
                 loginSpinner.classList.remove('show');
             }
         });
+
+        // --- Generic Data Fetching and Display Function ---
+        async function fetchAndDisplayData(tableUrl, displayElementId, messageBoxElement, loadingSpinnerElement, tableType) {
+            loadingSpinnerElement.classList.add('show');
+            hideMessage(messageBoxElement);
+            document.getElementById(displayElementId).innerHTML = ''; // Clear previous data
+
+            const userToken = localStorage.getItem('user-token');
+            if (!userToken) {
+                showMessage(messageBoxElement, 'Aap login nahi hain. Data fetch nahi kiya ja sakta.', 'error');
+                loadingSpinnerElement.classList.remove('show');
+                return;
+            }
+
+            try {
+                const response = await fetch(tableUrl, {
+                    method: 'GET',
+                    headers: {
+                        'application-id': BACKENDLESS_APP_ID,
+                        'secret-key': BACKENDLESS_REST_API_KEY,
+                        'user-token': userToken,
+                        'application-type': 'REST'
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error(`Error fetching data from ${tableUrl}:`, errorData);
+                    throw new Error(`Data fetch failed! Status: ${response.status}, Code: ${errorData.code}, Message: ${errorData.message}`);
+                }
+
+                const data = await response.json();
+                if (data.length === 0) {
+                    showMessage(messageBoxElement, 'Koi data maujood nahi hai.', 'success');
+                } else {
+                    renderTable(data, displayElementId, tableType);
+                    hideMessage(messageBoxElement); // Hide message if data is successfully displayed
+                }
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                showMessage(messageBoxElement, `Data fetch karne mein nakami: ${error.message}. Permissions check karein.`, 'error');
+            } finally {
+                loadingSpinnerElement.classList.remove('show');
+            }
+        }
+
+        // --- Generic Table Rendering Function ---
+        function renderTable(data, displayElementId, tableType) {
+            const container = document.getElementById(displayElementId);
+            container.innerHTML = ''; // Clear existing content
+
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-500">Koi data maujood nahi hai.</p>';
+                return;
+            }
+
+            const table = document.createElement('table');
+            table.className = 'data-table';
+
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+
+            // Define columns based on tableType
+            let columns = [];
+            switch(tableType) {
+                case 'pdfs':
+                    columns = [
+                        { key: 'objectId', label: 'Object ID' },
+                        { key: 'title', label: 'Title' },
+                        { key: 'description', label: 'Description' },
+                        { key: 'link', label: 'Link' },
+                        { key: 'icon', label: 'Icon' },
+                        { key: 'actionText', label: 'Action Text' }
+                    ];
+                    break;
+                case 'notes':
+                    columns = [
+                        { key: 'objectId', label: 'Object ID' },
+                        { key: 'title', label: 'Title' },
+                        { key: 'description', label: 'Description' },
+                        { key: 'link', label: 'Link' },
+                        { key: 'icon', label: 'Icon' },
+                        { key: 'actionText', label: 'Action Text' }
+                    ];
+                    break;
+                case 'papers':
+                    columns = [
+                        { key: 'objectId', label: 'Object ID' },
+                        { key: 'title', label: 'Title' },
+                        { key: 'description', label: 'Description' },
+                        { key: 'link', label: 'Link' },
+                        { key: 'year', label: 'Year' },
+                        { key: 'icon', label: 'Icon' },
+                        { key: 'actionText', label: 'Action Text' }
+                    ];
+                    break;
+                case 'mockOffline':
+                    columns = [
+                        { key: 'objectId', label: 'Object ID' },
+                        { key: 'title', label: 'Title' },
+                        { key: 'description', label: 'Description' },
+                        { key: 'link', label: 'Link' },
+                        { key: 'icon', label: 'Icon' },
+                        { key: 'actionText', label: 'Action Text' }
+                    ];
+                    break;
+                case 'mockOnline':
+                    columns = [
+                        { key: 'objectId', label: 'Object ID' },
+                        { key: 'title', label: 'Title' },
+                        { key: 'description', label: 'Description' },
+                        { key: 'link', label: 'Link' },
+                        { key: 'icon', label: 'Icon' },
+                        { key: 'actionText', label: 'Action Text' }
+                    ];
+                    break;
+                case 'videos':
+                    columns = [
+                        { key: 'objectId', label: 'Object ID' },
+                        { key: 'title', label: 'Title' },
+                        { key: 'description', label: 'Description' },
+                        { key: 'link', label: 'Link' },
+                        { key: 'duration', label: 'Duration' },
+                        { key: 'icon', label: 'Icon' },
+                        { key: 'actionText', label: 'Action Text' }
+                    ];
+                    break;
+                default:
+                    columns = [{ key: 'objectId', label: 'Object ID' }]; // Fallback
+            }
+
+            // Create table headers
+            const headerRow = document.createElement('tr');
+            columns.forEach(col => {
+                const th = document.createElement('th');
+                th.textContent = col.label;
+                headerRow.appendChild(th);
+            });
+            const actionTh = document.createElement('th');
+            actionTh.textContent = 'Actions';
+            headerRow.appendChild(actionTh);
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Populate table rows
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                columns.forEach(col => {
+                    const td = document.createElement('td');
+                    td.textContent = item[col.key];
+                    if (col.key === 'link' || col.key === 'description' || col.key === 'objectId') {
+                        td.classList.add('break-word'); // Apply word-break for long content
+                    }
+                    row.appendChild(td);
+                });
+
+                // Add Delete button
+                const actionTd = document.createElement('td');
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = 'delete-row-btn';
+                deleteButton.dataset.objectId = item.objectId; // Store objectId in data attribute
+                
+                // Attach event listener for single item delete
+                deleteButton.addEventListener('click', async function() {
+                    const confirmDelete = confirm(`Kya aap waqai is item (ID: ${item.objectId}) ko delete karna chahte hain?`);
+                    if (confirmDelete) {
+                        let currentTableUrl;
+                        let currentMessageBox;
+                        let currentSpinner;
+                        let currentSubmitBtn; // Not directly used for single delete, but for consistency
+                        
+                        // Determine correct message box and spinner for the current section
+                        switch(tableType) {
+                            case 'pdfs':
+                                currentTableUrl = BACKENDLESS_API_URL_PDFS;
+                                currentMessageBox = deletePdfMessageBox;
+                                currentSpinner = deletePdfSpinner;
+                                currentSubmitBtn = deleteSinglePdfBtn;
+                                break;
+                            case 'notes':
+                                currentTableUrl = BACKENDLESS_API_URL_NOTES;
+                                currentMessageBox = deleteNoteMessageBox;
+                                currentSpinner = deleteNoteSpinner;
+                                currentSubmitBtn = deleteSingleNoteBtn;
+                                break;
+                            case 'papers':
+                                currentTableUrl = BACKENDLESS_API_URL_PAPERS;
+                                currentMessageBox = deletePaperMessageBox;
+                                currentSpinner = deletePaperSpinner;
+                                currentSubmitBtn = deleteSinglePaperBtn;
+                                break;
+                            case 'mockOffline':
+                                currentTableUrl = BACKENDLESS_API_URL_MOCK_OFFLINE;
+                                currentMessageBox = mockOfflineDeleteMessageBox;
+                                currentSpinner = deleteMockOfflineSpinner;
+                                currentSubmitBtn = deleteSingleMockOfflineBtn;
+                                break;
+                            case 'mockOnline':
+                                currentTableUrl = BACKENDLESS_API_URL_MOCK_ONLINE;
+                                currentMessageBox = mockOnlineDeleteMessageBox;
+                                currentSpinner = deleteMockOnlineSpinner;
+                                currentSubmitBtn = deleteSingleMockOnlineBtn;
+                                break;
+                            case 'videos':
+                                currentTableUrl = BACKENDLESS_API_URL_VIDEOS;
+                                currentMessageBox = videoDeleteMessageBox;
+                                currentSpinner = deleteVideoSpinner;
+                                currentSubmitBtn = deleteSingleVideoBtn;
+                                break;
+                        }
+
+                        const success = await deleteData(currentTableUrl, item.objectId, currentMessageBox, currentSpinner, currentSubmitBtn);
+                        if (success) {
+                            // Refresh the table after successful deletion
+                            fetchAndDisplayData(currentTableUrl, displayElementId, messageBoxElement, loadingSpinnerElement, tableType);
+                        }
+                    } else {
+                        showMessage(deletePdfMessageBox, 'Delete operation cancel kar diya gaya.', 'success'); // Using PDF message box as a generic fallback for now
+                    }
+                });
+                actionTd.appendChild(deleteButton);
+                row.appendChild(actionTd);
+                tbody.appendChild(row);
+            });
+
+            table.appendChild(tbody);
+            container.appendChild(table);
+        }
+
 
         // --- Generic Delete Function ---
         async function deleteData(tableUrl, objectId, messageBoxElement, loadingSpinnerElement, submitButtonElement) {
@@ -967,6 +1351,8 @@
                 const result = await response.json();
                 showMessage(pdfMessageBox, 'PDF Book successfully added!', 'success');
                 addPdfForm.reset();
+                // Refresh data display after adding
+                fetchAndDisplayData(BACKENDLESS_API_URL_PDFS, 'pdf-data-display', pdfDisplayMessageBox, pdfDisplaySpinner, 'pdfs');
 
             } catch (error) {
                 console.error('Error adding PDF book to Backendless:', error); // Debugging
@@ -977,7 +1363,7 @@
             }
         });
 
-        // --- Delete PDF Form Submission ---
+        // --- Delete PDF Form Submission (by ID) ---
         deletePdfForm.addEventListener('submit', async function(event) {
             event.preventDefault();
             const objectId = document.getElementById('delete-pdf-id').value;
@@ -985,15 +1371,21 @@
                 showMessage(deletePdfMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
                 return;
             }
-            await deleteData(BACKENDLESS_API_URL_PDFS, objectId, deletePdfMessageBox, deletePdfSpinner, deleteSinglePdfBtn);
-            document.getElementById('delete-pdf-id').value = ''; // Clear input after attempt
+            const success = await deleteData(BACKENDLESS_API_URL_PDFS, objectId, deletePdfMessageBox, deletePdfSpinner, deleteSinglePdfBtn);
+            if (success) {
+                document.getElementById('delete-pdf-id').value = ''; // Clear input after attempt
+                fetchAndDisplayData(BACKENDLESS_API_URL_PDFS, 'pdf-data-display', pdfDisplayMessageBox, pdfDisplaySpinner, 'pdfs'); // Refresh table
+            }
         });
 
         // --- Delete All PDFs Button Click ---
         deleteAllPdfsBtn.addEventListener('click', async function() {
             const confirmDelete = confirm('Kya aap waqai saare PDF Books delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
             if (confirmDelete) {
-                await deleteData(BACKENDLESS_API_URL_PDFS, null, deletePdfMessageBox, deleteAllPdfsSpinner, deleteAllPdfsBtn);
+                const success = await deleteData(BACKENDLESS_API_URL_PDFS, null, deletePdfMessageBox, deleteAllPdfsSpinner, deleteAllPdfsBtn);
+                if (success) {
+                    fetchAndDisplayData(BACKENDLESS_API_URL_PDFS, 'pdf-data-display', pdfDisplayMessageBox, pdfDisplaySpinner, 'pdfs'); // Refresh table
+                }
             } else {
                 showMessage(deletePdfMessageBox, 'Delete operation cancel kar diya gaya.', 'success');
             }
@@ -1049,6 +1441,8 @@
                 const result = await response.json();
                 showMessage(noteMessageBox, 'Test Note successfully added!', 'success');
                 addNoteForm.reset();
+                // Refresh data display after adding
+                fetchAndDisplayData(BACKENDLESS_API_URL_NOTES, 'note-data-display', noteDisplayMessageBox, noteDisplaySpinner, 'notes');
 
             } catch (error) {
                 console.error('Error adding Test Note to Backendless:', error); // Debugging
@@ -1059,7 +1453,7 @@
             }
         });
 
-        // --- Delete Note Form Submission ---
+        // --- Delete Note Form Submission (by ID) ---
         deleteNoteForm.addEventListener('submit', async function(event) {
             event.preventDefault();
             const objectId = document.getElementById('delete-note-id').value;
@@ -1067,15 +1461,21 @@
                 showMessage(deleteNoteMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
                 return;
             }
-            await deleteData(BACKENDLESS_API_URL_NOTES, objectId, deleteNoteMessageBox, deleteNoteSpinner, deleteSingleNoteBtn);
-            document.getElementById('delete-note-id').value = ''; // Clear input after attempt
+            const success = await deleteData(BACKENDLESS_API_URL_NOTES, objectId, deleteNoteMessageBox, deleteNoteSpinner, deleteSingleNoteBtn);
+            if (success) {
+                document.getElementById('delete-note-id').value = ''; // Clear input after attempt
+                fetchAndDisplayData(BACKENDLESS_API_URL_NOTES, 'note-data-display', noteDisplayMessageBox, noteDisplaySpinner, 'notes'); // Refresh table
+            }
         });
 
         // --- Delete All Notes Button Click ---
         deleteAllNotesBtn.addEventListener('click', async function() {
             const confirmDelete = confirm('Kya aap waqai saare Test Notes delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
             if (confirmDelete) {
-                await deleteData(BACKENDLESS_API_URL_NOTES, null, deleteNoteMessageBox, deleteAllNotesSpinner, deleteAllNotesBtn);
+                const success = await deleteData(BACKENDLESS_API_URL_NOTES, null, deleteNoteMessageBox, deleteAllNotesSpinner, deleteAllNotesBtn);
+                if (success) {
+                    fetchAndDisplayData(BACKENDLESS_API_URL_NOTES, 'note-data-display', noteDisplayMessageBox, noteDisplaySpinner, 'notes'); // Refresh table
+                }
             } else {
                 showMessage(deleteNoteMessageBox, 'Delete operation cancel kar diya gaya.', 'success');
             }
@@ -1131,6 +1531,8 @@
                 const result = await response.json();
                 showMessage(paperMessageBox, 'Past Paper successfully added!', 'success');
                 addPaperForm.reset();
+                // Refresh data display after adding
+                fetchAndDisplayData(BACKENDLESS_API_URL_PAPERS, 'paper-data-display', paperDisplayMessageBox, paperDisplaySpinner, 'papers');
 
             } catch (error) {
                 console.error('Error adding Past Paper to Backendless:', error); // Debugging
@@ -1141,7 +1543,7 @@
             }
         });
 
-        // --- Delete Paper Form Submission ---
+        // --- Delete Paper Form Submission (by ID) ---
         deletePaperForm.addEventListener('submit', async function(event) {
             event.preventDefault();
             const objectId = document.getElementById('delete-paper-id').value;
@@ -1149,15 +1551,21 @@
                 showMessage(deletePaperMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
                 return;
             }
-            await deleteData(BACKENDLESS_API_URL_PAPERS, objectId, deletePaperMessageBox, deletePaperSpinner, deleteSinglePaperBtn);
-            document.getElementById('delete-paper-id').value = ''; // Clear input after attempt
+            const success = await deleteData(BACKENDLESS_API_URL_PAPERS, objectId, deletePaperMessageBox, deletePaperSpinner, deleteSinglePaperBtn);
+            if (success) {
+                document.getElementById('delete-paper-id').value = ''; // Clear input after attempt
+                fetchAndDisplayData(BACKENDLESS_API_URL_PAPERS, 'paper-data-display', paperDisplayMessageBox, paperDisplaySpinner, 'papers'); // Refresh table
+            }
         });
 
         // --- Delete All Papers Button Click ---
         deleteAllPapersBtn.addEventListener('click', async function() {
             const confirmDelete = confirm('Kya aap waqai saare Past Papers delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
             if (confirmDelete) {
-                await deleteData(BACKENDLESS_API_URL_PAPERS, null, deletePaperMessageBox, deleteAllPapersSpinner, deleteAllPapersBtn);
+                const success = await deleteData(BACKENDLESS_API_URL_PAPERS, null, deletePaperMessageBox, deleteAllPapersSpinner, deleteAllPapersBtn);
+                if (success) {
+                    fetchAndDisplayData(BACKENDLESS_API_URL_PAPERS, 'paper-data-display', paperDisplayMessageBox, paperDisplaySpinner, 'papers'); // Refresh table
+                }
             } else {
                 showMessage(deletePaperMessageBox, 'Delete operation cancel kar diya gaya.', 'success');
             }
@@ -1212,6 +1620,8 @@
                 const result = await response.json();
                 showMessage(mockOfflineMessageBox, 'Offline Mock Test successfully added!', 'success');
                 addMockOfflineForm.reset();
+                // Refresh data display after adding
+                fetchAndDisplayData(BACKENDLESS_API_URL_MOCK_OFFLINE, 'mock-offline-data-display', mockOfflineDisplayMessageBox, mockOfflineDisplaySpinner, 'mockOffline');
 
             } catch (error) {
                 console.error('Error adding Offline Mock Test to Backendless:', error); // Debugging
@@ -1222,7 +1632,7 @@
             }
         });
 
-        // --- Delete Mock Test (Offline) Form Submission ---
+        // --- Delete Mock Test (Offline) Form Submission (by ID) ---
         deleteMockOfflineForm.addEventListener('submit', async function(event) {
             event.preventDefault();
             const objectId = document.getElementById('delete-mock-offline-id').value;
@@ -1230,15 +1640,21 @@
                 showMessage(mockOfflineDeleteMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
                 return;
             }
-            await deleteData(BACKENDLESS_API_URL_MOCK_OFFLINE, objectId, mockOfflineDeleteMessageBox, deleteMockOfflineSpinner, deleteSingleMockOfflineBtn);
-            document.getElementById('delete-mock-offline-id').value = ''; // Clear input after attempt
+            const success = await deleteData(BACKENDLESS_API_URL_MOCK_OFFLINE, objectId, mockOfflineDeleteMessageBox, deleteMockOfflineSpinner, deleteSingleMockOfflineBtn);
+            if (success) {
+                document.getElementById('delete-mock-offline-id').value = ''; // Clear input after attempt
+                fetchAndDisplayData(BACKENDLESS_API_URL_MOCK_OFFLINE, 'mock-offline-data-display', mockOfflineDisplayMessageBox, mockOfflineDisplaySpinner, 'mockOffline'); // Refresh table
+            }
         });
 
         // --- Delete All Mock Tests (Offline) Button Click ---
         deleteAllMockOfflineBtn.addEventListener('click', async function() {
             const confirmDelete = confirm('Kya aap waqai saare Offline Mock Tests delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
             if (confirmDelete) {
-                await deleteData(BACKENDLESS_API_URL_MOCK_OFFLINE, null, mockOfflineDeleteMessageBox, deleteAllMockOfflineSpinner, deleteAllMockOfflineBtn);
+                const success = await deleteData(BACKENDLESS_API_URL_MOCK_OFFLINE, null, mockOfflineDeleteMessageBox, deleteAllMockOfflineSpinner, deleteAllMockOfflineBtn);
+                if (success) {
+                    fetchAndDisplayData(BACKENDLESS_API_URL_MOCK_OFFLINE, 'mock-offline-data-display', mockOfflineDisplayMessageBox, mockOfflineDisplaySpinner, 'mockOffline'); // Refresh table
+                }
             } else {
                 showMessage(mockOfflineDeleteMessageBox, 'Delete operation cancel kar diya gaya.', 'success');
             }
@@ -1293,6 +1709,8 @@
                 const result = await response.json();
                 showMessage(mockOnlineMessageBox, 'Online Mock Test successfully added!', 'success');
                 addMockOnlineForm.reset();
+                // Refresh data display after adding
+                fetchAndDisplayData(BACKENDLESS_API_URL_MOCK_ONLINE, 'mock-online-data-display', mockOnlineDisplayMessageBox, mockOnlineDisplaySpinner, 'mockOnline');
 
             } catch (error) {
                 console.error('Error adding Online Mock Test to Backendless:', error); // Debugging
@@ -1303,7 +1721,7 @@
             }
         });
 
-        // --- Delete Mock Test (Online) Form Submission ---
+        // --- Delete Mock Test (Online) Form Submission (by ID) ---
         deleteMockOnlineForm.addEventListener('submit', async function(event) {
             event.preventDefault();
             const objectId = document.getElementById('delete-mock-online-id').value;
@@ -1311,15 +1729,21 @@
                 showMessage(mockOnlineDeleteMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
                 return;
             }
-            await deleteData(BACKENDLESS_API_URL_MOCK_ONLINE, objectId, mockOnlineDeleteMessageBox, deleteMockOnlineSpinner, deleteSingleMockOnlineBtn);
-            document.getElementById('delete-mock-online-id').value = ''; // Clear input after attempt
+            const success = await deleteData(BACKENDLESS_API_URL_MOCK_ONLINE, objectId, mockOnlineDeleteMessageBox, deleteMockOnlineSpinner, deleteSingleMockOnlineBtn);
+            if (success) {
+                document.getElementById('delete-mock-online-id').value = ''; // Clear input after attempt
+                fetchAndDisplayData(BACKENDLESS_API_URL_MOCK_ONLINE, 'mock-online-data-display', mockOnlineDisplayMessageBox, mockOnlineDisplaySpinner, 'mockOnline'); // Refresh table
+            }
         });
 
         // --- Delete All Mock Tests (Online) Button Click ---
         deleteAllMockOnlineBtn.addEventListener('click', async function() {
             const confirmDelete = confirm('Kya aap waqai saare Online Mock Tests delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
             if (confirmDelete) {
-                await deleteData(BACKENDLESS_API_URL_MOCK_ONLINE, null, mockOnlineDeleteMessageBox, deleteAllMockOnlineSpinner, deleteAllMockOnlineBtn);
+                const success = await deleteData(BACKENDLESS_API_URL_MOCK_ONLINE, null, mockOnlineDeleteMessageBox, deleteAllMockOnlineSpinner, deleteAllMockOnlineBtn);
+                if (success) {
+                    fetchAndDisplayData(BACKENDLESS_API_URL_MOCK_ONLINE, 'mock-online-data-display', mockOnlineDisplayMessageBox, mockOnlineDisplaySpinner, 'mockOnline'); // Refresh table
+                }
             } else {
                 showMessage(mockOnlineDeleteMessageBox, 'Delete operation cancel kar diya gaya.', 'success');
             }
@@ -1375,6 +1799,8 @@
                 const result = await response.json();
                 showMessage(videoMessageBox, 'Video Lecture successfully added!', 'success');
                 addVideoForm.reset();
+                // Refresh data display after adding
+                fetchAndDisplayData(BACKENDLESS_API_URL_VIDEOS, 'video-data-display', videoDisplayMessageBox, videoDisplaySpinner, 'videos');
 
             } catch (error) {
                 console.error('Error adding Video Lecture to Backendless:', error); // Debugging
@@ -1385,7 +1811,7 @@
             }
         });
 
-        // --- Delete Video Form Submission ---
+        // --- Delete Video Form Submission (by ID) ---
         deleteVideoForm.addEventListener('submit', async function(event) {
             event.preventDefault();
             const objectId = document.getElementById('delete-video-id').value;
@@ -1393,15 +1819,21 @@
                 showMessage(videoDeleteMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
                 return;
             }
-            await deleteData(BACKENDLESS_API_URL_VIDEOS, objectId, videoDeleteMessageBox, deleteVideoSpinner, deleteSingleVideoBtn);
-            document.getElementById('delete-video-id').value = ''; // Clear input after attempt
+            const success = await deleteData(BACKENDLESS_API_URL_VIDEOS, objectId, videoDeleteMessageBox, deleteVideoSpinner, deleteSingleVideoBtn);
+            if (success) {
+                document.getElementById('delete-video-id').value = ''; // Clear input after attempt
+                fetchAndDisplayData(BACKENDLESS_API_URL_VIDEOS, 'video-data-display', videoDisplayMessageBox, videoDisplaySpinner, 'videos'); // Refresh table
+            }
         });
 
         // --- Delete All Videos Button Click ---
         deleteAllVideosBtn.addEventListener('click', async function() {
             const confirmDelete = confirm('Kya aap waqai saare Video Lectures delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
             if (confirmDelete) {
-                await deleteData(BACKENDLESS_API_URL_VIDEOS, null, videoDeleteMessageBox, deleteAllVideosSpinner, deleteAllVideosBtn);
+                const success = await deleteData(BACKENDLESS_API_URL_VIDEOS, null, videoDeleteMessageBox, deleteAllVideosSpinner, deleteAllVideosBtn);
+                if (success) {
+                    fetchAndDisplayData(BACKENDLESS_API_URL_VIDEOS, 'video-data-display', videoDisplayMessageBox, videoDisplaySpinner, 'videos'); // Refresh table
+                }
             } else {
                 showMessage(videoDeleteMessageBox, 'Delete operation cancel kar diya gaya.', 'success');
             }
