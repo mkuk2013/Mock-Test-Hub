@@ -723,6 +723,97 @@
             filter: blur(5px);
             pointer-events: none;
         }
+
+        /* WhatsApp Chat Button Styles */
+        .whatsapp-chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            z-index: 10001;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            font-size: 28px;
+            animation: whatsappPulse 2s infinite;
+        }
+
+        .whatsapp-chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+            text-decoration: none;
+            color: white;
+        }
+
+        .whatsapp-chat-button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes whatsappPulse {
+            0% {
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.8);
+            }
+            100% {
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            }
+        }
+
+        .whatsapp-tooltip {
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .whatsapp-tooltip::after {
+            content: '';
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-left-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .whatsapp-chat-button:hover .whatsapp-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp-chat-button {
+                bottom: 15px;
+                right: 15px;
+                width: 55px;
+                height: 55px;
+                font-size: 24px;
+            }
+            
+            .whatsapp-tooltip {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body class="no-select">
@@ -739,7 +830,7 @@
             
             <div class="contact-info">
                 <p style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">Need access? Contact us:</p>
-                <a href="https://wa.me/+923480358640" class="contact-link" target="_blank">
+                <a href="https://wa.me/923480358640?text=Hello!%20I%20need%20access%20to%20premium%20educational%20content." class="contact-link" target="_blank">
                     <i class="fab fa-whatsapp"></i>
                     WhatsApp Support
                 </a>
@@ -1042,6 +1133,16 @@
             </div>
         </footer>
     </div>
+
+    <!-- WhatsApp Floating Chat Button -->
+    <a href="https://wa.me/923480358640?text=Hello!%20I%20need%20help%20with%20accessing%20premium%20content." 
+       class="whatsapp-chat-button" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       title="Chat with us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">Need Help? Chat with us!</span>
+    </a>
 
     <script>
         // Enhanced Security Configuration
