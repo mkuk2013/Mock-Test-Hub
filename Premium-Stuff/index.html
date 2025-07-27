@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Educational Hub - Secure Access</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" type="image/svg+xml">
+    <link rel="icon" href="data:image/svg+xml,
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" type="image/svg+xml">
     
     <!-- Modern CSS Framework -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -444,10 +445,10 @@
             width: 60px;
             height: 60px;
             bottom: 40px;
-            left: 40px; /* Changed from right to left */
+            left: 40px; 
             background-color: #25d366;
             color: #FFF;
-            border-radius: 50px;
+            border-radius: 50%; /* Changed to 50% for perfect circle */
             text-align: center;
             font-size: 30px;
             box-shadow: 2px 2px 3px #999;
@@ -456,43 +457,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            text-decoration: none; /* Ensure no underline */
+            text-decoration: none; 
             display: none; /* Hidden by default, shown after login */
         }
 
         .whatsapp-float:hover {
             background-color: #128c7e;
             transform: scale(1.1);
-            color: #FFF; /* Ensure text remains white on hover */
+            color: #FFF; 
             text-decoration: none;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         /* Responsive Design */
@@ -530,6 +503,7 @@
                 height: 50px;
                 font-size: 25px;
             }
+            /* Adjust Tawk.to position for mobile if needed, though their widget handles it */
         }
 
         /* Loading Animation */
@@ -659,9 +633,7 @@
                     <button class="nav-tab" onclick="showSection('video-lectures')">
                         <i class="fas fa-play-circle mr-2"></i>Video Lectures
                     </button>
-                    <button class="nav-tab" onclick="showSection('support')">
-                        <i class="fas fa-life-ring mr-2"></i>Support
-                    </button>
+                    <!-- Removed Support Tab -->
                 </div>
             </div>
 
@@ -676,25 +648,25 @@
                 <div class="cards-grid">
                     <div class="card">
                         <div class="card-icon">
-                            <i class="fas fa-book"></i>
+                            <i class="fas fa-file-pdf"></i>
                         </div>
-                        <h4 class="card-title">Classic Edition Collection</h4>
-                        <p class="card-description">Time-tested educational materials with proven methodologies and comprehensive coverage of fundamental concepts.</p>
-                        <a href="#" class="card-action">
+                        <h4 class="card-title">Naeem's All Rounder Jobs Book Edition-5</h4>
+                        <p class="card-description">A helpful guide with solved MCQs for preparing various job tests like FPSC, PPSC, and SPSC.</p>
+                        <a href="https://drive.usercontent.google.com/download?id=19U5ofo5XGvty_NatTk-AiO7UwaM5BqQ7&export=download&authuser=0&confirm=t&uuid=b0112562-6e58-448d-a49a-6002cd6f7e71&at=AN8xHoqO41JCmLUvrEgVqEzEdZmW%3A1753630757405" class="card-action">
                             <i class="fas fa-download"></i>
-                            Download Collection
+                            Download Book
                         </a>
                     </div>
                     
                     <div class="card">
                         <div class="card-icon">
-                            <i class="fas fa-star"></i>
+                            <i class="fas fa-file-pdf"></i>
                         </div>
-                        <h4 class="card-title">Latest Edition Books</h4>
-                        <p class="card-description">Updated materials with current syllabus, new practice questions, and modern teaching approaches.</p>
-                        <a href="#" class="card-action">
+                        <h4 class="card-title">Naeemullah Mahar JST Guide</h4>
+                        <p class="card-description">Naeemullah Mahar JST Guide is a PDF book with key MCQs for JST exam preparation in Sindh.</p>
+                        <a href="https://drive.usercontent.google.com/download?id=1zvYzH_BcOkRR23hWpM1fW-waoQI4dveZ&export=download&authuser=6&confirm=t&uuid=b60218ad-3d24-45be-b143-127de1ebba9d&at=AN8xHopx4E1uwXpAB2yEfqQMtecO:1753630968125" class="card-action">
                             <i class="fas fa-download"></i>
-                            Access Latest
+                            Download Book
                         </a>
                     </div>
                     
@@ -946,72 +918,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Support Section (New/Updated) -->
-            <div id="support" class="content-section">
-                <h3 class="section-title">Support & Help</h3>
-                <p class="section-description">
-                    Get assistance with platform navigation, technical issues, content access, and general inquiries from our dedicated support team.
-                </p>
-                
-                <div class="cards-grid">
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-question-circle"></i>
-                        </div>
-                        <h4 class="card-title">FAQ & Help Center</h4>
-                        <p class="card-description">
-                            Find answers to commonly asked questions and browse our comprehensive help documentation.
-                        </p>
-                        <a href="#" class="card-action">
-                            View FAQ
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <h4 class="card-title">Email Support</h4>
-                        <p class="card-description">
-                            Send us detailed inquiries and receive comprehensive responses from our support specialists.
-                        </p>
-                        <a href="mailto:support@example.com" class="card-action">
-                            Send Email
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fab fa-whatsapp"></i>
-                        </div>
-                        <h4 class="card-title">WhatsApp Support</h4>
-                        <p class="card-description">
-                            Get instant assistance through WhatsApp for quick questions and immediate support needs.
-                        </p>
-                        <a href="https://wa.me/923480358640" class="card-action" target="_blank">
-                            Chat on WhatsApp
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-comments"></i>
-                        </div>
-                        <h4 class="card-title">Live Chat Support</h4>
-                        <p class="card-description">
-                            Connect with our support team through instant messaging for real-time assistance and guidance.
-                        </p>
-                        <a href="#" class="card-action" onclick="openTawkChat()">
-                            Start Live Chat
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <footer class="footer">
@@ -1025,6 +931,8 @@
     <a href="https://wa.me/923480358640" class="whatsapp-float" target="_blank" title="WhatsApp Support" id="whatsapp-float-btn">
         <i class="fab fa-whatsapp"></i>
     </a>
+
+    <!-- Tawk.to script will inject its own button here -->
 
     <script>
         // Enhanced Security Configuration
@@ -1163,7 +1071,8 @@
             const overlay = document.getElementById('security-overlay');
             const mainContent = document.getElementById('main-content');
             const securityIndicator = document.getElementById('security-indicator');
-            const whatsappButton = document.getElementById('whatsapp-float-btn'); // Get WhatsApp button
+            const whatsappButton = document.getElementById('whatsapp-float-btn'); 
+            // Removed tawkButton variable as it's no longer needed for custom button
 
             // Smooth transition
             overlay.style.opacity = '0';
@@ -1172,6 +1081,7 @@
                 mainContent.style.display = 'block';
                 securityIndicator.classList.add('show');
                 whatsappButton.style.display = 'flex'; // Show WhatsApp button after login
+                // Tawk.to widget will handle its own display after script loads
                 
                 // Start session monitoring
                 startSessionMonitoring();
@@ -1282,6 +1192,8 @@
         }
 
         // Tawk.to Functions (now only callable after script loads)
+        // This function can still be used to programmatically open the Tawk.to chat
+        // if you add a button somewhere else that calls it.
         function openTawkChat() {
             if (typeof Tawk_API !== 'undefined') {
                 Tawk_API.maximize();
