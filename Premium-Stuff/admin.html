@@ -132,8 +132,7 @@
             min-height: 100vh;
             background: #f8fafc;
             position: relative;
-            /* Flexbox for sidebar and main content */
-            display: flex; 
+            /* The 'display: flex;' rule is now only applied via the '.active' class */
         }
 
         .admin-layout.active {
@@ -1778,6 +1777,51 @@
             'video': 'VideoLectures'
         };
 
+        // --- NEW: URL Shortening Configuration (Replace with your actual API details) ---
+        const URL_SHORTENER_API_ENDPOINT = 'https://api-ssl.bitly.com/v4/shorten'; // Example for Bitly
+        const URL_SHORTENER_API_KEY = '15b274406ed8441daa9b48261746b4a754965aba'; // <<< YOUR BITLY ACCESS TOKEN
+
+        // Function to shorten a URL using Bitly API
+        async function shortenUrl(longUrl) {
+            if (!longUrl || !longUrl.startsWith('http')) {
+                console.warn("Invalid URL for shortening:", longUrl);
+                return longUrl; // Return original if not a valid URL
+            }
+
+            if (!URL_SHORTENER_API_KEY || URL_SHORTENER_API_KEY === 'YOUR_BITLY_ACCESS_TOKEN') {
+                console.error("Bitly API Key is not configured or is default. Skipping URL shortening.");
+                return longUrl; // Skip shortening if API key is not set
+            }
+
+            try {
+                const response = await fetch(URL_SHORTENER_API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${URL_SHORTENER_API_KEY}` 
+                    },
+                    body: JSON.stringify({
+                        long_url: longUrl
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error("URL shortening API error:", errorData);
+                    throw new Error(`URL shortening failed: ${errorData.message || response.statusText}`);
+                }
+
+                const data = await response.json();
+                return data.link; // Bitly returns the shortened link in 'data.link'
+
+            } catch (error) {
+                console.error("Error during URL shortening:", error);
+                // Fallback: return the original URL if shortening fails
+                return longUrl;
+            }
+        }
+        // --- END NEW ---
+
         // Custom Modal for Alerts and Confirmations
         let resolveModalPromise;
 
@@ -2071,6 +2115,19 @@
             const spinner = document.getElementById(`${section}-loading-spinner`);
             const messageBox = document.getElementById(`${section}-message-box`);
             const tableName = tableMap[section];
+
+            // --- NEW: Shorten the link if it's a 'link' field ---
+            if (formData.link) {
+                showMessage(messageBox, 'Shortening URL...', 'info'); // Provide feedback
+                const originalLink = formData.link;
+                formData.link = await shortenUrl(originalLink);
+                if (formData.link === originalLink) {
+                    showMessage(messageBox, 'Could not shorten URL, using original.', 'warning');
+                } else {
+                    showMessage(messageBox, 'URL shortened successfully!', 'success');
+                }
+            }
+            // --- END NEW ---
             
             submitBtn.disabled = true;
             spinner.classList.add('show');
@@ -2206,10 +2263,14 @@
             // Backendless uses 'objectId' as the unique identifier for records
             const objectId = item.objectId; 
 
+            // Display the potentially shortened link, but use the full link for the href
+            // The 'item.link' will already be the shortened one from the save operation.
+            const displayLink = item.link ? (item.link.length > 50 ? item.link.substring(0, 47) + '...' : item.link) : 'N/A';
+
             row.innerHTML = `
                 <td><strong>${item.title || 'N/A'}</strong></td>
                 <td>${item.description || 'N/A'}</td>
-                <td><a href="${item.link || '#'}" target="_blank" class="text-blue-600 hover:underline" style="word-break: break-all;">${item.link || 'N/A'}</a></td>
+                <td><a href="${item.link || '#'}" target="_blank" class="text-blue-600 hover:underline" style="word-break: break-all;">${displayLink}</a></td>
                 <td><i class="${item.icon || 'fas fa-question-circle'}"></i> ${item.icon || 'N/A'}</td>
                 <td><span style="background: var(--primary-gradient); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">${item.actionText || 'N/A'}</span></td>
                 <td class="table-actions">
@@ -2245,6 +2306,7 @@
                         document.getElementById(`${section}-object-id`).value = item.objectId || '';
                         document.getElementById(`${section}-title`).value = item.title || '';
                         document.getElementById(`${section}-description`).value = item.description || '';
+                        // Ensure the link input gets the stored (shortened) link
                         document.getElementById(`${section}-link`).value = item.link || '';
                         document.getElementById(`${section}-icon`).value = item.icon || '';
                         document.getElementById(`${section}-actionText`).value = item.actionText || '';
