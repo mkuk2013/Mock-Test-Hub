@@ -177,6 +177,50 @@
         .admin-section-content.active {
             display: block;
         }
+        .delete-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .delete-section h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e53e3e;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .btn-danger {
+            background-color: #e53e3e;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-danger:hover {
+            background-color: #c53030;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-danger:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .btn-group .btn-danger {
+            flex-grow: 1;
+        }
     </style>
 </head>
 <body>
@@ -268,6 +312,27 @@
                     </button>
                 </form>
                 <div id="pdf-message-box" class="message-box"></div>
+
+                <div class="delete-section">
+                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete PDF Books</h3>
+                    <form id="delete-pdf-form">
+                        <div class="form-group">
+                            <label for="delete-pdf-id">Delete by Object ID:</label>
+                            <input type="text" id="delete-pdf-id" placeholder="Enter Object ID to delete">
+                        </div>
+                        <button type="submit" class="btn-danger w-full" id="delete-single-pdf-btn">
+                            <i class="fas fa-minus-circle mr-2"></i> Delete Selected PDF
+                            <span id="delete-pdf-spinner" class="loading-spinner"></span>
+                        </button>
+                    </form>
+                    <div class="btn-group mt-4">
+                        <button type="button" class="btn-danger w-full" id="delete-all-pdfs-btn">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Delete All PDF Books
+                            <span id="delete-all-pdfs-spinner" class="loading-spinner"></span>
+                        </button>
+                    </div>
+                    <div id="delete-pdf-message-box" class="message-box"></div>
+                </div>
             </div>
 
             <!-- Add Test Note Section -->
@@ -303,6 +368,27 @@
                     </button>
                 </form>
                 <div id="note-message-box" class="message-box"></div>
+
+                <div class="delete-section">
+                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete Test Notes</h3>
+                    <form id="delete-note-form">
+                        <div class="form-group">
+                            <label for="delete-note-id">Delete by Object ID:</label>
+                            <input type="text" id="delete-note-id" placeholder="Enter Object ID to delete">
+                        </div>
+                        <button type="submit" class="btn-danger w-full" id="delete-single-note-btn">
+                            <i class="fas fa-minus-circle mr-2"></i> Delete Selected Note
+                            <span id="delete-note-spinner" class="loading-spinner"></span>
+                        </button>
+                    </form>
+                    <div class="btn-group mt-4">
+                        <button type="button" class="btn-danger w-full" id="delete-all-notes-btn">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Delete All Test Notes
+                            <span id="delete-all-notes-spinner" class="loading-spinner"></span>
+                        </button>
+                    </div>
+                    <div id="delete-note-message-box" class="message-box"></div>
+                </div>
             </div>
 
             <!-- Add Past Paper Section -->
@@ -342,6 +428,27 @@
                     </button>
                 </form>
                 <div id="paper-message-box" class="message-box"></div>
+
+                <div class="delete-section">
+                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete Past Papers</h3>
+                    <form id="delete-paper-form">
+                        <div class="form-group">
+                            <label for="delete-paper-id">Delete by Object ID:</label>
+                            <input type="text" id="delete-paper-id" placeholder="Enter Object ID to delete">
+                        </div>
+                        <button type="submit" class="btn-danger w-full" id="delete-single-paper-btn">
+                            <i class="fas fa-minus-circle mr-2"></i> Delete Selected Paper
+                            <span id="delete-paper-spinner" class="loading-spinner"></span>
+                        </button>
+                    </form>
+                    <div class="btn-group mt-4">
+                        <button type="button" class="btn-danger w-full" id="delete-all-papers-btn">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Delete All Past Papers
+                            <span id="delete-all-papers-spinner" class="loading-spinner"></span>
+                        </button>
+                    </div>
+                    <div id="delete-paper-message-box" class="message-box"></div>
+                </div>
             </div>
 
             <!-- Add Mock Test (Offline) Section -->
@@ -377,6 +484,27 @@
                     </button>
                 </form>
                 <div id="mock-offline-message-box" class="message-box"></div>
+
+                <div class="delete-section">
+                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete Offline Mock Tests</h3>
+                    <form id="delete-mock-offline-form">
+                        <div class="form-group">
+                            <label for="delete-mock-offline-id">Delete by Object ID:</label>
+                            <input type="text" id="delete-mock-offline-id" placeholder="Enter Object ID to delete">
+                        </div>
+                        <button type="submit" class="btn-danger w-full" id="delete-single-mock-offline-btn">
+                            <i class="fas fa-minus-circle mr-2"></i> Delete Selected Item
+                            <span id="delete-mock-offline-spinner" class="loading-spinner"></span>
+                        </button>
+                    </form>
+                    <div class="btn-group mt-4">
+                        <button type="button" class="btn-danger w-full" id="delete-all-mock-offline-btn">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Delete All Offline Mock Tests
+                            <span id="delete-all-mock-offline-spinner" class="loading-spinner"></span>
+                        </button>
+                    </div>
+                    <div id="mock-offline-delete-message-box" class="message-box"></div>
+                </div>
             </div>
 
             <!-- Add Mock Test (Online) Section -->
@@ -412,6 +540,27 @@
                     </button>
                 </form>
                 <div id="mock-online-message-box" class="message-box"></div>
+
+                <div class="delete-section">
+                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete Online Mock Tests</h3>
+                    <form id="delete-mock-online-form">
+                        <div class="form-group">
+                            <label for="delete-mock-online-id">Delete by Object ID:</label>
+                            <input type="text" id="delete-mock-online-id" placeholder="Enter Object ID to delete">
+                        </div>
+                        <button type="submit" class="btn-danger w-full" id="delete-single-mock-online-btn">
+                            <i class="fas fa-minus-circle mr-2"></i> Delete Selected Item
+                            <span id="delete-mock-online-spinner" class="loading-spinner"></span>
+                        </button>
+                    </form>
+                    <div class="btn-group mt-4">
+                        <button type="button" class="btn-danger w-full" id="delete-all-mock-online-btn">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Delete All Online Mock Tests
+                            <span id="delete-all-mock-online-spinner" class="loading-spinner"></span>
+                        </button>
+                    </div>
+                    <div id="mock-online-delete-message-box" class="message-box"></div>
+                </div>
             </div>
 
             <!-- Add Video Lecture Section -->
@@ -451,6 +600,27 @@
                     </button>
                 </form>
                 <div id="video-message-box" class="message-box"></div>
+
+                <div class="delete-section">
+                    <h3><i class="fas fa-trash-alt mr-2"></i>Delete Video Lectures</h3>
+                    <form id="delete-video-form">
+                        <div class="form-group">
+                            <label for="delete-video-id">Delete by Object ID:</label>
+                            <input type="text" id="delete-video-id" placeholder="Enter Object ID to delete">
+                        </div>
+                        <button type="submit" class="btn-danger w-full" id="delete-single-video-btn">
+                            <i class="fas fa-minus-circle mr-2"></i> Delete Selected Item
+                            <span id="delete-video-spinner" class="loading-spinner"></span>
+                        </button>
+                    </form>
+                    <div class="btn-group mt-4">
+                        <button type="button" class="btn-danger w-full" id="delete-all-videos-btn">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Delete All Video Lectures
+                            <span id="delete-all-videos-spinner" class="loading-spinner"></span>
+                        </button>
+                    </div>
+                    <div id="video-delete-message-box" class="message-box"></div>
+                </div>
             </div>
 
         </div>
@@ -487,31 +657,69 @@
         const pdfMessageBox = document.getElementById('pdf-message-box');
         const submitPdfBtn = document.getElementById('submit-pdf-btn');
         const pdfLoadingSpinner = document.getElementById('pdf-loading-spinner');
+        const deletePdfForm = document.getElementById('delete-pdf-form');
+        const deleteSinglePdfBtn = document.getElementById('delete-single-pdf-btn');
+        const deleteAllPdfsBtn = document.getElementById('delete-all-pdfs-btn');
+        const deletePdfSpinner = document.getElementById('delete-pdf-spinner');
+        const deleteAllPdfsSpinner = document.getElementById('delete-all-pdfs-spinner');
+        const deletePdfMessageBox = document.getElementById('delete-pdf-message-box');
+
 
         const addNoteForm = document.getElementById('add-note-form');
         const noteMessageBox = document.getElementById('note-message-box');
         const submitNoteBtn = document.getElementById('submit-note-btn');
         const noteLoadingSpinner = document.getElementById('note-loading-spinner');
+        const deleteNoteForm = document.getElementById('delete-note-form');
+        const deleteSingleNoteBtn = document.getElementById('delete-single-note-btn');
+        const deleteAllNotesBtn = document.getElementById('delete-all-notes-btn');
+        const deleteNoteSpinner = document.getElementById('delete-note-spinner');
+        const deleteAllNotesSpinner = document.getElementById('delete-all-notes-spinner');
+        const deleteNoteMessageBox = document.getElementById('delete-note-message-box');
 
         const addPaperForm = document.getElementById('add-paper-form');
         const paperMessageBox = document.getElementById('paper-message-box');
         const submitPaperBtn = document.getElementById('submit-paper-btn');
         const paperLoadingSpinner = document.getElementById('paper-loading-spinner');
+        const deletePaperForm = document.getElementById('delete-paper-form');
+        const deleteSinglePaperBtn = document.getElementById('delete-single-paper-btn');
+        const deleteAllPapersBtn = document.getElementById('delete-all-papers-btn');
+        const deletePaperSpinner = document.getElementById('delete-paper-spinner');
+        const deleteAllPapersSpinner = document.getElementById('delete-all-papers-spinner');
+        const deletePaperMessageBox = document.getElementById('delete-paper-message-box');
 
         const addMockOfflineForm = document.getElementById('add-mock-offline-form');
         const mockOfflineMessageBox = document.getElementById('mock-offline-message-box');
         const submitMockOfflineBtn = document.getElementById('submit-mock-offline-btn');
         const mockOfflineLoadingSpinner = document.getElementById('mock-offline-loading-spinner');
+        const deleteMockOfflineForm = document.getElementById('delete-mock-offline-form');
+        const deleteSingleMockOfflineBtn = document.getElementById('delete-single-mock-offline-btn');
+        const deleteAllMockOfflineBtn = document.getElementById('delete-all-mock-offline-btn');
+        const deleteMockOfflineSpinner = document.getElementById('delete-mock-offline-spinner');
+        const deleteAllMockOfflineSpinner = document.getElementById('delete-all-mock-offline-spinner');
+        const mockOfflineDeleteMessageBox = document.getElementById('mock-offline-delete-message-box');
+
 
         const addMockOnlineForm = document.getElementById('add-mock-online-form');
         const mockOnlineMessageBox = document.getElementById('mock-online-message-box');
         const submitMockOnlineBtn = document.getElementById('submit-mock-online-btn');
         const mockOnlineLoadingSpinner = document.getElementById('mock-online-loading-spinner');
+        const deleteMockOnlineForm = document.getElementById('delete-mock-online-form');
+        const deleteSingleMockOnlineBtn = document.getElementById('delete-single-mock-online-btn');
+        const deleteAllMockOnlineBtn = document.getElementById('delete-all-mock-online-btn');
+        const deleteMockOnlineSpinner = document.getElementById('delete-mock-online-spinner');
+        const deleteAllMockOnlineSpinner = document.getElementById('delete-all-mock-online-spinner');
+        const mockOnlineDeleteMessageBox = document.getElementById('mock-online-delete-message-box');
 
         const addVideoForm = document.getElementById('add-video-form');
         const videoMessageBox = document.getElementById('video-message-box');
         const submitVideoBtn = document.getElementById('submit-video-btn');
         const videoLoadingSpinner = document.getElementById('video-loading-spinner');
+        const deleteVideoForm = document.getElementById('delete-video-form');
+        const deleteSingleVideoBtn = document.getElementById('delete-single-video-btn');
+        const deleteAllVideosBtn = document.getElementById('delete-all-videos-btn');
+        const deleteVideoSpinner = document.getElementById('delete-video-spinner');
+        const deleteAllVideosSpinner = document.getElementById('delete-all-videos-spinner');
+        const videoDeleteMessageBox = document.getElementById('video-delete-message-box');
 
 
         // --- Check for existing session on load ---
@@ -622,7 +830,7 @@
                     console.error('Backendless Login Error Data:', errorData); // Debugging: log Backendless error
                     // Display a more specific error message for invalid credentials
                     if (errorData.code === 3003) {
-                        showMessage(loginMessageBox, `Login failed: ${errorData.message}. Kripya apna username/email aur password dobara check karein.`, 'error');
+                        showMessage(loginMessageBox, `Login failed: ${errorData.message}. Kripya apna username/email aur password Backendless Users table mein dobara check karein.`, 'error');
                     } else {
                         showMessage(loginMessageBox, `Login failed: ${errorData.message}`, 'error');
                     }
@@ -648,10 +856,72 @@
             }
         });
 
+        // --- Generic Delete Function ---
+        async function deleteData(tableUrl, objectId, messageBoxElement, loadingSpinnerElement, submitButtonElement) {
+            submitButtonElement.disabled = true;
+            loadingSpinnerElement.classList.add('show');
+            hideMessage(messageBoxElement);
+
+            const userToken = localStorage.getItem('user-token');
+            if (!userToken) {
+                showMessage(messageBoxElement, 'Aap login nahi hain. Dobara login karein.', 'error');
+                showLoginForm();
+                return false;
+            }
+
+            let url = tableUrl;
+            let successMessage = 'Item successfully deleted!';
+
+            if (objectId) {
+                url = `${tableUrl}/${objectId}`;
+                console.log(`Deleting single item from ${tableUrl} with ID: ${objectId}`);
+            } else {
+                // Delete all items by sending a DELETE request with a where clause that matches all
+                url = `${tableUrl}?where=${encodeURIComponent('objectId is not null')}`;
+                successMessage = 'All items successfully deleted!';
+                console.log(`Deleting all items from ${tableUrl}`);
+            }
+            
+            console.log('Delete API URL:', url);
+
+            try {
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'application-id': BACKENDLESS_APP_ID,
+                        'secret-key': BACKENDLESS_REST_API_KEY,
+                        'user-token': userToken,
+                        'application-type': 'REST'
+                    }
+                });
+
+                console.log('Delete response status:', response.status);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Backendless Delete Error Data:', errorData);
+                    throw new Error(`HTTP error! Status: ${response.status}, Code: ${errorData.code}, Message: ${errorData.message}`);
+                }
+
+                showMessage(messageBoxElement, successMessage, 'success');
+                return true;
+
+            } catch (error) {
+                console.error('Error deleting data:', error);
+                showMessage(messageBoxElement, `Failed to delete: ${error.message}. Permissions ya Object ID check karein.`, 'error');
+                return false;
+            } finally {
+                submitButtonElement.disabled = false;
+                loadingSpinnerElement.classList.remove('show');
+            }
+        }
+
+
         // --- Add PDF Form Submission ---
         addPdfForm.addEventListener('submit', async function(event) {
             event.preventDefault();
-            submitPdfBtn.disabled = true; // Changed from submitBtn to submitPdfBtn
+            submitPdfBtn.disabled = true; 
             pdfLoadingSpinner.classList.add('show');
             hideMessage(pdfMessageBox);
 
@@ -702,10 +972,33 @@
                 console.error('Error adding PDF book to Backendless:', error); // Debugging
                 showMessage(pdfMessageBox, `Failed to add PDF Book: ${error.message}. Please check Backendless setup and API keys.`, 'error');
             } finally {
-                submitPdfBtn.disabled = false; // Changed from submitBtn to submitPdfBtn
+                submitPdfBtn.disabled = false; 
                 pdfLoadingSpinner.classList.remove('show');
             }
         });
+
+        // --- Delete PDF Form Submission ---
+        deletePdfForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const objectId = document.getElementById('delete-pdf-id').value;
+            if (!objectId) {
+                showMessage(deletePdfMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
+                return;
+            }
+            await deleteData(BACKENDLESS_API_URL_PDFS, objectId, deletePdfMessageBox, deletePdfSpinner, deleteSinglePdfBtn);
+            document.getElementById('delete-pdf-id').value = ''; // Clear input after attempt
+        });
+
+        // --- Delete All PDFs Button Click ---
+        deleteAllPdfsBtn.addEventListener('click', async function() {
+            const confirmDelete = confirm('Kya aap waqai saare PDF Books delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
+            if (confirmDelete) {
+                await deleteData(BACKENDLESS_API_URL_PDFS, null, deletePdfMessageBox, deleteAllPdfsSpinner, deleteAllPdfsBtn);
+            } else {
+                showMessage(deletePdfMessageBox, 'Delete operation cancel kar diya gaya.', 'success');
+            }
+        });
+
 
         // --- Add Test Note Form Submission ---
         addNoteForm.addEventListener('submit', async function(event) {
@@ -763,6 +1056,28 @@
             } finally {
                 submitNoteBtn.disabled = false;
                 noteLoadingSpinner.classList.remove('show');
+            }
+        });
+
+        // --- Delete Note Form Submission ---
+        deleteNoteForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const objectId = document.getElementById('delete-note-id').value;
+            if (!objectId) {
+                showMessage(deleteNoteMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
+                return;
+            }
+            await deleteData(BACKENDLESS_API_URL_NOTES, objectId, deleteNoteMessageBox, deleteNoteSpinner, deleteSingleNoteBtn);
+            document.getElementById('delete-note-id').value = ''; // Clear input after attempt
+        });
+
+        // --- Delete All Notes Button Click ---
+        deleteAllNotesBtn.addEventListener('click', async function() {
+            const confirmDelete = confirm('Kya aap waqai saare Test Notes delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
+            if (confirmDelete) {
+                await deleteData(BACKENDLESS_API_URL_NOTES, null, deleteNoteMessageBox, deleteAllNotesSpinner, deleteAllNotesBtn);
+            } else {
+                showMessage(deleteNoteMessageBox, 'Delete operation cancel kar diya gaya.', 'success');
             }
         });
 
@@ -826,6 +1141,28 @@
             }
         });
 
+        // --- Delete Paper Form Submission ---
+        deletePaperForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const objectId = document.getElementById('delete-paper-id').value;
+            if (!objectId) {
+                showMessage(deletePaperMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
+                return;
+            }
+            await deleteData(BACKENDLESS_API_URL_PAPERS, objectId, deletePaperMessageBox, deletePaperSpinner, deleteSinglePaperBtn);
+            document.getElementById('delete-paper-id').value = ''; // Clear input after attempt
+        });
+
+        // --- Delete All Papers Button Click ---
+        deleteAllPapersBtn.addEventListener('click', async function() {
+            const confirmDelete = confirm('Kya aap waqai saare Past Papers delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
+            if (confirmDelete) {
+                await deleteData(BACKENDLESS_API_URL_PAPERS, null, deletePaperMessageBox, deleteAllPapersSpinner, deleteAllPapersBtn);
+            } else {
+                showMessage(deletePaperMessageBox, 'Delete operation cancel kar diya gaya.', 'success');
+            }
+        });
+
         // --- Add Mock Test (Offline) Form Submission ---
         addMockOfflineForm.addEventListener('submit', async function(event) {
             event.preventDefault();
@@ -885,6 +1222,28 @@
             }
         });
 
+        // --- Delete Mock Test (Offline) Form Submission ---
+        deleteMockOfflineForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const objectId = document.getElementById('delete-mock-offline-id').value;
+            if (!objectId) {
+                showMessage(mockOfflineDeleteMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
+                return;
+            }
+            await deleteData(BACKENDLESS_API_URL_MOCK_OFFLINE, objectId, mockOfflineDeleteMessageBox, deleteMockOfflineSpinner, deleteSingleMockOfflineBtn);
+            document.getElementById('delete-mock-offline-id').value = ''; // Clear input after attempt
+        });
+
+        // --- Delete All Mock Tests (Offline) Button Click ---
+        deleteAllMockOfflineBtn.addEventListener('click', async function() {
+            const confirmDelete = confirm('Kya aap waqai saare Offline Mock Tests delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
+            if (confirmDelete) {
+                await deleteData(BACKENDLESS_API_URL_MOCK_OFFLINE, null, mockOfflineDeleteMessageBox, deleteAllMockOfflineSpinner, deleteAllMockOfflineBtn);
+            } else {
+                showMessage(mockOfflineDeleteMessageBox, 'Delete operation cancel kar diya gaya.', 'success');
+            }
+        });
+
         // --- Add Mock Test (Online) Form Submission ---
         addMockOnlineForm.addEventListener('submit', async function(event) {
             event.preventDefault();
@@ -941,6 +1300,28 @@
             } finally {
                 submitMockOnlineBtn.disabled = false;
                 mockOnlineLoadingSpinner.classList.remove('show');
+            }
+        });
+
+        // --- Delete Mock Test (Online) Form Submission ---
+        deleteMockOnlineForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const objectId = document.getElementById('delete-mock-online-id').value;
+            if (!objectId) {
+                showMessage(mockOnlineDeleteMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
+                return;
+            }
+            await deleteData(BACKENDLESS_API_URL_MOCK_ONLINE, objectId, mockOnlineDeleteMessageBox, deleteMockOnlineSpinner, deleteSingleMockOnlineBtn);
+            document.getElementById('delete-mock-online-id').value = ''; // Clear input after attempt
+        });
+
+        // --- Delete All Mock Tests (Online) Button Click ---
+        deleteAllMockOnlineBtn.addEventListener('click', async function() {
+            const confirmDelete = confirm('Kya aap waqai saare Online Mock Tests delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
+            if (confirmDelete) {
+                await deleteData(BACKENDLESS_API_URL_MOCK_ONLINE, null, mockOnlineDeleteMessageBox, deleteAllMockOnlineSpinner, deleteAllMockOnlineBtn);
+            } else {
+                showMessage(mockOnlineDeleteMessageBox, 'Delete operation cancel kar diya gaya.', 'success');
             }
         });
 
@@ -1004,6 +1385,28 @@
             }
         });
 
+        // --- Delete Video Form Submission ---
+        deleteVideoForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const objectId = document.getElementById('delete-video-id').value;
+            if (!objectId) {
+                showMessage(videoDeleteMessageBox, 'Kripya delete karne ke liye Object ID dalen.', 'error');
+                return;
+            }
+            await deleteData(BACKENDLESS_API_URL_VIDEOS, objectId, videoDeleteMessageBox, deleteVideoSpinner, deleteSingleVideoBtn);
+            document.getElementById('delete-video-id').value = ''; // Clear input after attempt
+        });
+
+        // --- Delete All Videos Button Click ---
+        deleteAllVideosBtn.addEventListener('click', async function() {
+            const confirmDelete = confirm('Kya aap waqai saare Video Lectures delete karna chahte hain? Yeh action wapas nahi liya ja sakta!');
+            if (confirmDelete) {
+                await deleteData(BACKENDLESS_API_URL_VIDEOS, null, videoDeleteMessageBox, deleteAllVideosSpinner, deleteAllVideosBtn);
+            } else {
+                showMessage(videoDeleteMessageBox, 'Delete operation cancel kar diya gaya.', 'success');
+            }
+        });
+
 
         // --- Logout Functionality ---
         logoutBtn.addEventListener('click', function() {
@@ -1025,6 +1428,12 @@
             hideMessage(mockOfflineMessageBox);
             hideMessage(mockOnlineMessageBox);
             hideMessage(videoMessageBox);
+            hideMessage(deletePdfMessageBox);
+            hideMessage(deleteNoteMessageBox);
+            hideMessage(deletePaperMessageBox);
+            hideMessage(mockOfflineDeleteMessageBox);
+            hideMessage(mockOnlineDeleteMessageBox);
+            hideMessage(videoDeleteMessageBox);
         });
     </script>
 </body>
