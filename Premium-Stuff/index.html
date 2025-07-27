@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-Ż8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Educational Hub - Secure Access</title>
-    <link rel="icon" href="data:image/svg+xml,
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" type="image/svg+xml">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" type="image/svg+xml">
     
     <!-- Modern CSS Framework -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -503,19 +502,25 @@
                 height: 50px;
                 font-size: 25px;
             }
-            /* Adjust Tawk.to position for mobile if needed, though their widget handles it */
+            /* Tawk.to widget handles its own mobile positioning */
         }
 
-        /* Loading Animation */
-        .loading-spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
+        /* Loading Animation for content sections */
+        .content-loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px; /* Ensure spinner is visible */
+        }
+        .content-spinner {
             border: 4px solid rgba(102, 126, 234, 0.3);
             border-radius: 50%;
             border-top-color: var(--primary-color);
+            width: 50px;
+            height: 50px;
             animation: spin 1s ease-in-out infinite;
         }
+
 
         @keyframes spin {
             to { transform: rotate(360deg); }
@@ -637,7 +642,7 @@
                 </div>
             </div>
 
-            <!-- PDF Books Section -->
+            <!-- PDF Books Section (Dynamic Content) -->
             <div id="pdf-books" class="content-section active">
                 <h3 class="section-title">PDF Books Collection</h3>
                 <p class="section-description">
@@ -645,41 +650,11 @@
                     These carefully curated resources are essential for comprehensive test preparation and academic success.
                 </p>
                 
-                <div class="cards-grid">
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-file-pdf"></i>
-                        </div>
-                        <h4 class="card-title">Naeem's All Rounder Jobs Book Edition-5</h4>
-                        <p class="card-description">A helpful guide with solved MCQs for preparing various job tests like FPSC, PPSC, and SPSC.</p>
-                        <a href="https://drive.usercontent.google.com/download?id=19U5ofo5XGvty_NatTk-AiO7UwaM5BqQ7&export=download&authuser=0&confirm=t&uuid=b0112562-6e58-448d-a49a-6002cd6f7e71&at=AN8xHoqO41JCmLUvrEgVqEzEdZmW%3A1753630757405" class="card-action">
-                            <i class="fas fa-download"></i>
-                            Download Book
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-file-pdf"></i>
-                        </div>
-                        <h4 class="card-title">Naeemullah Mahar JST Guide</h4>
-                        <p class="card-description">Naeemullah Mahar JST Guide is a PDF book with key MCQs for JST exam preparation in Sindh.</p>
-                        <a href="https://drive.usercontent.google.com/download?id=1zvYzH_BcOkRR23hWpM1fW-waoQI4dveZ&export=download&authuser=6&confirm=t&uuid=b60218ad-3d24-45be-b143-127de1ebba9d&at=AN8xHopx4E1uwXpAB2yEfqQMtecO:1753630968125" class="card-action">
-                            <i class="fas fa-download"></i>
-                            Download Book
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h4 class="card-title">Subject-Specific Guides</h4>
-                        <p class="card-description">Specialized books focusing on individual subjects with in-depth analysis and advanced problem-solving techniques.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-download"></i>
-                            Browse Subjects
-                        </a>
+                <div id="pdf-books-content" class="cards-grid">
+                    <!-- Dynamic PDF cards will be loaded here -->
+                    <div class="content-loading">
+                        <div class="content-spinner"></div>
+                        <p class="ml-4 text-gray-600">Loading PDF Books...</p>
                     </div>
                 </div>
             </div>
@@ -1072,8 +1047,7 @@
             const mainContent = document.getElementById('main-content');
             const securityIndicator = document.getElementById('security-indicator');
             const whatsappButton = document.getElementById('whatsapp-float-btn'); 
-            // Removed tawkButton variable as it's no longer needed for custom button
-
+            
             // Smooth transition
             overlay.style.opacity = '0';
             setTimeout(() => {
@@ -1099,6 +1073,9 @@
                         s0.parentNode.insertBefore(s1,s0);
                     })();
                 }
+
+                // Load initial data for PDF Books section
+                fetchPdfBooks();
 
             }, 500);
         }
@@ -1189,11 +1166,14 @@
             if (activeTab) {
                 activeTab.classList.add('active');
             }
+
+            // If PDF Books section is activated, fetch data
+            if (sectionId === 'pdf-books') {
+                fetchPdfBooks();
+            }
         }
 
         // Tawk.to Functions (now only callable after script loads)
-        // This function can still be used to programmatically open the Tawk.to chat
-        // if you add a button somewhere else that calls it.
         function openTawkChat() {
             if (typeof Tawk_API !== 'undefined') {
                 Tawk_API.maximize();
@@ -1201,6 +1181,86 @@
                 console.warn('Tawk.to API not yet loaded. Please try again in a moment.');
                 // Optionally, show a message to the user that chat is loading
                 showErrorMessage('Live chat is loading. Please try again in a moment.');
+            }
+        }
+
+        // --- Dynamic Content Loading for PDF Books Section (Backendless Integration Concept) ---
+        async function fetchPdfBooks() {
+            const pdfBooksContentDiv = document.getElementById('pdf-books-content');
+            pdfBooksContentDiv.innerHTML = `
+                <div class="content-loading">
+                    <div class="content-spinner"></div>
+                    <p class="ml-4 text-gray-600">Loading PDF Books...</p>
+                </div>
+            `; // Show loading spinner
+
+            try {
+                // --- Backendless API Configuration ---
+                // IMPORTANT: Replace 'YOUR_BACKENDLESS_APP_ID' and 'YOUR_BACKENDLESS_REST_API_KEY' with your actual keys.
+                // You can find these in your Backendless Console under 'Manage' -> 'App Settings' -> 'API Keys'.
+                const BACKENDLESS_APP_ID = '9E4D9285-8A10-4218-95FC-A09EF96833E0'; // <--- Yahan apni Backendless App ID dalen
+                const BACKENDLESS_REST_API_KEY = '2D09C0C5-B73C-4206-A772-D062E096503F'; // <--- Yahan apni Backendless REST API Key dalen
+                const BACKENDLESS_API_URL = `https://api.backendless.com/${BACKENDLESS_APP_ID}/${BACKENDLESS_REST_API_KEY}/data/PdfBooks`; // 'PdfBooks' is your table name
+
+                const response = await fetch(BACKENDLESS_API_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'application-id': BACKENDLESS_APP_ID,
+                        'secret-key': BACKENDLESS_REST_API_KEY,
+                        'application-type': 'REST' // Specify application type for REST API
+                    }
+                });
+                
+                if (!response.ok) {
+                    // Check for specific Backendless error messages if needed
+                    const errorData = await response.json();
+                    throw new Error(`HTTP error! Status: ${response.status}, Code: ${errorData.code}, Message: ${errorData.message}`);
+                }
+                const pdfs = await response.json();
+
+                if (pdfs.length === 0) {
+                    pdfBooksContentDiv.innerHTML = `
+                        <p class="text-center text-gray-500 col-span-full">No PDF books available yet. Please check back later!</p>
+                    `;
+                    return;
+                }
+
+                pdfBooksContentDiv.innerHTML = ''; // Clear loading state
+                pdfs.forEach(pdf => {
+                    // --- IMPORTANT: Ensure your Backendless table fields match these names ---
+                    // Example Backendless Table (e.g., 'PdfBooks') structure:
+                    // {
+                    //   objectId: "...",
+                    //   created: "...",
+                    //   updated: "...",
+                    //   title: "Book Title",
+                    //   description: "A brief description of the book.",
+                    //   link: "https://example.com/book.pdf",
+                    //   icon: "fas fa-book", // Font Awesome class
+                    //   actionText: "Download Book"
+                    // }
+                    const cardHtml = `
+                        <div class="card">
+                            <div class="card-icon">
+                                <i class="${pdf.icon}"></i>
+                            </div>
+                            <h4 class="card-title">${pdf.title}</h4>
+                            <p class="card-description">${pdf.description}</p>
+                            <a href="${pdf.link}" class="card-action" target="_blank">
+                                <i class="fas fa-download"></i>
+                                ${pdf.actionText}
+                            </a>
+                        </div>
+                    `;
+                    pdfBooksContentDiv.insertAdjacentHTML('beforeend', cardHtml);
+                });
+
+            } catch (error) {
+                console.error('Error fetching PDF books from Backendless:', error);
+                pdfBooksContentDiv.innerHTML = `
+                    <p class="text-center text-red-500 col-span-full">Failed to load PDF books. Error: ${error.message}. Please check Backendless setup and API keys.</p>
+                `;
             }
         }
 

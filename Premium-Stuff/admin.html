@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Premium Educational Hub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #2d3748;
+            padding: 20px;
+        }
+        .container-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            max-width: 900px; /* Increased max-width for more sections */
+            width: 100%;
+            border: 1px solid #e2e8f0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2d3748;
+        }
+        input[type="text"], input[type="password"], input[type="url"], input[type="date"], textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s ease-in-out;
+            outline: none;
+        }
+        input[type="text"]:focus, input[type="password"]:focus, input[type="url"]:focus, input[type="date"]:focus, textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .message-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none; /* Hidden by default */
+        }
+        .message-box.success {
+            background-color: #e6fffa;
+            color: #38a169;
+            border: 1px solid #38a169;
+        }
+        .message-box.error {
+            background-color: #fff5f5;
+            color: #e53e3e;
+            border: 1px solid #e53e3e;
+        }
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+            display: none;
+        }
+        .loading-spinner.show {
+            display: inline-block;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Login specific styles */
+        .login-form {
+            display: block;
+        }
+        .admin-content {
+            display: none;
+        }
+        .logout-btn {
+            background-color: #f56565;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            float: right;
+            margin-top: -20px; /* Adjust as needed */
+        }
+        .logout-btn:hover {
+            background-color: #e53e3e;
+            transform: translateY(-1px);
+        }
+
+        /* Admin Navigation Tabs */
+        .admin-nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            gap: 10px;
+        }
+        .admin-nav-tab {
+            background: transparent;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #718096;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .admin-nav-tab:hover {
+            background-color: #edf2f7;
+            color: #667eea;
+        }
+        .admin-nav-tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Admin Section Content */
+        .admin-section-content {
+            display: none;
+        }
+        .admin-section-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-card" id="main-container">
+        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">
+            <i class="fas fa-tools mr-3 text-purple-600"></i>Admin Panel
+        </h2>
+
+        <!-- Login Form -->
+        <div id="login-section" class="login-form">
+            <p class="text-center text-gray-600 mb-6">
+                Admin Panel mein dakhil hone ke liye login karein.
+            </p>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email/Username:</label>
+                    <input type="text" id="login-email" placeholder="Apna email ya username dalen" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password:</label>
+                    <input type="password" id="login-password" placeholder="Apna password dalen" required>
+                </div>
+                <button type="submit" class="btn-primary w-full" id="login-btn">
+                    <i class="fas fa-sign-in-alt mr-2"></i> Login
+                    <span id="login-spinner" class="loading-spinner"></span>
+                </button>
+            </form>
+            <div id="login-message-box" class="message-box"></div>
+        </div>
+
+        <!-- Admin Content (Hidden by default) -->
+        <div id="admin-content-section" class="admin-content">
+            <button id="logout-btn" class="logout-btn">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </button>
+            
+            <div class="admin-nav-tabs">
+                <button class="admin-nav-tab active" onclick="showAdminSection('add-pdf')">
+                    <i class="fas fa-file-pdf mr-2"></i>PDF Books
+                </button>
+                <button class="admin-nav-tab" onclick="showAdminSection('add-note')">
+                    <i class="fas fa-sticky-note mr-2"></i>Test Notes
+                </button>
+                <button class="admin-nav-tab" onclick="showAdminSection('add-paper')">
+                    <i class="fas fa-history mr-2"></i>Past Papers
+                </button>
+                <button class="admin-nav-tab" onclick="showAdminSection('add-mock-offline')">
+                    <i class="fas fa-clipboard-check mr-2"></i>Mock Tests (Offline)
+                </button>
+                <button class="admin-nav-tab" onclick="showAdminSection('add-mock-online')">
+                    <i class="fas fa-laptop mr-2"></i>Mock Tests (Online)
+                </button>
+                <button class="admin-nav-tab" onclick="showAdminSection('add-video')">
+                    <i class="fas fa-play-circle mr-2"></i>Video Lectures
+                </button>
+            </div>
+
+            <!-- Add PDF Book Section -->
+            <div id="add-pdf-section" class="admin-section-content active">
+                <p class="text-center text-gray-600 mb-6">
+                    Yahan se aap apni website ke PDF Books section mein naye entries add kar sakte hain.
+                </p>
+                <form id="add-pdf-form">
+                    <div class="form-group">
+                        <label for="pdf-title">Book Title:</label>
+                        <input type="text" id="pdf-title" placeholder="Enter book title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pdf-description">Description:</label>
+                        <textarea id="pdf-description" placeholder="Enter book description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="pdf-link">PDF Link (URL):</label>
+                        <input type="url" id="pdf-link" placeholder="e.g., https://example.com/my-book.pdf" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pdf-icon">Icon Class (Font Awesome):</label>
+                        <input type="text" id="pdf-icon" placeholder="e.g., fas fa-book" value="fas fa-book" required>
+                        <p class="text-sm text-gray-500 mt-1">Font Awesome icons ke liye class name, maslan 'fas fa-book'</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="pdf-actionText">Action Button Text:</label>
+                        <input type="text" id="pdf-actionText" placeholder="e.g., Download Book" value="Download Book" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full" id="submit-pdf-btn">
+                        <i class="fas fa-plus-circle mr-2"></i> Add New PDF Book
+                        <span id="pdf-loading-spinner" class="loading-spinner"></span>
+                    </button>
+                </form>
+                <div id="pdf-message-box" class="message-box"></div>
+            </div>
+
+            <!-- Add Test Note Section -->
+            <div id="add-note-section" class="admin-section-content">
+                <p class="text-center text-gray-600 mb-6">
+                    Yahan se aap Test Notes section mein naye entries add kar sakte hain.
+                </p>
+                <form id="add-note-form">
+                    <div class="form-group">
+                        <label for="note-title">Note Title:</label>
+                        <input type="text" id="note-title" placeholder="Enter note title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="note-description">Description:</label>
+                        <textarea id="note-description" placeholder="Enter note description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="note-link">Note Link (URL):</label>
+                        <input type="url" id="note-link" placeholder="e.g., https://example.com/my-note.pdf" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="note-icon">Icon Class (Font Awesome):</label>
+                        <input type="text" id="note-icon" placeholder="e.g., fas fa-sticky-note" value="fas fa-sticky-note" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="note-actionText">Action Button Text:</label>
+                        <input type="text" id="note-actionText" placeholder="e.g., View Note" value="View Note" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full" id="submit-note-btn">
+                        <i class="fas fa-plus-circle mr-2"></i> Add New Test Note
+                        <span id="note-loading-spinner" class="loading-spinner"></span>
+                    </button>
+                </form>
+                <div id="note-message-box" class="message-box"></div>
+            </div>
+
+            <!-- Add Past Paper Section -->
+            <div id="add-paper-section" class="admin-section-content">
+                <p class="text-center text-gray-600 mb-6">
+                    Yahan se aap Past Papers section mein naye entries add kar sakte hain.
+                </p>
+                <form id="add-paper-form">
+                    <div class="form-group">
+                        <label for="paper-title">Paper Title:</label>
+                        <input type="text" id="paper-title" placeholder="Enter paper title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="paper-description">Description:</label>
+                        <textarea id="paper-description" placeholder="Enter paper description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="paper-link">Paper Link (URL):</label>
+                        <input type="url" id="paper-link" placeholder="e.g., https://example.com/past-paper.pdf" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="paper-year">Year:</label>
+                        <input type="text" id="paper-year" placeholder="e.g., 2023" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="paper-icon">Icon Class (Font Awesome):</label>
+                        <input type="text" id="paper-icon" placeholder="e.g., fas fa-history" value="fas fa-history" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="paper-actionText">Action Button Text:</label>
+                        <input type="text" id="paper-actionText" placeholder="e.g., Download Paper" value="Download Paper" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full" id="submit-paper-btn">
+                        <i class="fas fa-plus-circle mr-2"></i> Add New Past Paper
+                        <span id="paper-loading-spinner" class="loading-spinner"></span>
+                    </button>
+                </form>
+                <div id="paper-message-box" class="message-box"></div>
+            </div>
+
+            <!-- Add Mock Test (Offline) Section -->
+            <div id="add-mock-offline-section" class="admin-section-content">
+                <p class="text-center text-gray-600 mb-6">
+                    Yahan se aap Offline Mock Tests section mein naye entries add kar sakte hain.
+                </p>
+                <form id="add-mock-offline-form">
+                    <div class="form-group">
+                        <label for="mock-offline-title">Test Title:</label>
+                        <input type="text" id="mock-offline-title" placeholder="Enter test title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mock-offline-description">Description:</label>
+                        <textarea id="mock-offline-description" placeholder="Enter test description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="mock-offline-link">Test File Link (URL):</label>
+                        <input type="url" id="mock-offline-link" placeholder="e.g., https://example.com/mock-test.pdf" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mock-offline-icon">Icon Class (Font Awesome):</label>
+                        <input type="text" id="mock-offline-icon" placeholder="e.g., fas fa-stopwatch" value="fas fa-stopwatch" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mock-offline-actionText">Action Button Text:</label>
+                        <input type="text" id="mock-offline-actionText" placeholder="e.g., Download Test" value="Download Test" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full" id="submit-mock-offline-btn">
+                        <i class="fas fa-plus-circle mr-2"></i> Add New Offline Mock Test
+                        <span id="mock-offline-loading-spinner" class="loading-spinner"></span>
+                    </button>
+                </form>
+                <div id="mock-offline-message-box" class="message-box"></div>
+            </div>
+
+            <!-- Add Mock Test (Online) Section -->
+            <div id="add-mock-online-section" class="admin-section-content">
+                <p class="text-center text-gray-600 mb-6">
+                    Yahan se aap Online Mock Tests section mein naye entries add kar sakte hain.
+                </p>
+                <form id="add-mock-online-form">
+                    <div class="form-group">
+                        <label for="mock-online-title">Test Title:</label>
+                        <input type="text" id="mock-online-title" placeholder="Enter test title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mock-online-description">Description:</label>
+                        <textarea id="mock-online-description" placeholder="Enter test description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="mock-online-link">Test Link (URL):</label>
+                        <input type="url" id="mock-online-link" placeholder="e.g., https://example.com/online-test" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mock-online-icon">Icon Class (Font Awesome):</label>
+                        <input type="text" id="mock-online-icon" placeholder="e.g., fas fa-laptop" value="fas fa-laptop" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mock-online-actionText">Action Button Text:</label>
+                        <input type="text" id="mock-online-actionText" placeholder="e.g., Start Test" value="Start Test" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full" id="submit-mock-online-btn">
+                        <i class="fas fa-plus-circle mr-2"></i> Add New Online Mock Test
+                        <span id="mock-online-loading-spinner" class="loading-spinner"></span>
+                    </button>
+                </form>
+                <div id="mock-online-message-box" class="message-box"></div>
+            </div>
+
+            <!-- Add Video Lecture Section -->
+            <div id="add-video-section" class="admin-section-content">
+                <p class="text-center text-gray-600 mb-6">
+                    Yahan se aap Video Lectures section mein naye entries add kar sakte hain.
+                </p>
+                <form id="add-video-form">
+                    <div class="form-group">
+                        <label for="video-title">Video Title:</label>
+                        <input type="text" id="video-title" placeholder="Enter video title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="video-description">Description:</label>
+                        <textarea id="video-description" placeholder="Enter video description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="video-link">Video Link (URL):</label>
+                        <input type="url" id="video-link" placeholder="e.g., https://youtube.com/watch?v=xyz" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="video-duration">Duration (e.g., 15 min):</label>
+                        <input type="text" id="video-duration" placeholder="e.g., 45 min" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="video-icon">Icon Class (Font Awesome):</label>
+                        <input type="text" id="video-icon" placeholder="e.g., fas fa-play-circle" value="fas fa-play-circle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="video-actionText">Action Button Text:</label>
+                        <input type="text" id="video-actionText" placeholder="e.g., Watch Lecture" value="Watch Lecture" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full" id="submit-video-btn">
+                        <i class="fas fa-plus-circle mr-2"></i> Add New Video Lecture
+                        <span id="video-loading-spinner" class="loading-spinner"></span>
+                    </button>
+                </form>
+                <div id="video-message-box" class="message-box"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- Backendless API Configuration ---
+        // IMPORTANT: Replace 'YOUR_BACKENDLESS_APP_ID' and 'YOUR_BACKENDLESS_REST_API_KEY' with your actual keys.
+        // You can find these in your Backendless Console under 'Manage' -> 'App Settings' -> 'API Keys'.
+        const BACKENDLESS_APP_ID = '9E4D9285-8A10-4218-95FC-A09EF96833E0'; // <--- Yahan apni Backendless App ID dalen
+        const BACKENDLESS_REST_API_KEY = '2D09C0C5-B73C-4206-A772-D062E096503F'; // <--- Yahan apni Backendless REST API Key dalen
+        
+        // Backendless API URLs for different data tables
+        const BACKENDLESS_API_URL_USERS = `https://api.backendless.com/${BACKENDLESS_APP_ID}/${BACKENDLESS_REST_API_KEY}/users`;
+        const BACKENDLESS_API_URL_PDFS = `https://api.backendless.com/${BACKENDLESS_APP_ID}/${BACKENDLESS_REST_API_KEY}/data/PdfBooks`;
+        const BACKENDLESS_API_URL_NOTES = `https://api.backendless.com/${BACKENDLESS_APP_ID}/${BACKENDLESS_REST_API_KEY}/data/TestNotes`;
+        const BACKENDLESS_API_URL_PAPERS = `https://api.backendless.com/${BACKENDLESS_APP_ID}/${BACKENDLESS_REST_API_KEY}/data/PastPapers`;
+        const BACKENDLESS_API_URL_MOCK_OFFLINE = `https://api.backendless.com/${BACKENDLESS_APP_ID}/${BACKENDLESS_REST_API_KEY}/data/MockTestsOffline`;
+        const BACKENDLESS_API_URL_MOCK_ONLINE = `https://api.backendless.com/${BACKENDLESS_APP_ID}/${BACKENDLESS_REST_API_KEY}/data/MockTestsOnline`;
+        const BACKENDLESS_API_URL_VIDEOS = `https://api.backendless.com/${BACKENDLESS_APP_ID}/${BACKENDLESS_REST_API_KEY}/data/VideoLectures`;
+
+
+        // Elements
+        const loginSection = document.getElementById('login-section');
+        const adminContentSection = document.getElementById('admin-content-section');
+        const loginForm = document.getElementById('login-form');
+        const logoutBtn = document.getElementById('logout-btn');
+        const loginMessageBox = document.getElementById('login-message-box');
+        const loginBtn = document.getElementById('login-btn');
+        const loginSpinner = document.getElementById('login-spinner');
+
+        // Admin Content Forms and Message Boxes
+        const addPdfForm = document.getElementById('add-pdf-form');
+        const pdfMessageBox = document.getElementById('pdf-message-box');
+        const submitPdfBtn = document.getElementById('submit-pdf-btn');
+        const pdfLoadingSpinner = document.getElementById('pdf-loading-spinner');
+
+        const addNoteForm = document.getElementById('add-note-form');
+        const noteMessageBox = document.getElementById('note-message-box');
+        const submitNoteBtn = document.getElementById('submit-note-btn');
+        const noteLoadingSpinner = document.getElementById('note-loading-spinner');
+
+        const addPaperForm = document.getElementById('add-paper-form');
+        const paperMessageBox = document.getElementById('paper-message-box');
+        const submitPaperBtn = document.getElementById('submit-paper-btn');
+        const paperLoadingSpinner = document.getElementById('paper-loading-spinner');
+
+        const addMockOfflineForm = document.getElementById('add-mock-offline-form');
+        const mockOfflineMessageBox = document.getElementById('mock-offline-message-box');
+        const submitMockOfflineBtn = document.getElementById('submit-mock-offline-btn');
+        const mockOfflineLoadingSpinner = document.getElementById('mock-offline-loading-spinner');
+
+        const addMockOnlineForm = document.getElementById('add-mock-online-form');
+        const mockOnlineMessageBox = document.getElementById('mock-online-message-box');
+        const submitMockOnlineBtn = document.getElementById('submit-mock-online-btn');
+        const mockOnlineLoadingSpinner = document.getElementById('mock-online-loading-spinner');
+
+        const addVideoForm = document.getElementById('add-video-form');
+        const videoMessageBox = document.getElementById('video-message-box');
+        const submitVideoBtn = document.getElementById('submit-video-btn');
+        const videoLoadingSpinner = document.getElementById('video-loading-spinner');
+
+
+        // --- Check for existing session on load ---
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserSession();
+        });
+
+        async function checkUserSession() {
+            const userToken = localStorage.getItem('user-token');
+            if (userToken) {
+                // Validate token with Backendless (optional but recommended for robust security)
+                try {
+                    const response = await fetch(`${BACKENDLESS_API_URL_USERS}/isvalidusertoken/${userToken}`, {
+                        method: 'GET',
+                        headers: {
+                            'application-id': BACKENDLESS_APP_ID,
+                            'secret-key': BACKENDLESS_REST_API_KEY,
+                            'application-type': 'REST'
+                        }
+                    });
+                    const isValid = await response.json(); // Backendless returns true/false
+
+                    if (isValid === true) {
+                        showAdminContent();
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Token validation failed:', error);
+                }
+                // If token is invalid or validation fails, clear it
+                localStorage.removeItem('user-token');
+            }
+            showLoginForm();
+        }
+
+        function showLoginForm() {
+            loginSection.style.display = 'block';
+            adminContentSection.style.display = 'none';
+        }
+
+        function showAdminContent() {
+            loginSection.style.display = 'none';
+            adminContentSection.style.display = 'block';
+            // Show the first admin section by default when logged in
+            showAdminSection('add-pdf'); 
+        }
+
+        function showMessage(element, message, type) {
+            element.textContent = message;
+            element.className = `message-box ${type}`; // Reset classes and add new type
+            element.style.display = 'block';
+        }
+
+        function hideMessage(element) {
+            element.style.display = 'none';
+        }
+
+        // --- Admin Navigation Tabs Logic ---
+        function showAdminSection(sectionId) {
+            // Hide all admin section contents
+            document.querySelectorAll('.admin-section-content').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.admin-nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show the selected section content
+            document.getElementById(`${sectionId}-section`).classList.add('active');
+
+            // Add active class to the clicked tab
+            document.querySelector(`.admin-nav-tab[onclick="showAdminSection('${sectionId}')"]`).classList.add('active');
+        }
+
+
+        // --- Login Form Submission ---
+        loginForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            loginBtn.disabled = true;
+            loginSpinner.classList.add('show');
+            hideMessage(loginMessageBox);
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            console.log('Attempting login with:', { email, password }); // Debugging: log credentials
+            console.log('Login API URL:', `${BACKENDLESS_API_URL_USERS}/login`); // Debugging: log URL
+
+            try {
+                const response = await fetch(`${BACKENDLESS_API_URL_USERS}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'application-id': BACKENDLESS_APP_ID,
+                        'secret-key': BACKENDLESS_REST_API_KEY,
+                        'application-type': 'REST'
+                    },
+                    body: JSON.stringify({ login: email, password: password })
+                });
+
+                console.log('Login response status:', response.status); // Debugging: log response status
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Backendless Login Error Data:', errorData); // Debugging: log Backendless error
+                    // Display a more specific error message for invalid credentials
+                    if (errorData.code === 3003) {
+                        showMessage(loginMessageBox, `Login failed: ${errorData.message}. Kripya apna username/email aur password dobara check karein.`, 'error');
+                    } else {
+                        showMessage(loginMessageBox, `Login failed: ${errorData.message}`, 'error');
+                    }
+                    throw new Error(`Login failed! Code: ${errorData.code}, Message: ${errorData.message}`);
+                }
+
+                const result = await response.json();
+                console.log('Login successful, received token:', result['user-token']); // Debugging: log token
+                localStorage.setItem('user-token', result['user-token']); // Save the user token
+                showMessage(loginMessageBox, 'Login successful!', 'success');
+                loginForm.reset();
+                showAdminContent();
+
+            } catch (error) {
+                console.error('Login error:', error); // Debugging: log full error object
+                // If the error is not from Backendless (e.g., network error), show a generic message
+                if (!error.message.includes("Login failed! Code:")) {
+                    showMessage(loginMessageBox, `Login failed: Network error or server unreachable. Please check your internet connection.`, 'error');
+                }
+            } finally {
+                loginBtn.disabled = false;
+                loginSpinner.classList.remove('show');
+            }
+        });
+
+        // --- Add PDF Form Submission ---
+        addPdfForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            submitPdfBtn.disabled = true; // Changed from submitBtn to submitPdfBtn
+            pdfLoadingSpinner.classList.add('show');
+            hideMessage(pdfMessageBox);
+
+            const userToken = localStorage.getItem('user-token');
+            if (!userToken) {
+                showMessage(pdfMessageBox, 'Aap login nahi hain. Dobara login karein.', 'error');
+                showLoginForm();
+                return;
+            }
+
+            const newPdf = {
+                title: document.getElementById('pdf-title').value,
+                description: document.getElementById('pdf-description').value,
+                link: document.getElementById('pdf-link').value,
+                icon: document.getElementById('pdf-icon').value,
+                actionText: document.getElementById('pdf-actionText').value
+            };
+
+            console.log('Adding PDF with data:', newPdf); // Debugging
+            console.log('PDF API URL:', BACKENDLESS_API_URL_PDFS); // Debugging
+
+            try {
+                const response = await fetch(BACKENDLESS_API_URL_PDFS, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'application-id': BACKENDLESS_APP_ID,
+                        'secret-key': BACKENDLESS_REST_API_KEY,
+                        'user-token': userToken,
+                        'application-type': 'REST'
+                    },
+                    body: JSON.stringify(newPdf)
+                });
+
+                console.log('PDF add response status:', response.status); // Debugging
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Backendless Add PDF Error Data:', errorData); // Debugging
+                    throw new Error(`HTTP error! Status: ${response.status}, Code: ${errorData.code}, Message: ${errorData.message}`);
+                }
+
+                const result = await response.json();
+                showMessage(pdfMessageBox, 'PDF Book successfully added!', 'success');
+                addPdfForm.reset();
+
+            } catch (error) {
+                console.error('Error adding PDF book to Backendless:', error); // Debugging
+                showMessage(pdfMessageBox, `Failed to add PDF Book: ${error.message}. Please check Backendless setup and API keys.`, 'error');
+            } finally {
+                submitPdfBtn.disabled = false; // Changed from submitBtn to submitPdfBtn
+                pdfLoadingSpinner.classList.remove('show');
+            }
+        });
+
+        // --- Add Test Note Form Submission ---
+        addNoteForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            submitNoteBtn.disabled = true;
+            noteLoadingSpinner.classList.add('show');
+            hideMessage(noteMessageBox);
+
+            const userToken = localStorage.getItem('user-token');
+            if (!userToken) {
+                showMessage(noteMessageBox, 'Aap login nahi hain. Dobara login karein.', 'error');
+                showLoginForm();
+                return;
+            }
+
+            const newNote = {
+                title: document.getElementById('note-title').value,
+                description: document.getElementById('note-description').value,
+                link: document.getElementById('note-link').value,
+                icon: document.getElementById('note-icon').value,
+                actionText: document.getElementById('note-actionText').value
+            };
+
+            console.log('Adding Note with data:', newNote); // Debugging
+            console.log('Note API URL:', BACKENDLESS_API_URL_NOTES); // Debugging
+
+            try {
+                const response = await fetch(BACKENDLESS_API_URL_NOTES, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'application-id': BACKENDLESS_APP_ID,
+                        'secret-key': BACKENDLESS_REST_API_KEY,
+                        'user-token': userToken,
+                        'application-type': 'REST'
+                    },
+                    body: JSON.stringify(newNote)
+                });
+
+                console.log('Note add response status:', response.status); // Debugging
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Backendless Add Note Error Data:', errorData); // Debugging
+                    throw new Error(`HTTP error! Status: ${response.status}, Code: ${errorData.code}, Message: ${errorData.message}`);
+                }
+
+                const result = await response.json();
+                showMessage(noteMessageBox, 'Test Note successfully added!', 'success');
+                addNoteForm.reset();
+
+            } catch (error) {
+                console.error('Error adding Test Note to Backendless:', error); // Debugging
+                showMessage(noteMessageBox, `Failed to add Test Note: ${error.message}. Please check Backendless setup and API keys.`, 'error');
+            } finally {
+                submitNoteBtn.disabled = false;
+                noteLoadingSpinner.classList.remove('show');
+            }
+        });
+
+        // --- Add Past Paper Form Submission ---
+        addPaperForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            submitPaperBtn.disabled = true;
+            paperLoadingSpinner.classList.add('show');
+            hideMessage(paperMessageBox);
+
+            const userToken = localStorage.getItem('user-token');
+            if (!userToken) {
+                showMessage(paperMessageBox, 'Aap login nahi hain. Dobara login karein.', 'error');
+                showLoginForm();
+                return;
+            }
+
+            const newPaper = {
+                title: document.getElementById('paper-title').value,
+                description: document.getElementById('paper-description').value,
+                link: document.getElementById('paper-link').value,
+                year: document.getElementById('paper-year').value, // New field for year
+                icon: document.getElementById('paper-icon').value,
+                actionText: document.getElementById('paper-actionText').value
+            };
+
+            console.log('Adding Paper with data:', newPaper); // Debugging
+            console.log('Paper API URL:', BACKENDLESS_API_URL_PAPERS); // Debugging
+
+            try {
+                const response = await fetch(BACKENDLESS_API_URL_PAPERS, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'application-id': BACKENDLESS_APP_ID,
+                        'secret-key': BACKENDLESS_REST_API_KEY,
+                        'user-token': userToken,
+                        'application-type': 'REST'
+                    },
+                    body: JSON.stringify(newPaper)
+                });
+
+                console.log('Paper add response status:', response.status); // Debugging
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Backendless Add Paper Error Data:', errorData); // Debugging
+                    throw new Error(`HTTP error! Status: ${response.status}, Code: ${errorData.code}, Message: ${errorData.message}`);
+                }
+
+                const result = await response.json();
+                showMessage(paperMessageBox, 'Past Paper successfully added!', 'success');
+                addPaperForm.reset();
+
+            } catch (error) {
+                console.error('Error adding Past Paper to Backendless:', error); // Debugging
+                showMessage(paperMessageBox, `Failed to add Past Paper: ${error.message}. Please check Backendless setup and API keys.`, 'error');
+            } finally {
+                submitPaperBtn.disabled = false;
+                paperLoadingSpinner.classList.remove('show');
+            }
+        });
+
+        // --- Add Mock Test (Offline) Form Submission ---
+        addMockOfflineForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            submitMockOfflineBtn.disabled = true;
+            mockOfflineLoadingSpinner.classList.add('show');
+            hideMessage(mockOfflineMessageBox);
+
+            const userToken = localStorage.getItem('user-token');
+            if (!userToken) {
+                showMessage(mockOfflineMessageBox, 'Aap login nahi hain. Dobara login karein.', 'error');
+                showLoginForm();
+                return;
+            }
+
+            const newMockOffline = {
+                title: document.getElementById('mock-offline-title').value,
+                description: document.getElementById('mock-offline-description').value,
+                link: document.getElementById('mock-offline-link').value,
+                icon: document.getElementById('mock-offline-icon').value,
+                actionText: document.getElementById('mock-offline-actionText').value
+            };
+
+            console.log('Adding Offline Mock Test with data:', newMockOffline); // Debugging
+            console.log('Offline Mock Test API URL:', BACKENDLESS_API_URL_MOCK_OFFLINE); // Debugging
+
+            try {
+                const response = await fetch(BACKENDLESS_API_URL_MOCK_OFFLINE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'application-id': BACKENDLESS_APP_ID,
+                        'secret-key': BACKENDLESS_REST_API_KEY,
+                        'user-token': userToken,
+                        'application-type': 'REST'
+                    },
+                    body: JSON.stringify(newMockOffline)
+                });
+
+                console.log('Offline Mock Test add response status:', response.status); // Debugging
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Backendless Add Offline Mock Test Error Data:', errorData); // Debugging
+                    throw new Error(`HTTP error! Status: ${response.status}, Code: ${errorData.code}, Message: ${errorData.message}`);
+                }
+
+                const result = await response.json();
+                showMessage(mockOfflineMessageBox, 'Offline Mock Test successfully added!', 'success');
+                addMockOfflineForm.reset();
+
+            } catch (error) {
+                console.error('Error adding Offline Mock Test to Backendless:', error); // Debugging
+                showMessage(mockOfflineMessageBox, `Failed to add Offline Mock Test: ${error.message}. Please check Backendless setup and API keys.`, 'error');
+            } finally {
+                submitMockOfflineBtn.disabled = false;
+                mockOfflineLoadingSpinner.classList.remove('show');
+            }
+        });
+
+        // --- Add Mock Test (Online) Form Submission ---
+        addMockOnlineForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            submitMockOnlineBtn.disabled = true;
+            mockOnlineLoadingSpinner.classList.add('show');
+            hideMessage(mockOnlineMessageBox);
+
+            const userToken = localStorage.getItem('user-token');
+            if (!userToken) {
+                showMessage(mockOnlineMessageBox, 'Aap login nahi hain. Dobara login karein.', 'error');
+                showLoginForm();
+                return;
+            }
+
+            const newMockOnline = {
+                title: document.getElementById('mock-online-title').value,
+                description: document.getElementById('mock-online-description').value,
+                link: document.getElementById('mock-online-link').value,
+                icon: document.getElementById('mock-online-icon').value,
+                actionText: document.getElementById('mock-online-actionText').value
+            };
+
+            console.log('Adding Online Mock Test with data:', newMockOnline); // Debugging
+            console.log('Online Mock Test API URL:', BACKENDLESS_API_URL_MOCK_ONLINE); // Debugging
+
+            try {
+                const response = await fetch(BACKENDLESS_API_URL_MOCK_ONLINE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'application-id': BACKENDLESS_APP_ID,
+                        'secret-key': BACKENDLESS_REST_API_KEY,
+                        'user-token': userToken,
+                        'application-type': 'REST'
+                    },
+                    body: JSON.stringify(newMockOnline)
+                });
+
+                console.log('Online Mock Test add response status:', response.status); // Debugging
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Backendless Add Online Mock Test Error Data:', errorData); // Debugging
+                    throw new Error(`HTTP error! Status: ${response.status}, Code: ${errorData.code}, Message: ${errorData.message}`);
+                }
+
+                const result = await response.json();
+                showMessage(mockOnlineMessageBox, 'Online Mock Test successfully added!', 'success');
+                addMockOnlineForm.reset();
+
+            } catch (error) {
+                console.error('Error adding Online Mock Test to Backendless:', error); // Debugging
+                showMessage(mockOnlineMessageBox, `Failed to add Online Mock Test: ${error.message}. Please check Backendless setup and API keys.`, 'error');
+            } finally {
+                submitMockOnlineBtn.disabled = false;
+                mockOnlineLoadingSpinner.classList.remove('show');
+            }
+        });
+
+        // --- Add Video Lecture Form Submission ---
+        addVideoForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            submitVideoBtn.disabled = true;
+            videoLoadingSpinner.classList.add('show');
+            hideMessage(videoMessageBox);
+
+            const userToken = localStorage.getItem('user-token');
+            if (!userToken) {
+                showMessage(videoMessageBox, 'Aap login nahi hain. Dobara login karein.', 'error');
+                showLoginForm();
+                return;
+            }
+
+            const newVideo = {
+                title: document.getElementById('video-title').value,
+                description: document.getElementById('video-description').value,
+                link: document.getElementById('video-link').value,
+                duration: document.getElementById('video-duration').value, // New field for duration
+                icon: document.getElementById('video-icon').value,
+                actionText: document.getElementById('video-actionText').value
+            };
+
+            console.log('Adding Video Lecture with data:', newVideo); // Debugging
+            console.log('Video Lecture API URL:', BACKENDLESS_API_URL_VIDEOS); // Debugging
+
+            try {
+                const response = await fetch(BACKENDLESS_API_URL_VIDEOS, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'application-id': BACKENDLESS_APP_ID,
+                        'secret-key': BACKENDLESS_REST_API_KEY,
+                        'user-token': userToken,
+                        'application-type': 'REST'
+                    },
+                    body: JSON.stringify(newVideo)
+                });
+
+                console.log('Video Lecture add response status:', response.status); // Debugging
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Backendless Add Video Lecture Error Data:', errorData); // Debugging
+                    throw new Error(`HTTP error! Status: ${response.status}, Code: ${errorData.code}, Message: ${errorData.message}`);
+                }
+
+                const result = await response.json();
+                showMessage(videoMessageBox, 'Video Lecture successfully added!', 'success');
+                addVideoForm.reset();
+
+            } catch (error) {
+                console.error('Error adding Video Lecture to Backendless:', error); // Debugging
+                showMessage(videoMessageBox, `Failed to add Video Lecture: ${error.message}. Please check Backendless setup and API keys.`, 'error');
+            } finally {
+                submitVideoBtn.disabled = false;
+                videoLoadingSpinner.classList.remove('show');
+            }
+        });
+
+
+        // --- Logout Functionality ---
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('user-token'); // Clear token
+            showMessage(loginMessageBox, 'Aap logout ho gaye hain.', 'success');
+            showLoginForm();
+            loginForm.reset(); // Clear login fields
+            // Reset all admin forms
+            addPdfForm.reset();
+            addNoteForm.reset();
+            addPaperForm.reset();
+            addMockOfflineForm.reset();
+            addMockOnlineForm.reset();
+            addVideoForm.reset();
+            // Hide any active messages
+            hideMessage(pdfMessageBox);
+            hideMessage(noteMessageBox);
+            hideMessage(paperMessageBox);
+            hideMessage(mockOfflineMessageBox);
+            hideMessage(mockOnlineMessageBox);
+            hideMessage(videoMessageBox);
+        });
+    </script>
+</body>
+</html>
