@@ -6,10 +6,14 @@
     <title>Admin Panel - Premium Educational Hub</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
     
+    <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Backendless JavaScript SDK -->
     <script src="//unpkg.com/backendless@latest/dist/backendless.min.js"></script>
 
     <style>
@@ -32,10 +36,11 @@
             --border-radius-lg: 24px;
         }
 
+        /* Global box-sizing for consistent layout */
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box; /* Crucial for preventing overflow */
+            box-sizing: border-box; 
         }
 
         body {
@@ -43,7 +48,7 @@
             background: var(--primary-gradient);
             min-height: 100vh;
             color: #2d3748;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Prevent horizontal scroll on body */
         }
 
         /* Animated Background */
@@ -123,11 +128,12 @@
 
         /* Admin Dashboard Layout */
         .admin-layout {
-            display: none;
+            display: none; /* Hidden by default, shown when logged in */
             min-height: 100vh;
             background: #f8fafc;
             position: relative;
-            display: flex; /* Changed to flex to maintain layout when active */
+            /* Flexbox for sidebar and main content */
+            display: flex; 
         }
 
         .admin-layout.active {
@@ -141,7 +147,7 @@
             backdrop-filter: blur(20px);
             box-shadow: var(--shadow-xl);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: fixed;
+            position: fixed; /* Fixed sidebar */
             height: 100vh;
             overflow-y: auto;
             z-index: 1000;
@@ -263,12 +269,14 @@
 
         /* Main Content Area */
         .main-content {
-            margin-left: 300px; /* Adjusted for sidebar width */
-            flex: 1;
+            margin-left: 300px; /* Space for fixed sidebar */
+            flex: 1; /* Takes remaining space */
             padding: 32px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             min-height: 100vh;
-            width: calc(100% - 300px); /* Ensures content stays within bounds */
+            /* Ensure content does not overflow its container */
+            width: calc(100% - 300px); 
+            overflow-x: hidden; /* Prevent horizontal scroll within main content */
         }
 
         /* Enhanced Top Header */
@@ -633,10 +641,10 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: var(--border-radius);
-            overflow: hidden;
+            overflow: hidden; /* Ensures content inside doesn't spill */
             box-shadow: var(--shadow-lg);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 100%; /* Ensure it takes full width of its parent */
+            width: 100%; /* Take full width of parent */
         }
 
         .table-header {
@@ -655,37 +663,27 @@
 
         .table-wrapper {
             max-height: 600px;
-            overflow-x: auto; /* Added for horizontal scrolling on smaller screens */
+            overflow-x: auto; /* Allow horizontal scrolling for table */
             overflow-y: auto;
         }
 
         .data-table {
-            width: 100%;
+            width: 100%; /* Ensure table takes full width of its wrapper */
             border-collapse: collapse;
             font-size: 0.95rem;
         }
 
         .data-table th, .data-table td {
-            min-width: 150px; /* Ensure columns have a minimum width */
-            white-space: nowrap; /* Prevent text wrapping in cells */
+            padding: 20px;
+            text-align: left;
+            vertical-align: top;
+            border-bottom: 1px solid #f1f5f9;
+            min-width: 150px; /* Default minimum width for columns */
+            white-space: nowrap; /* Prevent text wrapping by default */
         }
-
-        .data-table th:nth-child(2), .data-table td:nth-child(2) { /* Description column */
-            min-width: 250px;
-            white-space: normal; /* Allow description to wrap */
-        }
-
-        .data-table th:nth-child(3), .data-table td:nth-child(3) { /* Link column */
-            min-width: 200px;
-            white-space: normal; /* Allow link to wrap */
-            word-break: break-all;
-        }
-
 
         .data-table th {
             background: #f8fafc;
-            padding: 20px;
-            text-align: left;
             font-weight: 700;
             color: #374151;
             border-bottom: 2px solid #e5e7eb;
@@ -694,10 +692,18 @@
             z-index: 10;
         }
 
-        .data-table td {
-            padding: 20px;
-            border-bottom: 1px solid #f1f5f9;
-            vertical-align: top;
+        /* Specific column widths/wrapping for better readability */
+        .data-table td:nth-child(2), /* Description column */
+        .data-table th:nth-child(2) {
+            min-width: 250px;
+            white-space: normal; /* Allow description to wrap */
+        }
+
+        .data-table td:nth-child(3), /* Link column */
+        .data-table th:nth-child(3) {
+            min-width: 200px;
+            white-space: normal; /* Allow link to wrap */
+            word-break: break-all; /* Break long URLs */
         }
 
         .data-table tbody tr {
@@ -711,6 +717,7 @@
         .table-actions {
             display: flex;
             gap: 8px;
+            flex-wrap: nowrap; /* Prevent buttons from wrapping */
         }
 
         .btn-sm {
@@ -806,9 +813,9 @@
             }
 
             .main-content {
-                margin-left: 0;
+                margin-left: 0; /* No margin when sidebar is hidden */
                 padding: 20px;
-                width: 100%; /* Take full width when sidebar is hidden */
+                width: 100%; /* Take full width */
             }
 
             .mobile-menu-btn {
@@ -831,7 +838,7 @@
             }
 
             .table-container {
-                overflow-x: auto;
+                overflow-x: auto; /* Ensure horizontal scrolling on tables for smaller screens */
             }
 
             .content-card {
@@ -965,9 +972,108 @@
             visibility: visible;
             transform: translateX(-50%) translateY(-4px);
         }
+
+        /* Custom Modal Styles */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .custom-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .custom-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-2xl);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .custom-modal-overlay.show .custom-modal-content {
+            transform: translateY(0);
+        }
+
+        .custom-modal-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .custom-modal-content p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .custom-modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .custom-modal-buttons button {
+            padding: 10px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .custom-modal-buttons .btn-confirm {
+            background: var(--danger-gradient);
+            color: white;
+        }
+
+        .custom-modal-buttons .btn-cancel {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .custom-modal-buttons .btn-confirm:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .custom-modal-buttons .btn-cancel:hover {
+            background: #cbd5e0;
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 <body>
+    <!-- Custom Modal Structure -->
+    <div id="custom-modal-overlay" class="custom-modal-overlay">
+        <div class="custom-modal-content">
+            <h3 id="modal-title"></h3>
+            <p id="modal-message"></p>
+            <div class="custom-modal-buttons">
+                <button id="modal-confirm-btn" class="btn-confirm">Confirm</button>
+                <button id="modal-cancel-btn" class="btn-cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Section -->
     <div id="login-section" class="login-container">
         <div class="login-card">
             <div class="login-header">
@@ -996,9 +1102,12 @@
         </div>
     </div>
 
+    <!-- Admin Dashboard -->
     <div id="admin-dashboard" class="admin-layout">
+        <!-- Sidebar Overlay for Mobile -->
         <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
         
+        <!-- Enhanced Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h2>
@@ -1046,7 +1155,9 @@
             </nav>
         </div>
 
+        <!-- Main Content -->
         <div class="main-content">
+            <!-- Enhanced Top Header -->
             <div class="top-header">
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <button class="mobile-menu-btn tooltip" data-tooltip="Menu" onclick="toggleMobileSidebar()">
@@ -1069,6 +1180,7 @@
                 </div>
             </div>
 
+            <!-- Stats Overview -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon">
@@ -1100,7 +1212,9 @@
                 </div>
             </div>
 
+            <!-- PDF Books Section -->
             <div id="pdf-books-section" class="content-section active">
+                <!-- Add/Update Form -->
                 <div class="content-card">
                     <div class="section-header">
                         <h3 class="section-title">
@@ -1160,6 +1274,7 @@
                     <div id="pdf-message-box" class="message-box"></div>
                 </div>
 
+                <!-- Current Data Display -->
                 <div class="content-card">
                     <div class="table-container">
                         <div class="table-header">
@@ -1181,13 +1296,15 @@
                                     </tr>
                                 </thead>
                                 <tbody id="pdf-data-tbody">
-                                    </tbody>
+                                    <!-- Data will be populated here -->
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Test Notes Section -->
             <div id="test-notes-section" class="content-section">
                 <div class="content-card">
                     <div class="section-header">
@@ -1268,13 +1385,15 @@
                                     </tr>
                                 </thead>
                                 <tbody id="note-data-tbody">
-                                    </tbody>
+                                    <!-- Data will be populated here -->
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Past Papers Section -->
             <div id="past-papers-section" class="content-section">
                 <div class="content-card">
                     <div class="section-header">
@@ -1355,13 +1474,15 @@
                                     </tr>
                                 </thead>
                                 <tbody id="paper-data-tbody">
-                                    </tbody>
+                                    <!-- Data will be populated here -->
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Mock Tests Offline Section -->
             <div id="mock-offline-section" class="content-section">
                 <div class="content-card">
                     <div class="section-header">
@@ -1442,13 +1563,15 @@
                                     </tr>
                                 </thead>
                                 <tbody id="mock-offline-data-tbody">
-                                    </tbody>
+                                    <!-- Data will be populated here -->
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Mock Tests Online Section -->
             <div id="mock-online-section" class="content-section">
                 <div class="content-card">
                     <div class="section-header">
@@ -1529,13 +1652,15 @@
                                     </tr>
                                 </thead>
                                 <tbody id="mock-online-data-tbody">
-                                    </tbody>
+                                    <!-- Data will be populated here -->
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Video Lectures Section -->
             <div id="video-lectures-section" class="content-section">
                 <div class="content-card">
                     <div class="section-header">
@@ -1616,7 +1741,8 @@
                                     </tr>
                                 </thead>
                                 <tbody id="video-data-tbody">
-                                    </tbody>
+                                    <!-- Data will be populated here -->
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -1625,6 +1751,7 @@
         </div>
     </div>
 
+    <!-- Floating Action Button -->
     <div class="fab tooltip" data-tooltip="Quick Add" onclick="showQuickAddModal()">
         <i class="fas fa-plus"></i>
     </div>
@@ -1633,13 +1760,13 @@
         // Global variables
         let isLoggedIn = false;
         let currentEditingId = null;
-        let currentSection = 'pdf-books';
+        let currentSection = 'pdf-books'; // Default active section
 
         // Backendless Configuration
-        const APP_ID = '9E4D9285-8A10-4218-95FC-A09EF96833E0';
-        const API_KEY = '2D09C0C5-B73C-4206-A772-D062E0E96503F'; // Corrected API Key
-
-        Backendless.initApp(APP_ID, API_KEY);
+        // APP ID: 9E4D925-8A10-4218-95FC-A09EF96833E0 
+        // API KEY: 2D09C0C5-B73C-4206-A772-D062E096503F
+        const APP_ID = '9E4D925-8A10-4218-95FC-A09EF96833E0'; 
+        const API_KEY = '2D09C0C5-B73C-4206-A772-D062E096503F'; 
 
         // Map section names to Backendless table names
         const tableMap = {
@@ -1651,8 +1778,72 @@
             'video': 'VideoLectures'
         };
 
+        // Custom Modal for Alerts and Confirmations
+        let resolveModalPromise;
+
+        function showCustomModal(title, message, isConfirm = false) {
+            const modalOverlay = document.getElementById('custom-modal-overlay');
+            const modalTitle = document.getElementById('modal-title');
+            const modalMessage = document.getElementById('modal-message');
+            const confirmBtn = document.getElementById('modal-confirm-btn');
+            const cancelBtn = document.getElementById('modal-cancel-btn');
+
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+
+            if (isConfirm) {
+                confirmBtn.style.display = 'inline-block';
+                cancelBtn.style.display = 'inline-block';
+            } else {
+                confirmBtn.style.display = 'none'; // For alert, only show a close/OK button (or hide both if just informational)
+                cancelBtn.style.display = 'none'; // In this case, we'll just show the message and auto-hide
+            }
+
+            modalOverlay.classList.add('show');
+
+            return new Promise((resolve) => {
+                resolveModalPromise = resolve;
+
+                const handleConfirm = () => {
+                    modalOverlay.classList.remove('show');
+                    resolve(true);
+                    confirmBtn.removeEventListener('click', handleConfirm);
+                    cancelBtn.removeEventListener('click', handleCancel);
+                };
+
+                const handleCancel = () => {
+                    modalOverlay.classList.remove('show');
+                    resolve(false);
+                    confirmBtn.removeEventListener('click', handleConfirm);
+                    cancelBtn.removeEventListener('click', handleCancel);
+                };
+
+                confirmBtn.addEventListener('click', handleConfirm);
+                cancelBtn.addEventListener('click', handleCancel);
+
+                // Auto-hide for simple alerts if not a confirmation
+                if (!isConfirm) {
+                    setTimeout(() => {
+                        if (modalOverlay.classList.contains('show')) { // Only hide if still visible
+                            modalOverlay.classList.remove('show');
+                            resolve(true); // Resolve as true for auto-hidden alerts
+                        }
+                    }, 3000); // Auto-hide after 3 seconds
+                }
+            });
+        }
+
+        // Replace native alert and confirm
+        window.alert = (message) => showCustomModal('Information', message, false);
+        window.confirm = (message) => showCustomModal('Confirmation', message, true);
+
+
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Backendless SDK here, after the DOM is loaded
+            Backendless.initApp(APP_ID, API_KEY);
+            console.log("Backendless Initialized with APP_ID:", APP_ID, "and API_KEY:", API_KEY);
+
             checkLoginStatus(); // Check login status first
             
             document.getElementById('login-form').addEventListener('submit', handleLogin);
@@ -1664,17 +1855,22 @@
         // Check login status (using Backendless user service for persistence)
         async function checkLoginStatus() {
             try {
+                // Attempt to retrieve current user from Backendless session
                 const user = await Backendless.UserService.getCurrentUser(true);
                 if (user) {
                     isLoggedIn = true;
-                    // You might want to display the logged-in user's name
+                    // Display the logged-in user's email or name
                     document.querySelector('.user-info span').textContent = user.email || user.name || 'Admin User';
+                    console.log("User already logged in:", user);
                 } else {
                     isLoggedIn = false;
+                    console.log("No user session found.");
                 }
             } catch (error) {
                 console.error("Error checking login status:", error);
                 isLoggedIn = false;
+                // If there's an error, it usually means no valid session or network issue
+                // showMessage(document.getElementById('login-message-box'), 'Failed to check login status: ' + error.message, 'error');
             } finally {
                 updateUIBasedOnLoginStatus();
                 if (isLoggedIn) {
@@ -1708,15 +1904,19 @@
             const spinner = document.getElementById('login-spinner');
             const messageBox = document.getElementById('login-message-box');
             
+            // Show loading state
             loginBtn.disabled = true;
             spinner.classList.add('show');
             loginBtn.style.transform = 'scale(0.98)';
             
             try {
+                // Backendless login call
                 const user = await Backendless.UserService.login(email, password, true); // true for stay logged in
                 isLoggedIn = true;
                 document.querySelector('.user-info span').textContent = user.email || user.name || 'Admin User';
+                console.log("Login successful:", user);
                 
+                // Add success animation
                 loginBtn.style.background = 'var(--success-gradient)';
                 loginBtn.innerHTML = '<i class="fas fa-check"></i> Login Successful!';
                 
@@ -1729,6 +1929,7 @@
                 showMessage(messageBox, 'Welcome to Admin Panel!', 'success');
                 
             } catch (error) {
+                console.error("Login failed:", error);
                 showMessage(messageBox, 'Login failed: ' + error.message, 'error');
                 loginBtn.style.transform = 'scale(1)';
             } finally {
@@ -1741,35 +1942,45 @@
 
         // Handle logout
         async function handleLogout() {
-            if (confirm('Are you sure you want to logout?')) {
-                try {
-                    await Backendless.UserService.logout();
-                    isLoggedIn = false;
-                    updateUIBasedOnLoginStatus();
-                    clearAllForms();
-                    showSection('pdf-books');
-                    document.getElementById('login-form').reset();
-                    const loginBtn = document.getElementById('login-btn');
-                    loginBtn.style.background = '';
-                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login <span id="login-spinner" class="loading-spinner"></span>';
-                } catch (error) {
-                    console.error("Logout failed:", error);
-                    alert("Logout failed: " + error.message);
-                }
+            const confirmed = await window.confirm('Are you sure you want to logout?');
+            
+            if (!confirmed) return;
+            
+            try {
+                await Backendless.UserService.logout();
+                isLoggedIn = false;
+                updateUIBasedOnLoginStatus();
+                
+                // Clear forms
+                clearAllForms();
+                
+                // Reset to first section
+                showSection('pdf-books');
+                
+                // Reset login form
+                document.getElementById('login-form').reset();
+                const loginBtn = document.getElementById('login-btn');
+                loginBtn.style.background = '';
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login <span id="login-spinner" class="loading-spinner"></span>';
+                console.log("Logout successful.");
+            } catch (error) {
+                console.error("Logout failed:", error);
+                window.alert("Logout failed: " + error.message);
             }
         }
 
         // Show section with enhanced animations
         function showSection(sectionName) {
+            // Update navigation active state
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
-            // Find the correct nav item to activate (using a little trick for event.target in general call)
             const activeNavItem = document.querySelector(`.nav-item[onclick*="showSection('${sectionName}')"]`);
             if (activeNavItem) {
                 activeNavItem.classList.add('active');
             }
             
+            // Hide current active content section with fade effect
             document.querySelectorAll('.content-section').forEach(section => {
                 if (section.classList.contains('active')) {
                     section.style.opacity = '0';
@@ -1780,6 +1991,7 @@
                 }
             });
             
+            // Show new content section with fade-in effect
             setTimeout(() => {
                 const newSection = document.getElementById(sectionName + '-section');
                 newSection.classList.add('active');
@@ -1787,6 +1999,7 @@
                 newSection.style.transform = 'translateY(0)';
             }, 150);
             
+            // Update page title
             const titles = {
                 'pdf-books': { icon: 'fas fa-file-pdf', text: 'PDF Books Management' },
                 'test-notes': { icon: 'fas fa-sticky-note', text: 'Test Notes Management' },
@@ -1806,9 +2019,12 @@
             
             currentSection = sectionName;
             
+            // Close mobile sidebar if open
             closeMobileSidebar();
-            loadSectionData(sectionName.replace('-books', '').replace('-lectures', '')); // Reload data for the active section
-            resetForm(sectionName.replace('-books', '').replace('-lectures', '')); // Clear form when switching sections
+            // Reload data for the newly active section (e.g., 'pdf' for 'pdf-books')
+            loadSectionData(sectionName.replace('-books', '').replace('-lectures', '')); 
+            // Clear form when switching sections
+            resetForm(sectionName.replace('-books', '').replace('-lectures', '')); 
         }
 
         // Mobile sidebar functions
@@ -1846,7 +2062,7 @@
             });
         }
 
-        // Handle form submission with enhanced feedback
+        // Handle form submission (Add/Update) with enhanced feedback
         async function handleFormSubmit(e, section) {
             e.preventDefault();
             
@@ -1863,18 +2079,23 @@
             try {
                 let result;
                 if (currentEditingId) {
-                    formData.objectId = currentEditingId;
+                    // Update existing item
+                    formData.objectId = currentEditingId; // Backendless uses objectId for updates
                     result = await Backendless.Data.of(tableName).save(formData);
                     submitBtn.style.background = 'var(--success-gradient)';
                     submitBtn.innerHTML = '<i class="fas fa-check"></i> Updated Successfully!';
                     showMessage(messageBox, 'Item updated successfully!', 'success');
+                    console.log("Item updated:", result);
                 } else {
+                    // Add new item
                     result = await Backendless.Data.of(tableName).save(formData);
                     submitBtn.style.background = 'var(--success-gradient)';
                     submitBtn.innerHTML = '<i class="fas fa-check"></i> Added Successfully!';
                     showMessage(messageBox, 'Item added successfully!', 'success');
+                    console.log("Item added:", result);
                 }
                 
+                // Reset form, reload data, and update stats after a short delay for animation
                 setTimeout(() => {
                     document.getElementById(`add-${section}-form`).reset();
                     resetSubmitButton(section);
@@ -1885,19 +2106,25 @@
                 }, 1500);
                 
             } catch (error) {
+                console.error("Operation failed:", error);
                 showMessage(messageBox, 'Operation failed: ' + error.message, 'error');
-                resetSubmitButton(section);
+                resetSubmitButton(section); // Reset button even on error
             } finally {
-                submitBtn.disabled = false;
-                spinner.classList.remove('show');
-                submitBtn.style.transform = 'scale(1)';
+                // Ensure spinner is hidden and button is re-enabled if not already handled by success timeout
+                if (!submitBtn.disabled) { // Check if it's still disabled, meaning the timeout hasn't fired yet
+                    spinner.classList.remove('show');
+                    submitBtn.style.transform = 'scale(1)';
+                }
+                submitBtn.disabled = false; // Re-enable button
             }
         }
 
-        // Reset submit button
+        // Reset submit button text and style
         function resetSubmitButton(section) {
             const submitBtn = document.getElementById(`submit-${section}-btn`);
-            submitBtn.style.background = '';
+            submitBtn.style.background = ''; // Reset background
+            submitBtn.disabled = false; // Ensure button is enabled
+            document.getElementById(`${section}-loading-spinner`).classList.remove('show'); // Hide spinner
             
             if (currentEditingId) {
                 submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Item <span id="' + section + '-loading-spinner" class="loading-spinner"></span>';
@@ -1906,22 +2133,24 @@
             }
         }
 
-        // Get form data
+        // Get form data from inputs
         function getFormData(section) {
             const formData = {};
             const form = document.getElementById(`add-${section}-form`);
-            const inputs = form.querySelectorAll('input, textarea');
+            // Select all relevant input and textarea elements within the form
+            const inputs = form.querySelectorAll('input:not([type="hidden"]), textarea');
             
             inputs.forEach(input => {
-                if (input.type !== 'hidden') {
-                    // Backendless column names are usually lowercase. Adjust if yours are different.
-                    formData[input.id.replace(`${section}-`, '')] = input.value; 
-                }
+                // Backendless column names are usually lowercase.
+                // We convert `pdf-title` to `title`, `note-description` to `description`, etc.
+                const fieldName = input.id.replace(`${section}-`, ''); 
+                formData[fieldName] = input.value;
             });
+            console.log("Form Data:", formData);
             return formData;
         }
 
-        // Load all data
+        // Load all data for all sections
         function loadAllData() {
             const sections = ['pdf', 'note', 'paper', 'mock-offline', 'mock-online', 'video'];
             sections.forEach(section => {
@@ -1934,12 +2163,20 @@
             const tbody = document.getElementById(`${section}-data-tbody`);
             const tableName = tableMap[section];
             
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Loading data...</td></tr>'; // Loading indicator
+            if (!tableName) {
+                console.error(`Table name not mapped for section: ${section}`);
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-red-500">Error: Table not configured for ${section}.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><i class="fas fa-spinner fa-spin mr-2"></i>Loading data...</td></tr>'; // Loading indicator
             
             try {
+                console.log(`Fetching data from Backendless table: ${tableName}`);
                 const data = await Backendless.Data.of(tableName).find();
+                console.log(`Data for ${tableName}:`, data);
                 
-                tbody.innerHTML = '';
+                tbody.innerHTML = ''; // Clear loading indicator
                 if (data.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">No data available. Add new items!</td></tr>';
                 } else {
@@ -1949,6 +2186,7 @@
                         row.style.transform = 'translateY(20px)';
                         tbody.appendChild(row);
                         
+                        // Animate row appearance for a smoother feel
                         setTimeout(() => {
                             row.style.transition = 'all 0.3s ease';
                             row.style.opacity = '1';
@@ -1957,7 +2195,7 @@
                     });
                 }
             } catch (error) {
-                console.error(`Error loading ${section} data:`, error);
+                console.error(`Error loading ${section} data from Backendless table ${tableName}:`, error);
                 tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-red-500">Error loading data: ${error.message}</td></tr>`;
             }
         }
@@ -1965,14 +2203,15 @@
         // Create table row with enhanced styling
         function createTableRow(item, section) {
             const row = document.createElement('tr');
-            // Ensure objectId exists for edit/delete functions
-            const objectId = item.objectId || item.Id; // Backendless uses objectId, sometimes 'Id' is used depending on schema setup.
+            // Backendless uses 'objectId' as the unique identifier for records
+            const objectId = item.objectId; 
+
             row.innerHTML = `
-                <td><strong>${item.title || ''}</strong></td>
-                <td>${item.description || ''}</td>
-                <td><a href="${item.link || '#'}" target="_blank" class="text-blue-600 hover:underline" style="word-break: break-all;">${item.link || ''}</a></td>
-                <td><i class="${item.icon || 'fas fa-question-circle'}"></i> ${item.icon || ''}</td>
-                <td><span style="background: var(--primary-gradient); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">${item.actionText || ''}</span></td>
+                <td><strong>${item.title || 'N/A'}</strong></td>
+                <td>${item.description || 'N/A'}</td>
+                <td><a href="${item.link || '#'}" target="_blank" class="text-blue-600 hover:underline" style="word-break: break-all;">${item.link || 'N/A'}</a></td>
+                <td><i class="${item.icon || 'fas fa-question-circle'}"></i> ${item.icon || 'N/A'}</td>
+                <td><span style="background: var(--primary-gradient); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">${item.actionText || 'N/A'}</span></td>
                 <td class="table-actions">
                     <button class="btn btn-info btn-sm tooltip" data-tooltip="Edit Item" onclick="editItem('${objectId}', '${section}')">
                         <i class="fas fa-edit"></i>
@@ -1987,102 +2226,117 @@
             return row;
         }
 
-        // Edit item with smooth scrolling
+        // Edit item: fetch data by ID and populate form
         async function editItem(id, section) {
             currentEditingId = id;
             const tableName = tableMap[section];
+            const messageBox = document.getElementById(`${section}-message-box`);
             
             try {
+                console.log(`Fetching item ${id} from ${tableName} for editing.`);
                 const item = await Backendless.Data.of(tableName).findById(id);
+                
                 if (item) {
                     const form = document.getElementById(`add-${section}-form`);
-                    form.style.transform = 'scale(0.98)';
+                    form.style.transform = 'scale(0.98)'; // Start form animation
                     
                     setTimeout(() => {
-                        document.getElementById(`${section}-object-id`).value = item.objectId;
+                        // Populate form fields
+                        document.getElementById(`${section}-object-id`).value = item.objectId || '';
                         document.getElementById(`${section}-title`).value = item.title || '';
                         document.getElementById(`${section}-description`).value = item.description || '';
                         document.getElementById(`${section}-link`).value = item.link || '';
                         document.getElementById(`${section}-icon`).value = item.icon || '';
                         document.getElementById(`${section}-actionText`).value = item.actionText || '';
                         
+                        // Change button text and style for editing mode
                         const submitBtn = document.getElementById(`submit-${section}-btn`);
                         const cancelBtn = document.getElementById(`cancel-${section}-edit-btn`);
                         
                         submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Item <span id="' + section + '-loading-spinner" class="loading-spinner"></span>';
-                        submitBtn.style.background = 'var(--warning-gradient)';
-                        cancelBtn.style.display = 'block';
+                        submitBtn.style.background = 'var(--warning-gradient)'; // Change color for update action
+                        cancelBtn.style.display = 'block'; // Show cancel button
                         
-                        form.style.transform = 'scale(1)';
-                        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        form.style.transform = 'scale(1)'; // End form animation
+                        form.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Scroll to form
+                        console.log("Form populated for editing:", item);
                     }, 150);
+                } else {
+                    showMessage(messageBox, 'Item not found for editing.', 'error');
+                    console.warn(`Item with ID ${id} not found in ${tableName}.`);
                 }
             } catch (error) {
                 console.error("Error fetching item for edit:", error);
-                showMessage(document.getElementById(`${section}-message-box`), 'Error loading item for edit: ' + error.message, 'error');
+                showMessage(messageBox, 'Error loading item for edit: ' + error.message, 'error');
             }
         }
 
         // Delete item with confirmation
         async function deleteItem(id, section) {
-            const confirmed = confirm('⚠️ Are you sure you want to delete this item?\n\nThis action cannot be undone.');
+            const confirmed = await window.confirm('⚠️ Are you sure you want to delete this item?\n\nThis action cannot be undone.');
             
             if (!confirmed) return;
             
             const tableName = tableMap[section];
             const messageBox = document.getElementById(`${section}-message-box`);
-            const row = event.target.closest('tr');
+            const row = event.target.closest('tr'); // Get the table row element
             
             try {
+                // Visual feedback for deletion
                 row.style.opacity = '0.5';
-                row.style.pointerEvents = 'none';
+                row.style.pointerEvents = 'none'; // Disable interaction
                 
-                await Backendless.Data.of(tableName).markDelete(id);
+                console.log(`Deleting item ${id} from ${tableName}.`);
+                await Backendless.Data.of(tableName).remove(id); // Backendless remove by objectId
                 
+                // Animate row removal
                 row.style.transform = 'translateX(-100%)';
                 setTimeout(() => {
-                    row.remove();
+                    row.remove(); // Remove row from DOM after animation
                     showMessage(messageBox, '✅ Item deleted successfully!', 'success');
-                    updateStats();
+                    updateStats(); // Update dashboard statistics
+                    console.log(`Item ${id} deleted successfully.`);
                 }, 300);
                 
             } catch (error) {
                 console.error("Delete failed:", error);
                 showMessage(messageBox, '❌ Delete failed: ' + error.message, 'error');
                 
+                // Restore row state on error
                 row.style.opacity = '1';
                 row.style.pointerEvents = 'auto';
             }
         }
 
-        // Cancel edit
+        // Cancel edit: reset form and hide cancel button
         function cancelEdit(section) {
             resetForm(section);
         }
 
-        // Reset form with animation
+        // Reset form to initial state (for new entry)
         function resetForm(section) {
-            currentEditingId = null;
+            currentEditingId = null; // Clear editing ID
             
             const form = document.getElementById(`add-${section}-form`);
-            form.style.transform = 'scale(0.98)';
+            form.style.transform = 'scale(0.98)'; // Start animation
             
             setTimeout(() => {
-                form.reset();
-                document.getElementById(`${section}-object-id`).value = '';
+                form.reset(); // Clear all form fields
+                document.getElementById(`${section}-object-id`).value = ''; // Ensure hidden ID is cleared
                 
+                // Reset submit button text and style
                 const submitBtn = document.getElementById(`submit-${section}-btn`);
                 const cancelBtn = document.getElementById(`cancel-${section}-edit-btn`);
                 
                 submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add New Item <span id="' + section + '-loading-spinner" class="loading-spinner"></span>';
-                submitBtn.style.background = '';
-                cancelBtn.style.display = 'none';
+                submitBtn.style.background = ''; // Reset background to default primary
+                cancelBtn.style.display = 'none'; // Hide cancel button
                 
-                form.style.transform = 'scale(1)';
+                form.style.transform = 'scale(1)'; // End animation
             }, 150);
         }
 
-        // Clear all forms
+        // Clear all forms across all sections
         function clearAllForms() {
             const sections = ['pdf', 'note', 'paper', 'mock-offline', 'mock-online', 'video'];
             sections.forEach(section => {
@@ -2090,85 +2344,90 @@
             });
         }
 
-        // Show message with enhanced animation
+        // Show message box with animation
         function showMessage(messageBox, message, type) {
             messageBox.textContent = message;
-            messageBox.className = `message-box ${type} show`;
+            messageBox.className = `message-box ${type} show`; // Apply classes for styling and animation
             
+            // Auto-hide message after 5 seconds
             setTimeout(() => {
                 messageBox.style.opacity = '0';
                 messageBox.style.transform = 'translateY(-10px)';
                 setTimeout(() => {
                     messageBox.classList.remove('show');
-                    messageBox.style.opacity = '';
-                    messageBox.style.transform = '';
-                }, 300);
+                    messageBox.style.opacity = ''; // Reset opacity
+                    messageBox.style.transform = ''; // Reset transform
+                }, 300); // Wait for fade-out animation
             }, 5000);
         }
 
-        // Update statistics
+        // Update dashboard statistics by fetching counts from Backendless
         async function updateStats() {
             try {
+                // Fetch object counts for each table
                 const pdfCount = await Backendless.Data.of('PdfBooks').getObjectCount();
                 const notesCount = await Backendless.Data.of('TestNotes').getObjectCount();
                 const papersCount = await Backendless.Data.of('PastPapers').getObjectCount();
                 const videosCount = await Backendless.Data.of('VideoLectures').getObjectCount();
-                const mockOfflineCount = await Backendless.Data.of('MockTestsOffline').getObjectCount();
-                const mockOnlineCount = await Backendless.Data.of('MockTestsOnline').getObjectCount();
+                // If you have separate stat cards for mock tests, you can add them here
+                // const mockOfflineCount = await Backendless.Data.of('MockTestsOffline').getObjectCount();
+                // const mockOnlineCount = await Backendless.Data.of('MockTestsOnline').getObjectCount();
 
+                // Animate counters with fetched values
                 animateCounter(document.getElementById('pdf-count'), 0, pdfCount, 1500);
                 animateCounter(document.getElementById('notes-count'), 0, notesCount, 1500);
                 animateCounter(document.getElementById('papers-count'), 0, papersCount, 1500);
                 animateCounter(document.getElementById('videos-count'), 0, videosCount, 1500);
-                // Assuming you might want to show total mock tests or separate them
-                // For simplicity, let's just use existing video count for another placeholder
-                // If you want to show separate mock tests counts, add new stat cards in HTML
-                // For now, these are not directly tied to a visible stat card, but fetched
+                console.log("Stats updated:", { pdfCount, notesCount, papersCount, videosCount });
             } catch (error) {
                 console.error("Error fetching stats:", error);
+                // Optionally show a message on the dashboard if stats cannot be loaded
             }
         }
 
-        // Animate counter
+        // Animate counter from start to end value over a duration
         function animateCounter(element, start, end, duration) {
             const range = end - start;
-            const increment = range / (duration / 16);
+            const increment = range / (duration / 16); // Calculate increment for ~60fps
             let current = start;
             
             const timer = setInterval(() => {
                 current += increment;
                 if (current >= end) {
                     current = end;
-                    clearInterval(timer);
+                    clearInterval(timer); // Stop animation when target reached
                 }
-                element.textContent = Math.floor(current);
-            }, 16);
+                element.textContent = Math.floor(current); // Update text content
+            }, 16); // Update every 16ms (approx 60fps)
         }
 
         // Quick Add Modal (placeholder function)
         function showQuickAddModal() {
-            alert('Quick Add feature coming soon! 🚀');
+            window.alert('Quick Add feature coming soon! 🚀');
         }
 
-        // Handle window resize
+        // Handle window resize for responsive sidebar behavior
         window.addEventListener('resize', function() {
             if (window.innerWidth > 1024) {
-                closeMobileSidebar();
+                closeMobileSidebar(); // Close sidebar if window resized to desktop size
             }
         });
 
         // Add keyboard shortcuts
         document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + K for quick search (placeholder)
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                alert('Quick search feature coming soon! 🔍');
+                e.preventDefault(); // Prevent default browser search shortcut
+                window.alert('Quick search feature coming soon! 🔍');
             }
+            
+            // Escape to close mobile sidebar
             if (e.key === 'Escape') {
                 closeMobileSidebar();
             }
         });
 
-        // Add smooth page transitions
+        // Add smooth page transitions (opacity fade out before unload)
         window.addEventListener('beforeunload', function() {
             document.body.style.opacity = '0';
         });
