@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Premium Educational Hub</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
-    
-    <!-- Tailwind CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Backendless JavaScript SDK -->
-    <script src="//unpkg.com/backendless@latest/dist/backendless.min.js"></script>
-
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Panel - Premium Educational Hub</title>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;⚙️&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<!-- Tailwind CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Backendless JavaScript SDK -->
+<script src="//unpkg.com/backendless@latest/dist/backendless.min.js"></script>
+<style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -1060,702 +1057,732 @@
     </style>
 </head>
 <body>
-    <!-- Custom Modal Structure -->
-    <div id="custom-modal-overlay" class="custom-modal-overlay">
-        <div class="custom-modal-content">
-            <h3 id="modal-title"></h3>
-            <p id="modal-message"></p>
-            <div class="custom-modal-buttons">
-                <button id="modal-confirm-btn" class="btn-confirm">Confirm</button>
-                <button id="modal-cancel-btn" class="btn-cancel">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Login Section -->
-    <div id="login-section" class="login-container">
-        <div class="login-card">
-            <div class="login-header">
-                <h2 class="login-title">
-                    <i class="fas fa-shield-alt"></i>Admin Panel
+<!-- Custom Modal Structure -->
+<div class="custom-modal-overlay" id="custom-modal-overlay">
+<div class="custom-modal-content">
+<h3 id="modal-title"></h3>
+<p id="modal-message"></p>
+<div class="custom-modal-buttons">
+<button class="btn-confirm" id="modal-confirm-btn">Confirm</button>
+<button class="btn-cancel" id="modal-cancel-btn">Cancel</button>
+</div>
+</div>
+</div>
+<!-- Login Section -->
+<div class="login-container" id="login-section">
+<div class="login-card">
+<div class="login-header">
+<h2 class="login-title">
+<i class="fas fa-shield-alt"></i>Admin Panel
                 </h2>
-                <p class="login-subtitle">Premium Educational Hub mein aapka swagat hai</p>
-            </div>
-            
-            <form id="login-form">
-                <div class="form-group">
-                    <label class="form-label" for="login-email">Email/Username:</label>
-                    <input type="text" id="login-email" class="form-input" placeholder="Apna email ya username dalen" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="login-password">Password:</label>
-                    <input type="password" id="login-password" class="form-input" placeholder="Apna password dalen" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;" id="login-btn">
-                    <i class="fas fa-sign-in-alt"></i>
+<p class="login-subtitle">Premium Educational Hub mein aapka swagat hai</p>
+</div>
+<form id="login-form">
+<div class="form-group">
+<label class="form-label" for="login-email">Email/Username:</label>
+<input class="form-input" id="login-email" placeholder="Apna email ya username dalen" required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label" for="login-password">Password:</label>
+<input class="form-input" id="login-password" placeholder="Apna password dalen" required="" type="password"/>
+</div>
+<button class="btn btn-primary" id="login-btn" style="width: 100%;" type="submit">
+<i class="fas fa-sign-in-alt"></i>
                     Login
-                    <span id="login-spinner" class="loading-spinner"></span>
-                </button>
-            </form>
-            <div id="login-message-box" class="message-box"></div>
-        </div>
-    </div>
-
-    <!-- Admin Dashboard -->
-    <div id="admin-dashboard" class="admin-layout">
-        <!-- Sidebar Overlay for Mobile -->
-        <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
-        
-        <!-- Enhanced Sidebar -->
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h2>
-                    <i class="fas fa-crown"></i>
+                    <span class="loading-spinner" id="login-spinner"></span>
+</button>
+</form>
+<div class="message-box" id="login-message-box"></div>
+</div>
+</div>
+<!-- Admin Dashboard -->
+<div class="admin-layout" id="admin-dashboard">
+<!-- Sidebar Overlay for Mobile -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
+<!-- Enhanced Sidebar -->
+<div class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<h2>
+<i class="fas fa-crown"></i>
                     Admin Panel
                 </h2>
-            </div>
-            
-            <nav class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">Content Management</div>
-                    <button class="nav-item active" onclick="showSection('pdf-books')">
-                        <i class="fas fa-file-pdf"></i>
+</div>
+<nav class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">Content Management</div>
+<button class="nav-item active" onclick="showSection('pdf-books')">
+<i class="fas fa-file-pdf"></i>
                         PDF Books
                     </button>
-                    <button class="nav-item" onclick="showSection('test-notes')">
-                        <i class="fas fa-sticky-note"></i>
+<button class="nav-item" onclick="showSection('test-notes')">
+<i class="fas fa-sticky-note"></i>
                         Test Notes
                     </button>
-                    <button class="nav-item" onclick="showSection('past-papers')">
-                        <i class="fas fa-history"></i>
+<button class="nav-item" onclick="showSection('past-papers')">
+<i class="fas fa-history"></i>
                         Past Papers
                     </button>
-                </div>
-                
-                <div class="nav-section">
-                    <div class="nav-section-title">Assessment Tools</div>
-                    <button class="nav-item" onclick="showSection('mock-offline')">
-                        <i class="fas fa-clipboard-check"></i>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">Assessment Tools</div>
+<button class="nav-item" onclick="showSection('mock-offline')">
+<i class="fas fa-clipboard-check"></i>
                         Mock Tests (Offline)
                     </button>
-                    <button class="nav-item" onclick="showSection('mock-online')">
-                        <i class="fas fa-laptop"></i>
+<button class="nav-item" onclick="showSection('mock-online')">
+<i class="fas fa-laptop"></i>
                         Mock Tests (Online)
                     </button>
-                </div>
-                
-                <div class="nav-section">
-                    <div class="nav-section-title">Media Content</div>
-                    <button class="nav-item" onclick="showSection('video-lectures')">
-                        <i class="fas fa-play-circle"></i>
+</div>
+<div class="nav-section">
+<div class="nav-section-title">Media Content</div>
+<button class="nav-item" onclick="showSection('video-lectures')">
+<i class="fas fa-play-circle"></i>
                         Video Lectures
                     </button>
-                </div>
-            </nav>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Enhanced Top Header -->
-            <div class="top-header">
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    <button class="mobile-menu-btn tooltip" data-tooltip="Menu" onclick="toggleMobileSidebar()">
-                        <i class="fas fa-bars"></i>
+</div>
+<!-- NEW: Security Settings Section -->
+<div class="nav-section">
+<div class="nav-section-title">Settings</div>
+<button class="nav-item" onclick="showSection('security-settings')">
+<i class="fas fa-lock"></i>
+                        Security Settings
                     </button>
-                    <h1 class="page-title" id="page-title">
-                        <i class="fas fa-file-pdf"></i>
+</div>
+
+</nav>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Enhanced Top Header -->
+<div class="top-header">
+<div style="display: flex; align-items: center; gap: 20px;">
+<button class="mobile-menu-btn tooltip" data-tooltip="Menu" onclick="toggleMobileSidebar()">
+<i class="fas fa-bars"></i>
+</button>
+<h1 class="page-title" id="page-title">
+<i class="fas fa-file-pdf"></i>
                         PDF Books Management
                     </h1>
-                </div>
-                <div class="header-actions">
-                    <div class="user-info">
-                        <div class="user-avatar">A</div>
-                        <span>Admin User</span>
-                    </div>
-                    <button class="logout-btn tooltip" data-tooltip="Logout" id="logout-btn">
-                        <i class="fas fa-sign-out-alt"></i>
+</div>
+<div class="header-actions">
+<div class="user-info">
+<div class="user-avatar">A</div>
+<span>Admin User</span>
+</div>
+<button class="logout-btn tooltip" data-tooltip="Logout" id="logout-btn">
+<i class="fas fa-sign-out-alt"></i>
                         Logout
                     </button>
-                </div>
-            </div>
-
-            <!-- Stats Overview -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <div class="stat-number" id="pdf-count">0</div>
-                    <div class="stat-label">PDF Books</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-sticky-note"></i>
-                    </div>
-                    <div class="stat-number" id="notes-count">0</div>
-                    <div class="stat-label">Test Notes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-history"></i>
-                    </div>
-                    <div class="stat-number" id="papers-count">0</div>
-                    <div class="stat-label">Past Papers</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-play-circle"></i>
-                    </div>
-                    <div class="stat-number" id="videos-count">0</div>
-                    <div class="stat-label">Video Lectures</div>
-                </div>
-            </div>
-
-            <!-- PDF Books Section -->
-            <div id="pdf-books-section" class="content-section active">
-                <!-- Add/Update Form -->
-                <div class="content-card">
-                    <div class="section-header">
-                        <h3 class="section-title">
-                            <i class="fas fa-plus-circle"></i>
+</div>
+</div>
+<!-- Stats Overview -->
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-icon">
+<i class="fas fa-file-pdf"></i>
+</div>
+<div class="stat-number" id="pdf-count">0</div>
+<div class="stat-label">PDF Books</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">
+<i class="fas fa-sticky-note"></i>
+</div>
+<div class="stat-number" id="notes-count">0</div>
+<div class="stat-label">Test Notes</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">
+<i class="fas fa-history"></i>
+</div>
+<div class="stat-number" id="papers-count">0</div>
+<div class="stat-label">Past Papers</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">
+<i class="fas fa-clipboard-check"></i>
+</div>
+<div class="stat-number" id="mock-offline-count">0</div>
+<div class="stat-label">Mock Tests (Offline)</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">
+<i class="fas fa-laptop"></i>
+</div>
+<div class="stat-number" id="mock-online-count">0</div>
+<div class="stat-label">Mock Tests (Online)</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon">
+<i class="fas fa-play-circle"></i>
+</div>
+<div class="stat-number" id="videos-count">0</div>
+<div class="stat-label">Video Lectures</div>
+</div>
+</div>
+<!-- PDF Books Section -->
+<div class="content-section active" id="pdf-books-section">
+<!-- Add/Update Form -->
+<div class="content-card">
+<div class="section-header">
+<h3 class="section-title">
+<i class="fas fa-plus-circle"></i>
                             Add/Update PDF Book
                         </h3>
-                        <p class="section-description">
+<p class="section-description">
                             Yahan se aap apni website ke PDF Books section mein naye entries add ya maujooda entries update kar sakte hain. Sabhi fields ko dhyan se bharen.
                         </p>
-                    </div>
-                    
-                    <form id="add-pdf-form">
-                        <input type="hidden" id="pdf-object-id">
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label" for="pdf-title">Book Title:</label>
-                                <input type="text" id="pdf-title" class="form-input" placeholder="Enter book title" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="pdf-link">PDF Link (URL):</label>
-                                <input type="url" id="pdf-link" class="form-input" placeholder="e.g., https://example.com/my-book.pdf" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="pdf-description">Description:</label>
-                            <textarea id="pdf-description" class="form-textarea" placeholder="Enter detailed book description" required></textarea>
-                        </div>
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label" for="pdf-icon">Icon Class (Font Awesome):</label>
-                                <input type="text" id="pdf-icon" class="form-input" placeholder="e.g., fas fa-book" value="fas fa-book" required>
-                                <p class="form-help">Font Awesome icons ke liye class name, maslan 'fas fa-book'</p>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="pdf-actionText">Action Button Text:</label>
-                                <input type="text" id="pdf-actionText" class="form-input" placeholder="e.g., Download Book" value="Download Book" required>
-                            </div>
-                        </div>
-                        
-                        <div style="display: flex; gap: 16px; margin-top: 32px;">
-                            <button type="submit" class="btn btn-primary" style="flex: 1;" id="submit-pdf-btn">
-                                <i class="fas fa-plus-circle"></i>
+</div>
+<form id="add-pdf-form">
+<input id="pdf-object-id" type="hidden"/>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label" for="pdf-title">Book Title:</label>
+<input class="form-input" id="pdf-title" placeholder="Enter book title" required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label" for="pdf-link">PDF Link (URL):</label>
+<input class="form-input" id="pdf-link" placeholder="e.g., https://example.com/my-book.pdf" required="" type="url"/>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label" for="pdf-description">Description:</label>
+<textarea class="form-textarea" id="pdf-description" placeholder="Enter detailed book description" required=""></textarea>
+</div>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label" for="pdf-icon">Icon Class (Font Awesome):</label>
+<input class="form-input" id="pdf-icon" placeholder="e.g., fas fa-book" required="" type="text" value="fas fa-book"/>
+<p class="form-help">Font Awesome icons ke liye class name, maslan 'fas fa-book'</p>
+</div>
+<div class="form-group">
+<label class="form-label" for="pdf-actionText">Action Button Text:</label>
+<input class="form-input" id="pdf-actionText" placeholder="e.g., Download Book" required="" type="text" value="Download Book"/>
+</div>
+</div>
+<div style="display: flex; gap: 16px; margin-top: 32px;">
+<button class="btn btn-primary" id="submit-pdf-btn" style="flex: 1;" type="submit">
+<i class="fas fa-plus-circle"></i>
                                 Add New PDF Book
-                                <span id="pdf-loading-spinner" class="loading-spinner"></span>
-                            </button>
-                            <button type="button" class="btn btn-info" style="flex: 1; display: none;" id="cancel-pdf-edit-btn">
-                                <i class="fas fa-times-circle"></i>
+                                <span class="loading-spinner" id="pdf-loading-spinner"></span>
+</button>
+<button class="btn btn-info" id="cancel-pdf-edit-btn" style="flex: 1; display: none;" type="button">
+<i class="fas fa-times-circle"></i>
                                 Cancel Edit
                             </button>
-                        </div>
-                    </form>
-                    <div id="pdf-message-box" class="message-box"></div>
-                </div>
-
-                <!-- Current Data Display -->
-                <div class="content-card">
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3 class="table-title">
-                                <i class="fas fa-list"></i>
+</div>
+</form>
+<div class="message-box" id="pdf-message-box"></div>
+</div>
+<!-- Current Data Display -->
+<div class="content-card">
+<div class="table-container">
+<div class="table-header">
+<h3 class="table-title">
+<i class="fas fa-list"></i>
                                 Current PDF Books
                             </h3>
-                        </div>
-                        <div class="table-wrapper">
-                            <table class="data-table" id="pdf-data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Description</th>
-                                        <th>Link</th>
-                                        <th>Icon</th>
-                                        <th>Action Text</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="pdf-data-tbody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Test Notes Section -->
-            <div id="test-notes-section" class="content-section">
-                <div class="content-card">
-                    <div class="section-header">
-                        <h3 class="section-title">
-                            <i class="fas fa-plus-circle"></i>
+</div>
+<div class="table-wrapper">
+<table class="data-table" id="pdf-data-table">
+<thead>
+<tr>
+<th>Title</th>
+<th>Description</th>
+<th>Link</th>
+<th>Icon</th>
+<th>Action Text</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="pdf-data-tbody">
+<!-- Data will be populated here -->
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- Test Notes Section -->
+<div class="content-section" id="test-notes-section">
+<div class="content-card">
+<div class="section-header">
+<h3 class="section-title">
+<i class="fas fa-plus-circle"></i>
                             Add/Update Test Notes
                         </h3>
-                        <p class="section-description">
+<p class="section-description">
                             Test Notes section ke liye content add ya update karein. Students ke liye helpful notes provide karein.
                         </p>
-                    </div>
-                    
-                    <form id="add-note-form">
-                        <input type="hidden" id="note-object-id">
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label" for="note-title">Note Title:</label>
-                                <input type="text" id="note-title" class="form-input" placeholder="Enter note title" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="note-link">Note Link (URL):</label>
-                                <input type="url" id="note-link" class="form-input" placeholder="e.g., https://example.com/my-note.pdf" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="note-description">Description:</label>
-                            <textarea id="note-description" class="form-textarea" placeholder="Enter detailed note description" required></textarea>
-                        </div>
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label" for="note-icon">Icon Class:</label>
-                                <input type="text" id="note-icon" class="form-input" placeholder="e.g., fas fa-sticky-note" value="fas fa-sticky-note" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="note-actionText">Action Button Text:</label>
-                                <input type="text" id="note-actionText" class="form-input" placeholder="e.g., View Notes" value="View Notes" required>
-                            </div>
-                        </div>
-                        
-                        <div style="display: flex; gap: 16px; margin-top: 32px;">
-                            <button type="submit" class="btn btn-primary" style="flex: 1;" id="submit-note-btn">
-                                <i class="fas fa-plus-circle"></i>
+</div>
+<form id="add-note-form">
+<input id="note-object-id" type="hidden"/>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label" for="note-title">Note Title:</label>
+<input class="form-input" id="note-title" placeholder="Enter note title" required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label" for="note-link">Note Link (URL):</label>
+<input class="form-input" id="note-link" placeholder="e.g., https://example.com/my-note.pdf" required="" type="url"/>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label" for="note-description">Description:</label>
+<textarea class="form-textarea" id="note-description" placeholder="Enter detailed note description" required=""></textarea>
+</div>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label" for="note-icon">Icon Class:</label>
+<input class="form-input" id="note-icon" placeholder="e.g., fas fa-sticky-note" required="" type="text" value="fas fa-sticky-note"/>
+</div>
+<div class="form-group">
+<label class="form-label" for="note-actionText">Action Button Text:</label>
+<input class="form-input" id="note-actionText" placeholder="e.g., View Notes" required="" type="text" value="View Notes"/>
+</div>
+</div>
+<div style="display: flex; gap: 16px; margin-top: 32px;">
+<button class="btn btn-primary" id="submit-note-btn" style="flex: 1;" type="submit">
+<i class="fas fa-plus-circle"></i>
                                 Add New Test Note
-                                <span id="note-loading-spinner" class="loading-spinner"></span>
-                            </button>
-                            <button type="button" class="btn btn-info" style="flex: 1; display: none;" id="cancel-note-edit-btn">
-                                <i class="fas fa-times-circle"></i>
+                                <span class="loading-spinner" id="note-loading-spinner"></span>
+</button>
+<button class="btn btn-info" id="cancel-note-edit-btn" style="flex: 1; display: none;" type="button">
+<i class="fas fa-times-circle"></i>
                                 Cancel Edit
                             </button>
-                        </div>
-                    </form>
-                    <div id="note-message-box" class="message-box"></div>
-                </div>
-
-                <div class="content-card">
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3 class="table-title">
-                                <i class="fas fa-list"></i>
+</div>
+</form>
+<div class="message-box" id="note-message-box"></div>
+</div>
+<div class="content-card">
+<div class="table-container">
+<div class="table-header">
+<h3 class="table-title">
+<i class="fas fa-list"></i>
                                 Current Test Notes
                             </h3>
-                        </div>
-                        <div class="table-wrapper">
-                            <table class="data-table" id="note-data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Description</th>
-                                        <th>Link</th>
-                                        <th>Icon</th>
-                                        <th>Action Text</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="note-data-tbody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Past Papers Section -->
-            <div id="past-papers-section" class="content-section">
-                <div class="content-card">
-                    <div class="section-header">
-                        <h3 class="section-title">
-                            <i class="fas fa-plus-circle"></i>
+</div>
+<div class="table-wrapper">
+<table class="data-table" id="note-data-table">
+<thead>
+<tr>
+<th>Title</th>
+<th>Description</th>
+<th>Link</th>
+<th>Icon</th>
+<th>Action Text</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="note-data-tbody">
+<!-- Data will be populated here -->
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- Past Papers Section -->
+<div class="content-section" id="past-papers-section">
+<div class="content-card">
+<div class="section-header">
+<h3 class="section-title">
+<i class="fas fa-plus-circle"></i>
                             Add/Update Past Papers
                         </h3>
-                        <p class="section-description">
+<p class="section-description">
                             Past Papers section ke liye content add ya update karein. Previous years ke papers students ko provide karein.
                         </p>
-                    </div>
-                    
-                    <form id="add-paper-form">
-                        <input type="hidden" id="paper-object-id">
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label" for="paper-title">Paper Title:</label>
-                                <input type="text" id="paper-title" class="form-input" placeholder="Enter paper title" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="paper-link">Paper Link (URL):</label>
-                                <input type="url" id="paper-link" class="form-input" placeholder="e.g., https://example.com/past-paper.pdf" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="paper-description">Description:</label>
-                            <textarea id="paper-description" class="form-textarea" placeholder="Enter detailed paper description" required></textarea>
-                        </div>
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label" for="paper-icon">Icon Class:</label>
-                                <input type="text" id="paper-icon" class="form-input" placeholder="e.g., fas fa-history" value="fas fa-history" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="paper-actionText">Action Button Text:</label>
-                                <input type="text" id="paper-actionText" class="form-input" placeholder="e.g., Download Paper" value="Download Paper" required>
-                            </div>
-                        </div>
-                        
-                        <div style="display: flex; gap: 16px; margin-top: 32px;">
-                            <button type="submit" class="btn btn-primary" style="flex: 1;" id="submit-paper-btn">
-                                <i class="fas fa-plus-circle"></i>
+</div>
+<form id="add-paper-form">
+<input id="paper-object-id" type="hidden"/>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label" for="paper-title">Paper Title:</label>
+<input class="form-input" id="paper-title" placeholder="Enter paper title" required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label" for="paper-link">Paper Link (URL):</label>
+<input class="form-input" id="paper-link" placeholder="e.g., https://example.com/past-paper.pdf" required="" type="url"/>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label" for="paper-description">Description:</label>
+<textarea class="form-textarea" id="paper-description" placeholder="Enter detailed paper description" required=""></textarea>
+</div>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label" for="paper-icon">Icon Class:</label>
+<input class="form-input" id="paper-icon" placeholder="e.g., fas fa-history" required="" type="text" value="fas fa-history"/>
+</div>
+<div class="form-group">
+<label class="form-label" for="paper-actionText">Action Button Text:</label>
+<input class="form-input" id="paper-actionText" placeholder="e.g., Download Paper" required="" type="text" value="Download Paper"/>
+</div>
+</div>
+<div style="display: flex; gap: 16px; margin-top: 32px;">
+<button class="btn btn-primary" id="submit-paper-btn" style="flex: 1;" type="submit">
+<i class="fas fa-plus-circle"></i>
                                 Add New Past Paper
-                                <span id="paper-loading-spinner" class="loading-spinner"></span>
-                            </button>
-                            <button type="button" class="btn btn-info" style="flex: 1; display: none;" id="cancel-paper-edit-btn">
-                                <i class="fas fa-times-circle"></i>
+                                <span class="loading-spinner" id="paper-loading-spinner"></span>
+</button>
+<button class="btn btn-info" id="cancel-paper-edit-btn" style="flex: 1; display: none;" type="button">
+<i class="fas fa-times-circle"></i>
                                 Cancel Edit
                             </button>
-                        </div>
-                    </form>
-                    <div id="paper-message-box" class="message-box"></div>
-                </div>
-
-                <div class="content-card">
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3 class="table-title">
-                                <i class="fas fa-list"></i>
+</div>
+</form>
+<div class="message-box" id="paper-message-box"></div>
+</div>
+<div class="content-card">
+<div class="table-container">
+<div class="table-header">
+<h3 class="table-title">
+<i class="fas fa-list"></i>
                                 Current Past Papers
                             </h3>
-                        </div>
-                        <div class="table-wrapper">
-                            <table class="data-table" id="paper-data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Description</th>
-                                        <th>Link</th>
-                                        <th>Icon</th>
-                                        <th>Action Text</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="paper-data-tbody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mock Tests Offline Section -->
-            <div id="mock-offline-section" class="content-section">
-                <div class="content-card">
-                    <div class="section-header">
-                        <h3 class="section-title">
-                            <i class="fas fa-plus-circle"></i>
+</div>
+<div class="table-wrapper">
+<table class="data-table" id="paper-data-table">
+<thead>
+<tr>
+<th>Title</th>
+<th>Description</th>
+<th>Link</th>
+<th>Icon</th>
+<th>Action Text</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="paper-data-tbody">
+<!-- Data will be populated here -->
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- Mock Tests Offline Section -->
+<div class="content-section" id="mock-offline-section">
+<div class="content-card">
+<div class="section-header">
+<h3 class="section-title">
+<i class="fas fa-plus-circle"></i>
                             Add/Update Mock Tests (Offline)
                         </h3>
-                        <p class="section-description">
+<p class="section-description">
                             Offline Mock Tests section ke liye content add ya update karein. Practice tests students ko provide karein.
                         </p>
-                    </div>
-                    
-                    <form id="add-mock-offline-form">
-                        <input type="hidden" id="mock-offline-object-id">
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label" for="mock-offline-title">Test Title:</label>
-                                <input type="text" id="mock-offline-title" class="form-input" placeholder="Enter test title" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="mock-offline-link">Test Link (URL):</label>
-                                <input type="url" id="mock-offline-link" class="form-input" placeholder="e.g., https://example.com/mock-test.pdf" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="mock-offline-description">Description:</label>
-                            <textarea id="mock-offline-description" class="form-textarea" placeholder="Enter detailed test description" required></textarea>
-                        </div>
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label" for="mock-offline-icon">Icon Class:</label>
-                                <input type="text" id="mock-offline-icon" class="form-input" placeholder="e.g., fas fa-clipboard-check" value="fas fa-clipboard-check" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="mock-offline-actionText">Action Button Text:</label>
-                                <input type="text" id="mock-offline-actionText" class="form-input" placeholder="e.g., Take Test" value="Take Test" required>
-                            </div>
-                        </div>
-                        
-                        <div style="display: flex; gap: 16px; margin-top: 32px;">
-                            <button type="submit" class="btn btn-primary" style="flex: 1;" id="submit-mock-offline-btn">
-                                <i class="fas fa-plus-circle"></i>
+</div>
+<form id="add-mock-offline-form">
+<input id="mock-offline-object-id" type="hidden"/>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label" for="mock-offline-title">Test Title:</label>
+<input class="form-input" id="mock-offline-title" placeholder="Enter test title" required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label" for="mock-offline-link">Test Link (URL):</label>
+<input class="form-input" id="mock-offline-link" placeholder="e.g., https://example.com/mock-test.pdf" required="" type="url"/>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label" for="mock-offline-description">Description:</label>
+<textarea class="form-textarea" id="mock-offline-description" placeholder="Enter detailed test description" required=""></textarea>
+</div>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label" for="mock-offline-icon">Icon Class:</label>
+<input class="form-input" id="mock-offline-icon" placeholder="e.g., fas fa-clipboard-check" required="" type="text" value="fas fa-clipboard-check"/>
+</div>
+<div class="form-group">
+<label class="form-label" for="mock-offline-actionText">Action Button Text:</label>
+<input class="form-input" id="mock-offline-actionText" placeholder="e.g., Take Test" required="" type="text" value="Take Test"/>
+</div>
+</div>
+<div style="display: flex; gap: 16px; margin-top: 32px;">
+<button class="btn btn-primary" id="submit-mock-offline-btn" style="flex: 1;" type="submit">
+<i class="fas fa-plus-circle"></i>
                                 Add New Mock Test
-                                <span id="mock-offline-loading-spinner" class="loading-spinner"></span>
-                            </button>
-                            <button type="button" class="btn btn-info" style="flex: 1; display: none;" id="cancel-mock-offline-edit-btn">
-                                <i class="fas fa-times-circle"></i>
+                                <span class="loading-spinner" id="mock-offline-loading-spinner"></span>
+</button>
+<button class="btn btn-info" id="cancel-mock-offline-edit-btn" style="flex: 1; display: none;" type="button">
+<i class="fas fa-times-circle"></i>
                                 Cancel Edit
                             </button>
-                        </div>
-                    </form>
-                    <div id="mock-offline-message-box" class="message-box"></div>
-                </div>
-
-                <div class="content-card">
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3 class="table-title">
-                                <i class="fas fa-list"></i>
+</div>
+</form>
+<div class="message-box" id="mock-offline-message-box"></div>
+</div>
+<div class="content-card">
+<div class="table-container">
+<div class="table-header">
+<h3 class="table-title">
+<i class="fas fa-list"></i>
                                 Current Mock Tests (Offline)
                             </h3>
-                        </div>
-                        <div class="table-wrapper">
-                            <table class="data-table" id="mock-offline-data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Description</th>
-                                        <th>Link</th>
-                                        <th>Icon</th>
-                                        <th>Action Text</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="mock-offline-data-tbody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mock Tests Online Section -->
-            <div id="mock-online-section" class="content-section">
-                <div class="content-card">
-                    <div class="section-header">
-                        <h3 class="section-title">
-                            <i class="fas fa-plus-circle"></i>
+</div>
+<div class="table-wrapper">
+<table class="data-table" id="mock-offline-data-table">
+<thead>
+<tr>
+<th>Title</th>
+<th>Description</th>
+<th>Link</th>
+<th>Icon</th>
+<th>Action Text</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="mock-offline-data-tbody">
+<!-- Data will be populated here -->
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- Mock Tests Online Section -->
+<div class="content-section" id="mock-online-section">
+<div class="content-card">
+<div class="section-header">
+<h3 class="section-title">
+<i class="fas fa-plus-circle"></i>
                             Add/Update Mock Tests (Online)
                         </h3>
-                        <p class="section-description">
+<p class="section-description">
                             Online Mock Tests section ke liye content add ya update karein. Interactive tests students ko provide karein.
                         </p>
-                    </div>
-                    
-                    <form id="add-mock-online-form">
-                        <input type="hidden" id="mock-online-object-id">
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label" for="mock-online-title">Test Title:</label>
-                                <input type="text" id="mock-online-title" class="form-input" placeholder="Enter test title" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="mock-online-link">Test Link (URL):</label>
-                                <input type="url" id="mock-online-link" class="form-input" placeholder="e.g., https://example.com/online-test" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="mock-online-description">Description:</label>
-                            <textarea id="mock-online-description" class="form-textarea" placeholder="Enter detailed test description" required></textarea>
-                        </div>
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label" for="mock-online-icon">Icon Class:</label>
-                                <input type="text" id="mock-online-icon" class="form-input" placeholder="e.g., fas fa-laptop" value="fas fa-laptop" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="mock-online-actionText">Action Button Text:</label>
-                                <input type="text" id="mock-online-actionText" class="form-input" placeholder="e.g., Start Test" value="Start Test" required>
-                            </div>
-                        </div>
-                        
-                        <div style="display: flex; gap: 16px; margin-top: 32px;">
-                            <button type="submit" class="btn btn-primary" style="flex: 1;" id="submit-mock-online-btn">
-                                <i class="fas fa-plus-circle"></i>
+</div>
+<form id="add-mock-online-form">
+<input id="mock-online-object-id" type="hidden"/>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label" for="mock-online-title">Test Title:</label>
+<input class="form-input" id="mock-online-title" placeholder="Enter test title" required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label" for="mock-online-link">Test Link (URL):</label>
+<input class="form-input" id="mock-online-link" placeholder="e.g., https://example.com/online-test" required="" type="url"/>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label" for="mock-online-description">Description:</label>
+<textarea class="form-textarea" id="mock-online-description" placeholder="Enter detailed test description" required=""></textarea>
+</div>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label" for="mock-online-icon">Icon Class:</label>
+<input class="form-input" id="mock-online-icon" placeholder="e.g., fas fa-laptop" required="" type="text" value="fas fa-laptop"/>
+</div>
+<div class="form-group">
+<label class="form-label" for="mock-online-actionText">Action Button Text:</label>
+<input class="form-input" id="mock-online-actionText" placeholder="e.g., Start Test" required="" type="text" value="Start Test"/>
+</div>
+</div>
+<div style="display: flex; gap: 16px; margin-top: 32px;">
+<button class="btn btn-primary" id="submit-mock-online-btn" style="flex: 1;" type="submit">
+<i class="fas fa-plus-circle"></i>
                                 Add New Online Test
-                                <span id="mock-online-loading-spinner" class="loading-spinner"></span>
-                            </button>
-                            <button type="button" class="btn btn-info" style="flex: 1; display: none;" id="cancel-mock-online-edit-btn">
-                                <i class="fas fa-times-circle"></i>
+                                <span class="loading-spinner" id="mock-online-loading-spinner"></span>
+</button>
+<button class="btn btn-info" id="cancel-mock-online-edit-btn" style="flex: 1; display: none;" type="button">
+<i class="fas fa-times-circle"></i>
                                 Cancel Edit
                             </button>
-                        </div>
-                    </form>
-                    <div id="mock-online-message-box" class="message-box"></div>
-                </div>
-
-                <div class="content-card">
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3 class="table-title">
-                                <i class="fas fa-list"></i>
+</div>
+</form>
+<div class="message-box" id="mock-online-message-box"></div>
+</div>
+<div class="content-card">
+<div class="table-container">
+<div class="table-header">
+<h3 class="table-title">
+<i class="fas fa-list"></i>
                                 Current Mock Tests (Online)
                             </h3>
-                        </div>
-                        <div class="table-wrapper">
-                            <table class="data-table" id="mock-online-data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Description</th>
-                                        <th>Link</th>
-                                        <th>Icon</th>
-                                        <th>Action Text</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="mock-online-data-tbody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+</div>
+<div class="table-wrapper">
+<table class="data-table" id="mock-online-data-table">
+<thead>
+<tr>
+<th>Title</th>
+<th>Description</th>
+<th>Link</th>
+<th>Icon</th>
+<th>Action Text</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="mock-online-data-tbody">
+<!-- Data will be populated here -->
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- NEW: Security Settings Section -->
+<div class="content-section" id="security-settings-section">
+    <div class="content-card">
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-lock"></i>
+                Manage Secure Access Password
+            </h3>
+            <p class="section-description">
+                Yahan se aap frontend user access ke liye password update kar sakte hain. Yeh password `index.html` page par istemal hota hai.
+            </p>
+        </div>
+        <form id="update-security-form">
+            <input id="security-object-id" type="hidden"/>
+            <div class="form-group">
+                <label class="form-label" for="security-accessPassword">Frontend Access Password:</label>
+                <input class="form-input" id="security-accessPassword" type="text" placeholder="Enter new secure access password" required />
+                <p class="form-help">Yeh password `index.html` page par secure content access karne ke liye istemal hoga.</p>
             </div>
+            <div style="display: flex; gap: 16px; margin-top: 32px;">
+                <button class="btn btn-primary" id="submit-security-btn" style="flex: 1;" type="submit">
+                    <i class="fas fa-save"></i>
+                    Update Password
+                    <span class="loading-spinner" id="security-loading-spinner"></span>
+                </button>
+                <button class="btn btn-info" id="cancel-security-edit-btn" style="flex: 1; display: none;" type="button">
+                    <i class="fas fa-times-circle"></i>
+                    Cancel Edit
+                </button>
+            </div>
+        </form>
+        <div class="message-box" id="security-message-box"></div>
+    </div>
+</div>
 
-            <!-- Video Lectures Section -->
-            <div id="video-lectures-section" class="content-section">
-                <div class="content-card">
-                    <div class="section-header">
-                        <h3 class="section-title">
-                            <i class="fas fa-plus-circle"></i>
+<!-- Video Lectures Section -->
+<div class="content-section" id="video-lectures-section">
+<div class="content-card">
+<div class="section-header">
+<h3 class="section-title">
+<i class="fas fa-plus-circle"></i>
                             Add/Update Video Lectures
                         </h3>
-                        <p class="section-description">
+<p class="section-description">
                             Video Lectures section ke liye content add ya update karein. Educational videos students ko provide karein.
                         </p>
-                    </div>
-                    
-                    <form id="add-video-form">
-                        <input type="hidden" id="video-object-id">
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label" for="video-title">Video Title:</label>
-                                <input type="text" id="video-title" class="form-input" placeholder="Enter video title" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="video-link">Video Link (URL):</label>
-                                <input type="url" id="video-link" class="form-input" placeholder="e.g., https://youtube.com/watch?v=..." required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" for="video-description">Description:</label>
-                            <textarea id="video-description" class="form-textarea" placeholder="Enter detailed video description" required></textarea>
-                        </div>
-                        
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label" for="video-icon">Icon Class:</label>
-                                <input type="text" id="video-icon" class="form-input" placeholder="e.g., fas fa-play-circle" value="fas fa-play-circle" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label" for="video-actionText">Action Button Text:</label>
-                                <input type="text" id="video-actionText" class="form-input" placeholder="e.g., Watch Video" value="Watch Video" required>
-                            </div>
-                        </div>
-                        
-                        <div style="display: flex; gap: 16px; margin-top: 32px;">
-                            <button type="submit" class="btn btn-primary" style="flex: 1;" id="submit-video-btn">
-                                <i class="fas fa-plus-circle"></i>
+</div>
+<form id="add-video-form">
+<input id="video-object-id" type="hidden"/>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label" for="video-title">Video Title:</label>
+<input class="form-input" id="video-title" placeholder="Enter video title" required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label" for="video-link">Video Link (URL):</label>
+<input class="form-input" id="video-link" placeholder="e.g., https://youtube.com/watch?v=..." required="" type="url"/>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label" for="video-description">Description:</label>
+<textarea class="form-textarea" id="video-description" placeholder="Enter detailed video description" required=""></textarea>
+</div>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label" for="video-icon">Icon Class:</label>
+<input class="form-input" id="video-icon" placeholder="e.g., fas fa-play-circle" required="" type="text" value="fas fa-play-circle"/>
+</div>
+<div class="form-group">
+<label class="form-label" for="video-actionText">Action Button Text:</label>
+<input class="form-input" id="video-actionText" placeholder="e.g., Watch Video" required="" type="text" value="Watch Video"/>
+</div>
+</div>
+<div style="display: flex; gap: 16px; margin-top: 32px;">
+<button class="btn btn-primary" id="submit-video-btn" style="flex: 1;" type="submit">
+<i class="fas fa-plus-circle"></i>
                                 Add New Video Lecture
-                                <span id="video-loading-spinner" class="loading-spinner"></span>
-                            </button>
-                            <button type="button" class="btn btn-info" style="flex: 1; display: none;" id="cancel-video-edit-btn">
-                                <i class="fas fa-times-circle"></i>
+                                <span class="loading-spinner" id="video-loading-spinner"></span>
+</button>
+<button class="btn btn-info" id="cancel-video-edit-btn" style="flex: 1; display: none;" type="button">
+<i class="fas fa-times-circle"></i>
                                 Cancel Edit
                             </button>
-                        </div>
-                    </form>
-                    <div id="video-message-box" class="message-box"></div>
-                </div>
-
-                <div class="content-card">
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h3 class="table-title">
-                                <i class="fas fa-list"></i>
+</div>
+</form>
+<div class="message-box" id="video-message-box"></div>
+</div>
+<div class="content-card">
+<div class="table-container">
+<div class="table-header">
+<h3 class="table-title">
+<i class="fas fa-list"></i>
                                 Current Video Lectures
                             </h3>
-                        </div>
-                        <div class="table-wrapper">
-                            <table class="data-table" id="video-data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Description</th>
-                                        <th>Link</th>
-                                        <th>Icon</th>
-                                        <th>Action Text</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="video-data-tbody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+</div>
+<div class="table-wrapper">
+<table class="data-table" id="video-data-table">
+<thead>
+<tr>
+<th>Title</th>
+<th>Description</th>
+<th>Link</th>
+<th>Icon</th>
+<th>Action Text</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="video-data-tbody">
+<!-- Data will be populated here -->
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<!-- NEW: Security Settings Section -->
+<div class="content-section" id="security-settings-section">
+    <div class="content-card">
+        <div class="section-header">
+            <h3 class="section-title">
+                <i class="fas fa-lock"></i>
+                Manage Secure Access Password
+            </h3>
+            <p class="section-description">
+                Yahan se aap frontend user access ke liye password update kar sakte hain. Yeh password `index.html` page par istemal hota hai.
+            </p>
         </div>
+        <form id="update-security-form">
+            <input id="security-object-id" type="hidden"/>
+            <div class="form-group">
+                <label class="form-label" for="security-accessPassword">Frontend Access Password:</label>
+                <input class="form-input" id="security-accessPassword" type="text" placeholder="Enter new secure access password" required />
+                <p class="form-help">Yeh password `index.html` page par secure content access karne ke liye istemal hoga.</p>
+            </div>
+            <div style="display: flex; gap: 16px; margin-top: 32px;">
+                <button class="btn btn-primary" id="submit-security-btn" style="flex: 1;" type="submit">
+                    <i class="fas fa-save"></i>
+                    Update Password
+                    <span class="loading-spinner" id="security-loading-spinner"></span>
+                </button>
+                <button class="btn btn-info" id="cancel-security-edit-btn" style="flex: 1; display: none;" type="button">
+                    <i class="fas fa-times-circle"></i>
+                    Cancel Edit
+                </button>
+            </div>
+        </form>
+        <div class="message-box" id="security-message-box"></div>
     </div>
+</div>
+<!-- END NEW: Security Settings Section -->
 
-    <!-- Floating Action Button -->
-    <div class="fab tooltip" data-tooltip="Quick Add" onclick="showQuickAddModal()">
-        <i class="fas fa-plus"></i>
-    </div>
-
-    <script>
+</div>
+</div>
+<!-- Floating Action Button -->
+<div class="fab tooltip" data-tooltip="Quick Add" onclick="showQuickAddModal()">
+<i class="fas fa-plus"></i>
+</div>
+<script>
         // Global variables
         let isLoggedIn = false;
         let currentEditingId = null;
@@ -1774,7 +1801,8 @@
             'paper': 'PastPapers',
             'mock-offline': 'MockTestsOffline',
             'mock-online': 'MockTestsOnline',
-            'video': 'VideoLectures'
+            'video': 'VideoLectures',
+            'security': 'SecuritySettings'// NEW: Mapping for Security Settings
         };
 
         // --- NEW: URL Shortening Configuration (Replace with your actual API details) ---
@@ -2053,7 +2081,9 @@
                 'past-papers': { icon: 'fas fa-history', text: 'Past Papers Management' },
                 'mock-offline': { icon: 'fas fa-clipboard-check', text: 'Mock Tests (Offline) Management' },
                 'mock-online': { icon: 'fas fa-laptop', text: 'Mock Tests (Online) Management' },
-                'video-lectures': { icon: 'fas fa-play-circle', text: 'Video Lectures Management' }
+                'video-lectures': { icon: 'fas fa-play-circle', text: 'Video Lectures Management' },
+                'security-settings': { icon: 'fas fa-lock', text: 'Security Settings Management' },
+                
             };
             
             const title = titles[sectionName];
@@ -2069,9 +2099,14 @@
             // Close mobile sidebar if open
             closeMobileSidebar();
             // Reload data for the newly active section (e.g., 'pdf' for 'pdf-books')
-            loadSectionData(sectionName.replace('-books', '').replace('-lectures', '')); 
-            // Clear form when switching sections
-            resetForm(sectionName.replace('-books', '').replace('-lectures', '')); 
+            // Special handling for 'security-settings' as it doesn't have a table body
+            if (sectionName === 'security-settings') {
+                loadSecuritySettings(); // NEW: Load security settings specifically
+                resetForm('security'); // Reset security form
+            } else {
+                loadSectionData(sectionName.replace('-books', '').replace('-lectures', '')); 
+                resetForm(sectionName.replace('-books', '').replace('-lectures', '')); 
+            }
         }
 
         // Mobile sidebar functions
@@ -2093,10 +2128,10 @@
 
         // Setup form listeners
         function setupFormListeners() {
-            const sections = ['pdf', 'note', 'paper', 'mock-offline', 'mock-online', 'video'];
+            const sections = ['pdf', 'note', 'paper', 'mock-offline', 'mock-online', 'video', 'security']; // NEW: Added 'security'
             
             sections.forEach(section => {
-                const form = document.getElementById(`add-${section}-form`);
+                const form = document.getElementById(`add-${section}-form`) || document.getElementById(`update-${section}-form`); // Handle different form IDs
                 const cancelBtn = document.getElementById(`cancel-${section}-edit-btn`);
                 
                 if (form) {
@@ -2118,6 +2153,12 @@
             const spinner = document.getElementById(`${section}-loading-spinner`);
             const messageBox = document.getElementById(`${section}-message-box`);
             const tableName = tableMap[section];
+
+            // Special handling for Security Settings
+            if (section === 'security') {
+                await updateSecuritySettings(formData, submitBtn, spinner, messageBox);
+                return; // Exit after handling security settings
+            }
 
             // --- NEW: Shorten the link if it's a 'link' field ---
             if (formData.link) {
@@ -2146,6 +2187,13 @@
                     submitBtn.innerHTML = '<i class="fas fa-check"></i> Updated Successfully!';
                     showMessage(messageBox, 'Item updated successfully!', 'success');
                     console.log("Item updated:", result);
+                    
+                    // Update the table row directly
+                    const existingRow = document.querySelector(`#${section}-data-tbody tr[data-id="${result.objectId}"]`);
+                    if (existingRow) {
+                        const updatedRow = createTableRow(result, section);
+                        existingRow.replaceWith(updatedRow);
+                    }
                 } else {
                     // Add new item
                     result = await Backendless.Data.of(tableName).save(formData);
@@ -2153,17 +2201,27 @@
                     submitBtn.innerHTML = '<i class="fas fa-check"></i> Added Successfully!';
                     showMessage(messageBox, 'Item added successfully!', 'success');
                     console.log("Item added:", result);
-                }
-                
-                // Reset form, reload data, and update stats after a short delay for animation
-                setTimeout(() => {
+                    
+                    // Refresh data immediately after adding
                     document.getElementById(`add-${section}-form`).reset();
-                    resetSubmitButton(section);
-                    loadSectionData(section);
                     updateStats();
-                    currentEditingId = null; // Important: reset editing ID after save
-                    document.getElementById(`cancel-${section}-edit-btn`).style.display = 'none'; // Hide cancel button
-                }, 1500);
+                    currentEditingId = null;
+                    document.getElementById(`cancel-${section}-edit-btn`).style.display = 'none';
+                    
+                    // Add new row directly to table without full reload
+                    const newRow = createTableRow(result, section);
+                    const tbody = document.getElementById(`${section}-data-tbody`);
+                    if (tbody.querySelector('td.text-center')) {
+                        tbody.innerHTML = ''; // Clear "No data" message if present
+                    }
+                    tbody.appendChild(newRow);
+                    // Animate new row
+                    newRow.style.opacity = '0';
+                    setTimeout(() => {
+                        newRow.style.transition = 'all 0.3s ease';
+                        newRow.style.opacity = '1';
+                    }, 100);
+                }
                 
             } catch (error) {
                 console.error("Operation failed:", error);
@@ -2179,6 +2237,87 @@
             }
         }
 
+        // NEW: Function to load security settings
+        let securitySettingsObjectId = null; // To store the objectId of the single security settings record
+
+        async function loadSecuritySettings() {
+            const messageBox = document.getElementById('security-message-box');
+            const passwordInput = document.getElementById('security-accessPassword');
+            const objectIdInput = document.getElementById('security-object-id');
+            
+            passwordInput.value = 'Loading...';
+            passwordInput.disabled = true;
+
+            try {
+                const queryBuilder = Backendless.DataQueryBuilder.create().setPageSize(1);
+                const result = await Backendless.Data.of('SecuritySettings').find(queryBuilder);
+
+                if (result && result.length > 0) {
+                    const settings = result[0];
+                    passwordInput.value = settings.accessPassword || '';
+                    securitySettingsObjectId = settings.objectId; // Store the objectId
+                    objectIdInput.value = settings.objectId;
+                    showMessage(messageBox, 'Security settings loaded.', 'success');
+                } else {
+                    passwordInput.value = ''; // Clear if no settings found
+                    securitySettingsObjectId = null; // No existing objectId
+                    objectIdInput.value = '';
+                    showMessage(messageBox, 'No security settings found. Please add one.', 'warning');
+                }
+            } catch (error) {
+                console.error("Error loading security settings:", error);
+                showMessage(messageBox, 'Failed to load security settings: ' + error.message, 'error');
+                passwordInput.value = 'Error loading';
+            } finally {
+                passwordInput.disabled = false;
+            }
+        }
+
+        // NEW: Function to update security settings
+        async function updateSecuritySettings(formData, submitBtn, spinner, messageBox) {
+            submitBtn.disabled = true;
+            spinner.classList.add('show');
+            submitBtn.style.transform = 'scale(0.98)';
+
+            try {
+                // *** MODIFICATION START ***
+                // Add a timestamp to the data being saved.
+                // This will act as a version identifier for the password.
+                const dataToSave = {
+                    accessPassword: formData.accessPassword,
+                    lastUpdated: new Date().getTime() // Add current timestamp in milliseconds
+                };
+                // *** MODIFICATION END ***
+                
+                if (securitySettingsObjectId) {
+                    dataToSave.objectId = securitySettingsObjectId; // Update existing record
+                }
+
+                const result = await Backendless.Data.of('SecuritySettings').save(dataToSave);
+                securitySettingsObjectId = result.objectId; // Ensure objectId is stored for future updates
+                document.getElementById('security-object-id').value = result.objectId;
+
+                submitBtn.style.background = 'var(--success-gradient)';
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Password Updated!';
+                showMessage(messageBox, 'Frontend access password updated successfully! All active user sessions will be logged out.', 'success');
+                console.log("Security settings updated:", result);
+
+                // Reset button after a short delay
+                setTimeout(() => {
+                    resetSubmitButton('security');
+                }, 1500);
+
+            } catch (error) {
+                console.error("Error updating security settings:", error);
+                showMessage(messageBox, 'Failed to update password: ' + error.message, 'error');
+                resetSubmitButton('security');
+            } finally {
+                spinner.classList.remove('show');
+                submitBtn.style.transform = 'scale(1)';
+            }
+        }
+
+
         // Reset submit button text and style
         function resetSubmitButton(section) {
             const submitBtn = document.getElementById(`submit-${section}-btn`);
@@ -2186,7 +2325,9 @@
             submitBtn.disabled = false; // Ensure button is enabled
             document.getElementById(`${section}-loading-spinner`).classList.remove('show'); // Hide spinner
             
-            if (currentEditingId) {
+            if (section === 'security') { // Special handling for security section
+                submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Password <span id="security-loading-spinner" class="loading-spinner"></span>';
+            } else if (currentEditingId) {
                 submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Item <span id="' + section + '-loading-spinner" class="loading-spinner"></span>';
             } else {
                 submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add New Item <span id="' + section + '-loading-spinner" class="loading-spinner"></span>';
@@ -2196,7 +2337,7 @@
         // Get form data from inputs
         function getFormData(section) {
             const formData = {};
-            const form = document.getElementById(`add-${section}-form`);
+            const form = document.getElementById(`add-${section}-form`) || document.getElementById(`update-${section}-form`); // Handle different form IDs
             // Select all relevant input and textarea elements within the form
             const inputs = form.querySelectorAll('input:not([type="hidden"]), textarea');
             
@@ -2216,6 +2357,7 @@
             sections.forEach(section => {
                 loadSectionData(section);
             });
+            loadSecuritySettings(); // NEW: Load security settings on dashboard load
         }
 
         // Load section data from Backendless
@@ -2225,38 +2367,46 @@
             
             if (!tableName) {
                 console.error(`Table name not mapped for section: ${section}`);
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-red-500">Error: Table not configured for ${section}.</td></tr>`;
+                if (tbody) { // Check if tbody exists for this section
+                    tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-red-500">Error: Table not configured for ${section}.</td></tr>`;
+                }
                 return;
             }
 
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><i class="fas fa-spinner fa-spin mr-2"></i>Loading data...</td></tr>'; // Loading indicator
+            if (tbody) { // Only update tbody if it exists (e.g., security settings doesn't have one)
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><i class="fas fa-spinner fa-spin mr-2"></i>Loading data...</td></tr>'; // Loading indicator
+            }
             
             try {
                 console.log(`Fetching data from Backendless table: ${tableName}`);
                 const data = await Backendless.Data.of(tableName).find();
                 console.log(`Data for ${tableName}:`, data);
                 
-                tbody.innerHTML = ''; // Clear loading indicator
-                if (data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">No data available. Add new items!</td></tr>';
-                } else {
-                    data.forEach((item, index) => {
-                        const row = createTableRow(item, section);
-                        row.style.opacity = '0';
-                        row.style.transform = 'translateY(20px)';
-                        tbody.appendChild(row);
-                        
-                        // Animate row appearance for a smoother feel
-                        setTimeout(() => {
-                            row.style.transition = 'all 0.3s ease';
-                            row.style.opacity = '1';
-                            row.style.transform = 'translateY(0)';
-                        }, index * 100);
-                    });
+                if (tbody) { // Only update tbody if it exists
+                    tbody.innerHTML = ''; // Clear loading indicator
+                    if (data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">No data available. Add new items!</td></tr>';
+                    } else {
+                        data.forEach((item, index) => {
+                            const row = createTableRow(item, section);
+                            row.style.opacity = '0';
+                            row.style.transform = 'translateY(20px)';
+                            tbody.appendChild(row);
+                            
+                            // Animate row appearance for a smoother feel
+                            setTimeout(() => {
+                                row.style.transition = 'all 0.3s ease';
+                                row.style.opacity = '1';
+                                row.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
+                    }
                 }
             } catch (error) {
                 console.error(`Error loading ${section} data from Backendless table ${tableName}:`, error);
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-red-500">Error loading data: ${error.message}</td></tr>`;
+                if (tbody) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-red-500">Error loading data: ${error.message}</td></tr>`;
+                }
             }
         }
 
@@ -2270,6 +2420,7 @@
             // The 'item.link' will already be the shortened one from the save operation.
             const displayLink = item.link ? (item.link.length > 50 ? item.link.substring(0, 47) + '...' : item.link) : 'N/A';
 
+            row.setAttribute('data-id', objectId);
             row.innerHTML = `
                 <td><strong>${item.title || 'N/A'}</strong></td>
                 <td>${item.description || 'N/A'}</td>
@@ -2281,7 +2432,7 @@
                         <i class="fas fa-edit"></i>
                         Edit
                     </button>
-                    <button class="btn btn-danger btn-sm tooltip" data-tooltip="Delete Item" onclick="deleteItem('${objectId}', '${section}')">
+                    <button class="btn btn-danger btn-sm tooltip" data-tooltip="Delete Item" onclick="deleteItem('${objectId}', '${section}', event)">
                         <i class="fas fa-trash"></i>
                         Delete
                     </button>
@@ -2337,7 +2488,7 @@
         }
 
         // Delete item with confirmation
-        async function deleteItem(id, section) {
+        async function deleteItem(id, section, event) {
             const confirmed = await window.confirm('⚠️ Are you sure you want to delete this item?\n\nThis action cannot be undone.');
             
             if (!confirmed) return;
@@ -2382,20 +2533,34 @@
         function resetForm(section) {
             currentEditingId = null; // Clear editing ID
             
-            const form = document.getElementById(`add-${section}-form`);
+            const form = document.getElementById(`add-${section}-form`) || document.getElementById(`update-${section}-form`); // Handle different form IDs
+            if (!form) return; // Exit if form not found (e.g., for security settings, it's update-security-form)
+
             form.style.transform = 'scale(0.98)'; // Start animation
             
             setTimeout(() => {
                 form.reset(); // Clear all form fields
-                document.getElementById(`${section}-object-id`).value = ''; // Ensure hidden ID is cleared
+                // Specific handling for security settings password field
+                if (section === 'security') {
+                    document.getElementById('security-object-id').value = securitySettingsObjectId || ''; // Keep objectId if exists
+                    loadSecuritySettings(); // Reload current password
+                } else {
+                    document.getElementById(`${section}-object-id`).value = ''; // Ensure hidden ID is cleared
+                }
                 
                 // Reset submit button text and style
                 const submitBtn = document.getElementById(`submit-${section}-btn`);
                 const cancelBtn = document.getElementById(`cancel-${section}-edit-btn`);
                 
-                submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add New Item <span id="' + section + '-loading-spinner" class="loading-spinner"></span>';
-                submitBtn.style.background = ''; // Reset background to default primary
-                cancelBtn.style.display = 'none'; // Hide cancel button
+                if (section === 'security') {
+                    submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Password <span id="security-loading-spinner" class="loading-spinner"></span>';
+                    submitBtn.style.background = ''; // Reset background to default primary
+                    cancelBtn.style.display = 'none'; // Hide cancel button
+                } else {
+                    submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add New Item <span id="' + section + '-loading-spinner" class="loading-spinner"></span>';
+                    submitBtn.style.background = ''; // Reset background to default primary
+                    cancelBtn.style.display = 'none'; // Hide cancel button
+                }
                 
                 form.style.transform = 'scale(1)'; // End animation
             }, 150);
@@ -2403,7 +2568,7 @@
 
         // Clear all forms across all sections
         function clearAllForms() {
-            const sections = ['pdf', 'note', 'paper', 'mock-offline', 'mock-online', 'video'];
+            const sections = ['pdf', 'note', 'paper', 'mock-offline', 'mock-online', 'video', 'security']; // NEW: Added 'security'
             sections.forEach(section => {
                 resetForm(section);
             });
@@ -2430,7 +2595,10 @@
         let autoRefreshTimer;
         function startAutoRefresh() {
             autoRefreshTimer = setInterval(() => {
-                loadSectionData(currentSection.replace('-books', '').replace('-lectures', ''));
+                // Only refresh content sections, not security settings
+                if (currentSection !== 'security-settings') {
+                    loadSectionData(currentSection.replace('-books', '').replace('-lectures', ''));
+                }
                 updateStats();
             }, 30000); // 30 seconds
         }
@@ -2441,23 +2609,50 @@
                 // Fetch object counts for each table
                 const pdfCount = await Backendless.Data.of('PdfBooks').getObjectCount();
                 const notesCount = await Backendless.Data.of('TestNotes').getObjectCount();
-                const papersCount = await Backendless.Data.of('PastPapers').getObjectCount();
+                const pastPapersCount = await Backendless.Data.of('PastPapers').getObjectCount();
+                const mockOfflineCount = await Backendless.Data.of('MockTestsOffline').getObjectCount(); // NEW
+                const mockOnlineCount = await Backendless.Data.of('MockTestsOnline').getObjectCount();   // NEW
                 const videosCount = await Backendless.Data.of('VideoLectures').getObjectCount();
-                // If you have separate stat cards for mock tests, you can add them here
-                // const mockOfflineCount = await Backendless.Data.of('MockTestsOffline').getObjectCount();
-                // const mockOnlineCount = await Backendless.Data.of('MockTestsOnline').getObjectCount();
 
-                // Animate counters with fetched values
-                animateCounter(document.getElementById('pdf-count'), 0, pdfCount, 1500);
-                animateCounter(document.getElementById('notes-count'), 0, notesCount, 1500);
-                animateCounter(document.getElementById('papers-count'), 0, papersCount, 1500);
-                animateCounter(document.getElementById('videos-count'), 0, videosCount, 1500);
-                console.log("Stats updated:", { pdfCount, notesCount, papersCount, videosCount });
+                console.log("📊 Stats Loaded:");
+                console.log("📚 PDF Books:", pdfCount);
+                console.log("📝 Test Notes:", notesCount);
+                console.log("📄 Past Papers:", pastPapersCount);
+                console.log("📋 Mock Tests (Offline):", mockOfflineCount); // NEW
+                console.log("💻 Mock Tests (Online):", mockOnlineCount);   // NEW
+                console.log("🎥 Video Lectures:", videosCount);
+
+                const pdfEl = document.getElementById("pdf-count");
+                const notesEl = document.getElementById("notes-count");
+                const papersEl = document.getElementById("papers-count");
+                const mockOfflineEl = document.getElementById("mock-offline-count"); // NEW
+                const mockOnlineEl = document.getElementById("mock-online-count");     // NEW
+                const videosEl = document.getElementById("videos-count");
+
+                if (pdfEl) pdfEl.textContent = pdfCount;
+                else console.warn("❌ Element with ID 'pdf-count' not found!");
+
+                if (notesEl) notesEl.textContent = notesCount;
+                else console.warn("❌ Element with ID 'notes-count' not found!");
+
+                if (papersEl) papersEl.textContent = pastPapersCount;
+                else console.warn("❌ Element with ID 'papers-count' not found!");
+
+                if (mockOfflineEl) mockOfflineEl.textContent = mockOfflineCount; // NEW
+                else console.warn("❌ Element with ID 'mock-offline-count' not found!");
+
+                if (mockOnlineEl) mockOnlineEl.textContent = mockOnlineCount;     // NEW
+                else console.warn("❌ Element with ID 'mock-online-count' not found!");
+
+                if (videosEl) videosEl.textContent = videosCount;
+                else console.warn("❌ Element with ID 'videos-count' not found!");
+
             } catch (error) {
-                console.error("Error fetching stats:", error);
-                // Optionally show a message on the dashboard if stats cannot be loaded
+                console.error("🔥 Error updating stats:", error);
+                alert("⚠️ Failed to update stats. Check console for details.");
             }
         }
+
 
         // Animate counter from start to end value over a duration
         function animateCounter(element, start, end, duration) {

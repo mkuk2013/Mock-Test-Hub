@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-Ż8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Educational Hub - Secure Access</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" type="image/svg+xml">
     
-    <!-- Modern CSS Framework -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -559,7 +558,6 @@
     </style>
 </head>
 <body>
-    <!-- Security Overlay -->
     <div id="security-overlay" class="security-overlay">
         <div class="security-container">
             <div class="security-header">
@@ -602,13 +600,11 @@
         </div>
     </div>
 
-    <!-- Security Indicator -->
     <div id="security-indicator" class="security-indicator">
         <i class="fas fa-shield-check mr-2"></i>
         Secure Session Active
     </div>
 
-    <!-- Main Content -->
     <div id="main-content" class="main-content">
         <header class="header">
             <div class="header-content">
@@ -638,11 +634,9 @@
                     <button class="nav-tab" onclick="showSection('video-lectures')">
                         <i class="fas fa-play-circle mr-2"></i>Video Lectures
                     </button>
-                    <!-- Removed Support Tab -->
-                </div>
+                    </div>
             </div>
 
-            <!-- PDF Books Section (Dynamic Content) -->
             <div id="pdf-books" class="content-section active">
                 <h3 class="section-title">PDF Books Collection</h3>
                 <p class="section-description">
@@ -651,7 +645,6 @@
                 </p>
                 
                 <div id="pdf-books-content" class="cards-grid">
-                    <!-- Dynamic PDF cards will be loaded here -->
                     <div class="content-loading">
                         <div class="content-spinner"></div>
                         <p class="ml-4 text-gray-600">Loading PDF Books...</p>
@@ -659,7 +652,6 @@
                 </div>
             </div>
 
-            <!-- Test Notes Section -->
             <div id="test-notes" class="content-section">
                 <h3 class="section-title">Comprehensive Test Notes</h3>
                 <p class="section-description">
@@ -667,46 +659,14 @@
                     materials cover all essential topics with clear explanations and practical examples.
                 </p>
                 
-                <div class="cards-grid">
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <h4 class="card-title">Quick Revision Notes</h4>
-                        <p class="card-description">Concise summaries perfect for last-minute revision and quick concept reinforcement.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-eye"></i>
-                            View Notes
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h4 class="card-title">Detailed Study Materials</h4>
-                        <p class="card-description">Comprehensive notes with detailed explanations, examples, and step-by-step solutions.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-eye"></i>
-                            Access Materials
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h4 class="card-title">Memory Techniques</h4>
-                        <p class="card-description">Special notes incorporating proven memory techniques and mnemonics for better retention.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-eye"></i>
-                            Learn Techniques
-                        </a>
+                <div id="test-notes-content" class="cards-grid">
+                    <div class="content-loading">
+                        <div class="content-spinner"></div>
+                        <p class="ml-4 text-gray-600">Loading Test Notes...</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Past Papers Section -->
             <div id="past-papers" class="content-section">
                 <h3 class="section-title">Past Papers Archive</h3>
                 <p class="section-description">
@@ -714,46 +674,14 @@
                     and familiarize yourself with the actual test format and difficulty level.
                 </p>
                 
-                <div class="cards-grid">
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <h4 class="card-title">Recent Years (2020-2024)</h4>
-                        <p class="card-description">Latest examination papers with current patterns and updated question formats.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-download"></i>
-                            Download Recent
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-archive"></i>
-                        </div>
-                        <h4 class="card-title">Complete Archive (2010-2024)</h4>
-                        <p class="card-description">Comprehensive collection spanning over a decade for thorough pattern analysis.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-download"></i>
-                            Access Archive
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <h4 class="card-title">Solved Papers</h4>
-                        <p class="card-description">Past papers with detailed solutions and explanations for better understanding.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-download"></i>
-                            Get Solutions
-                        </a>
+                <div id="past-papers-content" class="cards-grid">
+                    <div class="content-loading">
+                        <div class="content-spinner"></div>
+                        <p class="ml-4 text-gray-600">Loading Past Papers...</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Mock Tests Offline Section -->
             <div id="mock-tests-offline" class="content-section">
                 <h3 class="section-title">Offline Mock Tests</h3>
                 <p class="section-description">
@@ -761,46 +689,14 @@
                     with timed tests and comprehensive answer keys.
                 </p>
                 
-                <div class="cards-grid">
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-stopwatch"></i>
-                        </div>
-                        <h4 class="card-title">Timed Practice Tests</h4>
-                        <p class="card-description">Full-length mock tests with strict timing to simulate actual exam pressure.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-download"></i>
-                            Download Tests
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-puzzle-piece"></i>
-                        </div>
-                        <h4 class="card-title">Topic-wise Tests</h4>
-                        <p class="card-description">Focused tests for individual topics to strengthen specific areas of weakness.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-download"></i>
-                            Browse Topics
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-medal"></i>
-                        </div>
-                        <h4 class="card-title">Challenge Series</h4>
-                        <p class="card-description">Advanced difficulty tests for students aiming for top scores and competitive edge.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-download"></i>
-                            Accept Challenge
-                        </a>
+                <div id="mock-tests-offline-content" class="cards-grid">
+                    <div class="content-loading">
+                        <div class="content-spinner"></div>
+                        <p class="ml-4 text-gray-600">Loading Offline Mock Tests...</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Mock Tests Online Section -->
             <div id="mock-tests-online" class="content-section">
                 <h3 class="section-title">Online Mock Tests</h3>
                 <p class="section-description">
@@ -808,46 +704,14 @@
                     and personalized performance insights to track your progress.
                 </p>
                 
-                <div class="cards-grid">
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-rocket"></i>
-                        </div>
-                        <h4 class="card-title">Quick Assessment</h4>
-                        <p class="card-description">Short online tests for quick skill assessment and immediate feedback.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-play"></i>
-                            Start Test
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <h4 class="card-title">Performance Analytics</h4>
-                        <p class="card-description">Detailed performance tracking with strengths, weaknesses, and improvement suggestions.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-chart-line"></i>
-                            View Analytics
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h4 class="card-title">Competitive Tests</h4>
-                        <p class="card-description">Compete with other students in real-time and see your ranking on leaderboards.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-trophy"></i>
-                            Join Competition
-                        </a>
+                <div id="mock-tests-online-content" class="cards-grid">
+                    <div class="content-loading">
+                        <div class="content-spinner"></div>
+                        <p class="ml-4 text-gray-600">Loading Online Mock Tests...</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Video Lectures Section -->
             <div id="video-lectures" class="content-section">
                 <h3 class="section-title">Video Lectures</h3>
                 <p class="section-description">
@@ -855,41 +719,10 @@
                     with visual aids, animations, and real-world examples.
                 </p>
                 
-                <div class="cards-grid">
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
-                        <h4 class="card-title">Expert Lectures</h4>
-                        <p class="card-description">Comprehensive video lectures by subject matter experts with years of teaching experience.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-play"></i>
-                            Watch Lectures
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-magic"></i>
-                        </div>
-                        <h4 class="card-title">Animated Explanations</h4>
-                        <p class="card-description">Complex concepts made simple through engaging animations and visual storytelling.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-play"></i>
-                            View Animations
-                        </a>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <i class="fas fa-question-circle"></i>
-                        </div>
-                        <h4 class="card-title">Problem Solving</h4>
-                        <p class="card-description">Step-by-step video solutions for challenging problems with multiple solving approaches.</p>
-                        <a href="#" class="card-action">
-                            <i class="fas fa-play"></i>
-                            Solve Problems
-                        </a>
+                <div id="video-lectures-content" class="cards-grid">
+                    <div class="content-loading">
+                        <div class="content-spinner"></div>
+                        <p class="ml-4 text-gray-600">Loading Video Lectures...</p>
                     </div>
                 </div>
             </div>
@@ -902,33 +735,70 @@
         </footer>
     </div>
 
-    <!-- Floating WhatsApp Button -->
     <a href="https://wa.me/923480358640" class="whatsapp-float" target="_blank" title="WhatsApp Support" id="whatsapp-float-btn">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Tawk.to script will inject its own button here -->
+    <!-- Backendless JavaScript SDK -->
+    <script src="//unpkg.com/backendless@latest/dist/backendless.min.js"></script>
 
     <script>
+        // Backendless Configuration
+        const APP_ID = '9E4D9285-8A10-4218-95FC-A09EF96833E0'; // Replace with your Backendless App ID
+        const API_KEY = '2D09C0C5-B73C-4206-A772-D062E096503F'; // Replace with your Backendless REST API Key
+
+        // Initialize Backendless SDK
+        Backendless.initApp(APP_ID, API_KEY);
+        console.log("Backendless Initialized for Frontend.");
+
         // Enhanced Security Configuration
         const SECURITY_CONFIG = {
             maxAttempts: 5,
             lockoutDuration: 300000, // 5 minutes
             sessionTimeout: 3600000, // 1 hour
-            validPasswords: ['premium2024', 'education123', 'mocktesthub', 'secure@access'],
+            // validPasswords: ['premium2024', 'education123', 'mocktesthub', 'secure@access'], // This will be fetched from Backendless
             encryptionKey: 'educational_hub_2024'
         };
 
         let attemptCount = 0;
         let isLocked = false;
         let sessionStartTime = null;
+        let fetchedAccessPassword = null; // Variable to store the fetched password
 
         // Initialize security on page load
         document.addEventListener('DOMContentLoaded', function() {
             initializeSecurity();
             setupKeyboardListeners();
             checkExistingSession();
+            fetchAccessPassword(); // Fetch the access password from Backendless
         });
+
+        async function fetchAccessPassword() {
+            try {
+                // Fetch the full security settings object, not just the password
+                const queryBuilder = Backendless.DataQueryBuilder.create().setPageSize(1);
+                const result = await Backendless.Data.of('SecuritySettings').find(queryBuilder);
+                
+                if (result && result.length > 0) {
+                    const securitySettings = result[0];
+                    fetchedAccessPassword = securitySettings.accessPassword;
+                    // Store the security settings for later use in session monitoring
+                    window.currentSecuritySettings = securitySettings;
+                    console.log("Security settings fetched successfully.");
+                } else {
+                    console.warn("No access password found in Backendless 'SecuritySettings' table. Using fallback.");
+                    // Fallback to a default password if none is found in Backendless
+                    fetchedAccessPassword = 'default_secure_password'; 
+                    window.currentSecuritySettings = { accessPassword: fetchedAccessPassword, lastUpdated: Date.now() };
+                }
+            } catch (error) {
+                console.error("Error fetching access password from Backendless:", error);
+                // Fallback to a default password if fetching fails
+                fetchedAccessPassword = 'default_secure_password'; 
+                window.currentSecuritySettings = { accessPassword: fetchedAccessPassword, lastUpdated: Date.now() };
+                showErrorMessage('Failed to load security settings. Please try again later.');
+            }
+        }
 
         function initializeSecurity() {
             // Check if user is locked out
@@ -962,19 +832,35 @@
             if (sessionData) {
                 try {
                     const session = JSON.parse(sessionData);
-                    if (Date.now() - session.startTime < SECURITY_CONFIG.sessionTimeout) {
-                        // Valid session exists
-                        grantAccess();
+                    // Also check if the password timestamp exists and session is not expired
+                    if (session.passwordTimestamp && Date.now() - session.startTime < SECURITY_CONFIG.sessionTimeout) {
+                        // Before granting access, do a quick check to see if password has changed since last visit
+                        Backendless.Data.of('SecuritySettings').find(Backendless.DataQueryBuilder.create().setProperties(['lastUpdated']).setPageSize(1))
+                            .then(result => {
+                                if (result && result.length > 0 && result[0].lastUpdated !== session.passwordTimestamp) {
+                                    console.log("Password changed since last session. Forcing re-login.");
+                            // *** MODIFICATION START ***
+                            // Removed any alert() and directly calling logout()
+                            logout();
+                            // *** MODIFICATION END ***
+                        } else {
+                            grantAccess();          grantAccess(); // Grant access if timestamps match
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error checking password timestamp:", error);
+                                // If we can't verify, force re-login for security
+                                logout();
+                            });
                         return;
                     }
                 } catch (e) {
-                    // Invalid session data
                     localStorage.removeItem('secureSession');
                 }
             }
         }
 
-        function authenticateUser() {
+        async function authenticateUser() { // Made async to await fetched password
             if (isLocked) {
                 showErrorMessage('Account temporarily locked. Please try again later.');
                 return;
@@ -988,6 +874,13 @@
                 return;
             }
 
+            if (!fetchedAccessPassword || !window.currentSecuritySettings) {
+                showErrorMessage('Security settings not loaded yet. Please wait or refresh.');
+                // Attempt to re-fetch if not loaded
+                await fetchAccessPassword(); 
+                if (!fetchedAccessPassword) return; // If still null, exit
+            }
+
             showLoadingState();
 
             // Simulate authentication delay for security
@@ -996,7 +889,8 @@
                     // Successful authentication
                     attemptCount = 0;
                     localStorage.removeItem('attemptCount');
-                    createSecureSession();
+                    // *** MODIFICATION ***: Pass the timestamp to create the session
+                    createSecureSession(window.currentSecuritySettings.lastUpdated);
                     grantAccess();
                 } else {
                     // Failed authentication
@@ -1007,10 +901,8 @@
         }
 
         function validatePassword(password) {
-            // Enhanced password validation
-            return SECURITY_CONFIG.validPasswords.includes(password.toLowerCase()) ||
-                   password === 'admin@2024' ||
-                   password === 'premium_access';
+            // Validate against the fetched password
+            return password === fetchedAccessPassword;
         }
 
         function handleFailedAttempt() {
@@ -1031,12 +923,14 @@
             document.getElementById('password-input').value = '';
         }
 
-        function createSecureSession() {
+        function createSecureSession(lastUpdatedTimestamp) {
             const sessionData = {
                 startTime: Date.now(),
                 authenticated: true,
                 userAgent: navigator.userAgent,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                // *** MODIFICATION ***: Store the password's last update time
+                passwordTimestamp: lastUpdatedTimestamp || Date.now()
             };
             localStorage.setItem('secureSession', JSON.stringify(sessionData));
             sessionStartTime = Date.now();
@@ -1055,7 +949,6 @@
                 mainContent.style.display = 'block';
                 securityIndicator.classList.add('show');
                 whatsappButton.style.display = 'flex'; // Show WhatsApp button after login
-                // Tawk.to widget will handle its own display after script loads
                 
                 // Start session monitoring
                 startSessionMonitoring();
@@ -1074,19 +967,55 @@
                     })();
                 }
 
-                // Load initial data for PDF Books section
-                fetchPdfBooks();
+                // Load initial data for the active section (PDF Books by default)
+                // This will trigger fetchPdfBooks()
+                showSection('pdf-books'); 
 
             }, 500);
         }
 
+        // *** NEW FUNCTION ***: Monitor for password changes
+        async function monitorPasswordChange() {
+            try {
+                // Get the timestamp stored in the user's local session
+                const sessionData = JSON.parse(localStorage.getItem('secureSession'));
+                if (!sessionData || !sessionData.passwordTimestamp) {
+                    console.warn("Session timestamp not found. Logging out.");
+                    logout();
+                    return;
+                }
+                const localTimestamp = sessionData.passwordTimestamp;
+
+                // Fetch the latest timestamp from the server
+                const queryBuilder = Backendless.DataQueryBuilder.create().setProperties(['lastUpdated']).setPageSize(1);
+                const result = await Backendless.Data.of('SecuritySettings').find(queryBuilder);
+
+                if (result && result.length > 0) {
+                    const serverTimestamp = result[0].lastUpdated;
+                    // If the server timestamp is different from the one stored locally, the password has changed.
+                    if (serverTimestamp && localTimestamp !== serverTimestamp) {
+                        console.log("Password has been changed remotely. Logging out.");
+                        // *** MODIFICATION START ***
+                        // Removed the alert() and directly calling logout()
+                        logout(); 
+                        // *** MODIFICATION END ***
+                    }
+                }
+            } catch (error) {
+                console.error("Error during password change check:", error);
+            }
+        }
+
         function startSessionMonitoring() {
-            // Monitor for session timeout
+            // Monitor for session timeout (every minute)
             setInterval(() => {
                 if (sessionStartTime && Date.now() - sessionStartTime > SECURITY_CONFIG.sessionTimeout) {
                     logout();
                 }
             }, 60000); // Check every minute
+
+            // *** MODIFICATION ***: Check for remote password changes (every 30 seconds)
+            setInterval(monitorPasswordChange, 5000); // Check every 30 seconds
 
             // Monitor for suspicious activity
             document.addEventListener('visibilitychange', function() {
@@ -1144,6 +1073,57 @@
             document.querySelector('.unlock-button').disabled = true;
         }
 
+        // Helper to create a content card HTML
+        function createContentCardHtml(item) {
+            return `
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="${item.icon || 'fas fa-question-circle'}"></i>
+                    </div>
+                    <h4 class="card-title">${item.title || 'Untitled'}</h4>
+                    <p class="card-description">${item.description || 'No description available.'}</p>
+                    <a href="${item.link || '#'}" class="card-action" target="_blank">
+                        <i class="fas fa-download"></i>
+                        ${item.actionText || 'Access Content'}
+                    </a>
+                </div>
+            `;
+        }
+
+        // Generic fetch function for any content type
+        async function fetchContent(tableName, contentDivId) {
+            const contentDiv = document.getElementById(contentDivId);
+            contentDiv.innerHTML = `
+                <div class="content-loading">
+                    <div class="content-spinner"></div>
+                    <p class="ml-4 text-gray-600">Loading ${tableName.replace(/([A-Z])/g, ' $1').trim()}...</p>
+                </div>
+            `; // Show loading spinner
+
+            try {
+                const data = await Backendless.Data.of(tableName).find();
+
+                if (data.length === 0) {
+                    contentDiv.innerHTML = `
+                        <p class="text-center text-gray-500 col-span-full">No ${tableName.replace(/([A-Z])/g, ' $1').trim()} available yet. Please check back later!</p>
+                    `;
+                    return;
+                }
+
+                contentDiv.innerHTML = ''; // Clear loading state
+                data.forEach(item => {
+                    const cardHtml = createContentCardHtml(item);
+                    contentDiv.insertAdjacentHTML('beforeend', cardHtml);
+                });
+
+            } catch (error) {
+                console.error(`Error fetching ${tableName} from Backendless:`, error);
+                contentDiv.innerHTML = `
+                    <p class="text-center text-red-500 col-span-full">Failed to load ${tableName.replace(/([A-Z])/g, ' $1').trim()}. Error: ${error.message}.</p>
+                `;
+            }
+        }
+
         // Navigation Functions
         function showSection(sectionId) {
             // Hide all sections
@@ -1167,9 +1147,28 @@
                 activeTab.classList.add('active');
             }
 
-            // If PDF Books section is activated, fetch data
-            if (sectionId === 'pdf-books') {
-                fetchPdfBooks();
+            // Dynamically fetch data for the selected section
+            switch (sectionId) {
+                case 'pdf-books':
+                    fetchContent('PdfBooks', 'pdf-books-content');
+                    break;
+                case 'test-notes':
+                    fetchContent('TestNotes', 'test-notes-content');
+                    break;
+                case 'past-papers':
+                    fetchContent('PastPapers', 'past-papers-content');
+                    break;
+                case 'mock-tests-offline':
+                    fetchContent('MockTestsOffline', 'mock-tests-offline-content');
+                    break;
+                case 'mock-tests-online':
+                    fetchContent('MockTestsOnline', 'mock-tests-online-content');
+                    break;
+                case 'video-lectures':
+                    fetchContent('VideoLectures', 'video-lectures-content');
+                    break;
+                default:
+                    console.warn('Unknown section:', sectionId);
             }
         }
 
@@ -1181,86 +1180,6 @@
                 console.warn('Tawk.to API not yet loaded. Please try again in a moment.');
                 // Optionally, show a message to the user that chat is loading
                 showErrorMessage('Live chat is loading. Please try again in a moment.');
-            }
-        }
-
-        // --- Dynamic Content Loading for PDF Books Section (Backendless Integration Concept) ---
-        async function fetchPdfBooks() {
-            const pdfBooksContentDiv = document.getElementById('pdf-books-content');
-            pdfBooksContentDiv.innerHTML = `
-                <div class="content-loading">
-                    <div class="content-spinner"></div>
-                    <p class="ml-4 text-gray-600">Loading PDF Books...</p>
-                </div>
-            `; // Show loading spinner
-
-            try {
-                // --- Backendless API Configuration ---
-                // IMPORTANT: Replace 'YOUR_BACKENDLESS_APP_ID' and 'YOUR_BACKENDLESS_REST_API_KEY' with your actual keys.
-                // You can find these in your Backendless Console under 'Manage' -> 'App Settings' -> 'API Keys'.
-                const BACKENDLESS_APP_ID = '9E4D9285-8A10-4218-95FC-A09EF96833E0'; // <--- Yahan apni Backendless App ID dalen
-                const BACKENDLESS_REST_API_KEY = '2D09C0C5-B73C-4206-A772-D062E096503F'; // <--- Yahan apni Backendless REST API Key dalen
-                const BACKENDLESS_API_URL = `https://api.backendless.com/${BACKENDLESS_APP_ID}/${BACKENDLESS_REST_API_KEY}/data/PdfBooks`; // 'PdfBooks' is your table name
-
-                const response = await fetch(BACKENDLESS_API_URL, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'application-id': BACKENDLESS_APP_ID,
-                        'secret-key': BACKENDLESS_REST_API_KEY,
-                        'application-type': 'REST' // Specify application type for REST API
-                    }
-                });
-                
-                if (!response.ok) {
-                    // Check for specific Backendless error messages if needed
-                    const errorData = await response.json();
-                    throw new Error(`HTTP error! Status: ${response.status}, Code: ${errorData.code}, Message: ${errorData.message}`);
-                }
-                const pdfs = await response.json();
-
-                if (pdfs.length === 0) {
-                    pdfBooksContentDiv.innerHTML = `
-                        <p class="text-center text-gray-500 col-span-full">No PDF books available yet. Please check back later!</p>
-                    `;
-                    return;
-                }
-
-                pdfBooksContentDiv.innerHTML = ''; // Clear loading state
-                pdfs.forEach(pdf => {
-                    // --- IMPORTANT: Ensure your Backendless table fields match these names ---
-                    // Example Backendless Table (e.g., 'PdfBooks') structure:
-                    // {
-                    //   objectId: "...",
-                    //   created: "...",
-                    //   updated: "...",
-                    //   title: "Book Title",
-                    //   description: "A brief description of the book.",
-                    //   link: "https://example.com/book.pdf",
-                    //   icon: "fas fa-book", // Font Awesome class
-                    //   actionText: "Download Book"
-                    // }
-                    const cardHtml = `
-                        <div class="card">
-                            <div class="card-icon">
-                                <i class="${pdf.icon}"></i>
-                            </div>
-                            <h4 class="card-title">${pdf.title}</h4>
-                            <p class="card-description">${pdf.description}</p>
-                            <a href="${pdf.link}" class="card-action" target="_blank">
-                                <i class="fas fa-download"></i>
-                                ${pdf.actionText}
-                            </a>
-                        </div>
-                    `;
-                    pdfBooksContentDiv.insertAdjacentHTML('beforeend', cardHtml);
-                });
-
-            } catch (error) {
-                console.error('Error fetching PDF books from Backendless:', error);
-                pdfBooksContentDiv.innerHTML = `
-                    <p class="text-center text-red-500 col-span-full">Failed to load PDF books. Error: ${error.message}. Please check Backendless setup and API keys.</p>
-                `;
             }
         }
 
