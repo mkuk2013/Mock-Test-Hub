@@ -744,6 +744,18 @@
             border-color: #ef4444;
         }
 
+        .message-box.info { /* Added for info messages */
+            background: rgba(59, 130, 246, 0.1);
+            color: #1e40af;
+            border-color: #3b82f6;
+        }
+
+        .message-box.warning { /* Added for warning messages */
+            background: rgba(251, 191, 36, 0.1);
+            color: #92400e;
+            border-color: #fbbf24;
+        }
+
         .message-box.show {
             display: block;
             animation: slideInDown 0.3s ease-out;
@@ -1740,41 +1752,8 @@
 </div>
 </div>
 
-<!-- NEW: Security Settings Section -->
-<div class="content-section" id="security-settings-section">
-    <div class="content-card">
-        <div class="section-header">
-            <h3 class="section-title">
-                <i class="fas fa-lock"></i>
-                Manage Secure Access Password
-            </h3>
-            <p class="section-description">
-                Yahan se aap frontend user access ke liye password update kar sakte hain. Yeh password `index.html` page par istemal hota hai.
-            </p>
-        </div>
-        <form id="update-security-form">
-            <input id="security-object-id" type="hidden"/>
-            <div class="form-group">
-                <label class="form-label" for="security-accessPassword">Frontend Access Password:</label>
-                <input class="form-input" id="security-accessPassword" type="text" placeholder="Enter new secure access password" required />
-                <p class="form-help">Yeh password `index.html` page par secure content access karne ke liye istemal hoga.</p>
-            </div>
-            <div style="display: flex; gap: 16px; margin-top: 32px;">
-                <button class="btn btn-primary" id="submit-security-btn" style="flex: 1;" type="submit">
-                    <i class="fas fa-save"></i>
-                    Update Password
-                    <span class="loading-spinner" id="security-loading-spinner"></span>
-                </button>
-                <button class="btn btn-info" id="cancel-security-edit-btn" style="flex: 1; display: none;" type="button">
-                    <i class="fas fa-times-circle"></i>
-                    Cancel Edit
-                </button>
-            </div>
-        </form>
-        <div class="message-box" id="security-message-box"></div>
-    </div>
-</div>
-<!-- END NEW: Security Settings Section -->
+<!-- NEW: Security Settings Section (Duplicate, removed from here as it's already above) -->
+<!-- This section was duplicated in the original context, keeping only one instance -->
 
 </div>
 </div>
@@ -1789,8 +1768,7 @@
         let currentSection = 'pdf-books'; // Default active section
 
         // Backendless Configuration
-        // APP ID: 9E4D925-8A10-4218-95FC-A09EF96833E0 
-        // API KEY: 2D09C0C5-B73C-4206-A772-D062E096503F
+        // IMPORTANT: Verify these APP_ID and API_KEY values from your Backendless Console -> App Settings -> Application ID & REST API Key
         const APP_ID = '9E4D9285-8A10-4218-95FC-A09EF96833E0'; 
         const API_KEY = '2D09C0C5-B73C-4206-A772-D062E096503F'; 
 
@@ -1807,21 +1785,27 @@
 
         // --- NEW: URL Shortening Configuration (Replace with your actual API details) ---
         const URL_SHORTENER_API_ENDPOINT = 'https://api-ssl.bitly.com/v4/shorten'; // Example for Bitly
-        const URL_SHORTENER_API_KEY = '15b274406ed8441daa9b48261746b4a754965aba'; // <<< YOUR BITLY ACCESS TOKEN
+        // IMPORTANT: Replace 'YOUR_BITLY_ACCESS_TOKEN' with your actual Bitly Generic Access Token
+        // If you don't want to use Bitly, you can leave this as 'YOUR_BITLY_ACCESS_TOKEN'
+        // but the shortening will be skipped and a warning will be shown.
+        const URL_SHORTENER_API_KEY = '15b274406ed8441daa9b48261746b4a754965aba'; 
 
         // Function to shorten a URL using Bitly API
-        async function shortenUrl(longUrl) {
+        async function shortenUrl(longUrl, messageBox) { // Added messageBox parameter
             if (!longUrl || !longUrl.startsWith('http')) {
                 console.warn("Invalid URL for shortening:", longUrl);
+                showMessage(messageBox, 'Invalid URL provided for shortening. Using original.', 'warning');
                 return longUrl; // Return original if not a valid URL
             }
 
             if (!URL_SHORTENER_API_KEY || URL_SHORTENER_API_KEY === '15b274406ed8441daa9b48261746b4a754965aba') {
                 console.error("Bitly API Key is not configured or is default. Skipping URL shortening.");
+                showMessage(messageBox, 'Bitly API Key not configured. Using original URL.', 'warning');
                 return longUrl; // Skip shortening if API key is not set
             }
 
             try {
+                showMessage(messageBox, 'Shortening URL...', 'info'); // Provide feedback
                 const response = await fetch(URL_SHORTENER_API_ENDPOINT, {
                     method: 'POST',
                     headers: {
@@ -1835,15 +1819,23 @@
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    console.error("URL shortening API error:", errorData);
-                    throw new Error(`URL shortening failed: ${errorData.message || response.statusText}`);
+                    console.error("URL shortening API error response:", errorData); // Log full error response
+                    // Check for specific Bitly error codes if needed, e.g., 403 for invalid token
+                    if (response.status === 403) {
+                        throw new Error("Bitly API: Invalid API Key or insufficient permissions.");
+                    } else if (response.status === 429) {
+                        throw new Error("Bitly API: Rate limit exceeded. Please try again later.");
+                    }
+                    throw new Error(`Bitly API: ${errorData.message || response.statusText}`);
                 }
 
                 const data = await response.json();
+                showMessage(messageBox, 'URL shortened successfully!', 'success');
                 return data.link; // Bitly returns the shortened link in 'data.link'
 
             } catch (error) {
                 console.error("Error during URL shortening:", error);
+                showMessage(messageBox, 'Could not shorten URL, using original. Error: ' + error.message, 'warning');
                 // Fallback: return the original URL if shortening fails
                 return longUrl;
             }
@@ -1976,6 +1968,9 @@
             const spinner = document.getElementById('login-spinner');
             const messageBox = document.getElementById('login-message-box');
             
+            // Clear previous messages
+            showMessage(messageBox, '', ''); // Clear message box
+
             // Show loading state
             loginBtn.disabled = true;
             spinner.classList.add('show');
@@ -2002,12 +1997,32 @@
                 
             } catch (error) {
                 console.error("Login failed:", error);
-                showMessage(messageBox, 'Login failed: ' + error.message, 'error');
+                // More specific error messages for common Backendless login errors
+                let errorMessageText = 'Login failed. Please try again.';
+                if (error.code === 3003) { // Backendless error code for invalid login/password
+                    errorMessageText = 'Invalid email/username or password.';
+                } else if (error.code === 3000) { // Backendless error code for user not found
+                    errorMessageText = 'User not found. Please check your credentials.';
+                } else if (error.code === 3001) { // Backendless error code for user account locked
+                    errorMessageText = 'Your account is locked. Please contact support.';
+                } else if (error.code === 3002) { // Backendless error code for user not confirmed
+                    errorMessageText = 'Account not confirmed. Please check your email.';
+                } else if (error.code === 0 && error.message.includes("Network")) { // Generic network error
+                    errorMessageText = 'Network error. Please check your internet connection.';
+                } else {
+                    errorMessageText = 'Login failed: ' + error.message;
+                }
+                showMessage(messageBox, errorMessageText, 'error');
                 loginBtn.style.transform = 'scale(1)';
             } finally {
                 if (!isLoggedIn) {
                     loginBtn.disabled = false;
                     spinner.classList.remove('show');
+                    // Reset button text after a short delay if login failed
+                    setTimeout(() => {
+                        loginBtn.style.background = ''; // Reset background
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login <span class="loading-spinner" id="login-spinner"></span>';
+                    }, 1500);
                 }
             }
         }
@@ -2162,14 +2177,8 @@
 
             // --- NEW: Shorten the link if it's a 'link' field ---
             if (formData.link) {
-                showMessage(messageBox, 'Shortening URL...', 'info'); // Provide feedback
                 const originalLink = formData.link;
-                formData.link = await shortenUrl(originalLink);
-                if (formData.link === originalLink) {
-                    showMessage(messageBox, 'Could not shorten URL, using original.', 'warning');
-                } else {
-                    showMessage(messageBox, 'URL shortened successfully!', 'success');
-                }
+                formData.link = await shortenUrl(originalLink, messageBox); // Pass messageBox to shortenUrl
             }
             // --- END NEW ---
             
@@ -2299,6 +2308,7 @@
 
                 submitBtn.style.background = 'var(--success-gradient)';
                 submitBtn.innerHTML = '<i class="fas fa-check"></i> Password Updated!';
+                // Updated message to inform about session logout
                 showMessage(messageBox, 'Frontend access password updated successfully! All active user sessions will be logged out.', 'success');
                 console.log("Security settings updated:", result);
 
@@ -2418,6 +2428,7 @@
 
             // Display the potentially shortened link, but use the full link for the href
             // The 'item.link' will already be the shortened one from the save operation.
+            // Truncate link for display if it's too long
             const displayLink = item.link ? (item.link.length > 50 ? item.link.substring(0, 47) + '...' : item.link) : 'N/A';
 
             row.setAttribute('data-id', objectId);
