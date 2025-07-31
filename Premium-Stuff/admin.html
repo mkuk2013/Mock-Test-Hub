@@ -1783,24 +1783,22 @@
             'security': 'SecuritySettings'// NEW: Mapping for Security Settings
         };
 
-        // --- NEW: URL Shortening Configuration (Replace with your actual API details) ---
-        const URL_SHORTENER_API_ENDPOINT = 'https://api-ssl.bitly.com/v4/shorten'; // Example for Bitly
-        // IMPORTANT: Replace 'YOUR_BITLY_ACCESS_TOKEN' with your actual Bitly Generic Access Token
-        // If you don't want to use Bitly, you can leave this as 'YOUR_BITLY_ACCESS_TOKEN'
-        // but the shortening will be skipped and a warning will be shown.
-        const URL_SHORTENER_API_KEY = '15b274406ed8441daa9b48261746b4a754965aba'; 
+        // --- NEW: URL Shortening Configuration (TinyURL) ---
+        const URL_SHORTENER_API_ENDPOINT = 'https://api.tinyurl.com/create'; 
+        // IMPORTANT: Replace 'YOUR_TINYURL_API_KEY' with your actual TinyURL API Key
+        const URL_SHORTENER_API_KEY = 'Q90VtvRJFBPMbBmbst6uRhcCcWgNqZddL9onzSp18csdxpzjE9atRO3t5IMI'; 
 
-        // Function to shorten a URL using Bitly API
-        async function shortenUrl(longUrl, messageBox) { // Added messageBox parameter
+        // Function to shorten a URL using TinyURL API
+        async function shortenUrl(longUrl, messageBox) { 
             if (!longUrl || !longUrl.startsWith('http')) {
                 console.warn("Invalid URL for shortening:", longUrl);
                 showMessage(messageBox, 'Invalid URL provided for shortening. Using original.', 'warning');
                 return longUrl; // Return original if not a valid URL
             }
 
-            if (!URL_SHORTENER_API_KEY || URL_SHORTENER_API_KEY === '15b274406ed8441daa9b48261746b4a754965aba') {
-                console.error("Bitly API Key is not configured or is default. Skipping URL shortening.");
-                showMessage(messageBox, 'Bitly API Key not configured. Using original URL.', 'warning');
+            if (!URL_SHORTENER_API_KEY || URL_SHORTENER_API_KEY === 'YOUR_TINYURL_API_KEY') { // Check for placeholder
+                console.error("TinyURL API Key is not configured or is default. Skipping URL shortening.");
+                showMessage(messageBox, 'TinyURL API Key not configured. Using original URL.', 'warning');
                 return longUrl; // Skip shortening if API key is not set
             }
 
@@ -1813,25 +1811,25 @@
                         'Authorization': `Bearer ${URL_SHORTENER_API_KEY}` 
                     },
                     body: JSON.stringify({
-                        long_url: longUrl
+                        url: longUrl // TinyURL uses 'url' in the body
                     })
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    console.error("URL shortening API error response:", errorData); // Log full error response
-                    // Check for specific Bitly error codes if needed, e.g., 403 for invalid token
-                    if (response.status === 403) {
-                        throw new Error("Bitly API: Invalid API Key or insufficient permissions.");
-                    } else if (response.status === 429) {
-                        throw new Error("Bitly API: Rate limit exceeded. Please try again later.");
-                    }
-                    throw new Error(`Bitly API: ${errorData.message || response.statusText}`);
+                    console.error("URL shortening API error response:", errorData); 
+                    // TinyURL errors are usually in errorData.errors array
+                    const errorMessage = errorData.errors && errorData.errors.length > 0 ? errorData.errors[0] : response.statusText;
+                    throw new Error(`TinyURL API: ${errorMessage}`);
                 }
 
                 const data = await response.json();
-                showMessage(messageBox, 'URL shortened successfully!', 'success');
-                return data.link; // Bitly returns the shortened link in 'data.link'
+                if (data.data && data.data.tiny_url) { // TinyURL returns the shortened link in 'data.data.tiny_url'
+                    showMessage(messageBox, 'URL shortened successfully!', 'success');
+                    return data.data.tiny_url; 
+                } else {
+                    throw new Error("TinyURL API: Shortened URL not found in response.");
+                }
 
             } catch (error) {
                 console.error("Error during URL shortening:", error);
