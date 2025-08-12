@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Stuff - MDCAT Mock Test</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>" type="image/svg+xml">
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --primary-dark: #5a67d8;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #48bb78;
+            --error-color: #f56565;
+            --warning-color: #ed8936;
+            --dark-bg: #1a202c;
+            --light-bg: #f7fafc;
+            --card-bg: #ffffff;
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --border-color: #e2e8f0;
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light-bg); /* Changed background for direct view */
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        
+        /* Main Content Styles - Made visible by default */
+        .main-content {
+            display: block;
+            min-height: 100vh;
+            background: var(--light-bg);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="1" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .header-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .back-button-container {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: -2rem auto 3rem;
+            max-width: 1200px;
+            box-shadow: var(--shadow-heavy);
+            position: relative;
+            z-index: 3;
+            text-align: center;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            box-shadow: var(--shadow-medium);
+            display: block;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        .section-description {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .card-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .card-action:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .footer {
+            background: var(--dark-bg);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+        
+        /* Floating WhatsApp Button - Made visible by default */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            left: 40px; 
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        
+        .whatsapp-float:hover {
+            background-color: #128c7e;
+            transform: scale(1.1);
+            color: #FFF; 
+            text-decoration: none;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 2.5rem;
+            }
+            .content-section {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .whatsapp-float {
+                bottom: 20px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 25px;
+            }
+        }
+        
+        /* Animation styles */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+    </style>
+</head>
+<body>
+    
+    <div id="main-content" class="main-content">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="header-title">Premium Stuff-MDCAT Mock Test</h1>
+                <p class="header-subtitle">Gauge your preparation with our full-length and subject-wise mock tests designed to simulate the real exam experience.</p>
+            </div>
+        </header>
+        
+        <div class="container mx-auto px-4">
+            <div class="back-button-container">
+                <a href="../index.html" class="back-button">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Back to Main Hub
+                </a>
+            </div>
+
+            <div id="mdcat-tests" class="content-section">
+                <h3 class="section-title">Available MDCAT Mock Tests</h3>
+                <p class="section-description">
+                    Our mock tests are crafted by experts to align with the latest PMC syllabus. Each test provides a realistic exam environment to help you manage time effectively and identify areas for improvement.
+                </p>
+                
+                <div id="mdcat-tests-content" class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-file-alt"></i></div>
+                        <h4 class="card-title">MDCAT Mock Test #1 - Full Syllabus</h4>
+                        <p class="card-description">A comprehensive test covering all subjects as per the latest PMC syllabus. Perfect for a full-scale rehearsal.</p>
+                        <a href="#" class="card-action" target="_blank">
+                            <i class="fas fa-play-circle"></i>
+                            Start Test
+                        </a>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-file-alt"></i></div>
+                        <h4 class="card-title">MDCAT Mock Test #2 - Full Syllabus</h4>
+                        <p class="card-description">Another full-length mock test with a new set of challenging questions to test your knowledge and time management skills.</p>
+                        <a href="#" class="card-action" target="_blank">
+                            <i class="fas fa-play-circle"></i>
+                            Start Test
+                        </a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-dna"></i></div>
+                        <h4 class="card-title">Subject-wise Test: Biology</h4>
+                        <p class="card-description">Focus your efforts on Biology with this dedicated test covering all high-yield topics from the syllabus.</p>
+                        <a href="#" class="card-action" target="_blank">
+                            <i class="fas fa-play-circle"></i>
+                            Start Test
+                        </a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-flask"></i></div>
+                        <h4 class="card-title">Subject-wise Test: Chemistry</h4>
+                        <p class="card-description">Test your understanding of organic and inorganic chemistry concepts with these specially curated questions.</p>
+                        <a href="#" class="card-action" target="_blank">
+                            <i class="fas fa-play-circle"></i>
+                            Start Test
+                        </a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-atom"></i></div>
+                        <h4 class="card-title">Subject-wise Test: Physics</h4>
+                        <p class="card-description">From mechanics to modern physics, this test will challenge your problem-solving skills and conceptual clarity.</p>
+                        <a href="#" class="card-action" target="_blank">
+                            <i class="fas fa-play-circle"></i>
+                            Start Test
+                        </a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-brain"></i></div>
+                        <h4 class="card-title">Test: English & Logical Reasoning</h4>
+                        <p class="card-description">Sharpen your critical thinking and language skills. This test focuses on the patterns seen in the MDCAT exam.</p>
+                        <a href="#" class="card-action" target="_blank">
+                            <i class="fas fa-play-circle"></i>
+                            Start Test
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <div class="container mx-auto px-4">
+                <p>&copy; 2025 Premium Educational Hub. All rights reserved. | Secure Learning Platform</p>
+            </div>
+        </footer>
+    </div>
+    
+    <a href="https://wa.me/923480358640" class="whatsapp-float" target="_blank" title="WhatsApp Support" id="whatsapp-float-btn">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <script>
+        // All authentication and security-related JavaScript has been removed.
+        // The page now loads directly.
+    </script>
+</body>
+</html>

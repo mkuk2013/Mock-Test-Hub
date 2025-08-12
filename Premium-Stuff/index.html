@@ -29,13 +29,13 @@
             --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -43,7 +43,7 @@
             color: var(--text-primary);
             overflow-x: hidden;
         }
-
+        
         /* Enhanced Security Overlay */
         .security-overlay {
             position: fixed;
@@ -59,7 +59,7 @@
             z-index: 10000;
             animation: fadeIn 0.8s ease-out;
         }
-
+        
         .security-container {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
@@ -73,7 +73,7 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         .security-container::before {
             content: '';
             position: absolute;
@@ -83,12 +83,12 @@
             height: 4px;
             background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
         }
-
+        
         .security-header {
             text-align: center;
             margin-bottom: 2rem;
         }
-
+        
         .security-icon {
             width: 80px;
             height: 80px;
@@ -100,7 +100,7 @@
             margin: 0 auto 1.5rem;
             box-shadow: var(--shadow-medium);
         }
-
+        
         .security-title {
             font-family: 'Poppins', sans-serif;
             font-size: 2rem;
@@ -108,13 +108,13 @@
             color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
-
+        
         .security-subtitle {
             color: var(--text-secondary);
             font-size: 1rem;
             line-height: 1.6;
         }
-
+        
         .contact-info {
             background: linear-gradient(135deg, #f8fafc, #edf2f7);
             border-radius: 16px;
@@ -122,7 +122,7 @@
             margin: 1.5rem 0;
             border-left: 4px solid var(--primary-color);
         }
-
+        
         .contact-link {
             display: inline-flex;
             align-items: center;
@@ -133,17 +133,17 @@
             font-size: 1.1rem;
             transition: all 0.3s ease;
         }
-
+        
         .contact-link:hover {
             color: var(--primary-dark);
             transform: translateX(4px);
         }
-
+        
         .password-input-group {
             position: relative;
             margin: 1.5rem 0;
         }
-
+        
         .password-input {
             width: 100%;
             padding: 1rem 1rem 1rem 3rem;
@@ -154,12 +154,12 @@
             transition: all 0.3s ease;
             outline: none;
         }
-
+        
         .password-input:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
-
+        
         .password-input-icon {
             position: absolute;
             left: 1rem;
@@ -167,7 +167,7 @@
             transform: translateY(-50%);
             color: var(--text-secondary);
         }
-
+        
         .unlock-button {
             width: 100%;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -182,16 +182,16 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         .unlock-button:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-medium);
         }
-
+        
         .unlock-button:active {
             transform: translateY(0);
         }
-
+        
         .error-message {
             background: rgba(245, 101, 101, 0.1);
             color: var(--error-color);
@@ -203,19 +203,19 @@
             transform: translateY(-10px);
             transition: all 0.3s ease;
         }
-
+        
         .error-message.show {
             opacity: 1;
             transform: translateY(0);
         }
-
+        
         /* Main Content Styles */
         .main-content {
             display: none;
             min-height: 100vh;
             background: var(--light-bg);
         }
-
+        
         .header {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
@@ -223,7 +223,7 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         .header::before {
             content: '';
             position: absolute;
@@ -234,13 +234,13 @@
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="1" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
             opacity: 0.3;
         }
-
+        
         .header-content {
             position: relative;
             z-index: 2;
             text-align: center;
         }
-
+        
         .header-title {
             font-family: 'Poppins', sans-serif;
             font-size: 3.5rem;
@@ -248,7 +248,7 @@
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-
+        
         .header-subtitle {
             font-size: 1.25rem;
             opacity: 0.9;
@@ -256,7 +256,7 @@
             margin: 0 auto;
             line-height: 1.6;
         }
-
+        
         .nav-container {
             background: white;
             border-radius: 20px;
@@ -267,14 +267,14 @@
             position: relative;
             z-index: 3;
         }
-
+        
         .nav-tabs {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
             justify-content: center;
         }
-
+        
         .nav-tab {
             background: transparent;
             border: none;
@@ -287,18 +287,18 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         .nav-tab:hover {
             background: rgba(102, 126, 234, 0.1);
             color: var(--primary-color);
         }
-
+        
         .nav-tab.active {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             box-shadow: var(--shadow-light);
         }
-
+        
         .content-section {
             background: white;
             border-radius: 20px;
@@ -308,12 +308,12 @@
             box-shadow: var(--shadow-medium);
             display: none;
         }
-
+        
         .content-section.active {
             display: block;
             animation: fadeInUp 0.6s ease-out;
         }
-
+        
         .section-title {
             font-family: 'Poppins', sans-serif;
             font-size: 2.5rem;
@@ -323,7 +323,7 @@
             text-align: center;
             position: relative;
         }
-
+        
         .section-title::after {
             content: '';
             position: absolute;
@@ -335,7 +335,7 @@
             background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
             border-radius: 2px;
         }
-
+        
         .section-description {
             text-align: center;
             color: var(--text-secondary);
@@ -344,14 +344,14 @@
             max-width: 800px;
             margin: 0 auto 3rem;
         }
-
+        
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
-
+        
         .card {
             background: white;
             border-radius: 16px;
@@ -362,7 +362,7 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         .card::before {
             content: '';
             position: absolute;
@@ -374,16 +374,16 @@
             transform: scaleX(0);
             transition: transform 0.3s ease;
         }
-
+        
         .card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-heavy);
         }
-
+        
         .card:hover::before {
             transform: scaleX(1);
         }
-
+        
         .card-icon {
             width: 60px;
             height: 60px;
@@ -396,7 +396,7 @@
             color: white;
             font-size: 1.5rem;
         }
-
+        
         .card-title {
             font-family: 'Poppins', sans-serif;
             font-size: 1.25rem;
@@ -404,13 +404,13 @@
             color: var(--text-primary);
             margin-bottom: 1rem;
         }
-
+        
         .card-description {
             color: var(--text-secondary);
             line-height: 1.6;
             margin-bottom: 1.5rem;
         }
-
+        
         .card-action {
             display: inline-flex;
             align-items: center;
@@ -423,12 +423,12 @@
             font-weight: 600;
             transition: all 0.3s ease;
         }
-
+        
         .card-action:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-medium);
         }
-
+        
         .footer {
             background: var(--dark-bg);
             color: white;
@@ -436,7 +436,7 @@
             padding: 3rem 0;
             margin-top: 4rem;
         }
-
+        
         /* Floating WhatsApp Button */
         .whatsapp-float {
             position: fixed;
@@ -446,7 +446,7 @@
             left: 40px; 
             background-color: #25d366;
             color: #FFF;
-            border-radius: 50%; /* Changed to 50% for perfect circle */
+            border-radius: 50%;
             text-align: center;
             font-size: 30px;
             box-shadow: 2px 2px 3px #999;
@@ -456,16 +456,16 @@
             align-items: center;
             justify-content: center;
             text-decoration: none; 
-            display: none; /* Hidden by default, shown after login */
+            display: none;
         }
-
+        
         .whatsapp-float:hover {
             background-color: #128c7e;
             transform: scale(1.1);
             color: #FFF; 
             text-decoration: none;
         }
-
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .header-title {
@@ -493,7 +493,7 @@
             .cards-grid {
                 grid-template-columns: 1fr;
             }
-
+            
             .whatsapp-float {
                 bottom: 20px;
                 left: 20px;
@@ -501,16 +501,16 @@
                 height: 50px;
                 font-size: 25px;
             }
-            /* Tawk.to widget handles its own mobile positioning */
         }
-
+        
         /* Loading Animation for content sections */
         .content-loading {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 200px; /* Ensure spinner is visible */
+            min-height: 200px;
         }
+        
         .content-spinner {
             border: 4px solid rgba(102, 126, 234, 0.3);
             border-radius: 50%;
@@ -519,12 +519,10 @@
             height: 50px;
             animation: spin 1s ease-in-out infinite;
         }
-
-
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
+        
         /* Security Features */
         .security-indicator {
             position: fixed;
@@ -539,12 +537,179 @@
             z-index: 1000;
             display: none;
         }
-
+        
         .security-indicator.show {
             display: block;
             animation: slideInRight 0.5s ease-out;
         }
-
+        
+        /* Session expired notification */
+        .session-expired {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-heavy);
+            z-index: 10001;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            display: none;
+        }
+        
+        .session-expired.show {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .session-expired-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(245, 101, 101, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--error-color);
+            font-size: 2rem;
+        }
+        
+        .session-expired-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .session-expired-text {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .session-expired-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .session-expired-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        /* Notification Toast */
+        .notification-toast {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            box-shadow: var(--shadow-heavy);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            max-width: 350px;
+        }
+        
+        .notification-toast.show {
+            transform: translateX(0);
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .notification-icon.info {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .notification-icon.warning {
+            background: rgba(237, 137, 54, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .notification-icon.success {
+            background: rgba(72, 187, 120, 0.1);
+            color: var(--success-color);
+        }
+        
+        .notification-icon.error {
+            background: rgba(245, 101, 101, 0.1);
+            color: var(--error-color);
+        }
+        
+        .notification-content {
+            flex-grow: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .notification-message {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.25rem;
+            padding: 0;
+            line-height: 1;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         @keyframes slideInRight {
             from {
                 opacity: 0;
@@ -599,12 +764,34 @@
             </div>
         </div>
     </div>
-
+    
     <div id="security-indicator" class="security-indicator">
         <i class="fas fa-shield-check mr-2"></i>
         Secure Session Active
     </div>
-
+    
+    <div id="session-expired" class="session-expired">
+        <div class="session-expired-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h3 class="session-expired-title">Session Expired</h3>
+        <p class="session-expired-text">Your access code has been changed. Please log in again with the new access code.</p>
+        <button onclick="redirectToLogin()" class="session-expired-button">Login Again</button>
+    </div>
+    
+    <div id="notification-toast" class="notification-toast">
+        <div id="notification-icon" class="notification-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <div class="notification-content">
+            <div id="notification-title" class="notification-title">Notification</div>
+            <div id="notification-message" class="notification-message">Message content</div>
+        </div>
+        <button class="notification-close" onclick="hideNotification()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
     <div id="main-content" class="main-content">
         <header class="header">
             <div class="header-content">
@@ -612,7 +799,7 @@
                 <p class="header-subtitle">Your comprehensive resource for academic excellence and test preparation materials</p>
             </div>
         </header>
-
+        
         <div class="container mx-auto px-4">
             <div class="nav-container">
                 <div class="nav-tabs">
@@ -634,9 +821,9 @@
                     <button class="nav-tab" onclick="showSection('video-lectures')">
                         <i class="fas fa-play-circle mr-2"></i>Video Lectures
                     </button>
-                    </div>
+                </div>
             </div>
-
+            
             <div id="pdf-books" class="content-section active">
                 <h3 class="section-title">PDF Books Collection</h3>
                 <p class="section-description">
@@ -651,7 +838,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div id="test-notes" class="content-section">
                 <h3 class="section-title">Comprehensive Test Notes</h3>
                 <p class="section-description">
@@ -666,7 +853,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div id="past-papers" class="content-section">
                 <h3 class="section-title">Past Papers Archive</h3>
                 <p class="section-description">
@@ -681,7 +868,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div id="mock-tests-offline" class="content-section">
                 <h3 class="section-title">Offline Mock Tests</h3>
                 <p class="section-description">
@@ -696,7 +883,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div id="mock-tests-online" class="content-section">
                 <h3 class="section-title">Online Mock Tests</h3>
                 <p class="section-description">
@@ -711,7 +898,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div id="video-lectures" class="content-section">
                 <h3 class="section-title">Video Lectures</h3>
                 <p class="section-description">
@@ -727,79 +914,51 @@
                 </div>
             </div>
         </div>
-
+        
         <footer class="footer">
             <div class="container mx-auto px-4">
                 <p>&copy; 2025 Premium Educational Hub. All rights reserved. | Secure Learning Platform</p>
             </div>
         </footer>
     </div>
-
+    
     <a href="https://wa.me/923480358640" class="whatsapp-float" target="_blank" title="WhatsApp Support" id="whatsapp-float-btn">
         <i class="fab fa-whatsapp"></i>
     </a>
-
-    <!-- Backendless JavaScript SDK -->
-    <script src="//unpkg.com/backendless@latest/dist/backendless.min.js"></script>
-
+    
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0"></script>
+    
     <script>
-        // Backendless Configuration
-        const APP_ID = '9E4D9285-8A10-4218-95FC-A09EF96833E0'; // Replace with your Backendless App ID
-        const API_KEY = '2D09C0C5-B73C-4206-A772-D062E096503F'; // Replace with your Backendless REST API Key
-
-        // Initialize Backendless SDK
-        Backendless.initApp(APP_ID, API_KEY);
-        console.log("Backendless Initialized for Frontend.");
-
-        // Enhanced Security Configuration
+        // Initialize Supabase
+        const supabaseUrl = 'https://zbxinuoktkkgxtvarqik.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpieGludW9rdGtrZ3h0dmFycWlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ4NTA2MDAsImV4cCI6MjA3MDQyNjYwMH0.8PrjVQRnHwf2zZdDQOOeqQtWP9-ZgjzEL2Pp2TQzsek';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+        
+        // Security Configuration
         const SECURITY_CONFIG = {
             maxAttempts: 5,
             lockoutDuration: 300000, // 5 minutes
-            sessionTimeout: 3600000, // 1 hour
-            // validPasswords: ['premium2024', 'education123', 'mocktesthub', 'secure@access'], // This will be fetched from Backendless
-            encryptionKey: 'educational_hub_2024'
+            sessionTimeout: 7200000, // 2 hours (extended)
+            validPasswords: ['premium2024', 'education123', 'mocktesthub', 'secure@access', 'admin123'],
+            encryptionKey: 'educational_hub_2024',
+            passwordCheckInterval: 60000, // 10 seconds (as requested)
+            timestampTolerance: 5000 // 5 seconds tolerance for timestamp comparison
         };
-
+        
         let attemptCount = 0;
         let isLocked = false;
         let sessionStartTime = null;
-        let fetchedAccessPassword = null; // Variable to store the fetched password
-
+        let currentPasswordHash = null;
+        let passwordCheckInterval = null;
+        
         // Initialize security on page load
         document.addEventListener('DOMContentLoaded', function() {
             initializeSecurity();
             setupKeyboardListeners();
             checkExistingSession();
-            fetchAccessPassword(); // Fetch the access password from Backendless
         });
-
-        async function fetchAccessPassword() {
-            try {
-                // Fetch the full security settings object, not just the password
-                const queryBuilder = Backendless.DataQueryBuilder.create().setPageSize(1);
-                const result = await Backendless.Data.of('SecuritySettings').find(queryBuilder);
-                
-                if (result && result.length > 0) {
-                    const securitySettings = result[0];
-                    fetchedAccessPassword = securitySettings.accessPassword;
-                    // Store the security settings for later use in session monitoring
-                    window.currentSecuritySettings = securitySettings;
-                    console.log("Security settings fetched successfully.");
-                } else {
-                    console.warn("No access password found in Backendless 'SecuritySettings' table. Using fallback.");
-                    // Fallback to a default password if none is found in Backendless
-                    fetchedAccessPassword = 'default_secure_password'; 
-                    window.currentSecuritySettings = { accessPassword: fetchedAccessPassword, lastUpdated: Date.now() };
-                }
-            } catch (error) {
-                console.error("Error fetching access password from Backendless:", error);
-                // Fallback to a default password if fetching fails
-                fetchedAccessPassword = 'default_secure_password'; 
-                window.currentSecuritySettings = { accessPassword: fetchedAccessPassword, lastUpdated: Date.now() };
-                showErrorMessage('Failed to load security settings. Please try again later.');
-            }
-        }
-
+        
         function initializeSecurity() {
             // Check if user is locked out
             const lockoutTime = localStorage.getItem('lockoutTime');
@@ -807,12 +966,12 @@
                 showLockoutMessage();
                 return;
             }
-
+            
             // Clear any existing lockout
             localStorage.removeItem('lockoutTime');
             attemptCount = parseInt(localStorage.getItem('attemptCount') || '0');
         }
-
+        
         function setupKeyboardListeners() {
             const passwordInput = document.getElementById('password-input');
             passwordInput.addEventListener('keypress', function(e) {
@@ -820,38 +979,25 @@
                     authenticateUser();
                 }
             });
-
+            
             // Clear error message when user starts typing
             passwordInput.addEventListener('input', function() {
                 hideErrorMessage();
             });
         }
-
+        
         function checkExistingSession() {
             const sessionData = localStorage.getItem('secureSession');
             if (sessionData) {
                 try {
                     const session = JSON.parse(sessionData);
-                    // Also check if the password timestamp exists and session is not expired
-                    if (session.passwordTimestamp && Date.now() - session.startTime < SECURITY_CONFIG.sessionTimeout) {
-                        // Before granting access, do a quick check to see if password has changed since last visit
-                        Backendless.Data.of('SecuritySettings').find(Backendless.DataQueryBuilder.create().setProperties(['lastUpdated']).setPageSize(1))
-                            .then(result => {
-                                if (result && result.length > 0 && result[0].lastUpdated !== session.passwordTimestamp) {
-                                    console.log("Password changed since last session. Forcing re-login.");
-                            // *** MODIFICATION START ***
-                            // Removed any alert() and directly calling logout()
-                            logout();
-                            // *** MODIFICATION END ***
-                        } else {
-                            grantAccess();          grantAccess(); // Grant access if timestamps match
-                                }
-                            })
-                            .catch(error => {
-                                console.error("Error checking password timestamp:", error);
-                                // If we can't verify, force re-login for security
-                                logout();
-                            });
+                    if (session.authenticated && Date.now() - session.startTime < SECURITY_CONFIG.sessionTimeout) {
+                        // Check if password hash is stored
+                        if (session.currentPasswordHash) {
+                        currentPasswordHash = localStorage.getItem('currentPasswordHash') || session.currentPasswordHash;
+                            currentPasswordHash = session.currentPasswordHash;
+                        }
+                        grantAccess();
                         return;
                     }
                 } catch (e) {
@@ -859,13 +1005,13 @@
                 }
             }
         }
-
-        async function authenticateUser() { // Made async to await fetched password
+        
+        async function authenticateUser() {
             if (isLocked) {
                 showErrorMessage('Account temporarily locked. Please try again later.');
                 return;
             }
-
+            
             const passwordInput = document.getElementById('password-input');
             const password = passwordInput.value.trim();
             
@@ -873,42 +1019,74 @@
                 showErrorMessage('Please enter a password.');
                 return;
             }
-
-            if (!fetchedAccessPassword || !window.currentSecuritySettings) {
-                showErrorMessage('Security settings not loaded yet. Please wait or refresh.');
-                // Attempt to re-fetch if not loaded
-                await fetchAccessPassword(); 
-                if (!fetchedAccessPassword) return; // If still null, exit
-            }
-
+            
             showLoadingState();
-
-            // Simulate authentication delay for security
-            setTimeout(() => {
-                if (validatePassword(password)) {
-                    // Successful authentication
-                    attemptCount = 0;
-                    localStorage.removeItem('attemptCount');
-                    // *** MODIFICATION ***: Pass the timestamp to create the session
-                    createSecureSession(window.currentSecuritySettings.lastUpdated);
-                    grantAccess();
-                } else {
-                    // Failed authentication
-                    handleFailedAttempt();
+            
+            // Check against Supabase security settings
+            try {
+                const { data, error } = await supabase
+                    .from('securitysettings')
+                    .select('accesspassword, lastupdated')
+                    .limit(1);
+                
+                if (error) {
+                    throw error;
                 }
+                
+                // Simulate authentication delay for security
+                setTimeout(() => {
+                    let isValid = false;
+                    let passwordHash = null;
+                    
+                    // Check against Supabase stored passwords
+                    if (data && data.length > 0) {
+                        for (const item of data) {
+                            if (item.accesspassword === password) {
+                                isValid = true;
+                                // Create a simple hash of the password for comparison
+                                passwordHash = btoa(password);
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // If no security settings exist yet, check against default passwords
+                    if (!isValid) {
+                        for (const validPassword of SECURITY_CONFIG.validPasswords) {
+                            if (validPassword === password) {
+                                isValid = true;
+                                // Create a simple hash of the password for comparison
+                                passwordHash = btoa(password);
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (isValid) {
+                        // Successful authentication
+                        attemptCount = 0;
+                        localStorage.removeItem('attemptCount');
+                        createSecureSession(passwordHash);
+                        localStorage.setItem('currentPasswordHash', passwordHash);
+                        grantAccess();
+                    } else {
+                        // Failed authentication
+                        handleFailedAttempt();
+                    }
+                    
+                    hideLoadingState();
+                }, 1500);
+            } catch (error) {
+                console.error('Error during authentication:', error);
+                showErrorMessage('An error occurred. Please try again later.');
                 hideLoadingState();
-            }, 1500);
+            }
         }
-
-        function validatePassword(password) {
-            // Validate against the fetched password
-            return password === fetchedAccessPassword;
-        }
-
+        
         function handleFailedAttempt() {
             attemptCount++;
             localStorage.setItem('attemptCount', attemptCount.toString());
-
+            
             if (attemptCount >= SECURITY_CONFIG.maxAttempts) {
                 // Lock the account
                 isLocked = true;
@@ -918,24 +1096,25 @@
                 const remainingAttempts = SECURITY_CONFIG.maxAttempts - attemptCount;
                 showErrorMessage(`Invalid password. ${remainingAttempts} attempts remaining.`);
             }
-
+            
             // Clear password field
             document.getElementById('password-input').value = '';
         }
-
-        function createSecureSession(lastUpdatedTimestamp) {
+        
+        function createSecureSession(passwordHash) {
             const sessionData = {
                 startTime: Date.now(),
                 authenticated: true,
                 userAgent: navigator.userAgent,
                 timestamp: new Date().toISOString(),
-                // *** MODIFICATION ***: Store the password's last update time
-                passwordTimestamp: lastUpdatedTimestamp || Date.now()
+                currentPasswordHash: passwordHash
             };
+            
             localStorage.setItem('secureSession', JSON.stringify(sessionData));
             sessionStartTime = Date.now();
+            currentPasswordHash = passwordHash;
         }
-
+        
         function grantAccess() {
             const overlay = document.getElementById('security-overlay');
             const mainContent = document.getElementById('main-content');
@@ -948,75 +1127,30 @@
                 overlay.style.display = 'none';
                 mainContent.style.display = 'block';
                 securityIndicator.classList.add('show');
-                whatsappButton.style.display = 'flex'; // Show WhatsApp button after login
+                whatsappButton.style.display = 'flex';
                 
                 // Start session monitoring
                 startSessionMonitoring();
-
-                // Dynamically load Tawk.to script after successful login
-                if (!document.getElementById('tawkScript')) {
-                    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-                    (function(){
-                        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-                        s1.id = 'tawkScript'; // Add an ID to prevent duplicate loading
-                        s1.async=true;
-                        s1.src='https://embed.tawk.to/6885ceabec9db219126f7895/1j15aukd8';
-                        s1.charset='UTF-8';
-                        s1.setAttribute('crossorigin','*');
-                        s0.parentNode.insertBefore(s1,s0);
-                    })();
-                }
-
+                
+                // Start password change monitoring
+                startPasswordChangeMonitoring();
+                
                 // Load initial data for the active section (PDF Books by default)
-                // This will trigger fetchPdfBooks()
-                showSection('pdf-books'); 
-
+                showSection('pdf-books');
+                
+                // Show welcome notification
+                showNotification('success', 'Access Granted', 'Welcome to the Premium Educational Hub!');
             }, 500);
         }
-
-        // *** NEW FUNCTION ***: Monitor for password changes
-        async function monitorPasswordChange() {
-            try {
-                // Get the timestamp stored in the user's local session
-                const sessionData = JSON.parse(localStorage.getItem('secureSession'));
-                if (!sessionData || !sessionData.passwordTimestamp) {
-                    console.warn("Session timestamp not found. Logging out.");
-                    logout();
-                    return;
-                }
-                const localTimestamp = sessionData.passwordTimestamp;
-
-                // Fetch the latest timestamp from the server
-                const queryBuilder = Backendless.DataQueryBuilder.create().setProperties(['lastUpdated']).setPageSize(1);
-                const result = await Backendless.Data.of('SecuritySettings').find(queryBuilder);
-
-                if (result && result.length > 0) {
-                    const serverTimestamp = result[0].lastUpdated;
-                    // If the server timestamp is different from the one stored locally, the password has changed.
-                    if (serverTimestamp && localTimestamp !== serverTimestamp) {
-                        console.log("Password has been changed remotely. Logging out.");
-                        // *** MODIFICATION START ***
-                        // Removed the alert() and directly calling logout()
-                        logout(); 
-                        // *** MODIFICATION END ***
-                    }
-                }
-            } catch (error) {
-                console.error("Error during password change check:", error);
-            }
-        }
-
+        
         function startSessionMonitoring() {
-            // Monitor for session timeout (every minute)
+            // Monitor for session timeout
             setInterval(() => {
                 if (sessionStartTime && Date.now() - sessionStartTime > SECURITY_CONFIG.sessionTimeout) {
                     logout();
                 }
             }, 60000); // Check every minute
-
-            // *** MODIFICATION ***: Check for remote password changes (every 30 seconds)
-            setInterval(monitorPasswordChange, 5000); // Check every 30 seconds
-
+            
             // Monitor for suspicious activity
             document.addEventListener('visibilitychange', function() {
                 if (document.hidden) {
@@ -1025,12 +1159,94 @@
                 }
             });
         }
-
+        
+        function startPasswordChangeMonitoring() {
+            // Check for password changes every 10 seconds
+            passwordCheckInterval = setInterval(async () => {
+                try {
+                    const { data, error } = await supabase
+                        .from('securitysettings')
+                        .select('accesspassword')
+                        .limit(1);
+                    
+                    if (error) {
+                        throw error;
+                    }
+                    
+                    if (data && data.length > 0) {
+    const currentPassword = data[0].accesspassword;
+    const newPasswordHash = btoa(currentPassword);
+    const storedHash = localStorage.getItem('currentPasswordHash');
+    
+    if (storedHash && newPasswordHash !== storedHash) {
+        localStorage.removeItem('currentPasswordHash');
+        clearInterval(passwordCheckInterval);
+        console.log('Password change detected, destroying session immediately');
+        showNotification('warning', 'Security Update', 'Your access code has been changed. Session terminated.');
+        forceLogout();
+    }
+} else {
+    console.warn('No password found in DB during monitoring — skipping check.');
+}
+                } catch (error) {
+                    console.error('Error checking for password changes:', error);
+                }
+            }, SECURITY_CONFIG.passwordCheckInterval);
+        }
+        
+        function forceLogout() {
+            // Clear session data
+            localStorage.removeItem('secureSession');
+            
+            // Hide main content
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('security-indicator').classList.remove('show');
+            document.getElementById('whatsapp-float-btn').style.display = 'none';
+            
+            // Show login screen
+            const overlay = document.getElementById('security-overlay');
+            overlay.style.display = 'flex';
+            overlay.style.opacity = '1';
+            
+            // Reset form
+            document.getElementById('password-input').value = '';
+            hideErrorMessage();
+            
+            // Show notification
+            showNotification('info', 'Session Ended', 'Please log in again to continue.');
+        }
+        
+        function showSessionExpired() {
+            const sessionExpiredModal = document.getElementById('session-expired');
+            sessionExpiredModal.classList.add('show');
+            
+            // Hide the main content
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('security-indicator').classList.remove('show');
+            document.getElementById('whatsapp-float-btn').style.display = 'none';
+        }
+        
+        function redirectToLogin() {
+            // Clear session data
+            localStorage.removeItem('secureSession');
+            
+            // Hide session expired modal
+            document.getElementById('session-expired').classList.remove('show');
+            
+            // Show login screen
+            document.getElementById('security-overlay').style.display = 'flex';
+            document.getElementById('security-overlay').style.opacity = '1';
+            
+            // Reset form
+            document.getElementById('password-input').value = '';
+            hideErrorMessage();
+        }
+        
         function logout() {
             localStorage.removeItem('secureSession');
             location.reload();
         }
-
+        
         function showLoadingState() {
             const button = document.querySelector('.unlock-button');
             const buttonText = document.getElementById('button-text');
@@ -1040,7 +1256,7 @@
             buttonText.style.display = 'none';
             spinner.style.display = 'inline-block';
         }
-
+        
         function hideLoadingState() {
             const button = document.querySelector('.unlock-button');
             const buttonText = document.getElementById('button-text');
@@ -1050,7 +1266,7 @@
             buttonText.style.display = 'inline';
             spinner.style.display = 'none';
         }
-
+        
         function showErrorMessage(message) {
             const errorElement = document.getElementById('error-message');
             const errorText = document.getElementById('error-text');
@@ -1058,12 +1274,12 @@
             errorText.textContent = message;
             errorElement.classList.add('show');
         }
-
+        
         function hideErrorMessage() {
             const errorElement = document.getElementById('error-message');
             errorElement.classList.remove('show');
         }
-
+        
         function showLockoutMessage() {
             const remainingTime = Math.ceil((SECURITY_CONFIG.lockoutDuration - (Date.now() - parseInt(localStorage.getItem('lockoutTime')))) / 1000 / 60);
             showErrorMessage(`Account locked due to multiple failed attempts. Try again in ${remainingTime} minutes.`);
@@ -1072,7 +1288,48 @@
             document.getElementById('password-input').disabled = true;
             document.querySelector('.unlock-button').disabled = true;
         }
-
+        
+        // Notification system
+        function showNotification(type, title, message) {
+            const toast = document.getElementById('notification-toast');
+            const icon = document.getElementById('notification-icon');
+            const titleEl = document.getElementById('notification-title');
+            const messageEl = document.getElementById('notification-message');
+            
+            // Set icon based on type
+            icon.className = `notification-icon ${type}`;
+            switch(type) {
+                case 'info':
+                    icon.innerHTML = '<i class="fas fa-info-circle"></i>';
+                    break;
+                case 'warning':
+                    icon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+                    break;
+                case 'success':
+                    icon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    break;
+                case 'error':
+                    icon.innerHTML = '<i class="fas fa-times-circle"></i>';
+                    break;
+            }
+            
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+            
+            // Show notification
+            toast.classList.add('show');
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                hideNotification();
+            }, 5000);
+        }
+        
+        function hideNotification() {
+            const toast = document.getElementById('notification-toast');
+            toast.classList.remove('show');
+        }
+        
         // Helper to create a content card HTML
         function createContentCardHtml(item) {
             return `
@@ -1084,12 +1341,12 @@
                     <p class="card-description">${item.description || 'No description available.'}</p>
                     <a href="${item.link || '#'}" class="card-action" target="_blank">
                         <i class="fas fa-download"></i>
-                        ${item.actionText || 'Access Content'}
+                        ${item.actiontext || 'Access Content'}
                     </a>
                 </div>
             `;
         }
-
+        
         // Generic fetch function for any content type
         async function fetchContent(tableName, contentDivId) {
             const contentDiv = document.getElementById(contentDivId);
@@ -1098,32 +1355,38 @@
                     <div class="content-spinner"></div>
                     <p class="ml-4 text-gray-600">Loading ${tableName.replace(/([A-Z])/g, ' $1').trim()}...</p>
                 </div>
-            `; // Show loading spinner
-
+            `;
+            
             try {
-                const data = await Backendless.Data.of(tableName).find();
-
+                const { data, error } = await supabase
+                    .from(tableName)
+                    .select('*')
+                    .order('title', { ascending: true });
+                
+                if (error) {
+                    throw error;
+                }
+                
                 if (data.length === 0) {
                     contentDiv.innerHTML = `
                         <p class="text-center text-gray-500 col-span-full">No ${tableName.replace(/([A-Z])/g, ' $1').trim()} available yet. Please check back later!</p>
                     `;
                     return;
                 }
-
+                
                 contentDiv.innerHTML = ''; // Clear loading state
                 data.forEach(item => {
                     const cardHtml = createContentCardHtml(item);
                     contentDiv.insertAdjacentHTML('beforeend', cardHtml);
                 });
-
             } catch (error) {
-                console.error(`Error fetching ${tableName} from Backendless:`, error);
+                console.error(`Error fetching ${tableName} from Supabase:`, error);
                 contentDiv.innerHTML = `
-                    <p class="text-center text-red-500 col-span-full">Failed to load ${tableName.replace(/([A-Z])/g, ' $1').trim()}. Error: ${error.message}.</p>
+                    <p class="text-center text-red-500 col-span-full">Failed to load ${tableName.replace(/([A-Z])/g, ' $1').trim()}. Please try again later.</p>
                 `;
             }
         }
-
+        
         // Navigation Functions
         function showSection(sectionId) {
             // Hide all sections
@@ -1131,67 +1394,55 @@
             sections.forEach(section => {
                 section.classList.remove('active');
             });
-
+            
             // Remove active class from all tabs
             const tabs = document.querySelectorAll('.nav-tab');
             tabs.forEach(tab => {
                 tab.classList.remove('active');
             });
-
+            
             // Show selected section
             document.getElementById(sectionId).classList.add('active');
-
+            
             // Add active class to the corresponding tab
             const activeTab = document.querySelector(`[onclick="showSection('${sectionId}')"]`);
             if (activeTab) {
                 activeTab.classList.add('active');
             }
-
+            
             // Dynamically fetch data for the selected section
             switch (sectionId) {
                 case 'pdf-books':
-                    fetchContent('PdfBooks', 'pdf-books-content');
+                    fetchContent('pdfbooks', 'pdf-books-content');
                     break;
                 case 'test-notes':
-                    fetchContent('TestNotes', 'test-notes-content');
+                    fetchContent('testnotes', 'test-notes-content');
                     break;
                 case 'past-papers':
-                    fetchContent('PastPapers', 'past-papers-content');
+                    fetchContent('pastpapers', 'past-papers-content');
                     break;
                 case 'mock-tests-offline':
-                    fetchContent('MockTestsOffline', 'mock-tests-offline-content');
+                    fetchContent('mocktestsoffline', 'mock-tests-offline-content');
                     break;
                 case 'mock-tests-online':
-                    fetchContent('MockTestsOnline', 'mock-tests-online-content');
+                    fetchContent('mocktestsonline', 'mock-tests-online-content');
                     break;
                 case 'video-lectures':
-                    fetchContent('VideoLectures', 'video-lectures-content');
+                    fetchContent('videolectures', 'video-lectures-content');
                     break;
                 default:
                     console.warn('Unknown section:', sectionId);
             }
         }
-
-        // Tawk.to Functions (now only callable after script loads)
-        function openTawkChat() {
-            if (typeof Tawk_API !== 'undefined') {
-                Tawk_API.maximize();
-            } else {
-                console.warn('Tawk.to API not yet loaded. Please try again in a moment.');
-                // Optionally, show a message to the user that chat is loading
-                showErrorMessage('Live chat is loading. Please try again in a moment.');
-            }
-        }
-
+        
         // Security monitoring functions
         function detectDevTools() {
             let devtools = {
                 open: false,
                 orientation: null
             };
-
             const threshold = 160;
-
+            
             setInterval(() => {
                 if (window.outerHeight - window.innerHeight > threshold || 
                     window.outerWidth - window.innerWidth > threshold) {
@@ -1205,15 +1456,15 @@
                 }
             }, 500);
         }
-
+        
         // Initialize additional security measures
         detectDevTools();
-
+        
         // Prevent right-click context menu (optional)
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
-
+        
         // Prevent common keyboard shortcuts (optional)
         document.addEventListener('keydown', function(e) {
             // Prevent F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
