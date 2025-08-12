@@ -934,24 +934,32 @@
         const supabaseUrl = 'https://zbxinuoktkkgxtvarqik.supabase.co';
         const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpieGludW9rdGtrZ3h0dmFycWlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ4NTA2MDAsImV4cCI6MjA3MDQyNjYwMH0.8PrjVQRnHwf2zZdDQOOeqQtWP9-ZgjzEL2Pp2TQzsek';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
-        
         // Security Configuration
         const SECURITY_CONFIG = {
             maxAttempts: 5,
             lockoutDuration: 300000, // 5 minutes
             sessionTimeout: 7200000, // 2 hours (extended)
-            validPasswords: ['premium2024', 'education123', 'mocktesthub', 'secure@access', 'admin123'],
-            encryptionKey: 'educational_hub_2024',
-            passwordCheckInterval: 60000, // 10 seconds (as requested)
+            validPasswords: ['premium2024', 'education123', 'mocktesthub', 'secure@access', 'admin123'], // Default passwords
+            encryptionKey: 'educational_hub_2024', // Not used for password hashing, but kept for context
+            passwordCheckInterval: 10000, // 10 seconds (as requested)
             timestampTolerance: 5000 // 5 seconds tolerance for timestamp comparison
         };
         
         let attemptCount = 0;
         let isLocked = false;
         let sessionStartTime = null;
-        let currentPasswordHash = null;
+        let currentPasswordHash = null; // This will now store the SHA-256 hash
         let passwordCheckInterval = null;
         
+        // SHA-256 Hashing Function
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hexHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hexHash;
+        }
+
         // Initialize security on page load
         document.addEventListener('DOMContentLoaded', function() {
             initializeSecurity();
@@ -986,7 +994,7 @@
             });
         }
         
-        function checkExistingSession() {
+        async function checkExistingSession() {
             const sessionData = localStorage.getItem('secureSession');
             if (sessionData) {
                 try {
@@ -994,13 +1002,18 @@
                     if (session.authenticated && Date.now() - session.startTime < SECURITY_CONFIG.sessionTimeout) {
                         // Check if password hash is stored
                         if (session.currentPasswordHash) {
-                        currentPasswordHash = localStorage.getItem('currentPasswordHash') || session.currentPasswordHash;
-                            currentPasswordHash = session.currentPasswordHash;
+                            currentPasswordHash = session.currentPasswordHash; // Use the hash from session
+                        } else {
+                            // Fallback for older sessions that might not have currentPasswordHash
+                            // This part might need adjustment based on how you want to handle old sessions
+                            console.warn("Old session format detected, no currentPasswordHash. Re-authenticating might be needed.");
+                            // For now, we'll just proceed, but monitoring might fail if no hash is set.
                         }
                         grantAccess();
                         return;
                     }
                 } catch (e) {
+                    console.error("Error parsing session data:", e);
                     localStorage.removeItem('secureSession');
                 }
             }
@@ -1022,11 +1035,14 @@
             
             showLoadingState();
             
+            // Hash the input password for comparison
+            const inputPasswordHash = await sha256(password);
+            
             // Check against Supabase security settings
             try {
                 const { data, error } = await supabase
                     .from('securitysettings')
-                    .select('accesspassword, lastupdated')
+                    .select('accesspassword') // Assuming accesspassword is plain-text in DB
                     .limit(1);
                 
                 if (error) {
@@ -1034,29 +1050,23 @@
                 }
                 
                 // Simulate authentication delay for security
-                setTimeout(() => {
+                setTimeout(async () => { // Made this async to await sha256
                     let isValid = false;
-                    let passwordHash = null;
-                    
-                    // Check against Supabase stored passwords
+                    let actualPasswordFromDB = null;
+
                     if (data && data.length > 0) {
-                        for (const item of data) {
-                            if (item.accesspassword === password) {
-                                isValid = true;
-                                // Create a simple hash of the password for comparison
-                                passwordHash = btoa(password);
-                                break;
-                            }
+                        actualPasswordFromDB = data[0].accesspassword;
+                        // Compare hashed input with hashed DB password (assuming DB password is plain-text)
+                        if (inputPasswordHash === await sha256(actualPasswordFromDB)) {
+                            isValid = true;
                         }
                     }
                     
-                    // If no security settings exist yet, check against default passwords
+                    // If not valid from Supabase, check against default passwords
                     if (!isValid) {
                         for (const validPassword of SECURITY_CONFIG.validPasswords) {
-                            if (validPassword === password) {
+                            if (inputPasswordHash === await sha256(validPassword)) {
                                 isValid = true;
-                                // Create a simple hash of the password for comparison
-                                passwordHash = btoa(password);
                                 break;
                             }
                         }
@@ -1066,8 +1076,9 @@
                         // Successful authentication
                         attemptCount = 0;
                         localStorage.removeItem('attemptCount');
-                        createSecureSession(passwordHash);
-                        localStorage.setItem('currentPasswordHash', passwordHash);
+                        // Store the hash of the successfully authenticated password
+                        createSecureSession(inputPasswordHash); 
+                        localStorage.setItem('currentPasswordHash', inputPasswordHash);
                         grantAccess();
                     } else {
                         // Failed authentication
@@ -1107,7 +1118,7 @@
                 authenticated: true,
                 userAgent: navigator.userAgent,
                 timestamp: new Date().toISOString(),
-                currentPasswordHash: passwordHash
+                currentPasswordHash: passwordHash // Store the SHA-256 hash
             };
             
             localStorage.setItem('secureSession', JSON.stringify(sessionData));
@@ -1166,7 +1177,7 @@
                 try {
                     const { data, error } = await supabase
                         .from('securitysettings')
-                        .select('accesspassword')
+                        .select('accesspassword') // Assuming accesspassword is plain-text in DB
                         .limit(1);
                     
                     if (error) {
@@ -1174,20 +1185,28 @@
                     }
                     
                     if (data && data.length > 0) {
-    const currentPassword = data[0].accesspassword;
-    const newPasswordHash = btoa(currentPassword);
-    const storedHash = localStorage.getItem('currentPasswordHash');
-    
-    if (storedHash && newPasswordHash !== storedHash) {
-        localStorage.removeItem('currentPasswordHash');
-        clearInterval(passwordCheckInterval);
-        console.log('Password change detected, destroying session immediately');
-        showNotification('warning', 'Security Update', 'Your access code has been changed. Session terminated.');
-        forceLogout();
-    }
-} else {
-    console.warn('No password found in DB during monitoring — skipping check.');
-}
+                        const currentPasswordFromDB = data[0].accesspassword;
+                        // Hash the password from DB for comparison
+                        const newPasswordHashFromDB = await sha256(currentPasswordFromDB);
+                        const storedHash = localStorage.getItem('currentPasswordHash');
+                        
+                        console.log('--- Password Change Monitoring ---');
+                        console.log('Password from DB (plain-text):', currentPasswordFromDB);
+                        console.log('Hashed DB Password:', newPasswordHashFromDB);
+                        console.log('Stored Session Hash:', storedHash);
+                        console.log('Hashes match?', newPasswordHashFromDB === storedHash);
+                        console.log('----------------------------------');
+
+                        if (storedHash && newPasswordHashFromDB !== storedHash) {
+                            localStorage.removeItem('currentPasswordHash');
+                            clearInterval(passwordCheckInterval);
+                            console.log('Password change detected, destroying session immediately');
+                            showNotification('warning', 'Security Update', 'Your access code has been changed. Session terminated.');
+                            forceLogout();
+                        }
+                    } else {
+                        console.warn('No password found in DB during monitoring — skipping check.');
+                    }
                 } catch (error) {
                     console.error('Error checking for password changes:', error);
                 }
@@ -1197,6 +1216,7 @@
         function forceLogout() {
             // Clear session data
             localStorage.removeItem('secureSession');
+            localStorage.removeItem('currentPasswordHash'); // Ensure this is also cleared
             
             // Hide main content
             document.getElementById('main-content').style.display = 'none';
@@ -1229,6 +1249,7 @@
         function redirectToLogin() {
             // Clear session data
             localStorage.removeItem('secureSession');
+            localStorage.removeItem('currentPasswordHash'); // Ensure this is also cleared
             
             // Hide session expired modal
             document.getElementById('session-expired').classList.remove('show');
@@ -1244,6 +1265,7 @@
         
         function logout() {
             localStorage.removeItem('secureSession');
+            localStorage.removeItem('currentPasswordHash'); // Ensure this is also cleared
             location.reload();
         }
         
