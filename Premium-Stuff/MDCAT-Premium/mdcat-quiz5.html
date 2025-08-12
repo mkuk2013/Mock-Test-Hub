@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDCAT Mock Test - Enhanced UI</title>
+    
+    <!-- Google Fonts: Poppins (for headings) and Inter (for body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN (MUST be loaded before tailwind.config) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind CSS Configuration for Dark Mode -->
+    <script>
+        // Tailwind कॉन्फ़िगरेशन को Tailwind CDN स्क्रिप्ट के बाद लोड किया जाना चाहिए।
+        // The Tailwind configuration must be loaded after the Tailwind CDN script.
+        tailwind.config = {
+            darkMode: 'class', // HTML टैग पर 'dark' क्लास के आधार पर डार्क मोड सक्षम करें
+            // Enable dark mode based on 'dark' class on HTML tag
+            theme: {
+                extend: {
+                    // आप चाहें तो यहां अपनी थीम का विस्तार कर सकते हैं
+                    // You can extend your theme here if needed
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom CSS for fonts and scrollbar, not easily done with Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Custom scrollbar for the question palette */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px; /* For vertical scrollbars if needed */
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #e2e8f0; /* slate-200 */
+            border-radius: 10px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b; /* slate-800 */
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3b82f6; /* blue-500 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #2563eb; /* blue-600 */
+        }
+        
+        /* Custom styles for the circular progress bar */
+        .score-circle-svg {
+            width: 100%;
+            height: 100%;
+        }
+        .circle-bg {
+            fill: none;
+            stroke: #e2e8f0; /* slate-200 */
+            stroke-width: 3.8;
+        }
+        .dark .circle-bg {
+            stroke: #334155; /* slate-700 */
+        }
+        .circle-progress {
+            fill: none;
+            stroke-width: 2.8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease-out;
+            transform: rotate(-90deg); /* Apply rotation only to the progress path */
+            transform-origin: 50% 50%; /* Ensure rotation is around the center */
+        }
+        .mdcat-progress {
+            stroke: #6366f1; /* indigo-500 */
+        }
+        .aggregate-progress {
+            stroke: #00BCD4; /* secondary-color */
+        }
+        .circle-text {
+            fill: #0f172a; /* slate-900 */
+            font-family: 'Poppins', sans-serif;
+            font-size: 6.5px; /* Adjusted smaller font size */
+            font-weight: 700;
+            text-anchor: middle;
+        }
+        .dark .circle-text {
+            fill: #f8fafc; /* slate-50 */
+        }
+
+        /* Print Styles for PDF Export */
+        @media print {
+            body {
+                background-color: #fff !important;
+                color: #000 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .main-content-area {
+                padding: 0 !important;
+                margin: 0 !important;
+                min-height: auto !important;
+                display: block !important;
+            }
+            section.card {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                padding: 1rem !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                background: #fff !important;
+            }
+            #resultSection .text-3xl, #reviewSection .text-3xl {
+                font-size: 24pt;
+                text-align: center;
+                border-bottom: 2px solid #000;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+                color: #000 !important;
+            }
+            .grid {
+                display: block !important;
+            }
+            .score-circle-container {
+                display: none; /* Hide chart in print */
+            }
+            .status-pill, .review-option-item {
+                border: 1px solid #ccc !important;
+                background-color: #f9f9f9 !important;
+            }
+             .status-pill p, .status-pill strong, .status-pill span,
+             .review-option-item p, .review-option-item i {
+                 color: #000 !important;
+            }
+            .review-question-item {
+                page-break-inside: avoid;
+                margin-bottom: 1rem;
+                border-top: 1px solid #eee;
+                padding-top: 1rem;
+            }
+             .review-option-item.correct {
+                 background-color: #e6fffa !important;
+             }
+             .review-option-item.incorrect {
+                 background-color: #fff5f5 !important;
+             }
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .dark .modal-content {
+            background-color: #1e293b; /* slate-800 */
+            color: #f8fafc; /* slate-50 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-slate-700 dark:bg-gray-900 dark:text-slate-300 transition-all duration-300 ease-in-out">
+
+    <!-- Navbar -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-slate-200 dark:bg-slate-900/80 dark:border-slate-800 sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 text-2xl font-extrabold text-indigo-500 dark:text-blue-400">
+                <i class="fa-solid fa-book-open"></i>
+                <span>MDCAT Mock Test 5</span>
+            </a>
+            <div class="flex items-center gap-4">
+                <button id="fullscreenToggle" class="w-10 h-10 rounded-full flex items-center justify-center text-slate-700 bg-slate-200 hover:bg-slate-300 dark:text-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 transition" title="Toggle Fullscreen">
+                    <i class="fa-solid fa-expand" id="fullscreenIcon"></i>
+                </button>
+                <button id="themeToggle" class="w-10 h-10 rounded-full flex items-center justify-center text-indigo-500 bg-slate-200 hover:bg-slate-300 dark:text-blue-400 dark:bg-slate-800 dark:hover:bg-slate-700 transition" title="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="min-h-[calc(100vh-64px)] flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        <div class="w-full max-w-4xl mx-auto">
+
+            <!-- Password Protection Section -->
+            <section id="passwordSection" class="bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-in-out">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-slate-800 dark:text-slate-50">Start Your Test</h2>
+                    <p class="mt-2 text-slate-600 dark:text-slate-400">Enter the test password and your academic marks to begin.</p>
+                </div>
+
+                <div class="mt-8 max-w-md mx-auto flex flex-col gap-6">
+                    <div>
+                        <label for="testPassword" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Test Password</label>
+                        <input type="password" id="testPassword" class="mt-1 block w-full p-3 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-slate-800 dark:text-slate-50 placeholder-slate-400 dark:placeholder-slate-500" placeholder="••••••••••">
+                        <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">Incorrect password. Please try again.</p>
+                    </div>
+
+                       <div class="bg-blue-50 dark:bg-slate-800 p-4 rounded-lg text-center border border-blue-200 dark:border-slate-700">
+                        <p class="text-sm text-blue-800 dark:text-blue-300">
+                            <i class="fa-solid fa-circle-info mr-1"></i> <strong>TEST PASSWORD:</strong> mdcattestbymk</p></div>
+
+
+                    <div class="academic-marks-section">
+                        <h3 class="pt-6 text-lg font-semibold text-slate-800 dark:text-slate-50 border-t border-slate-200 dark:border-slate-700">Academic Marks (for Merit Calculation)</h3>
+                        <div class="space-y-4 mt-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">SSC Marks</label>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <input type="number" id="sscObtained" class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-slate-800 dark:text-slate-50 placeholder-slate-400 dark:placeholder-slate-500" placeholder="Obtained" min="0">
+                                    <span class="text-slate-600 dark:text-slate-400">/</span>
+                                    <input type="number" id="sscTotal" class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-slate-800 dark:text-slate-50 placeholder-slate-400 dark:placeholder-slate-500" placeholder="Total" min="1">
+                                </div>
+                                <p id="sscError" class="text-red-500 text-sm mt-1 hidden">Please enter valid SSC marks (Obtained &lt;= Total, Total &gt; 0).</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">F.Sc. Marks</label>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <input type="number" id="fscObtained" class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-slate-800 dark:text-slate-50 placeholder-slate-400 dark:placeholder-slate-500" placeholder="Obtained" min="0">
+                                    <span class="text-slate-600 dark:text-slate-400">/</span>
+                                    <input type="number" id="fscTotal" class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-slate-800 dark:text-slate-50 placeholder-slate-400 dark:placeholder-slate-500" placeholder="Total" min="1">
+                                </div>
+                                <p id="fscError" class="text-red-500 text-sm mt-1 hidden">Please enter valid F.Sc. marks (Obtained &lt;= Total, Total &gt; 0).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="startTestBtn" class="w-full py-3 px-4 bg-indigo-500 text-white font-bold rounded-lg shadow-lg shadow-indigo-500/30 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:shadow-blue-500/20 dark:hover:bg-blue-600 dark:focus:ring-offset-slate-900 transition-all duration-300 ease-in-out transform hover:scale-105">
+                        Start Test
+                    </button>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section id="quizSection" class="hidden">
+                <div class="bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-in-out">
+                    <div class="flex flex-col sm:flex-row justify-between items-center pb-4 border-b border-slate-200 dark:border-slate-700 gap-4">
+                        <!-- Question counter updated to reflect 200 questions -->
+                        <h3 id="questionCounter" class="text-lg font-semibold text-slate-800 dark:text-slate-50">Question 1/200</h3>
+                        <div id="timer" class="flex items-center gap-2 text-xl font-bold text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/50 py-2 px-4 rounded-full border border-red-200 dark:border-red-500/30">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>03:30:00</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <h4 id="questionText" class="text-xl font-bold text-slate-900 dark:text-slate-50 leading-tight"></h4>
+                        <div id="optionsContainer" class="flex flex-col gap-4 mt-6">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between mt-8 no-print">
+                        <button id="prevBtn" class="py-3 px-6 bg-slate-200 text-slate-800 font-semibold rounded-lg hover:bg-slate-300 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600 transition">Previous</button>
+                        <button id="nextBtn" class="py-3 px-6 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-blue-500 dark:hover:bg-blue-600 transition">Next</button>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800/50 p-4 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 mt-6 no-print">
+                    <h4 class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-3">Question Palette</h4>
+                    <div id="questionPalette" class="flex flex-nowrap gap-2 overflow-x-auto pb-2 custom-scrollbar">
+                        <!-- Question palette buttons will be generated here by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Result Section -->
+            <section id="resultSection" class="hidden">
+                <div class="bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 text-center transition-all duration-300 ease-in-out">
+                    <h2 class="text-3xl font-extrabold text-slate-800 dark:text-slate-50">Test Completed!</h2>
+                    <p class="mt-2 text-slate-600 dark:text-slate-400">Here's a summary of your performance.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 items-center">
+                        <!-- MDCAT Score Circle -->
+                        <div class="flex flex-col items-center justify-center">
+                            <div class="w-52 h-52 relative flex items-center justify-center">
+                                <svg class="score-circle-svg" viewBox="0 0 36 36">
+                                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="circle-progress mdcat-progress" id="mdcatScoreCircle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <text x="18" y="18" class="circle-text" id="mdcatScoreCircleText"></text>
+                                </svg>
+                            </div>
+                            <p class="mt-2 text-lg font-semibold text-slate-700 dark:text-slate-300">MDCAT Score</p>
+                        </div>
+
+                        <!-- Aggregate Score Circle -->
+                        <div class="flex flex-col items-center justify-center">
+                            <div class="w-52 h-52 relative flex items-center justify-center">
+                                <svg class="score-circle-svg" viewBox="0 0 36 36">
+                                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="circle-progress aggregate-progress" id="aggregateScoreCircle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <text x="18" y="18" class="circle-text" id="aggregateScoreCircleText"></text>
+                                </svg>
+                            </div>
+                            <p class="mt-2 text-lg font-semibold text-slate-700 dark:text-slate-300">Aggregate Score</p>
+                        </div>
+
+                        <div class="flex flex-col gap-3 text-left">
+                            <div class="flex items-center justify-between bg-slate-100 dark:bg-slate-700 p-3 rounded-lg">
+                                <span class="font-medium text-slate-700 dark:text-slate-300">Total Questions</span>
+                                <!-- Total questions result updated to reflect 200 questions -->
+                                <strong id="totalQuestionsResult" class="text-lg font-bold text-slate-900 dark:text-slate-50">200</strong>
+                            </div>
+                            <div class="flex items-center justify-between bg-slate-100 dark:bg-slate-700 p-3 rounded-lg">
+                                <span class="font-medium text-slate-700 dark:text-slate-300">Attempted</span>
+                                <strong id="attemptedQuestionsResult" class="text-lg font-bold text-slate-900 dark:text-slate-50">0</strong>
+                            </div>
+                            <div class="flex items-center justify-between bg-green-100 dark:bg-green-900/50 p-3 rounded-lg">
+                                <span class="font-medium text-green-600 dark:text-green-400">Correct</span>
+                                <strong id="correctAnswersResult" class="text-lg font-bold text-green-600 dark:text-green-400">0</strong>
+                            </div>
+                            <div class="flex items-center justify-between bg-red-100 dark:bg-red-900/50 p-3 rounded-lg">
+                                <span class="font-medium text-red-600 dark:text-red-400">Incorrect</span>
+                                <strong id="incorrectAnswersResult" class="text-lg font-bold text-red-600 dark:text-red-400">0</strong>
+                            </div>
+                             <div class="flex items-center justify-between bg-yellow-100 dark:bg-yellow-900/50 p-3 rounded-lg">
+                                <span class="font-medium text-yellow-600 dark:text-yellow-400">Unattempted</span>
+                                <strong id="unattemptedQuestionsResult" class="text-lg font-bold text-yellow-600 dark:text-yellow-400">0</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 text-center flex flex-col gap-4">
+                         <div>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Time Taken</p>
+                            <p id="timeTakenResult" class="text-xl font-bold text-slate-900 dark:text-slate-50">00:00:00</p>
+                        </div>
+                        <div id="statusContainer" class="flex flex-col gap-2">
+                            <!-- Status messages will be dynamically added here -->
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8 no-print">
+                        <button id="restartBtn" class="py-3 px-6 bg-slate-200 text-slate-800 font-semibold rounded-lg hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600 transition">Restart Test</button>
+                        <button id="reviewBtn" class="py-3 px-6 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 dark:bg-blue-500 dark:hover:bg-blue-600 transition">Review Answers</button>
+                        <button id="savePdfBtn" class="py-3 px-6 bg-slate-600 text-white font-semibold rounded-lg hover:bg-slate-700 transition">Save as PDF</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Review Section -->
+            <section id="reviewSection" class="hidden">
+                 <div class="bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-in-out">
+                    <div class="flex justify-between items-center pb-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-50">Review Answers</h2>
+                        <button id="backToResultsBtn" class="text-indigo-500 dark:text-blue-400 font-semibold hover:underline no-print">Back to Results</button>
+                    </div>
+                    
+                    <div id="reviewQuestionDisplay" class="mt-6">
+                        <!-- Review question and options will be displayed here -->
+                    </div>
+
+                    <div class="flex justify-between mt-8 no-print">
+                        <button id="reviewPrevBtn" class="py-3 px-6 bg-slate-200 text-slate-800 font-semibold rounded-lg hover:bg-slate-300 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600 transition">Previous</button>
+                        <button id="reviewNextBtn" class="py-3 px-6 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-blue-500 dark:hover:bg-blue-600 transition">Next</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white/80 backdrop-blur-md border-t border-slate-200 dark:bg-slate-900/80 dark:border-slate-800 py-4 text-center no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-sm text-slate-600 dark:text-slate-400">&copy; 2025 MDCAT Test Prep Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-[1000] flex flex-col gap-2"></div>
+
+    <!-- Confirmation Modal for Test Submission -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-50 mb-4">Submit Test?</h3>
+            <p class="text-slate-600 dark:text-slate-400 mb-6">Are you sure you want to submit the test? Once submitted, you cannot change your answers.</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancelSubmissionBtn" class="py-2 px-5 bg-slate-200 text-slate-800 font-semibold rounded-lg hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600 transition">Cancel</button>
+                <button id="confirmSubmissionBtn" class="py-2 px-5 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 dark:bg-blue-500 dark:hover:bg-blue-600 transition">Submit</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // --- Element Selectors ---
+    const passwordSection = document.getElementById('passwordSection');
+    const quizSection = document.getElementById('quizSection');
+    const resultSection = document.getElementById('resultSection');
+    const reviewSection = document.getElementById('reviewSection');
+
+    const testPasswordInput = document.getElementById('testPassword');
+    const sscObtainedInput = document.getElementById('sscObtained');
+    const sscTotalInput = document.getElementById('sscTotal');
+    const fscObtainedInput = document.getElementById('fscObtained');
+    const fscTotalInput = document.getElementById('fscTotal');
+    const startTestBtn = document.getElementById('startTestBtn');
+    const passwordError = document.getElementById('passwordError');
+    const sscError = document.getElementById('sscError');
+    const fscError = document.getElementById('fscError');
+
+    const questionCounter = document.getElementById('questionCounter');
+    const timerDisplay = document.querySelector('#timer span');
+    const questionPalette = document.getElementById('questionPalette');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    const totalQuestionsResult = document.getElementById('totalQuestionsResult');
+    const attemptedQuestionsResult = document.getElementById('attemptedQuestionsResult');
+    const correctAnswersResult = document.getElementById('correctAnswersResult');
+    const incorrectAnswersResult = document.getElementById('incorrectAnswersResult');
+    const unattemptedQuestionsResult = document.getElementById('unattemptedQuestionsResult');
+    const timeTakenResult = document.getElementById('timeTakenResult');
+    const mdcatScoreCircle = document.getElementById('mdcatScoreCircle');
+    const mdcatScoreCircleText = document.getElementById('mdcatScoreCircleText');
+    const aggregateScoreCircle = document.getElementById('aggregateScoreCircle');
+    const aggregateScoreCircleText = document.getElementById('aggregateScoreCircleText');
+    const statusContainer = document.getElementById('statusContainer');
+    const reviewBtn = document.getElementById('reviewBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const savePdfBtn = document.getElementById('savePdfBtn');
+
+    const reviewQuestionDisplay = document.getElementById('reviewQuestionDisplay');
+    const reviewPrevBtn = document.getElementById('reviewPrevBtn');
+    const reviewNextBtn = document.getElementById('reviewNextBtn');
+    const backToResultsBtn = document.getElementById('backToResultsBtn');
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const fullscreenToggleBtn = document.getElementById('fullscreenToggle');
+    const fullscreenIcon = document.getElementById('fullscreenIcon');
+    const toastContainer = document.getElementById('toastContainer');
+
+    const confirmationModal = document.getElementById('confirmationModal');
+    const cancelSubmissionBtn = document.getElementById('cancelSubmissionBtn');
+    const confirmSubmissionBtn = document.getElementById('confirmSubmissionBtn');
+
+
+    // --- State Variables ---
+    const quizPassword = "mdcattestbymk";
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    let timerInterval;
+    const totalTestDuration = 3.5 * 60 * 60; // 3.5 hours in seconds
+    let timeRemaining = totalTestDuration;
+    let testStartTime;
+    let sscObtainedMarks = 0, sscTotalMarks = 1, fscObtainedMarks = 0, fscTotalMarks = 1;
+    let currentReviewQuestionIndex = 0; // Added for review section navigation
+    let shuffledQuestions = []; // To store questions in their original order
+    let shuffledOptionsMap = new Map(); // To store shuffled options for each question
+
+    // --- Questions Data (Full 200 Questions) ---
+    // The originalQuestions array has been truncated to 200 questions.
+   // ===== Biology (80 MCQs) =====
+const originalQuestions = [
+  {
+    "question": "Which type of virus has RNA as its genetic material and uses reverse transcriptase to synthesize DNA?",
+    "options": ["Bacteriophage", "Retrovirus", "Adenovirus", "Herpesvirus"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the primary role of ATP in cellular activities?",
+    "options": ["Structural support", "Genetic information storage", "Energy transfer", "Waste removal"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a key difference between DNA and RNA?",
+    "options": ["DNA is single-stranded, RNA is double-stranded.", "DNA contains uracil, RNA contains thymine.", "DNA has deoxyribose sugar, RNA has ribose sugar.", "DNA is found only in the nucleus, RNA only in the cytoplasm."],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which organelle is responsible for synthesizing lipids and detoxifying drugs?",
+    "options": ["Rough Endoplasmic Reticulum", "Smooth Endoplasmic Reticulum", "Lysosome", "Peroxisome"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "The process by which a cell engulfs large particles or other cells is called:",
+    "options": ["Pinocytosis", "Exocytosis", "Phagocytosis", "Osmosis"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which part of the human brain is primarily involved in processing sensory information and relaying it to the appropriate cortical areas?",
+    "options": ["Cerebellum", "Hypothalamus", "Thalamus", "Medulla Oblongata"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Enzymes function optimally within a narrow range of temperature and pH. What happens to an enzyme if the temperature goes significantly above its optimum?",
+    "options": ["Its activity increases indefinitely.", "It becomes denatured and loses its function.", "It converts into a different enzyme.", "It starts synthesizing new substrates."],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a characteristic of homologous chromosomes?",
+    "options": ["They carry different genes.", "They are identical copies of each other.", "They are similar in size and carry genes for the same traits at the same loci.", "They are only found in prokaryotic cells."],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a long-term effect of chronic smoking on the respiratory system?",
+    "options": ["Increased lung capacity", "Reduced mucus production", "Emphysema and chronic bronchitis", "Improved oxygen absorption"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a water-soluble vitamin required for collagen synthesis and acts as an antioxidant?",
+    "options": ["Vitamin A", "Vitamin D", "Vitamin C", "Vitamin K"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'fluid mosaic model' of the cell membrane suggests that:",
+    "options": ["The membrane is a rigid, static structure.", "Proteins are embedded in a fluid bilayer of lipids and can move laterally.", "Carbohydrates form the primary structure of the membrane.", "The membrane is impermeable to all substances."],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which type of immunity involves the production of antibodies by the body's own immune system after exposure to an antigen?",
+    "options": ["Passive immunity", "Innate immunity", "Active immunity", "Artificial immunity"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the primary function of the large intestine?",
+    "options": ["Digestion of fats", "Absorption of nutrients", "Absorption of water and formation of feces", "Protein synthesis"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a characteristic of cardiac muscle tissue?",
+    "options": ["Voluntary control and non-striated", "Involuntary control and striated", "Voluntary control and multinucleated", "Involuntary control and smooth"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "The process of 'transcription' in molecular biology refers to the synthesis of:",
+    "options": ["Protein from RNA", "DNA from RNA", "RNA from DNA", "DNA from protein"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is an example of a monosaccharide?",
+    "options": ["Sucrose", "Lactose", "Fructose", "Starch"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'fight or flight' response is primarily mediated by the release of which hormone?",
+    "options": ["Insulin", "Thyroxine", "Adrenaline (Epinephrine)", "Estrogen"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a common symptom of hepatitis B?",
+    "options": ["Sudden weight loss", "Jaundice and fatigue", "Increased appetite", "Improved vision"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which part of the neuron is typically responsible for transmitting signals to other neurons or effector cells?",
+    "options": ["Dendrite", "Cell body", "Axon", "Synapse"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The process of 'glycolysis' occurs in the cytoplasm and involves the breakdown of glucose into:",
+    "options": ["Lactic acid", "Pyruvate", "Acetyl-CoA", "Ethanol"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a characteristic of a plant cell but not an animal cell?",
+    "options": ["Mitochondria", "Cell membrane", "Chloroplasts", "Nucleus"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the main function of the human spleen?",
+    "options": ["Producing digestive enzymes", "Filtering blood and removing old red blood cells", "Regulating body temperature", "Storing urine"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "The 'Law of Independent Assortment' states that alleles for different genes assort independently of one another in gamete formation. This applies to genes located on:",
+    "options": ["The same chromosome", "Different chromosomes", "Sex chromosomes only", "Mitochondrial DNA"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the primary function of the alveoli in the human lungs?",
+    "options": ["Filtering inhaled air", "Warming and moistening air", "Gas exchange (oxygen and carbon dioxide)", "Producing mucus"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following describes the process of 'active transport' across a cell membrane?",
+    "options": ["Movement of substances down their concentration gradient without energy.", "Movement of water across a semi-permeable membrane.", "Movement of substances against their concentration gradient, requiring energy.", "Movement of large particles by engulfment."],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'pituitary gland' is often called the 'master gland' because it:",
+    "options": ["Controls blood sugar levels", "Regulates body temperature", "Secretes hormones that control other endocrine glands", "Produces digestive enzymes"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a characteristic of an autoimmune disease?",
+    "options": ["The immune system attacks foreign invaders.", "The immune system attacks the body's own healthy tissues.", "It is always caused by a bacterial infection.", "It is always curable with antibiotics."],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the primary function of the human skeletal system?",
+    "options": ["Producing hormones", "Digesting food", "Providing support, protection, and enabling movement", "Transporting blood"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a type of joint that allows for movement in one plane, like the elbow or knee?",
+    "options": ["Ball-and-socket joint", "Pivot joint", "Hinge joint", "Saddle joint"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The process of 'photosynthesis' in plants primarily occurs in which organelle?",
+    "options": ["Mitochondria", "Nucleus", "Chloroplast", "Ribosome"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a component of the human circulatory system that carries oxygenated blood from the lungs to the heart?",
+    "options": ["Pulmonary artery", "Aorta", "Pulmonary vein", "Vena cava"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the primary function of the human liver?",
+    "options": ["Producing insulin", "Filtering blood, detoxifying chemicals, and producing bile", "Pumping blood", "Producing digestive enzymes"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "The process of 'cellular respiration' in eukaryotic cells primarily takes place in the:",
+    "options": ["Cytoplasm and nucleus", "Mitochondria and cytoplasm", "Chloroplasts and mitochondria", "Ribosomes and Golgi apparatus"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a structural protein found in connective tissues, skin, and bones?",
+    "options": ["Hemoglobin", "Insulin", "Collagen", "Actin"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the primary function of the human ear?",
+    "options": ["Taste and smell", "Hearing and balance", "Vision and touch", "Speech and swallowing"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a common cause of Type 1 Diabetes Mellitus?",
+    "options": ["High sugar diet", "Obesity", "Autoimmune destruction of pancreatic beta cells", "Lack of exercise"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'hypothalamus' in the brain plays a crucial role in regulating:",
+    "options": ["Voluntary movements", "Memory and learning", "Body temperature, hunger, and thirst", "Visual processing"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a characteristic of a virus?",
+    "options": ["It is a prokaryotic cell.", "It can reproduce independently outside a host cell.", "It consists of genetic material (DNA or RNA) enclosed in a protein coat.", "It has a cell wall and ribosomes."],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the primary role of the 'thymus gland' in the immune system?",
+    "options": ["Producing antibodies", "Filtering blood", "Maturing T-lymphocytes", "Storing red blood cells"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a polysaccharide that serves as the primary structural component of plant cell walls?",
+    "options": ["Starch", "Glycogen", "Cellulose", "Chitin"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The process of 'meiosis' results in the formation of:",
+    "options": ["Two diploid daughter cells", "Four haploid daughter cells", "Two genetically identical daughter cells", "A single polyploid cell"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a characteristic of a 'reflex arc'?",
+    "options": ["It involves conscious thought and decision-making.", "It is a slow, voluntary response.", "It is an involuntary and rapid response to a stimulus.", "It always involves the cerebrum."],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the primary function of the 'gallbladder'?",
+    "options": ["Producing bile", "Storing and concentrating bile", "Digesting fats", "Absorbing nutrients"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a common cause of 'anemia'?",
+    "options": ["Excessive iron intake", "Increased red blood cell production", "Deficiency of iron or vitamin B12", "Overactive immune system"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'glomerulus' in the kidney is a network of capillaries primarily responsible for:",
+    "options": ["Reabsorbing water", "Filtering blood", "Secreting hormones", "Producing urine"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the primary role of 'enzymes' in biological reactions?",
+    "options": ["To increase the activation energy", "To act as structural components of the cell", "To speed up reactions by lowering activation energy", "To store genetic information"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a common sexually transmitted infection caused by a bacterium?",
+    "options": ["Herpes simplex virus", "Human papillomavirus (HPV)", "Chlamydia", "HIV"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'central nervous system' consists of the:",
+    "options": ["Nerves and ganglia", "Brain and spinal cord", "Sensory receptors and motor neurons", "Autonomic and somatic nervous systems"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the primary function of 'platelets' in the blood?",
+    "options": ["Transporting oxygen", "Fighting infections", "Blood clotting", "Producing antibodies"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The process of 'transpiration' in plants involves the:",
+    "options": ["Absorption of water by roots", "Synthesis of food", "Evaporation of water from aerial parts", "Transport of nutrients"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a 'fat-soluble vitamin' essential for blood clotting?",
+    "options": ["Vitamin A", "Vitamin B12", "Vitamin C", "Vitamin K"],
+    "correctAnswer": 3
+  },
+  {
+    "question": "What is the primary function of the 'trachea' in the human respiratory system?",
+    "options": ["Gas exchange", "Voice production", "Transporting air to and from the lungs", "Filtering blood"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'Law of Segregation' in genetics states that during gamete formation, each gene's alleles separate so that each gamete carries only one allele for each gene. This leads to a phenotypic ratio of ______ in a monohybrid cross.",
+    "options": ["1:1", "3:1", "9:3:3:1", "1:2:1"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a 'disaccharide' composed of glucose and fructose?",
+    "options": ["Lactose", "Maltose", "Sucrose", "Cellulose"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'myelin sheath' around some axons in neurons primarily functions to:",
+    "options": ["Produce neurotransmitters", "Provide structural support", "Insulate the axon and speed up nerve impulse transmission", "Receive signals from other neurons"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a common cause of 'osteoporosis'?",
+    "options": ["Excessive calcium intake", "Increased bone density", "Loss of bone density, making bones brittle", "Overproduction of collagen"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the primary function of the 'adrenal glands'?",
+    "options": ["Regulating blood sugar", "Producing stress hormones (e.g., adrenaline)", "Filtering blood", "Producing digestive enzymes"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is an example of a 'polysaccharide' used for energy storage in animals?",
+    "options": ["Starch", "Cellulose", "Glycogen", "Sucrose"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'pulmonary artery' carries:",
+    "options": ["Oxygenated blood to the body", "Deoxygenated blood to the lungs", "Oxygenated blood to the heart", "Deoxygenated blood from the body"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the primary function of 'antibodies' in the immune system?",
+    "options": ["Transporting oxygen", "Producing hormones", "Identifying and neutralizing pathogens", "Clotting blood"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a common symptom of 'malaria'?",
+    "options": ["Sudden weight gain", "Chronic cough", "Recurrent fevers, chills, and flu-like illness", "Skin rash"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the primary function of the 'epidermis' in the human skin?",
+    "options": ["Producing sweat", "Providing structural support", "Protection against pathogens and UV radiation", "Storing fat"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'somatic nervous system' controls:",
+    "options": ["Involuntary actions of internal organs", "Voluntary movements of skeletal muscles", "Hormone secretion", "Digestion and heart rate"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a common cause of 'tuberculosis'?",
+    "options": ["Virus", "Bacterium (Mycobacterium tuberculosis)", "Fungus", "Parasite"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the primary function of the 'lymph nodes' in the lymphatic system?",
+    "options": ["Producing red blood cells", "Filtering lymph and trapping pathogens", "Pumping lymph throughout the body", "Storing excess fluid"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a 'water-soluble vitamin' that plays a role in energy metabolism?",
+    "options": ["Vitamin A", "Vitamin B1 (Thiamine)", "Vitamin D", "Vitamin K"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "The 'urinary bladder' primarily functions to:",
+    "options": ["Filter blood", "Produce urine", "Store urine temporarily", "Transport urine to the outside"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a 'monosaccharide' that is the primary source of energy for brain cells?",
+    "options": ["Fructose", "Galactose", "Glucose", "Sucrose"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'cornea' of the eye is primarily responsible for:",
+    "options": ["Controlling the amount of light entering the eye", "Focusing light onto the retina", "Protecting the eye and initiating light refraction", "Detecting color vision"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is an example of a 'hormone' that regulates blood pressure?",
+    "options": ["Insulin", "Glucagon", "Aldosterone", "Thyroxine"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The process of 'fermentation' in yeast produces:",
+    "options": ["Lactic acid and oxygen", "Ethanol and carbon dioxide", "Water and ATP", "Glucose and oxygen"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a characteristic of 'ligaments'?",
+    "options": ["Connect muscles to bones", "Connect bones to bones", "Provide structural support to cells", "Produce movement"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the primary function of the 'dendrites' of a neuron?",
+    "options": ["Transmitting signals away from the cell body", "Synthesizing neurotransmitters", "Receiving signals from other neurons", "Insulating the axon"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'electron transport chain' in cellular respiration occurs in the:",
+    "options": ["Cytoplasm", "Outer mitochondrial membrane", "Inner mitochondrial membrane", "Nucleus"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a 'polysaccharide' that provides structural support in the exoskeletons of insects and fungi cell walls?",
+    "options": ["Starch", "Cellulose", "Glycogen", "Chitin"],
+    "correctAnswer": 3
+  },
+  {
+    "question": "The 'seminal vesicles' in the male reproductive system primarily function to:",
+    "options": ["Produce sperm", "Store sperm", "Secrete fluid containing fructose and prostaglandins for semen", "Transport sperm to the urethra"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a 'water-soluble vitamin' involved in nerve function and carbohydrate metabolism?",
+    "options": ["Vitamin A", "Vitamin B1 (Thiamine)", "Vitamin C", "Vitamin D"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "The 'glomerular filtration rate' (GFR) is a measure of:",
+    "options": ["The rate of urine production", "The rate at which blood is filtered by the kidneys", "The rate of reabsorption in the tubules", "The rate of waste excretion from the body"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a 'conjugated molecule' consisting of a protein and a carbohydrate component?",
+    "options": ["Glycolipid", "Lipoprotein", "Glycoprotein", "Phospholipid"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'pituitary gland' is located at the base of the brain and is connected to the:",
+    "options": ["Cerebellum", "Medulla oblongata", "Hypothalamus", "Thalamus"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a 'fat-soluble vitamin' essential for vision and immune function?",
+    "options": ["Vitamin B12", "Vitamin C", "Vitamin A", "Vitamin D"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'autonomic nervous system' is responsible for controlling:",
+    "options": ["Voluntary muscle movements", "Sensory perception", "Involuntary functions like heart rate, digestion, and breathing", "Reflex actions only"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a common cause of 'pneumonia'?",
+    "options": ["Viral infection only", "Bacterial or viral infection of the lungs", "Allergic reaction", "Nutritional deficiency"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "The 'urethra' in the human urinary system primarily functions to:",
+    "options": ["Filter blood", "Produce urine", "Transport urine from the bladder to the outside", "Store urine"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a 'disaccharide' composed of glucose and galactose?",
+    "options": ["Sucrose", "Maltose", "Lactose", "Cellulose"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'choroid' in the human eye primarily functions to:",
+    "options": ["Focus light", "Detect light", "Provide nutrients to the retina and absorb stray light", "Control pupil size"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is an example of a 'hormone' that increases blood glucose levels?",
+    "options": ["Insulin", "Glucagon", "Estrogen", "Testosterone"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "The process of 'translation' in molecular biology refers to the synthesis of:",
+    "options": ["RNA from DNA", "DNA from RNA", "Protein from mRNA", "mRNA from protein"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a characteristic of 'tendons'?",
+    "options": ["Connect bones to bones", "Connect muscles to bones", "Provide flexibility to joints", "Produce movement"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the primary function of the 'cerebellum'?",
+    "options": ["Higher-order thinking and memory", "Sensory processing", "Balance and coordination of voluntary movements", "Regulating involuntary actions"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a common cause of 'hypertension' (high blood pressure)?",
+    "options": ["Low salt intake", "Regular exercise", "Genetics, diet, and lifestyle factors", "Excessive water intake"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'lysosomes' in a cell are primarily responsible for:",
+    "options": ["Protein synthesis", "Energy production", "Waste breakdown and recycling", "Lipid synthesis"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a 'polysaccharide' used for energy storage in plants?",
+    "options": ["Glycogen", "Cellulose", "Starch", "Chitin"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'vas deferens' in the male reproductive system primarily functions to:",
+    "options": ["Produce sperm", "Store sperm", "Transport sperm from the epididymis to the ejaculatory duct", "Produce seminal fluid"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a 'water-soluble vitamin' essential for red blood cell formation and neurological function?",
+    "options": ["Vitamin C", "Vitamin B12", "Vitamin A", "Vitamin D"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "The 'Loop of Henle' in the kidney primarily functions in:",
+    "options": ["Glomerular filtration", "Reabsorption of water and salts", "Secretion of waste products", "Producing urine"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a 'conjugated molecule' consisting of a protein and a lipid component?",
+    "options": ["Glycoprotein", "Lipoprotein", "Glycolipid", "Nucleic acid"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "The 'pineal gland' in the brain primarily functions to:",
+    "options": ["Regulate body temperature", "Control hunger and thirst", "Produce melatonin, regulating sleep-wake cycles", "Process sensory information"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a 'fat-soluble vitamin' essential for calcium absorption and bone health?",
+    "options": ["Vitamin A", "Vitamin B6", "Vitamin C", "Vitamin D"],
+    "correctAnswer": 3
+  },
+  {
+    "question": "The 'parasympathetic nervous system' is responsible for:",
+    "options": ["'Fight or flight' response", "'Rest and digest' functions", "Voluntary muscle movements", "Sensory input processing"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a common cause of 'bronchitis'?",
+    "options": ["Bacterial infection only", "Viral or bacterial infection causing inflammation of bronchi", "Allergic reaction to pollen", "Nutritional deficiency"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "The 'ureters' in the human urinary system primarily function to:",
+    "options": ["Filter blood", "Produce urine", "Transport urine from the kidneys to the bladder", "Store urine"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a 'monosaccharide' found in milk sugar (lactose)?",
+    "options": ["Glucose", "Fructose", "Galactose", "Sucrose"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The 'iris' of the human eye is primarily responsible for:",
+    "options": ["Focusing light", "Detecting light", "Controlling the size of the pupil and the amount of light entering the eye", "Protecting the eye"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is an example of a 'hormone' that stimulates milk production in lactating mothers?",
+    "options": ["Oxytocin", "Estrogen", "Prolactin", "Progesterone"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "The process of 'replication' in molecular biology refers to the synthesis of:",
+    "options": ["RNA from DNA", "DNA from DNA", "Protein from RNA", "mRNA from protein"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a characteristic of 'cartilage'?",
+    "options": ["Highly vascularized tissue", "Provides rigid support like bone", "Flexible connective tissue found in joints and nose", "Contains osteocytes"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the primary function of the 'medulla oblongata' in the brain?",
+    "options": ["Voluntary movements", "Higher-order thinking", "Regulating vital involuntary functions like breathing and heart rate", "Sensory integration"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a common cause of 'appendicitis'?",
+    "options": ["Excessive fiber intake", "Inflammation of the appendix, often due to blockage", "Bacterial infection of the large intestine", "Nutritional deficiency"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "The 'Golgi apparatus' in a cell is primarily responsible for:",
+    "options": ["Energy production", "Protein synthesis", "Modifying, sorting, and packaging proteins and lipids", "DNA replication"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a 'polysaccharide' that provides structural support in the cell walls of fungi?",
+    "options": ["Starch", "Cellulose", "Glycogen", "Chitin"],
+    "correctAnswer": 3
+  },
+  // ===== Chemistry (40 MCQs) =====
+  {
+    "question": "What is the molar mass of water (H₂O)? (Atomic mass: H=1, O=16)",
+    "options": ["16 g/mol", "18 g/mol", "20 g/mol", "32 g/mol"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following describes an 'endothermic reaction'?",
+    "options": ["Releases heat to surroundings", "Absorbs heat from surroundings", "Has a negative enthalpy change (ΔH)", "Always forms a precipitate"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "According to 'Boyle's Law', at constant temperature, the volume of a fixed mass of gas is inversely proportional to its:",
+    "options": ["Temperature", "Pressure", "Number of moles", "Density"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is an example of a 'covalent crystal'?",
+    "options": ["Sodium chloride", "Ice", "Diamond", "Graphite"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which type of bonding involves the electrostatic attraction between positively charged metal ions and a 'sea' of delocalized electrons?",
+    "options": ["Ionic bonding", "Covalent bonding", "Metallic bonding", "Hydrogen bonding"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What happens to the pressure of a gas when its temperature is increased at constant volume?",
+    "options": ["Decreases", "Increases", "Remains constant", "First decreases then increases"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is an example of a 'chemical change'?",
+    "options": ["Melting ice", "Boiling water", "Burning wood", "Dissolving sugar in water"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the 'electron configuration' of Oxygen (atomic number 8)?",
+    "options": ["1s²2s²2p³", "1s²2s²2p⁴", "1s²2s²2p⁵", "1s²2s²2p⁶"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which principle states that no two electrons in the same atom can have the same set of four quantum numbers?",
+    "options": ["Hund's Rule", "Pauli Exclusion Principle", "Aufbau Principle", "Heisenberg Uncertainty Principle"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a characteristic of an 'acidic buffer solution'?",
+    "options": ["It resists changes in pH when a strong acid is added.", "It resists changes in pH when a strong base is added.", "It has a pH greater than 7.", "It is formed by a strong acid and its conjugate base."],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the term for the energy change when an electron is added to a gaseous atom?",
+    "options": ["Ionization energy", "Electronegativity", "Electron affinity", "Bond energy"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is an 'inorganic compound'?",
+    "options": ["Methane (CH₄)", "Glucose (C₆H₁₂O₆)", "Carbon dioxide (CO₂)", "Ethanol (C₂H₅OH)"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the 'molecular geometry' of water (H₂O) according to VSEPR theory?",
+    "options": ["Linear", "Trigonal planar", "Bent", "Tetrahedral"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following factors generally decreases the rate of a chemical reaction?",
+    "options": ["Increasing temperature", "Increasing concentration of reactants", "Adding a catalyst", "Decreasing surface area of reactants"],
+    "correctAnswer": 3
+  },
+  {
+    "question": "Which of the following is a property of 'covalent compounds'?",
+    "options": ["High melting points", "Good conductors of electricity in molten state", "Form discrete molecules", "Strong electrostatic forces between ions"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the SI unit of 'temperature'?",
+    "options": ["Celsius", "Fahrenheit", "Kelvin", "Joule"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is an example of an 'alkyne'?",
+    "options": ["Ethane (C₂H₆)", "Ethene (C₂H₄)", "Ethyne (C₂H₂)", "Benzene (C₆H₆)"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the process of converting a ketone to a secondary alcohol called?",
+    "options": ["Oxidation", "Reduction", "Esterification", "Hydrolysis"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a characteristic of a 'weak acid'?",
+    "options": ["Completely dissociates in water", "Partially dissociates in water", "Does not react with bases", "Forms strong conjugate bases"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the 'molecular formula' of ethanol?",
+    "options": ["CH₄O", "C₂H₆O", "C₃H₈O", "C₂H₄O₂"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which type of 'intermolecular force' is present between nonpolar molecules?",
+    "options": ["Hydrogen bonding", "Dipole-dipole forces", "London dispersion forces", "Ionic forces"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the primary product of the 'incomplete combustion' of hydrocarbons?",
+    "options": ["Carbon dioxide and water", "Carbon monoxide and water", "Soot and water", "Hydrogen and oxygen"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a characteristic of a 'real gas' compared to an ideal gas?",
+    "options": ["Particles have negligible volume.", "There are no intermolecular forces.", "Particles attract each other, especially at low temperatures and high pressures.", "Collisions are perfectly elastic."],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the purpose of a 'catalyst' in a chemical reaction?",
+    "options": ["To change the equilibrium position", "To increase the activation energy", "To speed up the reaction rate without being consumed", "To change the products formed"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is an 'alkali metal'?",
+    "options": ["Magnesium", "Calcium", "Potassium", "Aluminum"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the definition of 'chemical kinetics'?",
+    "options": ["The study of energy changes in reactions", "The study of reaction rates and mechanisms", "The study of equilibrium in reactions", "The study of atomic structure"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the primary functional group in 'alcohols'?",
+    "options": ["Carbonyl group (-CHO)", "Carboxyl group (-COOH)", "Hydroxyl group (-OH)", "Amino group (-NH₂)"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following best describes 'resonance' in organic chemistry?",
+    "options": ["The rapid interconversion of isomers.", "The delocalization of electrons within a molecule, represented by multiple Lewis structures.", "The formation of multiple bonds between two atoms.", "The breaking of chemical bonds."],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the effect of increasing temperature on the 'solubility' of most solid solutes in a liquid solvent?",
+    "options": ["Decreases solubility", "Increases solubility", "No effect on solubility", "First decreases then increases solubility"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the 'molecular geometry' of ammonia (NH₃) according to VSEPR theory?",
+    "options": ["Linear", "Tetrahedral", "Trigonal pyramidal", "Bent"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is an example of an 'electrophilic substitution reaction'?",
+    "options": ["Addition of H₂ to an alkene", "Reaction of an alkyl halide with NaOH", "Nitration of benzene", "Combustion of methane"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the definition of 'activation energy'?",
+    "options": ["The energy released during a reaction", "The minimum energy required for a reaction to occur", "The energy stored in reactants", "The energy of the products"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following elements belongs to the 'p-block'?",
+    "options": ["Sodium", "Iron", "Sulfur", "Helium"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the primary difference between a 'primary alcohol' and a 'secondary alcohol'?",
+    "options": ["Primary alcohols have two -OH groups, secondary alcohols have one.", "Primary alcohols have the -OH group attached to a carbon bonded to one other carbon, secondary alcohols to two other carbons.", "Primary alcohols are more acidic.", "Secondary alcohols are more reactive."],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the name of the process that converts an alkene to an alkane?",
+    "options": ["Dehydration", "Hydrogenation", "Oxidation", "Elimination"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a characteristic of an 'amorphous solid'?",
+    "options": ["Definite melting point", "Ordered arrangement of particles", "No fixed shape or melting point", "Forms a crystal lattice"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the primary role of 'buffers' in biological systems?",
+    "options": ["To increase pH rapidly", "To maintain a stable pH despite addition of small amounts of acid or base", "To act as catalysts", "To store energy"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is an example of an 'acid-base neutralization reaction'?",
+    "options": ["Combustion of methane", "Reaction of HCl and NaOH", "Rusting of iron", "Photosynthesis"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the term for the measure of a liquid's internal resistance to flow?",
+    "options": ["Density", "Surface tension", "Viscosity", "Vapor pressure"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a common method for preparing 'alkenes'?",
+    "options": ["Hydrogenation of alkynes", "Dehydration of alcohols", "Substitution reactions of alkanes", "Addition of water to alkynes"],
+    "correctAnswer": 1
+  },
+  // ===== Physics (32 MCQs) =====
+  {
+    "question": "Which of the following is a 'vector quantity'?",
+    "options": ["Mass", "Distance", "Speed", "Displacement"],
+    "correctAnswer": 3
+  },
+  {
+    "question": "What is the SI unit of 'power'?",
+    "options": ["Joule", "Newton", "Watt", "Volt"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "According to 'Newton's Third Law of Motion', for every action, there is an equal and opposite:",
+    "options": ["Force", "Velocity", "Acceleration", "Momentum"],
+    "correctAnswer": 0
+  },
+  {
+    "question": "What is the formula for 'gravitational potential energy'?",
+    "options": ["1/2mv²", "mgh", "F x d", "P/t"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following best describes 'uniform circular motion'?",
+    "options": ["Motion in a straight line with constant speed.", "Motion in a circle with constant speed and changing velocity.", "Motion in a circle with changing speed.", "Motion under constant acceleration in a straight line."],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the SI unit of 'pressure'?",
+    "options": ["Bar", "Atmosphere", "Pascal", "Torr"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a 'longitudinal wave'?",
+    "options": ["Light wave", "Water wave", "Sound wave", "Radio wave"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the SI unit of 'electric potential difference'?",
+    "options": ["Ampere", "Ohm", "Volt", "Coulomb"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What happens to the 'resistance' of a semiconductor as its temperature increases?",
+    "options": ["Decreases", "Increases", "Remains constant", "First decreases then increases"],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Which of the following is a characteristic of a 'parallel circuit'?",
+    "options": ["Current is the same through all components", "Voltage is the same across all components", "Total resistance is the sum of individual resistances", "Components are connected in series"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the phenomenon where light spreads out after passing through a small opening or around an obstacle?",
+    "options": ["Reflection", "Refraction", "Diffraction", "Interference"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following describes the 'magnetic field lines' inside a solenoid?",
+    "options": ["Radiating outwards", "Concentric circles", "Parallel and uniformly spaced", "Converging at one end"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the SI unit of 'electric field strength'?",
+    "options": ["Volt per meter", "Newton per Coulomb", "Joule per Coulomb", "Ampere per meter"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the SI unit of 'capacitance'?",
+    "options": ["Volt", "Ohm", "Farad", "Coulomb"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "According to the 'First Law of Thermodynamics', the change in internal energy of a system is equal to the heat added to the system minus the work done by the system. This is a statement of the conservation of:",
+    "options": ["Mass", "Momentum", "Energy", "Entropy"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the SI unit of 'wavelength'?",
+    "options": ["Hertz", "Second", "Meter", "Newton"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following describes a 'progressive wave'?",
+    "options": ["A wave that appears stationary with fixed nodes and antinodes.", "A wave that transfers energy from one point to another.", "A wave that requires a medium to propagate.", "A wave that has a constant amplitude everywhere."],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the SI unit of 'magnetic flux density'?",
+    "options": ["Weber", "Tesla", "Henry", "Ampere"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following is a characteristic of 'direct current (DC)'?",
+    "options": ["Current direction periodically reverses", "Voltage changes periodically", "Current flows in one direction only", "Produced by transformers"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the primary function of a 'rectifier'?",
+    "options": ["To change the voltage of an AC supply", "To convert AC to DC", "To store electric charge", "To measure electric current"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following describes the 'Compton effect'?",
+    "options": ["Emission of light from a heated object.", "Scattering of X-rays by electrons, resulting in a change in wavelength.", "Bending of light around obstacles.", "Reflection of light from a surface."],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the SI unit of 'resistance'?",
+    "options": ["Volt", "Ampere", "Ohm", "Watt"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the term for the average lifetime of a radioactive nucleus before it decays?",
+    "options": ["Half-life", "Decay constant", "Mean life", "Activity"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a common 'medical use of radioisotopes'?",
+    "options": ["Sterilizing food", "Generating electricity", "Tracing metabolic pathways and cancer therapy", "Water purification"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the SI unit of 'work'?",
+    "options": ["Watt", "Newton", "Joule", "Pascal"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the SI unit of 'angular acceleration'?",
+    "options": ["Radians per second", "Revolutions per second squared", "Degrees per second squared", "Radians per second squared"],
+    "correctAnswer": 3
+  },
+  {
+    "question": "Which of the following is a characteristic of 'simple harmonic motion (SHM)'?",
+    "options": ["Constant velocity and acceleration.", "The acceleration is directly proportional to the displacement from equilibrium and directed towards it.", "Motion in a straight line only.", "Kinetic energy is always constant."],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the SI unit of 'electric potential energy'?",
+    "options": ["Volt", "Joule", "Coulomb", "Farad"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Which of the following describes the 'Doppler effect'?",
+    "options": ["The bending of waves around obstacles.", "The apparent change in frequency of a wave due to relative motion between the source and observer.", "The superposition of two waves.", "The reflection of waves from a surface."],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the SI unit of 'inductance'?",
+    "options": ["Farad", "Ohm", "Henry", "Tesla"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is a characteristic of a 'P-N junction diode' in reverse bias?",
+    "options": ["Low resistance", "Allows current to flow easily", "Blocks current flow", "Acts as a conductor"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the SI unit of 'momentum'?",
+    "options": ["Newton", "Joule", "Kilogram meter per second", "Watt"],
+    "correctAnswer": 2
+  },
+  // ===== English (8 MCQs) =====
+  {
+    "question": "Choose the most appropriate synonym for 'diligent'.",
+    "options": ["Lazy", "Careless", "Industrious", "Negligent"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Identify the type of sentence: 'Go clean your room.'",
+    "options": ["Declarative", "Interrogative", "Imperative", "Exclamatory"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which of the following is an example of a 'personification'?",
+    "options": ["The wind whispered secrets.", "The car was a tank.", "She sings like a bird.", "He is as strong as an ox."],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Choose the antonym of 'ephemeral'.",
+    "options": ["Temporary", "Fleeting", "Permanent", "Short-lived"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Identify the sentence with the correct use of a semicolon:",
+    "options": ["She likes coffee; he prefers tea.", "She likes coffee, he prefers tea.", "She likes coffee: he prefers tea.", "She likes coffee; and he prefers tea."],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Which word correctly completes the sentence: 'The effect of the medicine was ______.'",
+    "options": ["affect", "effect", "affekt", "effekt"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "Choose the word that means 'to make less severe or serious'.",
+    "options": ["Aggravate", "Exacerbate", "Mitigate", "Worsen"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Identify the correct use of a colon:",
+    "options": ["I need three things: pens, paper, and markers.", "I need three things; pens, paper, and markers.", "I need three things, pens, paper, and markers.", "I need three things. Pens, paper, and markers."],
+    "correctAnswer": 0
+  },
+  // ===== Logical Reasoning (10 MCQs) =====
+  {
+    "question": "What comes next in the series: A, C, E, G, ___?",
+    "options": ["H", "I", "J", "K"],
+    "correctAnswer": 1
+  },
+  {
+    "question": "If 'All birds can fly' and 'A penguin is a bird', then which of the following statements must be true?",
+    "options": ["All penguins can fly.", "Some penguins can fly.", "Penguins cannot fly.", "Cannot be determined."],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which number is the odd one out: 1, 4, 9, 15, 25, 36?",
+    "options": ["4", "9", "15", "25"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "If 'APPLE' is coded as 'BQQMF', how would 'GRAPE' be coded?",
+    "options": ["HSBQG", "HSBQH", "HSBQF", "HSBQJ"],
+    "correctAnswer": 0
+  },
+  {
+    "question": "John is older than Mary. Mary is older than Tom. Who is the youngest?",
+    "options": ["John", "Mary", "Tom", "Cannot be determined"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What comes next in the series: 10, 9, 7, 4, ___?",
+    "options": ["0", "1", "2", "3"],
+    "correctAnswer": 0
+  },
+  {
+    "question": "If 'water' is 'food', 'food' is 'tree', 'tree' is 'sky', and 'sky' is 'wall', then where do birds fly?",
+    "options": ["Water", "Food", "Tree", "Wall"],
+    "correctAnswer": 3
+  },
+  {
+    "question": "What comes next in the series: B, D, G, K, ___?",
+    "options": ["N", "O", "P", "Q"],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Statement: All dogs are mammals. Conclusion: Some mammals are dogs.",
+    "options": ["True", "False", "Uncertain", "Cannot say"],
+    "correctAnswer": 0
+  },
+  {
+    "question": "If 'RAIN' is coded as 'SBNP', how would 'SUN' be coded?",
+    "options": ["TVO", "TVP", "TUP", "TUO"],
+    "correctAnswer": 0
+  }
+];
+    // This assumes all your questions have 4 options and one correct answer.
+    // Ensure this data structure is consistent.
+
+    // Initialize user answers array
+    for (let i = 0; i < originalQuestions.length; i++) {
+        userAnswers.push(null); // null indicates not attempted
+    }
+
+    // --- Utility Functions ---
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function formatTime(seconds) {
+        const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+        const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+        const s = String(seconds % 60).padStart(2, '0');
+        return `${h}:${m}:${s}`;
+    }
+
+    function showSection(sectionId) {
+        passwordSection.classList.add('hidden');
+        quizSection.classList.add('hidden');
+        resultSection.classList.add('hidden');
+        reviewSection.classList.add('hidden');
+        document.getElementById(sectionId).classList.remove('hidden');
+    }
+
+    function calculateAggregate(mdcatScore) {
+        // SSC marks contribute 10%, FSc marks 40%, MDCAT 50%
+        // Assuming marks are out of 1100 for SSC and 1100 for FSc
+        const sscWeight = 0.10;
+        const fscWeight = 0.40;
+        const mdcatWeight = 0.50;
+
+        const sscPercentage = (sscObtainedMarks / sscTotalMarks) * 100;
+        const fscPercentage = (fscObtainedMarks / fscTotalMarks) * 100;
+
+        const aggregate = (sscPercentage * sscWeight) + (fscPercentage * fscWeight) + (mdcatScore * mdcatWeight);
+        return aggregate.toFixed(2);
+    }
+
+    function showToast(type, title, message) {
+        const toast = document.createElement('div');
+        toast.classList.add('toast', type, 'fixed', 'top-4', 'right-4', 'z-[1000]', 'flex', 'items-center', 'gap-3', 'p-4', 'rounded-lg', 'shadow-lg', 'transition-all', 'duration-300', 'ease-out');
+        
+        // Tailwind classes for toast types
+        let bgColor, textColor, borderColor, iconClass;
+        if (type === 'success') {
+            bgColor = 'bg-green-100 dark:bg-green-900/50';
+            textColor = 'text-green-800 dark:text-green-300';
+            borderColor = 'border-green-500 dark:border-green-700';
+            iconClass = 'fa-circle-check text-green-500 dark:text-green-400';
+        } else if (type === 'error') {
+            bgColor = 'bg-red-100 dark:bg-red-900/50';
+            textColor = 'text-red-800 dark:text-red-300';
+            borderColor = 'border-red-500 dark:border-red-700';
+            iconClass = 'fa-circle-xmark text-red-500 dark:text-red-400';
+        } else if (type === 'info') {
+            bgColor = 'bg-blue-100 dark:bg-blue-900/50';
+            textColor = 'text-blue-800 dark:text-blue-300';
+            borderColor = 'border-blue-500 dark:border-blue-700';
+            iconClass = 'fa-circle-info text-blue-500 dark:text-blue-400';
+        }
+
+        // Correctly add classes by splitting them if they contain spaces
+        toast.classList.add(...bgColor.split(' '));
+        toast.classList.add(...textColor.split(' '));
+        toast.classList.add('border-l-4'); // This is a single class
+        toast.classList.add(...borderColor.split(' '));
+
+        toast.innerHTML = `
+            <i class="fa-solid ${iconClass} text-xl"></i>
+            <div>
+                <p class="font-semibold">${title}</p>
+                <p class="text-sm">${message}</p>
+            </div>
+        `;
+        toastContainer.appendChild(toast);
+
+        // Animate in
+        setTimeout(() => {
+            toast.classList.remove('opacity-0', 'translate-x-full');
+            toast.classList.add('opacity-100', 'translate-x-0');
+        }, 10); // Small delay to ensure transition applies
+
+        // Animate out and remove after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('opacity-100', 'translate-x-0');
+            toast.classList.add('opacity-0', 'translate-x-full');
+            toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+        }, 3000);
+    }
+
+
+    // --- Theme Toggle ---
+    function toggleTheme() {
+        document.documentElement.classList.toggle('dark'); // Toggle dark class on html element
+        if (document.documentElement.classList.contains('dark')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+        updateThemeIcon();
+    }
+
+    function updateThemeIcon() {
+        const themeToggleIcon = themeToggleBtn.querySelector('i');
+        if (document.documentElement.classList.contains('dark')) {
+            themeToggleIcon.classList.remove('fa-moon');
+            themeToggleIcon.classList.add('fa-sun');
+        } else {
+            themeToggleIcon.classList.remove('fa-sun');
+            themeToggleIcon.classList.add('fa-moon');
+        }
+    }
+
+   function checkTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+    } else {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }
+    updateThemeIcon();
+}
+
+
+    // --- Fullscreen Toggle ---
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().then(updateFullscreenIcon);
+        } else {
+            document.exitFullscreen().then(updateFullscreenIcon);
+        }
+    }
+
+    function updateFullscreenIcon() {
+        if (document.fullscreenElement) {
+            fullscreenIcon.classList.remove('fa-expand');
+            fullscreenIcon.classList.add('fa-compress');
+            fullscreenToggleBtn.title = "Exit Fullscreen";
+        } else {
+            fullscreenIcon.classList.remove('fa-compress');
+            fullscreenIcon.classList.add('fa-expand');
+            fullscreenToggleBtn.title = "Toggle Fullscreen";
+        }
+    }
+
+    // --- Quiz Functions ---
+    function startTimer() {
+        testStartTime = Date.now();
+        timerInterval = setInterval(() => {
+            timeRemaining--;
+            if (timeRemaining < 0) {
+                timeRemaining = 0;
+                clearInterval(timerInterval);
+                submitTest();
+                showToast('info', 'Time Up!', 'Your test has been automatically submitted.');
+            }
+            timerDisplay.textContent = formatTime(timeRemaining);
+        }, 1000);
+    }
+
+    function displayQuestion() {
+        const question = shuffledQuestions[currentQuestionIndex];
+        questionCounter.textContent = `Question ${currentQuestionIndex + 1}/${shuffledQuestions.length}`;
+        questionText.innerHTML = `${currentQuestionIndex + 1}. ${question.question}`;
+        optionsContainer.innerHTML = ''; // Clear previous options
+
+        // Get shuffled options for the current question
+        const shuffledOptions = shuffledOptionsMap.get(currentQuestionIndex);
+
+        shuffledOptions.forEach((option, originalIndex) => {
+            const optionDiv = document.createElement('div');
+            optionDiv.classList.add('flex', 'items-center', 'gap-3', 'bg-slate-100', 'dark:bg-slate-700', 'p-4', 'rounded-lg', 'cursor-pointer', 'transition-all', 'duration-150', 'ease-in-out', 'hover:bg-slate-200', 'dark:hover:bg-slate-600');
+            optionDiv.dataset.originalIndex = originalIndex; // Store original index to map back to correctAnswer
+
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = 'questionOptions';
+            radio.id = `option${originalIndex}`; // Use originalIndex for unique ID
+            radio.value = originalIndex; // Store original index as value
+            radio.classList.add('appearance-none', 'w-4', 'h-4', 'border-2', 'border-slate-400', 'dark:border-slate-500', 'rounded-full', 'checked:bg-indigo-500', 'checked:border-indigo-500', 'dark:checked:bg-blue-400', 'dark:checked:border-blue-400', 'relative', 'flex-shrink-0', 'cursor-pointer');
+            radio.style.setProperty('--tw-ring-color', 'rgba(99, 102, 241, 0.5)'); // Custom property for ring color
+            radio.style.setProperty('--tw-ring-offset-color', 'var(--bg-slate-100)'); // Custom property for ring offset color
+
+            // Custom checked state indicator
+            const checkedIndicator = document.createElement('div');
+            checkedIndicator.classList.add('absolute', 'top-1/2', 'left-1/2', '-translate-x-1/2', '-translate-y-1/2', 'w-2', 'h-2', 'bg-white', 'rounded-full', 'pointer-events-none', 'opacity-0', 'transition-opacity', 'duration-150');
+            radio.addEventListener('change', () => {
+                if (radio.checked) {
+                    checkedIndicator.classList.remove('opacity-0');
+                } else {
+                    checkedIndicator.classList.add('opacity-0');
+                }
+            });
+
+            const label = document.createElement('label');
+            label.htmlFor = `option${originalIndex}`;
+            label.classList.add('text-lg', 'font-medium', 'text-slate-800', 'dark:text-slate-200', 'cursor-pointer', 'flex-1');
+            label.textContent = option;
+
+            optionDiv.appendChild(radio);
+            radio.appendChild(checkedIndicator); // Append indicator inside radio for positioning
+            optionDiv.appendChild(label);
+            optionsContainer.appendChild(optionDiv);
+
+            optionDiv.addEventListener('click', () => {
+                radio.checked = true;
+                userAnswers[currentQuestionIndex] = parseInt(optionDiv.dataset.originalIndex); // Store original index of selected option
+                updatePaletteButton(currentQuestionIndex, 'attempted');
+                highlightSelectedOption(optionDiv);
+            });
+
+            // Check if this option was previously selected by the user
+            if (userAnswers[currentQuestionIndex] === originalIndex) {
+                radio.checked = true;
+                highlightSelectedOption(optionDiv);
+                checkedIndicator.classList.remove('opacity-0');
+            }
+        });
+
+        // Update navigation buttons
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.textContent = currentQuestionIndex === shuffledQuestions.length - 1 ? 'Submit Test' : 'Next';
+        nextBtn.classList.toggle('bg-indigo-500', currentQuestionIndex < shuffledQuestions.length - 1);
+        nextBtn.classList.toggle('hover:bg-indigo-600', currentQuestionIndex < shuffledQuestions.length - 1);
+        nextBtn.classList.toggle('bg-green-600', currentQuestionIndex === shuffledQuestions.length - 1);
+        nextBtn.classList.toggle('hover:bg-green-700', currentQuestionIndex === shuffledQuestions.length - 1);
+    }
+
+    function highlightSelectedOption(selectedDiv) {
+        document.querySelectorAll('.option-item').forEach(div => {
+            div.classList.remove('border-2', 'border-indigo-500', 'dark:border-blue-400', 'bg-indigo-50', 'dark:bg-slate-700');
+            div.classList.add('border', 'border-slate-200', 'dark:border-slate-700', 'bg-slate-100', 'dark:bg-slate-800/50');
+        });
+        selectedDiv.classList.add('border-2', 'border-indigo-500', 'dark:border-blue-400', 'bg-indigo-50', 'dark:bg-slate-700');
+        selectedDiv.classList.remove('border-slate-200', 'dark:border-700', 'bg-slate-100', 'dark:bg-slate-800/50');
+    }
+
+
+    function populateQuestionPalette() {
+        questionPalette.innerHTML = '';
+        shuffledQuestions.forEach((_, index) => {
+            const button = document.createElement('button');
+            button.classList.add('w-10', 'h-10', 'rounded-full', 'flex', 'items-center', 'justify-center', 'font-semibold', 'text-sm', 'flex-shrink-0', 'transition-all', 'duration-150', 'ease-in-out');
+            button.textContent = index + 1;
+            button.dataset.index = index;
+
+            // Initial state: unanswered
+            button.classList.add('bg-slate-300', 'text-slate-800', 'dark:bg-slate-700', 'dark:text-slate-200');
+
+            if (index === currentQuestionIndex) {
+                button.classList.remove('bg-slate-300', 'dark:bg-slate-700');
+                button.classList.add('bg-indigo-500', 'text-white', 'dark:bg-blue-500', 'transform', 'scale-110');
+            }
+
+            button.addEventListener('click', () => {
+                currentQuestionIndex = index;
+                displayQuestion();
+                updatePaletteSelection();
+            });
+            questionPalette.appendChild(button);
+        });
+    }
+
+    function updatePaletteButton(index, status) {
+        const button = questionPalette.querySelector(`button[data-index="${index}"]`);
+        if (button) {
+            button.classList.remove('bg-slate-300', 'text-slate-800', 'dark:bg-slate-700', 'dark:text-slate-200', 'bg-green-500', 'text-white', 'bg-indigo-500', 'dark:bg-blue-500', 'transform', 'scale-110');
+            
+            if (status === 'attempted') {
+                button.classList.add('bg-green-500', 'text-white', 'dark:bg-green-600');
+            } else if (status === 'unattempted') {
+                 button.classList.add('bg-slate-300', 'text-slate-800', 'dark:bg-slate-700', 'dark:text-slate-200');
+            }
+            // Ensure current question is always highlighted
+            if (index === currentQuestionIndex) {
+                button.classList.remove('bg-slate-300', 'dark:bg-slate-700', 'bg-green-500', 'dark:bg-green-600');
+                button.classList.add('bg-indigo-500', 'text-white', 'dark:bg-blue-500', 'transform', 'scale-110');
+            } else {
+                button.classList.remove('transform', 'scale-110');
+            }
+        }
+    }
+
+    function updatePaletteSelection() {
+        questionPalette.querySelectorAll('button').forEach(btn => {
+            btn.classList.remove('bg-indigo-500', 'text-white', 'dark:bg-blue-500', 'transform', 'scale-110');
+            
+            if (userAnswers[parseInt(btn.dataset.index)] === null) {
+                btn.classList.add('bg-slate-300', 'text-slate-800', 'dark:bg-slate-700', 'dark:text-slate-200');
+                btn.classList.remove('bg-green-500', 'dark:bg-green-600');
+            } else {
+                 btn.classList.add('bg-green-500', 'text-white', 'dark:bg-green-600');
+                 btn.classList.remove('bg-slate-300', 'dark:bg-slate-700');
+            }
+        });
+        const currentButton = questionPalette.querySelector(`button[data-index="${currentQuestionIndex}"]`);
+        if (currentButton) {
+            currentButton.classList.remove('bg-slate-300', 'dark:bg-slate-700', 'bg-green-500', 'dark:bg-green-600');
+            currentButton.classList.add('bg-indigo-500', 'text-white', 'dark:bg-blue-500', 'transform', 'scale-110');
+        }
+    }
+
+    // Function to update circular progress bars
+    function setCircleProgress(circleElement, textElement, percentage) {
+        const radius = 15.9155; // This value is derived from the 'd' attribute in your SVG paths
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference - (percentage / 100) * circumference;
+
+        circleElement.style.strokeDasharray = `${circumference} ${circumference}`;
+        circleElement.style.strokeDashoffset = offset;
+        textElement.textContent = `${percentage.toFixed(1)}%`;
+    }
+
+    function submitTest() {
+        clearInterval(timerInterval);
+        showSection('resultSection');
+        calculateResults();
+    }
+
+    function calculateResults() {
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let attemptedCount = 0;
+
+        shuffledQuestions.forEach((shuffledQuestion, index) => {
+            const userAnswer = userAnswers[index];
+            if (userAnswer !== null) {
+                attemptedCount++;
+                // Get the original correct answer index for the current shuffled question
+                const originalCorrectAnswerIndex = shuffledQuestion.correctAnswer;
+                if (userAnswer === originalCorrectAnswerIndex) {
+                    correctCount++;
+                } else {
+                    incorrectCount++;
+                }
+            }
+        });
+
+        const unattemptedCount = shuffledQuestions.length - attemptedCount;
+        const mdcatRawScore = (correctCount * 5) - (incorrectCount * 0); // Assuming 5 marks for correct, 0 for incorrect
+
+        // MDCAT score percentage calculation
+        const maxMdcatScore = shuffledQuestions.length * 5;
+        const mdcatPercentage = (mdcatRawScore / maxMdcatScore) * 100;
+
+        // Calculate Academic Percentages
+        const sscPercentage = (sscObtainedMarks / sscTotalMarks) * 100;
+        const fscPercentage = (fscObtainedMarks / fscTotalMarks) * 100;
+
+        // Calculate Aggregate Percentage (MDCAT 70%, F.Sc. 20%, SSC 10%)
+        const aggregatePercentage =
+            (mdcatPercentage * 0.70) +
+            (fscPercentage * 0.20) +
+            (sscPercentage * 0.10);
+
+        totalQuestionsResult.textContent = shuffledQuestions.length;
+        attemptedQuestionsResult.textContent = attemptedCount;
+        correctAnswersResult.textContent = correctCount;
+        incorrectAnswersResult.textContent = incorrectCount;
+        unattemptedQuestionsResult.textContent = unattemptedCount;
+        timeTakenResult.textContent = formatTime(totalTestDuration - timeRemaining);
+        
+        setCircleProgress(mdcatScoreCircle, mdcatScoreCircleText, mdcatPercentage);
+        setCircleProgress(aggregateScoreCircle, aggregateScoreCircleText, aggregatePercentage);
+
+        // Display status messages
+        statusContainer.innerHTML = '';
+        const statusMessages = getStatusMessages(mdcatPercentage, aggregatePercentage);
+        statusMessages.forEach(msg => {
+            const statusPill = document.createElement('div');
+            statusPill.classList.add('flex', 'items-center', 'gap-2', 'bg-slate-100', 'dark:bg-slate-700', 'p-3', 'rounded-lg');
+            statusPill.innerHTML = `<p class="font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"><i class="fa-solid ${msg.icon} text-${msg.color}-500 dark:text-${msg.color}-400"></i> <strong>${msg.title}:</strong> <span class="flex-1">${msg.message}</span></p>`;
+            statusContainer.appendChild(statusPill);
+        });
+    }
+
+    function getStatusMessages(mdcatScorePercentage, aggregatePercentage) {
+        const messages = [];
+
+        // MDCAT Status
+        if (mdcatScorePercentage >= 60) {
+            messages.push({ title: "MDCAT Status", message: "PASSED", icon: "fa-circle-check", color: "green" });
+        } else {
+            messages.push({ title: "MDCAT Status", message: "FAILED", icon: "fa-circle-xmark", color: "red" });
+        }
+
+        // F.Sc. Status (assuming 50% passing for F.Sc. contribution)
+        const fscPercentage = (fscObtainedMarks / fscTotalMarks) * 100;
+        if (fscPercentage >= 50) {
+            messages.push({ title: "F.Sc. Status", message: "PASSED", icon: "fa-circle-check", color: "green" });
+        } else {
+            messages.push({ title: "F.Sc. Status", message: "FAILED", icon: "fa-circle-xmark", color: "red" });
+        }
+
+        // Overall Admission Status (e.g., Aggregate >= 75%)
+        if (aggregatePercentage >= 75) {
+            messages.push({ title: "Overall Admission", message: "QUALIFIED", icon: "fa-award", color: "blue" });
+        } else {
+            messages.push({ title: "Overall Admission", message: "NOT QUALIFIED", icon: "fa-times-circle", color: "red" });
+        }
+
+        // General Feedback
+        if (aggregatePercentage >= 85) {
+            messages.push({ title: "Feedback", message: "Excellent performance! You are well on your way to success.", icon: "fa-star", color: "yellow" });
+        } else if (aggregatePercentage >= 70) {
+            messages.push({ title: "Feedback", message: "Great job! Keep practicing to achieve even higher scores.", icon: "fa-lightbulb", color: "indigo" });
+        } else if (aggregatePercentage >= 50) {
+            messages.push({ title: "Feedback", message: "Good effort, but there's room for improvement. Focus on your weaker areas.", icon: "fa-chart-line", color: "orange" });
+        } else {
+            messages.push({ title: "Feedback", message: "Don't give up! Consistent practice and reviewing concepts will help you improve.", icon: "fa-redo-alt", color: "red" });
+        }
+        return messages;
+    }
+
+    // --- Review Section Functions ---
+    function displayReviewQuestion() {
+        // Add robust checks for data existence
+        if (!shuffledQuestions || shuffledQuestions.length === 0) {
+            console.error("No questions available for review.");
+            reviewQuestionDisplay.innerHTML = '<p class="text-red-500 dark:text-red-400">No questions to review. Please start and complete a test first.</p>';
+            reviewPrevBtn.disabled = true;
+            reviewNextBtn.disabled = true;
+            return;
+        }
+
+        // Ensure currentReviewQuestionIndex is within valid bounds
+        if (currentReviewQuestionIndex < 0) {
+            currentReviewQuestionIndex = 0;
+        } else if (currentReviewQuestionIndex >= shuffledQuestions.length) {
+            currentReviewQuestionIndex = shuffledQuestions.length - 1;
+        }
+
+        const question = shuffledQuestions[currentReviewQuestionIndex];
+        if (!question) {
+            console.error("Question at currentReviewQuestionIndex is undefined:", currentReviewQuestionIndex);
+            reviewQuestionDisplay.innerHTML = '<p class="text-red-500 dark:text-red-400">Error loading question. Please restart the test.</p>';
+            reviewPrevBtn.disabled = true;
+            reviewNextBtn.disabled = true;
+            return;
+        }
+
+        const userAnswerOriginalIndex = userAnswers[currentReviewQuestionIndex]; // This is the original index of the user's selected option
+        const correctAnswerOriginalIndex = question.correctAnswer; // This is the original index of the correct answer
+
+        // Get the shuffled options for the current review question
+        const shuffledOptionsForReview = shuffledOptionsMap.get(currentReviewQuestionIndex);
+        if (!shuffledOptionsForReview || !Array.isArray(shuffledOptionsForReview)) {
+            console.error("Shuffled options for review are invalid or missing for index:", currentReviewQuestionIndex);
+            reviewQuestionDisplay.innerHTML = '<p class="text-red-500 dark:text-red-400">Error loading options for review. Please restart the test.</p>';
+            reviewPrevBtn.disabled = true;
+            reviewNextBtn.disabled = true;
+            return;
+        }
+
+        let optionsHtml = shuffledOptionsForReview.map((optionText) => {
+            // Find the original index of this option text in the original question's options array
+            const originalQuestionData = originalQuestions[question.originalIndex];
+            if (!originalQuestionData || !Array.isArray(originalQuestionData.options)) {
+                console.error("Original question data or options are invalid for originalIndex:", question.originalIndex);
+                return `<div class="text-red-500">Error loading option.</div>`; // Fallback for option rendering
+            }
+            const originalIndexForThisOption = originalQuestionData.options.indexOf(optionText);
+
+            let iconClass = 'fa-circle text-slate-400 dark:text-slate-500'; // Default icon
+            let optionClasses = 'bg-slate-100 dark:bg-slate-700'; // Default background
+
+            if (originalIndexForThisOption === correctAnswerOriginalIndex) {
+                iconClass = 'fa-check-circle text-green-500 dark:text-green-400';
+                optionClasses = 'bg-green-100 dark:bg-green-900/50 border border-green-200 dark:border-green-700';
+            }
+
+            if (userAnswerOriginalIndex !== null && originalIndexForThisOption === userAnswerOriginalIndex) {
+                if (originalIndexForThisOption === correctAnswerOriginalIndex) {
+                    // User selected correctly - already handled by correct class
+                } else {
+                    iconClass = 'fa-times-circle text-red-500 dark:text-red-400';
+                    optionClasses = 'bg-red-100 dark:bg-red-900/50 border border-red-200 dark:border-red-700';
+                }
+            }
+
+            return `
+                <div class="flex items-center gap-3 p-3 rounded-lg ${optionClasses}">
+                    <i class="fa-solid ${iconClass} text-lg flex-shrink-0"></i>
+                    <p class="flex-1 text-slate-800 dark:text-slate-200 ${originalIndexForThisOption === correctAnswerOriginalIndex ? 'font-semibold' : ''}">${optionText}</p>
+                </div>
+            `;
+        }).join('');
+
+        let statusMessageHtml = '';
+        if (userAnswerOriginalIndex === null) {
+            statusMessageHtml = `<p class="mt-4 font-semibold text-yellow-600 dark:text-yellow-400 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Not Attempted</p>`;
+        } else if (userAnswerOriginalIndex !== correctAnswerOriginalIndex) {
+            statusMessageHtml = `
+                <p class="mt-4 font-semibold text-red-600 dark:text-red-400 flex items-center gap-2"><i class="fa-solid fa-circle-xmark"></i> Your Answer: <span class="font-normal">${originalQuestions[shuffledQuestions[currentReviewQuestionIndex].originalIndex].options[userAnswerOriginalIndex]}</span></p>
+                <p class="mt-2 font-semibold text-green-600 dark:text-green-400 flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> Correct Answer: <span class="font-normal">${originalQuestions[shuffledQuestions[currentReviewQuestionIndex].originalIndex].options[correctAnswerOriginalIndex]}</span></p>
+            `;
+        } else {
+            statusMessageHtml = `<p class="mt-4 font-semibold text-green-600 dark:text-green-400 flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> Your Answer is Correct!</p>`;
+        }
+
+
+        reviewQuestionDisplay.innerHTML = `
+            <div class="bg-slate-50 dark:bg-slate-700 p-6 rounded-lg border border-slate-200 dark:border-slate-600">
+                <p class="text-xl font-semibold text-slate-900 dark:text-slate-50 mb-4">${currentReviewQuestionIndex + 1}. ${question.question}</p>
+                <div class="flex flex-col gap-3">
+                    ${optionsHtml}
+                </div>
+                ${statusMessageHtml}
+            </div>
+        `;
+
+        // More robust disabling conditions
+        reviewPrevBtn.disabled = currentReviewQuestionIndex <= 0;
+        reviewNextBtn.disabled = currentReviewQuestionIndex >= shuffledQuestions.length - 1;
+    }
+
+    // --- Modal Functions ---
+    function showConfirmationModal() {
+        confirmationModal.classList.add('show');
+    }
+
+    function hideConfirmationModal() {
+        confirmationModal.classList.remove('show');
+    }
+
+
+    // --- Event Listeners ---
+    startTestBtn.addEventListener('click', () => {
+        const password = testPasswordInput.value;
+        const sscObtained = parseInt(sscObtainedInput.value);
+        const sscTotal = parseInt(sscTotalInput.value);
+        const fscObtained = parseInt(fscObtainedInput.value);
+        const fscTotal = parseInt(fscTotalInput.value);
+
+        let isValid = true;
+
+        // Reset error messages
+        passwordError.classList.add('hidden');
+        sscError.classList.add('hidden');
+        fscError.classList.add('hidden');
+
+        if (password !== quizPassword) {
+            passwordError.classList.remove('hidden');
+            isValid = false;
+        }
+
+        if (isNaN(sscObtained) || isNaN(sscTotal) || sscObtained < 0 || sscTotal <= 0 || sscObtained > sscTotal) {
+            sscError.classList.remove('hidden');
+            isValid = false;
+        }
+
+        if (isNaN(fscObtained) || isNaN(fscTotal) || fscObtained < 0 || fscTotal <= 0 || fscObtained > fscTotal) {
+            fscError.classList.remove('hidden');
+            isValid = false;
+        }
+
+        if (isValid) {
+            sscObtainedMarks = sscObtained;
+            sscTotalMarks = sscTotal;
+            fscObtainedMarks = fscObtained;
+            fscTotalMarks = fscTotal;
+            
+            // Do NOT shuffle questions. Keep them in their original order.
+            const biologyQuestions = originalQuestions.slice(0, 90);
+            const chemistryQuestions = originalQuestions.slice(90, 90 + 50);
+            const physicsQuestions = originalQuestions.slice(140, 140 + 40);
+            const englishQuestions = originalQuestions.slice(180, 180 + 10);
+            const logicalReasoningQuestions = originalQuestions.slice(190, 190 + 10);
+
+            // Combine questions in their original order
+            shuffledQuestions = [
+                ...biologyQuestions,
+                ...chemistryQuestions,
+                ...physicsQuestions,
+                ...englishQuestions,
+                ...logicalReasoningQuestions
+            ].map((q,idx) => ({...q, originalIndex: originalQuestions.indexOf(q)})); // Keep original index for reference
+
+            shuffledOptionsMap.clear(); // Clear previous shuffled options
+            shuffledQuestions.forEach((q, qIndex) => {
+                // Shuffle options for each question, but keep questions in order
+                const shuffledOpts = shuffleArray([...q.options]);
+                shuffledOptionsMap.set(qIndex, shuffledOpts);
+            });
+
+            userAnswers = Array(shuffledQuestions.length).fill(null); // Reset user answers for new test
+
+            showSection('quizSection');
+            populateQuestionPalette();
+            displayQuestion();
+            startTimer();
+            showToast('success', 'Test Started!', 'Good luck with your mock test.');
+        } else {
+            showToast('error', 'Input Error', 'Please correct the highlighted fields.');
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            displayQuestion();
+            updatePaletteSelection();
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentQuestionIndex < shuffledQuestions.length - 1) {
+            currentQuestionIndex++;
+            displayQuestion();
+            updatePaletteSelection();
+        } else {
+            showConfirmationModal(); // Show confirmation modal before submitting
+        }
+    });
+
+    // Modal button event listeners
+    cancelSubmissionBtn.addEventListener('click', hideConfirmationModal);
+    confirmSubmissionBtn.addEventListener('click', () => {
+        hideConfirmationModal();
+        submitTest();
+        showToast('info', 'Test Submitted', 'Your test results are ready.');
+    });
+
+
+    restartBtn.addEventListener('click', () => {
+        // Reset all state variables
+        currentQuestionIndex = 0;
+        userAnswers = Array(originalQuestions.length).fill(null); // Reset for original length
+        shuffledQuestions = []; // Clear shuffled questions
+        shuffledOptionsMap.clear(); // Clear shuffled options
+        timeRemaining = totalTestDuration;
+        clearInterval(timerInterval); // Clear any running timer
+        timerDisplay.textContent = formatTime(totalTestDuration); // Reset timer display
+        testPasswordInput.value = '';
+        sscObtainedInput.value = '';
+        sscTotalInput.value = '';
+        fscObtainedInput.value = '';
+        fscTotalInput.value = '';
+        passwordError.classList.add('hidden');
+        sscError.classList.add('hidden');
+        fscError.classList.add('hidden');
+        currentReviewQuestionIndex = 0; // Reset for review section
+
+        showSection('passwordSection');
+        showToast('info', 'Test Restarted', 'Please enter password and marks to start again.');
+    });
+
+    reviewBtn.addEventListener('click', () => {
+        currentReviewQuestionIndex = 0; // Start review from the first question
+        showSection('reviewSection');
+        displayReviewQuestion();
+    });
+
+    reviewPrevBtn.addEventListener('click', () => {
+        if (currentReviewQuestionIndex > 0) {
+            currentReviewQuestionIndex--;
+            displayReviewQuestion();
+        }
+    });
+
+    reviewNextBtn.addEventListener('click', () => {
+        if (currentReviewQuestionIndex < shuffledQuestions.length - 1) {
+            currentReviewQuestionIndex++;
+            displayReviewQuestion();
+        }
+    });
+
+    backToResultsBtn.addEventListener('click', () => {
+        showSection('resultSection');
+    });
+
+    savePdfBtn.addEventListener('click', () => {
+        window.print();
+    });
+
+    themeToggleBtn.addEventListener('click', toggleTheme);
+
+    fullscreenToggleBtn.addEventListener('click', toggleFullscreen);
+
+
+    // Initial checks on page load
+    checkTheme();
+    showSection('passwordSection'); // Show password section by default
+});
+</script>
+
+</body>
+</html>

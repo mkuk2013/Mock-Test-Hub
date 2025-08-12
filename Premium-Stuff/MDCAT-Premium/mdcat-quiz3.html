@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDCAT Mock Test - Enhanced UI</title>
+    
+    <!-- Google Fonts: Poppins (for headings) and Inter (for body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN (MUST be loaded before tailwind.config) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind CSS Configuration for Dark Mode -->
+    <script>
+        // Tailwind कॉन्फ़िगरेशन को Tailwind CDN स्क्रिप्ट के बाद लोड किया जाना चाहिए।
+        // The Tailwind configuration must be loaded after the Tailwind CDN script.
+        tailwind.config = {
+            darkMode: 'class', // HTML टैग पर 'dark' क्लास के आधार पर डार्क मोड सक्षम करें
+            // Enable dark mode based on 'dark' class on HTML tag
+            theme: {
+                extend: {
+                    // आप चाहें तो यहां अपनी थीम का विस्तार कर सकते हैं
+                    // You can extend your theme here if needed
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom CSS for fonts and scrollbar, not easily done with Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Custom scrollbar for the question palette */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px; /* For vertical scrollbars if needed */
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #e2e8f0; /* slate-200 */
+            border-radius: 10px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b; /* slate-800 */
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3b82f6; /* blue-500 */
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #2563eb; /* blue-600 */
+        }
+        
+        /* Custom styles for the circular progress bar */
+        .score-circle-svg {
+            width: 100%;
+            height: 100%;
+        }
+        .circle-bg {
+            fill: none;
+            stroke: #e2e8f0; /* slate-200 */
+            stroke-width: 3.8;
+        }
+        .dark .circle-bg {
+            stroke: #334155; /* slate-700 */
+        }
+        .circle-progress {
+            fill: none;
+            stroke-width: 2.8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease-out;
+            transform: rotate(-90deg); /* Apply rotation only to the progress path */
+            transform-origin: 50% 50%; /* Ensure rotation is around the center */
+        }
+        .mdcat-progress {
+            stroke: #6366f1; /* indigo-500 */
+        }
+        .aggregate-progress {
+            stroke: #00BCD4; /* secondary-color */
+        }
+        .circle-text {
+            fill: #0f172a; /* slate-900 */
+            font-family: 'Poppins', sans-serif;
+            font-size: 6.5px; /* Adjusted smaller font size */
+            font-weight: 700;
+            text-anchor: middle;
+        }
+        .dark .circle-text {
+            fill: #f8fafc; /* slate-50 */
+        }
+
+        /* Print Styles for PDF Export */
+        @media print {
+            body {
+                background-color: #fff !important;
+                color: #000 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .main-content-area {
+                padding: 0 !important;
+                margin: 0 !important;
+                min-height: auto !important;
+                display: block !important;
+            }
+            section.card {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                padding: 1rem !important;
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                background: #fff !important;
+            }
+            #resultSection .text-3xl, #reviewSection .text-3xl {
+                font-size: 24pt;
+                text-align: center;
+                border-bottom: 2px solid #000;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+                color: #000 !important;
+            }
+            .grid {
+                display: block !important;
+            }
+            .score-circle-container {
+                display: none; /* Hide chart in print */
+            }
+            .status-pill, .review-option-item {
+                border: 1px solid #ccc !important;
+                background-color: #f9f9f9 !important;
+            }
+             .status-pill p, .status-pill strong, .status-pill span,
+             .review-option-item p, .review-option-item i {
+                 color: #000 !important;
+            }
+            .review-question-item {
+                page-break-inside: avoid;
+                margin-bottom: 1rem;
+                border-top: 1px solid #eee;
+                padding-top: 1rem;
+            }
+             .review-option-item.correct {
+                 background-color: #e6fffa !important;
+             }
+             .review-option-item.incorrect {
+                 background-color: #fff5f5 !important;
+             }
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .dark .modal-content {
+            background-color: #1e293b; /* slate-800 */
+            color: #f8fafc; /* slate-50 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-slate-700 dark:bg-gray-900 dark:text-slate-300 transition-all duration-300 ease-in-out">
+
+    <!-- Navbar -->
+    <nav class="bg-white/80 backdrop-blur-md border-b border-slate-200 dark:bg-slate-900/80 dark:border-slate-800 sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 text-2xl font-extrabold text-indigo-500 dark:text-blue-400">
+                <i class="fa-solid fa-book-open"></i>
+                <span>MDCAT Mock Test 3</span>
+            </a>
+            <div class="flex items-center gap-4">
+                <button id="fullscreenToggle" class="w-10 h-10 rounded-full flex items-center justify-center text-slate-700 bg-slate-200 hover:bg-slate-300 dark:text-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 transition" title="Toggle Fullscreen">
+                    <i class="fa-solid fa-expand" id="fullscreenIcon"></i>
+                </button>
+                <button id="themeToggle" class="w-10 h-10 rounded-full flex items-center justify-center text-indigo-500 bg-slate-200 hover:bg-slate-300 dark:text-blue-400 dark:bg-slate-800 dark:hover:bg-slate-700 transition" title="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="min-h-[calc(100vh-64px)] flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        <div class="w-full max-w-4xl mx-auto">
+
+            <!-- Password Protection Section -->
+            <section id="passwordSection" class="bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-in-out">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-slate-800 dark:text-slate-50">Start Your Test</h2>
+                    <p class="mt-2 text-slate-600 dark:text-slate-400">Enter the test password and your academic marks to begin.</p>
+                </div>
+
+                <div class="mt-8 max-w-md mx-auto flex flex-col gap-6">
+                    <div>
+                        <label for="testPassword" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Test Password</label>
+                        <input type="password" id="testPassword" class="mt-1 block w-full p-3 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-slate-800 dark:text-slate-50 placeholder-slate-400 dark:placeholder-slate-500" placeholder="••••••••••">
+                        <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">Incorrect password. Please try again.</p>
+                    </div>
+
+                       <div class="bg-blue-50 dark:bg-slate-800 p-4 rounded-lg text-center border border-blue-200 dark:border-slate-700">
+                        <p class="text-sm text-blue-800 dark:text-blue-300">
+                            <i class="fa-solid fa-circle-info mr-1"></i> <strong>TEST PASSWORD:</strong> mdcattestbymk</p></div>
+
+
+                    <div class="academic-marks-section">
+                        <h3 class="pt-6 text-lg font-semibold text-slate-800 dark:text-slate-50 border-t border-slate-200 dark:border-slate-700">Academic Marks (for Merit Calculation)</h3>
+                        <div class="space-y-4 mt-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">SSC Marks</label>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <input type="number" id="sscObtained" class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-slate-800 dark:text-slate-50 placeholder-slate-400 dark:placeholder-slate-500" placeholder="Obtained" min="0">
+                                    <span class="text-slate-600 dark:text-slate-400">/</span>
+                                    <input type="number" id="sscTotal" class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-slate-800 dark:text-slate-50 placeholder-slate-400 dark:placeholder-slate-500" placeholder="Total" min="1">
+                                </div>
+                                <p id="sscError" class="text-red-500 text-sm mt-1 hidden">Please enter valid SSC marks (Obtained &lt;= Total, Total &gt; 0).</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">F.Sc. Marks</label>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <input type="number" id="fscObtained" class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-slate-800 dark:text-slate-50 placeholder-slate-400 dark:placeholder-slate-500" placeholder="Obtained" min="0">
+                                    <span class="text-slate-600 dark:text-slate-400">/</span>
+                                    <input type="number" id="fscTotal" class="block w-full p-3 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-slate-800 dark:text-slate-50 placeholder-slate-400 dark:placeholder-slate-500" placeholder="Total" min="1">
+                                </div>
+                                <p id="fscError" class="text-red-500 text-sm mt-1 hidden">Please enter valid F.Sc. marks (Obtained &lt;= Total, Total &gt; 0).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="startTestBtn" class="w-full py-3 px-4 bg-indigo-500 text-white font-bold rounded-lg shadow-lg shadow-indigo-500/30 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:shadow-blue-500/20 dark:hover:bg-blue-600 dark:focus:ring-offset-slate-900 transition-all duration-300 ease-in-out transform hover:scale-105">
+                        Start Test
+                    </button>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section id="quizSection" class="hidden">
+                <div class="bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-in-out">
+                    <div class="flex flex-col sm:flex-row justify-between items-center pb-4 border-b border-slate-200 dark:border-slate-700 gap-4">
+                        <!-- Question counter updated to reflect 200 questions -->
+                        <h3 id="questionCounter" class="text-lg font-semibold text-slate-800 dark:text-slate-50">Question 1/200</h3>
+                        <div id="timer" class="flex items-center gap-2 text-xl font-bold text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/50 py-2 px-4 rounded-full border border-red-200 dark:border-red-500/30">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>03:30:00</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <h4 id="questionText" class="text-xl font-bold text-slate-900 dark:text-slate-50 leading-tight"></h4>
+                        <div id="optionsContainer" class="flex flex-col gap-4 mt-6">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between mt-8 no-print">
+                        <button id="prevBtn" class="py-3 px-6 bg-slate-200 text-slate-800 font-semibold rounded-lg hover:bg-slate-300 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600 transition">Previous</button>
+                        <button id="nextBtn" class="py-3 px-6 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-blue-500 dark:hover:bg-blue-600 transition">Next</button>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800/50 p-4 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 mt-6 no-print">
+                    <h4 class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-3">Question Palette</h4>
+                    <div id="questionPalette" class="flex flex-nowrap gap-2 overflow-x-auto pb-2 custom-scrollbar">
+                        <!-- Question palette buttons will be generated here by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Result Section -->
+            <section id="resultSection" class="hidden">
+                <div class="bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 text-center transition-all duration-300 ease-in-out">
+                    <h2 class="text-3xl font-extrabold text-slate-800 dark:text-slate-50">Test Completed!</h2>
+                    <p class="mt-2 text-slate-600 dark:text-slate-400">Here's a summary of your performance.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 items-center">
+                        <!-- MDCAT Score Circle -->
+                        <div class="flex flex-col items-center justify-center">
+                            <div class="w-52 h-52 relative flex items-center justify-center">
+                                <svg class="score-circle-svg" viewBox="0 0 36 36">
+                                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="circle-progress mdcat-progress" id="mdcatScoreCircle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <text x="18" y="18" class="circle-text" id="mdcatScoreCircleText"></text>
+                                </svg>
+                            </div>
+                            <p class="mt-2 text-lg font-semibold text-slate-700 dark:text-slate-300">MDCAT Score</p>
+                        </div>
+
+                        <!-- Aggregate Score Circle -->
+                        <div class="flex flex-col items-center justify-center">
+                            <div class="w-52 h-52 relative flex items-center justify-center">
+                                <svg class="score-circle-svg" viewBox="0 0 36 36">
+                                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="circle-progress aggregate-progress" id="aggregateScoreCircle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <text x="18" y="18" class="circle-text" id="aggregateScoreCircleText"></text>
+                                </svg>
+                            </div>
+                            <p class="mt-2 text-lg font-semibold text-slate-700 dark:text-slate-300">Aggregate Score</p>
+                        </div>
+
+                        <div class="flex flex-col gap-3 text-left">
+                            <div class="flex items-center justify-between bg-slate-100 dark:bg-slate-700 p-3 rounded-lg">
+                                <span class="font-medium text-slate-700 dark:text-slate-300">Total Questions</span>
+                                <!-- Total questions result updated to reflect 200 questions -->
+                                <strong id="totalQuestionsResult" class="text-lg font-bold text-slate-900 dark:text-slate-50">200</strong>
+                            </div>
+                            <div class="flex items-center justify-between bg-slate-100 dark:bg-slate-700 p-3 rounded-lg">
+                                <span class="font-medium text-slate-700 dark:text-slate-300">Attempted</span>
+                                <strong id="attemptedQuestionsResult" class="text-lg font-bold text-slate-900 dark:text-slate-50">0</strong>
+                            </div>
+                            <div class="flex items-center justify-between bg-green-100 dark:bg-green-900/50 p-3 rounded-lg">
+                                <span class="font-medium text-green-600 dark:text-green-400">Correct</span>
+                                <strong id="correctAnswersResult" class="text-lg font-bold text-green-600 dark:text-green-400">0</strong>
+                            </div>
+                            <div class="flex items-center justify-between bg-red-100 dark:bg-red-900/50 p-3 rounded-lg">
+                                <span class="font-medium text-red-600 dark:text-red-400">Incorrect</span>
+                                <strong id="incorrectAnswersResult" class="text-lg font-bold text-red-600 dark:text-red-400">0</strong>
+                            </div>
+                             <div class="flex items-center justify-between bg-yellow-100 dark:bg-yellow-900/50 p-3 rounded-lg">
+                                <span class="font-medium text-yellow-600 dark:text-yellow-400">Unattempted</span>
+                                <strong id="unattemptedQuestionsResult" class="text-lg font-bold text-yellow-600 dark:text-yellow-400">0</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 text-center flex flex-col gap-4">
+                         <div>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Time Taken</p>
+                            <p id="timeTakenResult" class="text-xl font-bold text-slate-900 dark:text-slate-50">00:00:00</p>
+                        </div>
+                        <div id="statusContainer" class="flex flex-col gap-2">
+                            <!-- Status messages will be dynamically added here -->
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8 no-print">
+                        <button id="restartBtn" class="py-3 px-6 bg-slate-200 text-slate-800 font-semibold rounded-lg hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600 transition">Restart Test</button>
+                        <button id="reviewBtn" class="py-3 px-6 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 dark:bg-blue-500 dark:hover:bg-blue-600 transition">Review Answers</button>
+                        <button id="savePdfBtn" class="py-3 px-6 bg-slate-600 text-white font-semibold rounded-lg hover:bg-slate-700 transition">Save as PDF</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Review Section -->
+            <section id="reviewSection" class="hidden">
+                 <div class="bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 transition-all duration-300 ease-in-out">
+                    <div class="flex justify-between items-center pb-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-50">Review Answers</h2>
+                        <button id="backToResultsBtn" class="text-indigo-500 dark:text-blue-400 font-semibold hover:underline no-print">Back to Results</button>
+                    </div>
+                    
+                    <div id="reviewQuestionDisplay" class="mt-6">
+                        <!-- Review question and options will be displayed here -->
+                    </div>
+
+                    <div class="flex justify-between mt-8 no-print">
+                        <button id="reviewPrevBtn" class="py-3 px-6 bg-slate-200 text-slate-800 font-semibold rounded-lg hover:bg-slate-300 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600 transition">Previous</button>
+                        <button id="reviewNextBtn" class="py-3 px-6 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-blue-500 dark:hover:bg-blue-600 transition">Next</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white/80 backdrop-blur-md border-t border-slate-200 dark:bg-slate-900/80 dark:border-slate-800 py-4 text-center no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-sm text-slate-600 dark:text-slate-400">&copy; 2025 MDCAT Test Prep Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-[1000] flex flex-col gap-2"></div>
+
+    <!-- Confirmation Modal for Test Submission -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-50 mb-4">Submit Test?</h3>
+            <p class="text-slate-600 dark:text-slate-400 mb-6">Are you sure you want to submit the test? Once submitted, you cannot change your answers.</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancelSubmissionBtn" class="py-2 px-5 bg-slate-200 text-slate-800 font-semibold rounded-lg hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600 transition">Cancel</button>
+                <button id="confirmSubmissionBtn" class="py-2 px-5 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 dark:bg-blue-500 dark:hover:bg-blue-600 transition">Submit</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // --- Element Selectors ---
+    const passwordSection = document.getElementById('passwordSection');
+    const quizSection = document.getElementById('quizSection');
+    const resultSection = document.getElementById('resultSection');
+    const reviewSection = document.getElementById('reviewSection');
+
+    const testPasswordInput = document.getElementById('testPassword');
+    const sscObtainedInput = document.getElementById('sscObtained');
+    const sscTotalInput = document.getElementById('sscTotal');
+    const fscObtainedInput = document.getElementById('fscObtained');
+    const fscTotalInput = document.getElementById('fscTotal');
+    const startTestBtn = document.getElementById('startTestBtn');
+    const passwordError = document.getElementById('passwordError');
+    const sscError = document.getElementById('sscError');
+    const fscError = document.getElementById('fscError');
+
+    const questionCounter = document.getElementById('questionCounter');
+    const timerDisplay = document.querySelector('#timer span');
+    const questionPalette = document.getElementById('questionPalette');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    const totalQuestionsResult = document.getElementById('totalQuestionsResult');
+    const attemptedQuestionsResult = document.getElementById('attemptedQuestionsResult');
+    const correctAnswersResult = document.getElementById('correctAnswersResult');
+    const incorrectAnswersResult = document.getElementById('incorrectAnswersResult');
+    const unattemptedQuestionsResult = document.getElementById('unattemptedQuestionsResult');
+    const timeTakenResult = document.getElementById('timeTakenResult');
+    const mdcatScoreCircle = document.getElementById('mdcatScoreCircle');
+    const mdcatScoreCircleText = document.getElementById('mdcatScoreCircleText');
+    const aggregateScoreCircle = document.getElementById('aggregateScoreCircle');
+    const aggregateScoreCircleText = document.getElementById('aggregateScoreCircleText');
+    const statusContainer = document.getElementById('statusContainer');
+    const reviewBtn = document.getElementById('reviewBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const savePdfBtn = document.getElementById('savePdfBtn');
+
+    const reviewQuestionDisplay = document.getElementById('reviewQuestionDisplay');
+    const reviewPrevBtn = document.getElementById('reviewPrevBtn');
+    const reviewNextBtn = document.getElementById('reviewNextBtn');
+    const backToResultsBtn = document.getElementById('backToResultsBtn');
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const fullscreenToggleBtn = document.getElementById('fullscreenToggle');
+    const fullscreenIcon = document.getElementById('fullscreenIcon');
+    const toastContainer = document.getElementById('toastContainer');
+
+    const confirmationModal = document.getElementById('confirmationModal');
+    const cancelSubmissionBtn = document.getElementById('cancelSubmissionBtn');
+    const confirmSubmissionBtn = document.getElementById('confirmSubmissionBtn');
+
+
+    // --- State Variables ---
+    const quizPassword = "mdcattestbymk";
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    let timerInterval;
+    const totalTestDuration = 3.5 * 60 * 60; // 3.5 hours in seconds
+    let timeRemaining = totalTestDuration;
+    let testStartTime;
+    let sscObtainedMarks = 0, sscTotalMarks = 1, fscObtainedMarks = 0, fscTotalMarks = 1;
+    let currentReviewQuestionIndex = 0; // Added for review section navigation
+    let shuffledQuestions = []; // To store shuffled questions
+    let shuffledOptionsMap = new Map(); // To store shuffled options for each question
+
+    // --- Questions Data (Full 200 Questions) ---
+    // The originalQuestions array has been truncated to 200 questions.
+    const originalQuestions = [
+        // Biology (90 MCQs)
+        { "question": "What is the primary structure of a virus?", "options": ["Double-stranded DNA", "Protein coat and genetic material", "Cell wall and membrane", "Mitochondria"], "correctAnswer": 1 },
+        { "question": "Which disease is caused by HIV?", "options": ["Tuberculosis", "AIDS", "Malaria", "Hepatitis"], "correctAnswer": 1 },
+        { "question": "What is the main source of energy in cellular respiration?", "options": ["Proteins", "Fats", "Glucose", "Water"], "correctAnswer": 2 },
+        { "question": "Which of the following is a monosaccharide?", "options": ["Starch", "Glucose", "Cellulose", "Glycogen"], "correctAnswer": 1 },
+        { "question": "What property of water allows it to act as a solvent?", "options": ["Density", "Polarity", "Cohesion", "Specific heat"], "correctAnswer": 1 },
+        { "question": "Which organelle is known as the powerhouse of the cell?", "options": ["Nucleus", "Mitochondria", "Endoplasmic reticulum", "Golgi apparatus"], "correctAnswer": 1 },
+        { "question": "What is the function of ribosomes?", "options": ["Protein synthesis", "Lipid storage", "DNA replication", "ATP production"], "correctAnswer": 0 },
+        { "question": "Which part of the neuron receives signals?", "options": ["Axon", "Dendrites", "Myelin sheath", "Cell body"], "correctAnswer": 1 },
+        { "question": "What is the role of enzymes in reactions?", "options": ["Increase activation energy", "Act as catalysts", "Store energy", "Break down water"], "correctAnswer": 1 },
+        { "question": "Which theory explains natural selection?", "options": ["Lamarckism", "Darwinism", "Mendel’s Laws", "Watson-Crick Model"], "correctAnswer": 1 },
+        { "question": "What hormone regulates the menstrual cycle?", "options": ["Insulin", "Estrogen", "Adrenaline", "Thyroxine"], "correctAnswer": 1 },
+        { "question": "Which type of joint allows the widest range of motion?", "options": ["Hinge", "Ball and socket", "Pivot", "Gliding"], "correctAnswer": 1 },
+        { "question": "What is the genetic material of most organisms?", "options": ["RNA", "DNA", "Protein", "Lipid"], "correctAnswer": 1 },
+        { "question": "Which blood vessel carries oxygenated blood from the lungs?", "options": ["Pulmonary artery", "Pulmonary vein", "Aorta", "Vena cava"], "correctAnswer": 1 },
+        { "question": "What is the main function of the lymphatic system?", "options": ["Oxygen transport", "Immune response", "Nutrient absorption", "Waste excretion"], "correctAnswer": 1 },
+        { "question": "Which process involves gas exchange in the lungs?", "options": ["Digestion", "Respiration", "Circulation", "Excretion"], "correctAnswer": 1 },
+        { "question": "What is the primary function of the kidney?", "options": ["Digestion", "Excretion", "Respiration", "Circulation"], "correctAnswer": 1 },
+        { "question": "Which molecule is a conjugated molecule?", "options": ["Glucose", "Glycoprotein", "Starch", "Lipid"], "correctAnswer": 1 },
+        { "question": "What is the mode of transmission of AIDS?", "options": ["Air", "Blood and bodily fluids", "Water", "Food"], "correctAnswer": 1 },
+        { "question": "Which enzyme breaks down proteins in the stomach?", "options": ["Amylase", "Pepsin", "Lipase", "Trypsin"], "correctAnswer": 1 },
+        { "question": "What is the function of the cerebellum?", "options": ["Controls breathing", "Coordinates movement", "Regulates heartbeat", "Processes vision"], "correctAnswer": 1 },
+        { "question": "Which nitrogenous waste is excreted by humans?", "options": ["Ammonia", "Urea", "Uric acid", "All of these"], "correctAnswer": 1 },
+        { "question": "What is the result of crossing over in meiosis?", "options": ["Identical chromosomes", "Genetic variation", "No change", "Cell division"], "correctAnswer": 1 },
+        { "question": "Which organ produces insulin?", "options": ["Liver", "Pancreas", "Kidney", "Spleen"], "correctAnswer": 1 },
+        { "question": "What is the primary source of energy for muscles?", "options": ["Glucose", "Fat", "Protein", "Vitamins"], "correctAnswer": 0 },
+        { "question": "Which disease is caused by a deficiency of vitamin C?", "options": ["Rickets", "Scurvy", "Beri-beri", "Night blindness"], "correctAnswer": 1 },
+        { "question": "What is the function of the Golgi apparatus?", "options": ["Protein synthesis", "Lipid storage", "Modification of proteins", "ATP production"], "correctAnswer": 2 },
+        { "question": "Which blood group is known as the universal donor?", "options": ["A", "B", "AB", "O"], "correctAnswer": 3 },
+        { "question": "What is the effect of smoking on the respiratory system?", "options": ["Improves lung capacity", "Causes lung cancer", "Increases oxygen intake", "Strengthens alveoli"], "correctAnswer": 1 },
+        { "question": "Which part of the brain controls voluntary movements?", "options": ["Cerebellum", "Cerebrum", "Medulla", "Thalamus"], "correctAnswer": 1 },
+        { "question": "What is the role of DNA polymerase?", "options": ["Translates RNA", "Synthesizes DNA", "Breaks down proteins", "Produces energy"], "correctAnswer": 1 },
+        { "question": "Which process regulates body temperature?", "options": ["Osmoregulation", "Thermoregulation", "Excretion", "Digestion"], "correctAnswer": 1 },
+        { "question": "What is the function of hemoglobin?", "options": ["Oxygen transport", "Enzyme production", "Lipid storage", "DNA replication"], "correctAnswer": 0 },
+        { "question": "Which organelle contains chlorophyll?", "options": ["Mitochondria", "Chloroplast", "Nucleus", "Ribosome"], "correctAnswer": 1 },
+        { "question": "What is the cause of hemophilia?", "options": ["Bacterial infection", "Genetic mutation", "Viral infection", "Nutritional deficiency"], "correctAnswer": 1 },
+        { "question": "Which phase of the cardiac cycle involves ventricular contraction?", "options": ["Diastole", "Systole", "Atrial contraction", "Relaxation"], "correctAnswer": 1 },
+        { "question": "What is the primary function of the small intestine?", "options": ["Water absorption", "Nutrient absorption", "Gas exchange", "Blood filtration"], "correctAnswer": 1 },
+        { "question": "Which type of muscle is involuntary?", "options": ["Skeletal", "Cardiac", "Smooth", "All of these"], "correctAnswer": 2 },
+        { "question": "What is the role of antibodies in the immune system?", "options": ["Fight infections", "Store energy", "Transport oxygen", "Produce hormones"], "correctAnswer": 0 },
+        { "question": "Which gas is produced during photosynthesis?", "options": ["Carbon dioxide", "Oxygen", "Nitrogen", "Hydrogen"], "correctAnswer": 1 },
+        { "question": "What is the function of the alveoli?", "options": ["Filter blood", "Exchange gases", "Produce enzymes", "Store urine"], "correctAnswer": 1 },
+        { "question": "Which process involves the movement of water across a semipermeable membrane?", "options": ["Diffusion", "Osmosis", "Active transport", "Phagocytosis"], "correctAnswer": 1 },
+        { "question": "What is the result of a mutation in DNA?", "options": ["No change", "Genetic variation", "Improved function", "Cell death"], "correctAnswer": 1 },
+        { "question": "Which organ regulates blood sugar levels?", "options": ["Liver", "Pancreas", "Kidney", "Heart"], "correctAnswer": 1 },
+        { "question": "What is the primary function of the epidermis in plants?", "options": ["Photosynthesis", "Protection", "Water transport", "Food storage"], "correctAnswer": 1 },
+        { "question": "Which vitamin is fat-soluble?", "options": ["Vitamin C", "Vitamin D", "Vitamin B12", "Folic acid"], "correctAnswer": 1 },
+        { "question": "What is the function of the nucleolus?", "options": ["Protein synthesis", "Ribosome production", "DNA storage", "Lipid synthesis"], "correctAnswer": 1 },
+        { "question": "Which process involves the uptake of large particles by a cell?", "options": ["Pinocytosis", "Phagocytosis", "Osmosis", "Diffusion"], "correctAnswer": 1 },
+        { "question": "What is the role of the thymus gland?", "options": ["Produces hormones", "Matures T-lymphocytes", "Filters blood", "Stores fat"], "correctAnswer": 1 },
+        { "question": "Which blood component is responsible for clotting?", "options": ["Red blood cells", "White blood cells", "Platelets", "Plasma"], "correctAnswer": 2 },
+        { "question": "What is the primary source of energy for plants?", "options": ["Water", "Sunlight", "Carbon dioxide", "Minerals"], "correctAnswer": 1 },
+        { "question": "Which organelle is involved in detoxification?", "options": ["Lysosome", "Peroxisome", "Endoplasmic reticulum", "Golgi apparatus"], "correctAnswer": 2 },
+        { "question": "What is the effect of high temperature on enzyme activity?", "options": ["Increases activity", "Decreases activity", "No effect", "Stops activity"], "correctAnswer": 1 },
+        { "question": "Which part of the eye contains photoreceptors?", "options": ["Cornea", "Retina", "Lens", "Iris"], "correctAnswer": 1 },
+        { "question": "What is the function of the diaphragm in breathing?", "options": ["Filters air", "Expands chest cavity", "Produces sound", "Circulates blood"], "correctAnswer": 1 },
+        { "question": "Which hormone stimulates the fight or flight response?", "options": ["Insulin", "Adrenaline", "Cortisol", "Thyroxine"], "correctAnswer": 1 },
+        { "question": "What is the primary function of the large intestine?", "options": ["Nutrient absorption", "Water absorption", "Gas exchange", "Enzyme production"], "correctAnswer": 1 },
+        { "question": "Which type of inheritance is hemophilia an example of?", "options": ["Autosomal dominant", "X-linked recessive", "Codominant", "Polygenic"], "correctAnswer": 1 },
+        { "question": "What is the role of the pituitary gland?", "options": ["Regulates metabolism", "Controls other glands", "Filters blood", "Produces bile"], "correctAnswer": 1 },
+        { "question": "Which process releases energy in cells?", "options": ["Photosynthesis", "Cellular respiration", "Osmosis", "Diffusion"], "correctAnswer": 1 },
+        { "question": "What is the function of the myelin sheath?", "options": ["Insulates nerve fibers", "Produces energy", "Transports oxygen", "Synthesizes proteins"], "correctAnswer": 0 },
+        { "question": "Which gas is essential for the process of respiration?", "options": ["Nitrogen", "Oxygen", "Carbon dioxide", "Hydrogen"], "correctAnswer": 1 },
+        { "question": "What is the role of the spleen?", "options": ["Produces insulin", "Filters blood", "Regulates temperature", "Stores urine"], "correctAnswer": 1 },
+        { "question": "Which organelle is responsible for autophagy?", "options": ["Mitochondria", "Lysosome", "Nucleus", "Ribosome"], "correctAnswer": 1 },
+        { "question": "What is the effect of a low pH on enzyme activity?", "options": ["Increases activity", "Decreases activity", "No effect", "Destroys enzyme"], "correctAnswer": 1 },
+        { "question": "Which part of the nephron filters blood?", "options": ["Loop of Henle", "Glomerulus", "Collecting duct", "Proximal tubule"], "correctAnswer": 1 },
+        { "question": "What is the primary function of the trachea?", "options": ["Filters air", "Transports air", "Produces mucus", "Exchanges gases"], "correctAnswer": 1 },
+        { "question": "Which vitamin is essential for blood clotting?", "options": ["Vitamin A", "Vitamin K", "Vitamin E", "Vitamin D"], "correctAnswer": 1 },
+        { "question": "What is the role of the pancreas in digestion?", "options": ["Produces bile", "Releases digestive enzymes", "Filters blood", "Absorbs water"], "correctAnswer": 1 },
+        { "question": "Which process involves the splitting of water molecules in photosynthesis?", "options": ["Calvin cycle", "Photolysis", "Glycolysis", "Krebs cycle"], "correctAnswer": 1 },
+        { "question": "What is the function of the adrenal glands?", "options": ["Regulates sugar", "Produces stress hormones", "Filters blood", "Stores fat"], "correctAnswer": 1 },
+        { "question": "Which type of cell division produces gametes?", "options": ["Mitosis", "Meiosis", "Binary fission", "Budding"], "correctAnswer": 1 },
+        { "question": "What is the role of the placenta?", "options": ["Filters blood", "Nourishes fetus", "Produces hormones", "Both b and c"], "correctAnswer": 3 },
+        { "question": "Which organelle is involved in lipid synthesis?", "options": ["Nucleus", "Endoplasmic reticulum", "Mitochondria", "Golgi apparatus"], "correctAnswer": 1 },
+        { "question": "What is the effect of dehydration on the body?", "options": ["Increases blood volume", "Decreases blood volume", "No effect", "Improves digestion"], "correctAnswer": 1 },
+        { "question": "Which part of the brain controls balance?", "options": ["Cerebrum", "Cerebellum", "Medulla", "Hypothalamus"], "correctAnswer": 1 },
+        { "question": "What is the primary function of the urethra?", "options": ["Filters blood", "Transports urine", "Produces enzymes", "Absorbs water"], "correctAnswer": 1 },
+        { "question": "Which process involves the conversion of glucose to pyruvate?", "options": ["Glycolysis", "Krebs cycle", "Electron transport", "Calvin cycle"], "correctAnswer": 0 },
+        { "question": "What is the role of the thyroid gland?", "options": ["Regulates metabolism", "Produces insulin", "Filters blood", "Stores calcium"], "correctAnswer": 0 },
+        { "question": "Which type of bond holds the base pairs in DNA?", "options": ["Covalent", "Hydrogen", "Ionic", "Peptide"], "correctAnswer": 1 },
+        { "question": "What is the function of the bronchi?", "options": ["Exchange gases", "Transport air", "Produce mucus", "Filter blood"], "correctAnswer": 1 },
+        { "question": "Which mineral is essential for bone health?", "options": ["Iron", "Calcium", "Sodium", "Potassium"], "correctAnswer": 1 },
+        { "question": "What is the role of the hypothalamus?", "options": ["Controls hunger", "Regulates temperature", "Both a and b", "Produces bile"], "correctAnswer": 2 },
+        { "question": "Which process involves the removal of metabolic wastes?", "options": ["Respiration", "Excretion", "Digestion", "Circulation"], "correctAnswer": 1 },
+        { "question": "What is the function of the seminal vesicles?", "options": ["Produce sperm", "Provide nutrients to sperm", "Filter blood", "Regulate hormones"], "correctAnswer": 1 },
+        { "question": "Which organelle is involved in protein folding?", "options": ["Ribosome", "Endoplasmic reticulum", "Mitochondria", "Lysosome"], "correctAnswer": 1 },
+        { "question": "What is the effect of a high-fat diet on the body?", "options": ["Increases energy", "Causes obesity", "Improves vision", "Enhances immunity"], "correctAnswer": 1 },
+        { "question": "Which part of the ear contains the cochlea?", "options": ["Outer ear", "Middle ear", "Inner ear", "Auditory canal"], "correctAnswer": 2 },
+        { "question": "What is the role of the liver in metabolism?", "options": ["Produces insulin", "Detoxifies blood", "Regulates heartbeat", "Stores oxygen"], "correctAnswer": 1 },
+        { "question": "Which process involves the synthesis of proteins?", "options": ["Translation", "Transcription", "Replication", "Mutation"], "correctAnswer": 0 },
+        { "question": "What is the function of the salivary glands?", "options": ["Produce bile", "Secrete saliva", "Filter blood", "Absorb water"], "correctAnswer": 1 },
+        { "question": "Which type of immunity is acquired through vaccination?", "options": ["Innate", "Adaptive", "Passive", "Active"], "correctAnswer": 3 },
+        { "question": "What is the role of the gallbladder?", "options": ["Produces bile", "Stores bile", "Filters blood", "Regulates sugar"], "correctAnswer": 1 },
+        { "question": "Which organelle contains hydrolytic enzymes?", "options": ["Mitochondria", "Lysosome", "Nucleus", "Ribosome"], "correctAnswer": 1 },
+        { "question": "What is the effect of exercise on muscles?", "options": ["Weakens muscles", "Strengthens muscles", "No effect", "Reduces size"], "correctAnswer": 1 },
+        { "question": "Which part of the kidney filters blood?", "options": ["Ureter", "Nephron", "Bladder", "Urethra"], "correctAnswer": 1 },
+        { "question": "What is the role of the parathyroid gland?", "options": ["Regulates calcium", "Produces insulin", "Filters blood", "Stores fat"], "correctAnswer": 0 },
+        { "question": "Which process involves the breakdown of fats?", "options": ["Lipolysis", "Glycolysis", "Krebs cycle", "Calvin cycle"], "correctAnswer": 0 },
+        { "question": "What is the function of the ciliary muscles?", "options": ["Focus the lens", "Protect the eye", "Produce tears", "Regulate light"], "correctAnswer": 0 },
+        { "question": "Which vitamin prevents rickets?", "options": ["Vitamin A", "Vitamin D", "Vitamin E", "Vitamin K"], "correctAnswer": 1 },
+        { "question": "What is the role of the appendix?", "options": ["Digests food", "Stores bacteria", "Filters blood", "Produces enzymes"], "correctAnswer": 1 },
+        { "question": "Which process involves the movement of ions against a concentration gradient?", "options": ["Diffusion", "Active transport", "Osmosis", "Facilitated diffusion"], "correctAnswer": 1 },
+        { "question": "What is the function of the fallopian tubes?", "options": ["Produce eggs", "Transport eggs", "Filter blood", "Store urine"], "correctAnswer": 1 },
+        { "question": "Which organelle is involved in cellular respiration?", "options": ["Nucleus", "Mitochondria", "Golgi apparatus", "Lysosome"], "correctAnswer": 1 },
+        { "question": "What is the effect of a high-sugar diet?", "options": ["Improves health", "Causes diabetes", "Enhances immunity", "Increases strength"], "correctAnswer": 1 },
+        { "question": "Which part of the heart pumps blood to the lungs?", "options": ["Left atrium", "Right ventricle", "Left ventricle", "Right atrium"], "correctAnswer": 1 },
+        { "question": "What is the role of the medulla oblongata?", "options": ["Controls movement", "Regulates heartbeat", "Processes vision", "Stores memory"], "correctAnswer": 1 },
+        { "question": "Which process involves the synthesis of ATP?", "options": ["Photosynthesis", "Oxidative phosphorylation", "Glycolysis", "Calvin cycle"], "correctAnswer": 1 },
+        { "question": "What is the function of the prostate gland?", "options": ["Produces sperm", "Secrete fluid for semen", "Filters blood", "Regulate hormones"], "correctAnswer": 1 },
+        { "question": "Which type of cell has a cell wall?", "options": ["Animal cell", "Plant cell", "Bacterial cell", "Both b and c"], "correctAnswer": 3 },
+        { "question": "What is the role of the pineal gland?", "options": ["Regulates sleep", "Produces insulin", "Filters blood", "Stores fat"], "correctAnswer": 0 },
+        { "question": "Which process involves the uptake of liquid by a cell?", "options": ["Phagocytosis", "Pinocytosis", "Exocytosis", "Osmosis"], "correctAnswer": 1 },
+
+        // Chemistry (50 MCQs)
+        { "question": "What is the mole ratio used for in stoichiometric problems?", "options": ["Balancing equations", "Conversion factors", "Measuring temperature", "Determining pressure"], "correctAnswer": 1 },
+        { "question": "Which law states that pressure and volume are inversely proportional?", "options": ["Charles's Law", "Boyle's Law", "Avogadro's Law", "Ideal Gas Law"], "correctAnswer": 1 },
+        { "question": "What is the standard temperature at STP?", "options": ["0°C", "25°C", "100°C", "-273°C"], "correctAnswer": 0 },
+        { "question": "Which element is in Group I of the periodic table?", "options": ["Oxygen", "Sodium", "Chlorine", "Nitrogen"], "correctAnswer": 1 },
+        { "question": "What is the shape of a water molecule due to hydrogen bonding?", "options": ["Linear", "Tetrahedral", "Bent", "Trigonal planar"], "correctAnswer": 2 },
+        { "question": "What is the unit of the gas constant R?", "options": ["J/mol·K", "L/mol", "atm·L/mol·K", "Both a and c"], "correctAnswer": 3 },
+        { "question": "Which factor affects the rate of a chemical reaction?", "options": ["Catalyst", "Color", "Odor", "Texture"], "correctAnswer": 0 },
+        { "question": "What is the product of the Haber process?", "options": ["Ammonia", "Nitrogen", "Hydrogen", "Oxygen"], "correctAnswer": 0 },
+        { "question": "Which bond is stronger, sigma or pi?", "options": ["Sigma", "Pi", "Both are equal", "Depends on the molecule"], "correctAnswer": 0 },
+        { "question": "What is the oxidation number of oxygen in most compounds?", "options": ["+2", "-2", "+1", "-1"], "correctAnswer": 1 },
+        { "question": "What is the shape of a molecule with sp3 hybridization?", "options": ["Linear", "Tetrahedral", "Trigonal planar", "Octahedral"], "correctAnswer": 1 },
+        { "question": "Which gas law relates volume and temperature at constant pressure?", "options": ["Boyle's Law", "Charles's Law", "Avogadro's Law", "Ideal Gas Law"], "correctAnswer": 1 },
+        { "question": "What is the pH of a neutral solution?", "options": ["1", "7", "14", "0"], "correctAnswer": 1 },
+        { "question": "Which element has the highest electronegativity?", "options": ["Oxygen", "Fluorine", "Chlorine", "Nitrogen"], "correctAnswer": 1 },
+        { "question": "What is the product of the reaction between an acid and a base?", "options": ["Salt and water", "Carbon dioxide", "Hydrogen", "Oxygen"], "correctAnswer": 0 },
+        { "question": "Which type of reaction releases heat?", "options": ["Endothermic", "Exothermic", "Catalytic", "Neutral"], "correctAnswer": 1 },
+        { "question": "What is the molecular geometry of CO2?", "options": ["Linear", "Bent", "Tetrahedral", "Trigonal pyramidal"], "correctAnswer": 0 },
+        { "question": "Which compound is an alkane?", "options": ["C2H4", "C2H6", "C2H2", "C6H6"], "correctAnswer": 1 },
+        { "question": "What is the role of a catalyst in a reaction?", "options": ["Increases activation energy", "Lowers activation energy", "Changes products", "Absorbs heat"], "correctAnswer": 1 },
+        { "question": "Which gas is produced during the thermal decomposition of limestone?", "options": ["Oxygen", "Carbon dioxide", "Hydrogen", "Nitrogen"], "correctAnswer": 1 },
+        { "question": "What is the oxidation state of chromium in K2Cr2O7?", "options": ["+2", "+6", "+3", "+4"], "correctAnswer": 1 },
+        { "question": "Which functional group is present in aldehydes?", "options": ["-OH", "-CHO", "-COOH", "-NH2"], "correctAnswer": 1 },
+        { "question": "What is the general formula for alkanes?", "options": ["CnH2n", "CnH2n+2", "CnH2n-2", "CnHn"], "correctAnswer": 1 },
+        { "question": "Which acid is present in vinegar?", "options": ["Citric acid", "Acetic acid", "Lactic acid", "Hydrochloric acid"], "correctAnswer": 1 },
+        { "question": "What is the product of the reaction between an alcohol and a carboxylic acid?", "options": ["Ester", "Ether", "Ketone", "Aldehyde"], "correctAnswer": 0 },
+        { "question": "What is the shape of a molecule with sp2 hybridization?", "options": ["Linear", "Tetrahedral", "Trigonal planar", "Octahedral"], "correctAnswer": 2 },
+        { "question": "Which gas law relates the volume of a gas to the number of moles?", "options": ["Boyle's Law", "Charles's Law", "Avogadro's Law", "Ideal Gas Law"], "correctAnswer": 2 },
+        { "question": "What is the pH of a neutral solution?", "options": ["1", "7", "14", "0"], "correctAnswer": 1 },
+        { "question": "Which element is a noble gas?", "options": ["Oxygen", "Helium", "Chlorine", "Sodium"], "correctAnswer": 1 },
+        { "question": "What is the product of the combustion of a hydrocarbon?", "options": ["CO2 and H2O", "CO and H2", "O2 and H2", "CH4 and O2"], "correctAnswer": 0 },
+        { "question": "Which type of reaction absorbs heat?", "options": ["Exothermic", "Endothermic", "Catalytic", "Redox"], "correctAnswer": 1 },
+        { "question": "What is the molecular geometry of NH3?", "options": ["Linear", "Tetrahedral", "Trigonal pyramidal", "Bent"], "correctAnswer": 2 },
+        { "question": "Which compound is an alkene?", "options": ["C2H6", "C2H4", "C2H2", "CH4"], "correctAnswer": 1 },
+        { "question": "What is the role of a buffer solution?", "options": ["Increases pH", "Resists pH change", "Decreases pH", "Neutralizes acid"], "correctAnswer": 1 },
+        { "question": "Which gas is produced during the reaction of a metal with acid?", "options": ["Oxygen", "Hydrogen", "Carbon dioxide", "Nitrogen"], "correctAnswer": 1 },
+        { "question": "What is the oxidation state of iron in Fe2O3?", "options": ["+2", "+3", "+4", "+6"], "correctAnswer": 1 },
+        { "question": "Which functional group is present in ketones?", "options": ["-OH", "-CHO", "-CO-", "-COOH"], "correctAnswer": 2 },
+        { "question": "What is the general formula for alkenes?", "options": ["CnH2n", "CnH2n+2", "CnH2n-2", "CnHn"], "correctAnswer": 0 },
+        { "question": "Which acid is present in lemon?", "options": ["Acetic acid", "Citric acid", "Lactic acid", "Hydrochloric acid"], "correctAnswer": 1 },
+        { "question": "What is the product of the reaction between a metal and oxygen?", "options": ["Metal oxide", "Metal hydroxide", "Metal chloride", "Metal carbonate"], "correctAnswer": 0 },
+        { "question": "What is the shape of a molecule with sp hybridization?", "options": ["Linear", "Tetrahedral", "Trigonal planar", "Bent"], "correctAnswer": 0 },
+        { "question": "Which gas law relates pressure, volume, and temperature?", "options": ["Boyle's Law", "Charles's Law", "Ideal Gas Law", "Avogadro's Law"], "correctAnswer": 2 },
+        { "question": "What is the pH of a strong base solution?", "options": ["0-2", "7", "10-14", "5-6"], "correctAnswer": 2 },
+        { "question": "Which element is a transition metal?", "options": ["Sodium", "Iron", "Chlorine", "Helium"], "correctAnswer": 1 },
+        { "question": "What is the product of the electrolysis of water?", "options": ["H2 and O2", "CO2 and H2O", "N2 and O2", "CH4 and O2"], "correctAnswer": 0 },
+        { "question": "Which type of reaction involves the transfer of electrons?", "options": ["Acid-base", "Redox", "Precipitation", "Neutralization"], "correctAnswer": 1 },
+        { "question": "What is the molecular geometry of CH4?", "options": ["Linear", "Tetrahedral", "Trigonal pyramidal", "Bent"], "correctAnswer": 1 },
+        { "question": "Which compound is an alkyne?", "options": ["C2H6", "C2H4", "C2H2", "CH4"], "correctAnswer": 2 },
+        { "question": "What is the role of Le Chatelier's principle?", "options": ["Predicts equilibrium shifts", "Increases reaction rate", "Changes products", "Absorbs heat"], "correctAnswer": 0 },
+        { "question": "Which gas is produced during the fermentation of sugar?", "options": ["Oxygen", "Carbon dioxide", "Hydrogen", "Nitrogen"], "correctAnswer": 1 },
+
+        // Physics (40 MCQs)
+        { "question": "What is the unit of angular displacement?", "options": ["Meters", "Radians", "Seconds", "Newtons"], "correctAnswer": 1 },
+        { "question": "Which law states that force equals mass times acceleration?", "options": ["Newton's First Law", "Newton's Second Law", "Newton's Third Law", "Law of Conservation"], "correctAnswer": 1 },
+        { "question": "What is the terminal velocity of a falling object?", "options": ["Initial velocity", "Constant maximum velocity", "Minimum velocity", "Zero velocity"], "correctAnswer": 1 },
+        { "question": "What is the formula for wave speed?", "options": ["v = f / λ", "v = f λ", "v = λ / f", "v = 1 / (f λ)"], "correctAnswer": 1 },
+        { "question": "What is the first law of thermodynamics?", "options": ["Energy conservation", "Entropy increase", "Heat transfer", "Work done"], "correctAnswer": 0 },
+        { "question": "What is the unit of electric field intensity?", "options": ["N/C", "V/m", "Both a and b", "J/C"], "correctAnswer": 2 },
+        { "question": "What is the direction of the magnetic force on a positive charge moving in a magnetic field?", "options": ["Parallel to the field", "Perpendicular to the field", "Opposite to the field", "Random"], "correctAnswer": 1 },
+        { "question": "What is the SI unit of power?", "options": ["Joule", "Watt", "Newton", "Pascal"], "correctAnswer": 1 },
+        { "question": "Which type of wave requires a medium to propagate?", "options": ["Electromagnetic", "Mechanical", "Light", "Radio"], "correctAnswer": 1 },
+        { "question": "What is the frequency of a wave with a wavelength of 2m and speed of 340 m/s?", "options": ["170 Hz", "340 Hz", "680 Hz", "1360 Hz"], "correctAnswer": 0 },
+        { "question": "What is the principle behind the working of a transformer?", "options": ["Faraday's Law", "Ohm's Law", "Coulomb's Law", "Newton's Law"], "correctAnswer": 0 },
+        { "question": "What is the value of acceleration due to gravity on Earth?", "options": ["9.8 m/s²", "8.9 m/s²", "10 m/s²", "5 m/s²"], "correctAnswer": 0 },
+        { "question": "Which color has the longest wavelength in the visible spectrum?", "options": ["Violet", "Blue", "Green", "Red"], "correctAnswer": 3 },
+        { "question": "What is the formula for kinetic energy?", "options": ["KE = mv", "KE = ½mv²", "KE = mgh", "KE = Fd"], "correctAnswer": 1 },
+        { "question": "What is the unit of magnetic flux?", "options": ["Weber", "Tesla", "Henry", "Farad"], "correctAnswer": 0 },
+        { "question": "Which law states that the current is proportional to voltage?", "options": ["Ohm's Law", "Faraday's Law", "Lenz's Law", "Bernoulli's Principle"], "correctAnswer": 0 },
+        { "question": "What is the time period of a wave with a frequency of 50 Hz?", "options": ["0.02 s", "0.05 s", "0.1 s", "0.5 s"], "correctAnswer": 0 },
+        { "question": "What is the effect of a capacitor in an AC circuit?", "options": ["Resists current", "Stores charge", "Increases voltage", "Blocks DC"], "correctAnswer": 1 },
+        { "question": "What is the half-life of a radioactive substance if its activity drops to 25% in 12 days?", "options": ["3 days", "6 days", "12 days", "24 days"], "correctAnswer": 1 },
+        { "question": "Which type of radiation has the highest penetrating power?", "options": ["Alpha", "Beta", "Gamma", "X-ray"], "correctAnswer": 2 },
+        { "question": "What is the unit of momentum?", "options": ["kg·m/s", "N·s", "J·s", "W·s"], "correctAnswer": 0 },
+        { "question": "Which law states that every action has an equal and opposite reaction?", "options": ["Newton's First Law", "Newton's Second Law", "Newton's Third Law", "Law of Conservation"], "correctAnswer": 2 },
+        { "question": "What is the speed of sound in air at 0°C?", "options": ["331 m/s", "340 m/s", "343 m/s", "350 m/s"], "correctAnswer": 0 },
+        { "question": "What is the formula for potential energy?", "options": ["PE = mv²", "PE = mgh", "PE = ½mv²", "PE = Fd"], "correctAnswer": 1 },
+        { "question": "What is the unit of electric potential?", "options": ["Volt", "Ohm", "Ampere", "Farad"], "correctAnswer": 0 },
+        { "question": "Which law explains the direction of induced current?", "options": ["Ohm's Law", "Faraday's Law", "Lenz's Law", "Coulomb's Law"], "correctAnswer": 2 },
+        { "question": "What is the frequency of a wave with a wavelength of 4m and speed of 320 m/s?", "options": ["80 Hz", "160 Hz", "320 Hz", "640 Hz"], "correctAnswer": 0 },
+        { "question": "What is the effect of an inductor in an AC circuit?", "options": ["Resists voltage", "Opposes change in current", "Stores charge", "Blocks AC"], "correctAnswer": 1 },
+        { "question": "What is the half-life of a substance if its activity drops to 12.5% in 16 days?", "options": ["2 days", "4 days", "8 days", "16 days"], "correctAnswer": 2 },
+        { "question": "Which type of radiation is deflected by a magnetic field?", "options": ["Gamma", "Beta", "Alpha", "Both b and c"], "correctAnswer": 3 },
+        { "question": "What is the unit of capacitance?", "options": ["Farad", "Ohm", "Henry", "Tesla"], "correctAnswer": 0 },
+        { "question": "Which law states that the total energy of an isolated system remains constant?", "options": ["First Law of Thermodynamics", "Second Law of Thermodynamics", "Third Law of Thermodynamics", "Zeroth Law"], "correctAnswer": 0 },
+        { "question": "What is the speed of light in a vacuum?", "options": ["3 × 10^8 m/s", "3 × 10^6 m/s", "3 × 10^4 m/s", "3 × 10^2 m/s"], "correctAnswer": 0 },
+        { "question": "What is the formula for angular velocity?", "options": ["ω = v/r", "ω = r/v", "ω = v + r", "ω = 1/r"], "correctAnswer": 0 },
+        { "question": "What is the effect of temperature on the resistance of a conductor?", "options": ["Decreases", "Increases", "No effect", "Depends on material"], "correctAnswer": 1 },
+        { "question": "Which type of mirror forms a virtual image for all object positions?", "options": ["Concave", "Convex", "Plane", "Both a and b"], "correctAnswer": 1 },
+        { "question": "What is the unit of magnetic field strength?", "options": ["Tesla", "Weber", "Henry", "Farad"], "correctAnswer": 0 },
+        { "question": "Which law explains the behavior of gases under varying pressure?", "options": ["Boyle's Law", "Charles's Law", "Gay-Lussac's Law", "All of these"], "correctAnswer": 0 },
+        { "question": "What is the frequency of a wave with a period of 0.01 s?", "options": ["10 Hz", "100 Hz", "1000 Hz", "0.01 Hz"], "correctAnswer": 1 },
+        { "question": "What is the effect of a resistor in a circuit?", "options": ["Increases current", "Reduces current", "Stores energy", "Produces voltage"], "correctAnswer": 1 },
+
+        // English (10 MCQs)
+        { "question": "What is the purpose of scanning a text?", "options": ["To read every word", "To answer short questions quickly", "To memorize the text", "To write a summary"], "correctAnswer": 1 },
+        { "question": "Which tense is used for ongoing actions?", "options": ["Past Perfect", "Present Continuous", "Future Simple", "Past Simple"], "correctAnswer": 1 },
+        { "question": "What is a synonym for 'happy' with a stronger emotion?", "options": ["Glad", "Ecstatic", "Content", "Pleased"], "correctAnswer": 1 },
+        { "question": "Which punctuation mark is used to indicate possession?", "options": ["Comma", "Apostrophe", "Period", "Colon"], "correctAnswer": 1 },
+        { "question": "What is the correct use of passive voice in this sentence: 'The room was cleaned'?", "options": ["Incorrect", "Correct", "Needs active voice", "Needs future tense"], "correctAnswer": 1 },
+        { "question": "Which part of speech is 'quickly'?", "options": ["Noun", "Verb", "Adverb", "Adjective"], "correctAnswer": 2 },
+        { "question": "What is the correct plural form of 'child'?", "options": ["Childs", "Children", "Childes", "Childen"], "correctAnswer": 1 },
+        { "question": "Which sentence uses the correct subject-verb agreement?", "options": ["She walk to school.", "They walks to school.", "He walks to school.", "We walk to school."], "correctAnswer": 2 },
+        { "question": "What is the function of a preposition?", "options": ["Shows action", "Links nouns or pronouns", "Describes a noun", "Connects clauses"], "correctAnswer": 1 },
+        { "question": "Which sentence is in indirect speech?", "options": ["She said, 'I am tired.'", "She said that she was tired.", "She says, 'I am tired.'", "She will say, 'I am tired.'"], "correctAnswer": 1 },
+
+        // Logical Reasoning (10 MCQs)
+        { "question": "If all A are B, and some B are C, what can be concluded?", "options": ["All A are C", "Some A are C", "No A are C", "Cannot be determined"], "correctAnswer": 3 },
+        { "question": "What comes next in the series: 2, 4, 6, 8?", "options": ["9", "10", "12", "14"], "correctAnswer": 1 },
+        { "question": "If P implies Q, and Q is true, what can be said about P?", "options": ["P is true", "P is false", "P may be true or false", "Q implies P"], "correctAnswer": 2 },
+        { "question": "A statement says: 'All cats are mammals.' Which option logically follows?", "options": ["All mammals are cats", "Some mammals are cats", "No cats are mammals", "Some cats are not mammals"], "correctAnswer": 1 },
+        { "question": "If today is Sunday, what day will it be after 3 days?", "options": ["Monday", "Tuesday", "Wednesday", "Thursday"], "correctAnswer": 2 },
+        { "question": "If some P are Q, and no Q are R, what can be concluded?", "options": ["Some P are R", "No P are R", "All P are R", "Cannot be determined"], "correctAnswer": 1 },
+        { "question": "What comes next in the series: 1, 3, 6, 10?", "options": ["12", "13", "15", "16"], "correctAnswer": 2 },
+        { "question": "If all M are N, and all N are O, what can be concluded?", "options": ["Some M are O", "All M are O", "No M are O", "Some N are M"], "correctAnswer": 1 },
+        { "question": "If X is greater than Y, and Y is greater than Z, what is true?", "options": ["X < Z", "X > Z", "X = Z", "Y > X"], "correctAnswer": 1 },
+        { "question": "If today is Monday, what day will it be after 7 days?", "options": ["Tuesday", "Wednesday", "Monday", "Sunday"], "correctAnswer": 2 }
+    ];
+
+    // This assumes all your questions have 4 options and one correct answer.
+    // Ensure this data structure is consistent.
+
+    // Initialize user answers array
+    for (let i = 0; i < originalQuestions.length; i++) {
+        userAnswers.push(null); // null indicates not attempted
+    }
+
+    // --- Utility Functions ---
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function formatTime(seconds) {
+        const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+        const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+        const s = String(seconds % 60).padStart(2, '0');
+        return `${h}:${m}:${s}`;
+    }
+
+    function showSection(sectionId) {
+        passwordSection.classList.add('hidden');
+        quizSection.classList.add('hidden');
+        resultSection.classList.add('hidden');
+        reviewSection.classList.add('hidden');
+        document.getElementById(sectionId).classList.remove('hidden');
+    }
+
+    function calculateAggregate(mdcatScore) {
+        // SSC marks contribute 10%, FSc marks 40%, MDCAT 50%
+        // Assuming marks are out of 1100 for SSC and 1100 for FSc
+        const sscWeight = 0.10;
+        const fscWeight = 0.40;
+        const mdcatWeight = 0.50;
+
+        const sscPercentage = (sscObtainedMarks / sscTotalMarks) * 100;
+        const fscPercentage = (fscObtainedMarks / fscTotalMarks) * 100;
+
+        const aggregate = (sscPercentage * sscWeight) + (fscPercentage * fscWeight) + (mdcatScore * mdcatWeight);
+        return aggregate.toFixed(2);
+    }
+
+    function showToast(type, title, message) {
+        const toast = document.createElement('div');
+        toast.classList.add('toast', type, 'fixed', 'top-4', 'right-4', 'z-[1000]', 'flex', 'items-center', 'gap-3', 'p-4', 'rounded-lg', 'shadow-lg', 'transition-all', 'duration-300', 'ease-out');
+        
+        // Tailwind classes for toast types
+        let bgColor, textColor, borderColor, iconClass;
+        if (type === 'success') {
+            bgColor = 'bg-green-100 dark:bg-green-900/50';
+            textColor = 'text-green-800 dark:text-green-300';
+            borderColor = 'border-green-500 dark:border-green-700';
+            iconClass = 'fa-circle-check text-green-500 dark:text-green-400';
+        } else if (type === 'error') {
+            bgColor = 'bg-red-100 dark:bg-red-900/50';
+            textColor = 'text-red-800 dark:text-red-300';
+            borderColor = 'border-red-500 dark:border-red-700';
+            iconClass = 'fa-circle-xmark text-red-500 dark:text-red-400';
+        } else if (type === 'info') {
+            bgColor = 'bg-blue-100 dark:bg-blue-900/50';
+            textColor = 'text-blue-800 dark:text-blue-300';
+            borderColor = 'border-blue-500 dark:border-blue-700';
+            iconClass = 'fa-circle-info text-blue-500 dark:text-blue-400';
+        }
+
+        // Correctly add classes by splitting them if they contain spaces
+        toast.classList.add(...bgColor.split(' '));
+        toast.classList.add(...textColor.split(' '));
+        toast.classList.add('border-l-4'); // This is a single class
+        toast.classList.add(...borderColor.split(' '));
+
+        toast.innerHTML = `
+            <i class="fa-solid ${iconClass} text-xl"></i>
+            <div>
+                <p class="font-semibold">${title}</p>
+                <p class="text-sm">${message}</p>
+            </div>
+        `;
+        toastContainer.appendChild(toast);
+
+        // Animate in
+        setTimeout(() => {
+            toast.classList.remove('opacity-0', 'translate-x-full');
+            toast.classList.add('opacity-100', 'translate-x-0');
+        }, 10); // Small delay to ensure transition applies
+
+        // Animate out and remove after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('opacity-100', 'translate-x-0');
+            toast.classList.add('opacity-0', 'translate-x-full');
+            toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+        }, 3000);
+    }
+
+
+    // --- Theme Toggle ---
+    function toggleTheme() {
+        document.documentElement.classList.toggle('dark'); // Toggle dark class on html element
+        if (document.documentElement.classList.contains('dark')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+        updateThemeIcon();
+    }
+
+    function updateThemeIcon() {
+        const themeToggleIcon = themeToggleBtn.querySelector('i');
+        if (document.documentElement.classList.contains('dark')) {
+            themeToggleIcon.classList.remove('fa-moon');
+            themeToggleIcon.classList.add('fa-sun');
+        } else {
+            themeToggleIcon.classList.remove('fa-sun');
+            themeToggleIcon.classList.add('fa-moon');
+        }
+    }
+
+   function checkTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+    } else {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }
+    updateThemeIcon();
+}
+
+
+    // --- Fullscreen Toggle ---
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().then(updateFullscreenIcon);
+        } else {
+            document.exitFullscreen().then(updateFullscreenIcon);
+        }
+    }
+
+    function updateFullscreenIcon() {
+        if (document.fullscreenElement) {
+            fullscreenIcon.classList.remove('fa-expand');
+            fullscreenIcon.classList.add('fa-compress');
+            fullscreenToggleBtn.title = "Exit Fullscreen";
+        } else {
+            fullscreenIcon.classList.remove('fa-compress');
+            fullscreenIcon.classList.add('fa-expand');
+            fullscreenToggleBtn.title = "Toggle Fullscreen";
+        }
+    }
+
+    // --- Quiz Functions ---
+    function startTimer() {
+        testStartTime = Date.now();
+        timerInterval = setInterval(() => {
+            timeRemaining--;
+            if (timeRemaining < 0) {
+                timeRemaining = 0;
+                clearInterval(timerInterval);
+                submitTest();
+                showToast('info', 'Time Up!', 'Your test has been automatically submitted.');
+            }
+            timerDisplay.textContent = formatTime(timeRemaining);
+        }, 1000);
+    }
+
+    function displayQuestion() {
+        const question = shuffledQuestions[currentQuestionIndex];
+        questionCounter.textContent = `Question ${currentQuestionIndex + 1}/${shuffledQuestions.length}`;
+        questionText.innerHTML = `${currentQuestionIndex + 1}. ${question.question}`;
+        optionsContainer.innerHTML = ''; // Clear previous options
+
+        // Get shuffled options for the current question
+        const shuffledOptions = shuffledOptionsMap.get(currentQuestionIndex);
+
+        shuffledOptions.forEach((option, originalIndex) => {
+            const optionDiv = document.createElement('div');
+            optionDiv.classList.add('flex', 'items-center', 'gap-3', 'bg-slate-100', 'dark:bg-slate-700', 'p-4', 'rounded-lg', 'cursor-pointer', 'transition-all', 'duration-150', 'ease-in-out', 'hover:bg-slate-200', 'dark:hover:bg-slate-600');
+            optionDiv.dataset.originalIndex = originalIndex; // Store original index to map back to correctAnswer
+
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = 'questionOptions';
+            radio.id = `option${originalIndex}`; // Use originalIndex for unique ID
+            radio.value = originalIndex; // Store original index as value
+            radio.classList.add('appearance-none', 'w-4', 'h-4', 'border-2', 'border-slate-400', 'dark:border-slate-500', 'rounded-full', 'checked:bg-indigo-500', 'checked:border-indigo-500', 'dark:checked:bg-blue-400', 'dark:checked:border-blue-400', 'relative', 'flex-shrink-0', 'cursor-pointer');
+            radio.style.setProperty('--tw-ring-color', 'rgba(99, 102, 241, 0.5)'); // Custom property for ring color
+            radio.style.setProperty('--tw-ring-offset-color', 'var(--bg-slate-100)'); // Custom property for ring offset color
+
+            // Custom checked state indicator
+            const checkedIndicator = document.createElement('div');
+            checkedIndicator.classList.add('absolute', 'top-1/2', 'left-1/2', '-translate-x-1/2', '-translate-y-1/2', 'w-2', 'h-2', 'bg-white', 'rounded-full', 'pointer-events-none', 'opacity-0', 'transition-opacity', 'duration-150');
+            radio.addEventListener('change', () => {
+                if (radio.checked) {
+                    checkedIndicator.classList.remove('opacity-0');
+                } else {
+                    checkedIndicator.classList.add('opacity-0');
+                }
+            });
+
+            const label = document.createElement('label');
+            label.htmlFor = `option${originalIndex}`;
+            label.classList.add('text-lg', 'font-medium', 'text-slate-800', 'dark:text-slate-200', 'cursor-pointer', 'flex-1');
+            label.textContent = option;
+
+            optionDiv.appendChild(radio);
+            radio.appendChild(checkedIndicator); // Append indicator inside radio for positioning
+            optionDiv.appendChild(label);
+            optionsContainer.appendChild(optionDiv);
+
+            optionDiv.addEventListener('click', () => {
+                radio.checked = true;
+                userAnswers[currentQuestionIndex] = parseInt(optionDiv.dataset.originalIndex); // Store original index of selected option
+                updatePaletteButton(currentQuestionIndex, 'attempted');
+                highlightSelectedOption(optionDiv);
+            });
+
+            // Check if this option was previously selected by the user
+            if (userAnswers[currentQuestionIndex] === originalIndex) {
+                radio.checked = true;
+                highlightSelectedOption(optionDiv);
+                checkedIndicator.classList.remove('opacity-0');
+            }
+        });
+
+        // Update navigation buttons
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.textContent = currentQuestionIndex === shuffledQuestions.length - 1 ? 'Submit Test' : 'Next';
+        nextBtn.classList.toggle('bg-indigo-500', currentQuestionIndex < shuffledQuestions.length - 1);
+        nextBtn.classList.toggle('hover:bg-indigo-600', currentQuestionIndex < shuffledQuestions.length - 1);
+        nextBtn.classList.toggle('bg-green-600', currentQuestionIndex === shuffledQuestions.length - 1);
+        nextBtn.classList.toggle('hover:bg-green-700', currentQuestionIndex === shuffledQuestions.length - 1);
+    }
+
+    function highlightSelectedOption(selectedDiv) {
+        document.querySelectorAll('.option-item').forEach(div => {
+            div.classList.remove('border-2', 'border-indigo-500', 'dark:border-blue-400', 'bg-indigo-50', 'dark:bg-slate-700');
+            div.classList.add('border', 'border-slate-200', 'dark:border-slate-700', 'bg-slate-100', 'dark:bg-slate-800/50');
+        });
+        selectedDiv.classList.add('border-2', 'border-indigo-500', 'dark:border-blue-400', 'bg-indigo-50', 'dark:bg-slate-700');
+        selectedDiv.classList.remove('border-slate-200', 'dark:border-700', 'bg-slate-100', 'dark:bg-slate-800/50');
+    }
+
+
+    function populateQuestionPalette() {
+        questionPalette.innerHTML = '';
+        shuffledQuestions.forEach((_, index) => {
+            const button = document.createElement('button');
+            button.classList.add('w-10', 'h-10', 'rounded-full', 'flex', 'items-center', 'justify-center', 'font-semibold', 'text-sm', 'flex-shrink-0', 'transition-all', 'duration-150', 'ease-in-out');
+            button.textContent = index + 1;
+            button.dataset.index = index;
+
+            // Initial state: unanswered
+            button.classList.add('bg-slate-300', 'text-slate-800', 'dark:bg-slate-700', 'dark:text-slate-200');
+
+            if (index === currentQuestionIndex) {
+                button.classList.remove('bg-slate-300', 'dark:bg-slate-700');
+                button.classList.add('bg-indigo-500', 'text-white', 'dark:bg-blue-500', 'transform', 'scale-110');
+            }
+
+            button.addEventListener('click', () => {
+                currentQuestionIndex = index;
+                displayQuestion();
+                updatePaletteSelection();
+            });
+            questionPalette.appendChild(button);
+        });
+    }
+
+    function updatePaletteButton(index, status) {
+        const button = questionPalette.querySelector(`button[data-index="${index}"]`);
+        if (button) {
+            button.classList.remove('bg-slate-300', 'text-slate-800', 'dark:bg-slate-700', 'dark:text-slate-200', 'bg-green-500', 'text-white', 'bg-indigo-500', 'dark:bg-blue-500', 'transform', 'scale-110');
+            
+            if (status === 'attempted') {
+                button.classList.add('bg-green-500', 'text-white', 'dark:bg-green-600');
+            } else if (status === 'unattempted') {
+                 button.classList.add('bg-slate-300', 'text-slate-800', 'dark:bg-slate-700', 'dark:text-slate-200');
+            }
+            // Ensure current question is always highlighted
+            if (index === currentQuestionIndex) {
+                button.classList.remove('bg-slate-300', 'dark:bg-slate-700', 'bg-green-500', 'dark:bg-green-600');
+                button.classList.add('bg-indigo-500', 'text-white', 'dark:bg-blue-500', 'transform', 'scale-110');
+            } else {
+                button.classList.remove('transform', 'scale-110');
+            }
+        }
+    }
+
+    function updatePaletteSelection() {
+        questionPalette.querySelectorAll('button').forEach(btn => {
+            btn.classList.remove('bg-indigo-500', 'text-white', 'dark:bg-blue-500', 'transform', 'scale-110');
+            
+            if (userAnswers[parseInt(btn.dataset.index)] === null) {
+                btn.classList.add('bg-slate-300', 'text-slate-800', 'dark:bg-slate-700', 'dark:text-slate-200');
+                btn.classList.remove('bg-green-500', 'dark:bg-green-600');
+            } else {
+                 btn.classList.add('bg-green-500', 'text-white', 'dark:bg-green-600');
+                 btn.classList.remove('bg-slate-300', 'dark:bg-slate-700');
+            }
+        });
+        const currentButton = questionPalette.querySelector(`button[data-index="${currentQuestionIndex}"]`);
+        if (currentButton) {
+            currentButton.classList.remove('bg-slate-300', 'dark:bg-slate-700', 'bg-green-500', 'dark:bg-green-600');
+            currentButton.classList.add('bg-indigo-500', 'text-white', 'dark:bg-blue-500', 'transform', 'scale-110');
+        }
+    }
+
+    // Function to update circular progress bars
+    function setCircleProgress(circleElement, textElement, percentage) {
+        const radius = 15.9155; // This value is derived from the 'd' attribute in your SVG paths
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference - (percentage / 100) * circumference;
+
+        circleElement.style.strokeDasharray = `${circumference} ${circumference}`;
+        circleElement.style.strokeDashoffset = offset;
+        textElement.textContent = `${percentage.toFixed(1)}%`;
+    }
+
+    function submitTest() {
+        clearInterval(timerInterval);
+        showSection('resultSection');
+        calculateResults();
+    }
+
+    function calculateResults() {
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let attemptedCount = 0;
+
+        shuffledQuestions.forEach((shuffledQuestion, index) => {
+            const userAnswer = userAnswers[index];
+            if (userAnswer !== null) {
+                attemptedCount++;
+                // Get the original correct answer index for the current shuffled question
+                const originalCorrectAnswerIndex = shuffledQuestion.correctAnswer;
+                if (userAnswer === originalCorrectAnswerIndex) {
+                    correctCount++;
+                } else {
+                    incorrectCount++;
+                }
+            }
+        });
+
+        const unattemptedCount = shuffledQuestions.length - attemptedCount;
+        const mdcatRawScore = (correctCount * 5) - (incorrectCount * 0); // Assuming 5 marks for correct, 0 for incorrect
+
+        // MDCAT score percentage calculation
+        const maxMdcatScore = shuffledQuestions.length * 5;
+        const mdcatPercentage = (mdcatRawScore / maxMdcatScore) * 100;
+
+        // Calculate Academic Percentages
+        const sscPercentage = (sscObtainedMarks / sscTotalMarks) * 100;
+        const fscPercentage = (fscObtainedMarks / fscTotalMarks) * 100;
+
+        // Calculate Aggregate Percentage (MDCAT 70%, F.Sc. 20%, SSC 10%)
+        const aggregatePercentage =
+            (mdcatPercentage * 0.70) +
+            (fscPercentage * 0.20) +
+            (sscPercentage * 0.10);
+
+        totalQuestionsResult.textContent = shuffledQuestions.length;
+        attemptedQuestionsResult.textContent = attemptedCount;
+        correctAnswersResult.textContent = correctCount;
+        incorrectAnswersResult.textContent = incorrectCount;
+        unattemptedQuestionsResult.textContent = unattemptedCount;
+        timeTakenResult.textContent = formatTime(totalTestDuration - timeRemaining);
+        
+        setCircleProgress(mdcatScoreCircle, mdcatScoreCircleText, mdcatPercentage);
+        setCircleProgress(aggregateScoreCircle, aggregateScoreCircleText, aggregatePercentage);
+
+        // Display status messages
+        statusContainer.innerHTML = '';
+        const statusMessages = getStatusMessages(mdcatPercentage, aggregatePercentage);
+        statusMessages.forEach(msg => {
+            const statusPill = document.createElement('div');
+            statusPill.classList.add('flex', 'items-center', 'gap-2', 'bg-slate-100', 'dark:bg-slate-700', 'p-3', 'rounded-lg');
+            statusPill.innerHTML = `<p class="font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"><i class="fa-solid ${msg.icon} text-${msg.color}-500 dark:text-${msg.color}-400"></i> <strong>${msg.title}:</strong> <span class="flex-1">${msg.message}</span></p>`;
+            statusContainer.appendChild(statusPill);
+        });
+    }
+
+    function getStatusMessages(mdcatScorePercentage, aggregatePercentage) {
+        const messages = [];
+
+        // MDCAT Status
+        if (mdcatScorePercentage >= 60) {
+            messages.push({ title: "MDCAT Status", message: "PASSED", icon: "fa-circle-check", color: "green" });
+        } else {
+            messages.push({ title: "MDCAT Status", message: "FAILED", icon: "fa-circle-xmark", color: "red" });
+        }
+
+        // F.Sc. Status (assuming 50% passing for F.Sc. contribution)
+        const fscPercentage = (fscObtainedMarks / fscTotalMarks) * 100;
+        if (fscPercentage >= 50) {
+            messages.push({ title: "F.Sc. Status", message: "PASSED", icon: "fa-circle-check", color: "green" });
+        } else {
+            messages.push({ title: "F.Sc. Status", message: "FAILED", icon: "fa-circle-xmark", color: "red" });
+        }
+
+        // Overall Admission Status (e.g., Aggregate >= 75%)
+        if (aggregatePercentage >= 75) {
+            messages.push({ title: "Overall Admission", message: "QUALIFIED", icon: "fa-award", color: "blue" });
+        } else {
+            messages.push({ title: "Overall Admission", message: "NOT QUALIFIED", icon: "fa-times-circle", color: "red" });
+        }
+
+        // General Feedback
+        if (aggregatePercentage >= 85) {
+            messages.push({ title: "Feedback", message: "Excellent performance! You are well on your way to success.", icon: "fa-star", color: "yellow" });
+        } else if (aggregatePercentage >= 70) {
+            messages.push({ title: "Feedback", message: "Great job! Keep practicing to achieve even higher scores.", icon: "fa-lightbulb", color: "indigo" });
+        } else if (aggregatePercentage >= 50) {
+            messages.push({ title: "Feedback", message: "Good effort, but there's room for improvement. Focus on your weaker areas.", icon: "fa-chart-line", color: "orange" });
+        } else {
+            messages.push({ title: "Feedback", message: "Don't give up! Consistent practice and reviewing concepts will help you improve.", icon: "fa-redo-alt", color: "red" });
+        }
+        return messages;
+    }
+
+    // --- Review Section Functions ---
+    function displayReviewQuestion() {
+        // Add robust checks for data existence
+        if (!shuffledQuestions || shuffledQuestions.length === 0) {
+            console.error("No questions available for review.");
+            reviewQuestionDisplay.innerHTML = '<p class="text-red-500 dark:text-red-400">No questions to review. Please start and complete a test first.</p>';
+            reviewPrevBtn.disabled = true;
+            reviewNextBtn.disabled = true;
+            return;
+        }
+
+        // Ensure currentReviewQuestionIndex is within valid bounds
+        if (currentReviewQuestionIndex < 0) {
+            currentReviewQuestionIndex = 0;
+        } else if (currentReviewQuestionIndex >= shuffledQuestions.length) {
+            currentReviewQuestionIndex = shuffledQuestions.length - 1;
+        }
+
+        const question = shuffledQuestions[currentReviewQuestionIndex];
+        if (!question) {
+            console.error("Question at currentReviewQuestionIndex is undefined:", currentReviewQuestionIndex);
+            reviewQuestionDisplay.innerHTML = '<p class="text-red-500 dark:text-red-400">Error loading question. Please restart the test.</p>';
+            reviewPrevBtn.disabled = true;
+            reviewNextBtn.disabled = true;
+            return;
+        }
+
+        const userAnswerOriginalIndex = userAnswers[currentReviewQuestionIndex]; // This is the original index of the user's selected option
+        const correctAnswerOriginalIndex = question.correctAnswer; // This is the original index of the correct answer
+
+        // Get the shuffled options for the current review question
+        const shuffledOptionsForReview = shuffledOptionsMap.get(currentReviewQuestionIndex);
+        if (!shuffledOptionsForReview || !Array.isArray(shuffledOptionsForReview)) {
+            console.error("Shuffled options for review are invalid or missing for index:", currentReviewQuestionIndex);
+            reviewQuestionDisplay.innerHTML = '<p class="text-red-500 dark:text-red-400">Error loading options for review. Please restart the test.</p>';
+            reviewPrevBtn.disabled = true;
+            reviewNextBtn.disabled = true;
+            return;
+        }
+
+        let optionsHtml = shuffledOptionsForReview.map((optionText) => {
+            // Find the original index of this option text in the original question's options array
+            const originalQuestionData = originalQuestions[question.originalIndex];
+            if (!originalQuestionData || !Array.isArray(originalQuestionData.options)) {
+                console.error("Original question data or options are invalid for originalIndex:", question.originalIndex);
+                return `<div class="text-red-500">Error loading option.</div>`; // Fallback for option rendering
+            }
+            const originalIndexForThisOption = originalQuestionData.options.indexOf(optionText);
+
+            let iconClass = 'fa-circle text-slate-400 dark:text-slate-500'; // Default icon
+            let optionClasses = 'bg-slate-100 dark:bg-slate-700'; // Default background
+
+            if (originalIndexForThisOption === correctAnswerOriginalIndex) {
+                iconClass = 'fa-check-circle text-green-500 dark:text-green-400';
+                optionClasses = 'bg-green-100 dark:bg-green-900/50 border border-green-200 dark:border-green-700';
+            }
+
+            if (userAnswerOriginalIndex !== null && originalIndexForThisOption === userAnswerOriginalIndex) {
+                if (originalIndexForThisOption === correctAnswerOriginalIndex) {
+                    // User selected correctly - already handled by correct class
+                } else {
+                    iconClass = 'fa-times-circle text-red-500 dark:text-red-400';
+                    optionClasses = 'bg-red-100 dark:bg-red-900/50 border border-red-200 dark:border-red-700';
+                }
+            }
+
+            return `
+                <div class="flex items-center gap-3 p-3 rounded-lg ${optionClasses}">
+                    <i class="fa-solid ${iconClass} text-lg flex-shrink-0"></i>
+                    <p class="flex-1 text-slate-800 dark:text-slate-200 ${originalIndexForThisOption === correctAnswerOriginalIndex ? 'font-semibold' : ''}">${optionText}</p>
+                </div>
+            `;
+        }).join('');
+
+        let statusMessageHtml = '';
+        if (userAnswerOriginalIndex === null) {
+            statusMessageHtml = `<p class="mt-4 font-semibold text-yellow-600 dark:text-yellow-400 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Not Attempted</p>`;
+        } else if (userAnswerOriginalIndex !== correctAnswerOriginalIndex) {
+            statusMessageHtml = `
+                <p class="mt-4 font-semibold text-red-600 dark:text-red-400 flex items-center gap-2"><i class="fa-solid fa-circle-xmark"></i> Your Answer: <span class="font-normal">${originalQuestions[shuffledQuestions[currentReviewQuestionIndex].originalIndex].options[userAnswerOriginalIndex]}</span></p>
+                <p class="mt-2 font-semibold text-green-600 dark:text-green-400 flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> Correct Answer: <span class="font-normal">${originalQuestions[shuffledQuestions[currentReviewQuestionIndex].originalIndex].options[correctAnswerOriginalIndex]}</span></p>
+            `;
+        } else {
+            statusMessageHtml = `<p class="mt-4 font-semibold text-green-600 dark:text-green-400 flex items-center gap-2"><i class="fa-solid fa-circle-check"></i> Your Answer is Correct!</p>`;
+        }
+
+
+        reviewQuestionDisplay.innerHTML = `
+            <div class="bg-slate-50 dark:bg-slate-700 p-6 rounded-lg border border-slate-200 dark:border-slate-600">
+                <p class="text-xl font-semibold text-slate-900 dark:text-slate-50 mb-4">${currentReviewQuestionIndex + 1}. ${question.question}</p>
+                <div class="flex flex-col gap-3">
+                    ${optionsHtml}
+                </div>
+                ${statusMessageHtml}
+            </div>
+        `;
+
+        // More robust disabling conditions
+        reviewPrevBtn.disabled = currentReviewQuestionIndex <= 0;
+        reviewNextBtn.disabled = currentReviewQuestionIndex >= shuffledQuestions.length - 1;
+    }
+
+    // --- Modal Functions ---
+    function showConfirmationModal() {
+        confirmationModal.classList.add('show');
+    }
+
+    function hideConfirmationModal() {
+        confirmationModal.classList.remove('show');
+    }
+
+
+    // --- Event Listeners ---
+    startTestBtn.addEventListener('click', () => {
+        const password = testPasswordInput.value;
+        const sscObtained = parseInt(sscObtainedInput.value);
+        const sscTotal = parseInt(sscTotalInput.value);
+        const fscObtained = parseInt(fscObtainedInput.value);
+        const fscTotal = parseInt(fscTotalInput.value);
+
+        let isValid = true;
+
+        // Reset error messages
+        passwordError.classList.add('hidden');
+        sscError.classList.add('hidden');
+        fscError.classList.add('hidden');
+
+        if (password !== quizPassword) {
+            passwordError.classList.remove('hidden');
+            isValid = false;
+        }
+
+        if (isNaN(sscObtained) || isNaN(sscTotal) || sscObtained < 0 || sscTotal <= 0 || sscObtained > sscTotal) {
+            sscError.classList.remove('hidden');
+            isValid = false;
+        }
+
+        if (isNaN(fscObtained) || isNaN(fscTotal) || fscObtained < 0 || fscTotal <= 0 || fscObtained > fscTotal) {
+            fscError.classList.remove('hidden');
+            isValid = false;
+        }
+
+        if (isValid) {
+            sscObtainedMarks = sscObtained;
+            sscTotalMarks = sscTotal;
+            fscObtainedMarks = fscObtained;
+            fscTotalMarks = fscTotal;
+            
+            // Shuffle questions and options when test starts
+            // Ensure originalQuestions is correctly truncated to 200 questions here
+            const biologyQuestions = originalQuestions.slice(0, 90);
+            const chemistryQuestions = originalQuestions.slice(90, 90 + 50);
+            const physicsQuestions = originalQuestions.slice(140, 140 + 40);
+            const englishQuestions = originalQuestions.slice(180, 180 + 10);
+            const logicalReasoningQuestions = originalQuestions.slice(190, 190 + 10);
+
+            const all200Questions = [
+                ...biologyQuestions,
+                ...chemistryQuestions,
+                ...physicsQuestions,
+                ...englishQuestions,
+                ...logicalReasoningQuestions
+            ];
+
+            shuffledQuestions = shuffleArray([...all200Questions].map((q,idx) => ({...q, originalIndex: originalQuestions.indexOf(q)}))); // Keep original index for reference
+            shuffledOptionsMap.clear(); // Clear previous shuffled options
+            shuffledQuestions.forEach((q, qIndex) => {
+                const shuffledOpts = shuffleArray([...q.options]);
+                shuffledOptionsMap.set(qIndex, shuffledOpts);
+            });
+
+            userAnswers = Array(shuffledQuestions.length).fill(null); // Reset user answers for new shuffled test
+
+            showSection('quizSection');
+            populateQuestionPalette();
+            displayQuestion();
+            startTimer();
+            showToast('success', 'Test Started!', 'Good luck with your mock test.');
+        } else {
+            showToast('error', 'Input Error', 'Please correct the highlighted fields.');
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            displayQuestion();
+            updatePaletteSelection();
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentQuestionIndex < shuffledQuestions.length - 1) {
+            currentQuestionIndex++;
+            displayQuestion();
+            updatePaletteSelection();
+        } else {
+            showConfirmationModal(); // Show confirmation modal before submitting
+        }
+    });
+
+    // Modal button event listeners
+    cancelSubmissionBtn.addEventListener('click', hideConfirmationModal);
+    confirmSubmissionBtn.addEventListener('click', () => {
+        hideConfirmationModal();
+        submitTest();
+        showToast('info', 'Test Submitted', 'Your test results are ready.');
+    });
+
+
+    restartBtn.addEventListener('click', () => {
+        // Reset all state variables
+        currentQuestionIndex = 0;
+        userAnswers = Array(originalQuestions.length).fill(null); // Reset for original length
+        shuffledQuestions = []; // Clear shuffled questions
+        shuffledOptionsMap.clear(); // Clear shuffled options
+        timeRemaining = totalTestDuration;
+        clearInterval(timerInterval); // Clear any running timer
+        timerDisplay.textContent = formatTime(totalTestDuration); // Reset timer display
+        testPasswordInput.value = '';
+        sscObtainedInput.value = '';
+        sscTotalInput.value = '';
+        fscObtainedInput.value = '';
+        fscTotalInput.value = '';
+        passwordError.classList.add('hidden');
+        sscError.classList.add('hidden');
+        fscError.classList.add('hidden');
+        currentReviewQuestionIndex = 0; // Reset for review section
+
+        showSection('passwordSection');
+        showToast('info', 'Test Restarted', 'Please enter password and marks to start again.');
+    });
+
+    reviewBtn.addEventListener('click', () => {
+        currentReviewQuestionIndex = 0; // Start review from the first question
+        showSection('reviewSection');
+        displayReviewQuestion();
+    });
+
+    reviewPrevBtn.addEventListener('click', () => {
+        if (currentReviewQuestionIndex > 0) {
+            currentReviewQuestionIndex--;
+            displayReviewQuestion();
+        }
+    });
+
+    reviewNextBtn.addEventListener('click', () => {
+        if (currentReviewQuestionIndex < shuffledQuestions.length - 1) {
+            currentReviewQuestionIndex++;
+            displayReviewQuestion();
+        }
+    });
+
+    backToResultsBtn.addEventListener('click', () => {
+        showSection('resultSection');
+    });
+
+    savePdfBtn.addEventListener('click', () => {
+        window.print();
+    });
+
+    themeToggleBtn.addEventListener('click', toggleTheme);
+
+    fullscreenToggleBtn.addEventListener('click', toggleFullscreen);
+
+
+    // Initial checks on page load
+    checkTheme();
+    showSection('passwordSection'); // Show password section by default
+});
+</script>
+
+</body>
+</html>
