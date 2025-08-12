@@ -1,0 +1,803 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>IBA STS Matric Mock Test 9</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+    body {
+      background: url('https://images.unsplash.com/photo-1542281286-9e0a16bb7366') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      color: #000;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 30px;
+      margin-top: 50px;
+      color: #000;
+    }
+    .option {
+      background: rgba(255,255,255,0.8);
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      padding: 10px;
+      color: #000;
+    }
+    .dark-mode {
+      background: #121212;
+      color: white;
+    }
+    .dark-mode .glass-card {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+    .dark-mode .option {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+    .correct { background-color: #c8e6c9 !important; }
+    .wrong { background-color: #ffcdd2 !important; }
+    .icon-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+  
+.passage-glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 12px;
+  color: #000;
+  margin: 10px 0;
+  font-size: 0.95rem;
+}
+
+
+.dark-mode #english-passage,
+.dark-mode #english-passage pre {
+  color: white !important;
+}
+
+</style>
+</head>
+<body>
+<!-- English Glass Passage -->
+<!-- English Passage -->
+<div class="container">
+<div class="glass-card" id="quizContainer">
+<h2 class="text-center mb-4" id="quizHeading">🔒 Enter Password to Begin Mock Test 9</h2>
+<div class="input-group mb-4">
+<input class="form-control" id="passwordInput" placeholder="Enter password..." type="password"/>
+<button class="btn btn-light" id="startBtn">Enter</button>
+</div>
+<div id="quizContent" style="display: none;">
+<h2 class="text-center mb-3">IBA STS Mock Test 9 – Matric Category</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+<span><strong>⏱ Time Left: <span id="timerDisplay">60:00</span></strong></span>
+<button class="btn btn-outline-light btn-sm" id="modeToggle" onclick="toggleDarkMode()">🌗 Dark Mode</button>
+</div><div id="english-passage" style="display: none; margin: 20px auto; padding: 20px; border-radius: 15px;backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.2);box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.3);max-width: 1200px; font-size: 16px; color: #000;">
+<strong>Read the Passage and answer the Questions at the end.</strong><br/>
+<pre style="white-space: pre-wrap;">
+Dr. Abdul Qadeer Khan, also known as A.Q. Khan, was one of Pakistan's most renowned scientists and is widely regarded as the father of Pakistan's nuclear program. Born in Bhopal, India in 1936, he migrated to Pakistan after the partition in 1947. After completing his studies in metallurgy in Europe, he returned to Pakistan with a strong desire to serve his country.
+
+In the 1970s, after the Indian nuclear test in 1974, Dr. A.Q. Khan offered his services to the Pakistani government. With his efforts and leadership, Pakistan made rapid progress in nuclear science. In 1998, Pakistan successfully conducted its own nuclear tests in Chagai, Balochistan, becoming the seventh nuclear power in the world and the first in the Islamic world. This achievement was a result of years of hard work by Dr. Khan and his dedicated team of scientists.
+
+Apart from his scientific achievements, Dr. Khan was also a strong advocate for education. He established many educational and research institutions to help students, especially in science and engineering. Though later in life he faced controversy regarding nuclear proliferation, many Pakistanis still remember him as a national hero who helped strengthen the defense of the country. Dr. A.Q. Khan passed away in October 2021, but his contributions to Pakistan's security and scientific development remain unforgettable.
+</pre>
+</div>
+<div id="questionBox"></div>
+<ul class="list-group" id="optionList"></ul>
+<div class="mt-3">
+<button class="btn btn-light me-2" onclick="prevQuestion()">Previous</button>
+<button class="btn btn-success" onclick="submitAnswer()">Next</button>
+</div>
+<p class="mt-3" id="progressText"></p>
+<div class="progress mt-3">
+<div class="progress-bar bg-info" id="timeBar" style="width:100%;"></div>
+</div>
+</div>
+</div>
+<div class="glass-card" id="resultContainer" style="display: none;">
+<h2 class="text-center">🎉 Test Completed!</h2>
+<p><strong>Score:</strong> <span id="finalScore"></span>/100</p>
+<p><strong>Time Taken:</strong> <span id="finalTime"></span></p>
+<button class="btn btn-info mb-3" onclick="printResult()">🖨 Print Result</button>
+     
+    <button class="btn btn-warning mb-3" onclick="restartQuiz()">🔁 Restart Quiz</button>
+<hr/>
+<div id="answerReview"></div>
+</div>
+</div>
+<script>
+const correctPasswordHash = "4b911ed9f6ddcaa0185748e7a967da966472fc62d69c27e748018b6d2cef6fea";
+
+  
+
+
+const quizData = [];
+
+// English Section
+const englishPassage = "Dr. Abdul Qadeer Khan is considered a national hero of Pakistan.He was a renowned nuclear scientist who played a key role in making Pakistan a nuclear power. His dedication and hard work brought great honor to the nation. Despite facing many controversies, he remained a symbol of patriotism and scientific excellence.";
+
+quizData.push(
+  {
+    question: "What is the main reason Dr. Abdul Qadeer Khan is famous in Pakistan?",
+    option: ["He was a national poet", "He built roads", "He led the army", "He developed the nuclear program"],
+    correct: 3
+  },
+  {
+    question: "The word 'renowned' in the passage means:",
+    option: ["Unknown", "Famous", "Poor", "Ordinary"],
+    correct: 1
+  },
+  {
+    question: "The opposite of 'achievement' is:",
+    option: ["Victory", "Failure", "Effort", "Strength"],
+    correct: 1
+  },
+  {
+    question: "What is the correct tense of the verb 'migrated'?",
+    option: ["Present", "Future", "Past", "Continuous"],
+    correct: 2
+  },
+  {
+    question: "Which part of speech is the word 'successfully'?",
+    option: ["Verb", "Noun", "Adjective", "Adverb"],
+    correct: 3
+  },
+  {
+    question: "Choose the correct synonym of the word 'dedicated':",
+    option: ["Lazy", "Loyal", "Weak", "Careless"],
+    correct: 1
+  },
+  {
+    question: "Where did Pakistan carry out its nuclear tests?",
+    option: ["Karachi", "Lahore", "Chagai", "Peshawar"],
+    correct: 2
+  },
+  {
+    question: "What does the word 'controversy' mean as used in the passage?",
+    option: ["Agreement", "Argument or dispute", "Celebration", "Discovery"],
+    correct: 1
+  },
+  {
+    question: "Fill in the blank: Dr. Khan was _____ intelligent and patriotic scientist.",
+    option: ["a", "an", "the", "no article needed"],
+    correct: 1
+  },
+  {
+    question: "What is the correct plural of 'institution'?",
+    option: ["Institutions", "Institutiones", "Institutionz", "Institution's"],
+    correct: 0
+  }
+);
+
+
+// Math Section
+quizData.push(
+  {
+    question: "What is the sum of the interior angles of a triangle?",
+    option: ["360 degrees", "90 degrees", "180 degrees", "270 degrees"],
+    correct: 2
+  },
+  {
+    question: "What is the measure of each angle in a square?",
+    option: ["45 degrees", "60 degrees", "90 degrees", "120 degrees"],
+    correct: 2
+  },
+  {
+    question: "What is 8 multiplied by 7?",
+    option: ["54", "56", "58", "64"],
+    correct: 1
+  },
+  {
+    question: "Which of the following is a prime number?",
+    option: ["4", "6", "9", "11"],
+    correct: 3
+  },
+  {
+    question: "Find the average of 4, 8, and 12.",
+    option: ["8", "9", "10", "6"],
+    correct: 0
+  },
+  {
+    question: "How many degrees are in a right angle?",
+    option: ["45", "60", "90", "180"],
+    correct: 2
+  },
+  {
+    question: "Which of the following is an even number?",
+    option: ["7", "13", "22", "19"],
+    correct: 2
+  },
+  {
+    question: "What is 1/2 + 1/4?",
+    option: ["3/4", "1/3", "2/6", "1/6"],
+    correct: 0
+  },
+  {
+    question: "What is the perimeter of a rectangle with length 6 and width 4?",
+    option: ["20", "24", "18", "12"],
+    correct: 0
+  },
+  {
+    question: "How many faces does a cube have?",
+    option: ["4", "6", "8", "12"],
+    correct: 1
+  }
+);
+// Science Section
+quizData.push(
+  {
+    question: "Which part of the plant conducts photosynthesis?",
+    option: ["Root", "Stem", "Leaf", "Flower"],
+    correct: 2
+  },
+  {
+    question: "Which organ is responsible for pumping blood in the human body?",
+    option: ["Lungs", "Brain", "Liver", "Heart"],
+    correct: 3
+  },
+  {
+    question: "Which gas do plants absorb from the atmosphere?",
+    option: ["Oxygen", "Carbon dioxide", "Hydrogen", "Nitrogen"],
+    correct: 1
+  },
+  {
+    question: "What is the boiling point of water in Celsius?",
+    option: ["90°C", "80°C", "100°C", "70°C"],
+    correct: 2
+  },
+  {
+    question: "Which planet is known as the Red Planet?",
+    option: ["Earth", "Venus", "Mars", "Jupiter"],
+    correct: 2
+  },
+  {
+    question: "What is H2O commonly known as?",
+    option: ["Hydrogen", "Water", "Oxygen", "Salt"],
+    correct: 1
+  },
+  {
+    question: "What is the source of energy for the Earth?",
+    option: ["Moon", "Stars", "Sun", "Fire"],
+    correct: 2
+  },
+  {
+    question: "Which system controls the human body through nerves?",
+    option: ["Circulatory system", "Respiratory system", "Digestive system", "Nervous system"],
+    correct: 3
+  },
+  {
+    question: "What is the smallest unit of life?",
+    option: ["Tissue", "Organ", "Cell", "Atom"],
+    correct: 2
+  },
+  {
+    question: "Which vitamin is produced when skin is exposed to sunlight?",
+    option: ["Vitamin A", "Vitamin C", "Vitamin D", "Vitamin B"],
+    correct: 2
+  }
+);
+
+// Islamiat & Pakistan Studies Section
+quizData.push(
+  {
+    question: "Who was the last Prophet of Islam?",
+    option: ["Hazrat Isa (A.S)", "Hazrat Musa (A.S)", "Hazrat Muhammad (S.A.W)", "Hazrat Ibrahim (A.S)"],
+    correct: 2
+  },
+  {
+    question: "What is the name of the Holy book of Muslims?",
+    option: ["Torah", "Bible", "Zabur", "Quran"],
+    correct: 3
+  },
+  {
+    question: "How many times Muslims offer prayer in a day?",
+    option: ["3", "4", "5", "6"],
+    correct: 2
+  },
+  {
+    question: "Which city is called the City of Prophets?",
+    option: ["Makkah", "Madina", "Jerusalem", "Baghdad"],
+    correct: 2
+  },
+  {
+    question: "What is the name of the first month of Islamic calendar?",
+    option: ["Ramadan", "Safar", "Muharram", "Zilhajj"],
+    correct: 2
+  },
+  {
+    question: "Who is the founder of Pakistan?",
+    option: ["Allama Iqbal", "Liaquat Ali Khan", "Quaid-e-Azam", "Sir Syed Ahmed"],
+    correct: 2
+  },
+  {
+    question: "When did Pakistan come into being?",
+    option: ["14 August 1947", "15 August 1948", "23 March 1940", "26 January 1950"],
+    correct: 0
+  },
+  {
+    question: "Which city is the capital of Pakistan?",
+    option: ["Lahore", "Islamabad", "Karachi", "Quetta"],
+    correct: 1
+  },
+  {
+    question: "Which river is the longest in Pakistan?",
+    option: ["River Ravi", "River Indus", "River Jhelum", "River Chenab"],
+    correct: 1
+  },
+  {
+    question: "What is the national language of Pakistan?",
+    option: ["English", "Punjabi", "Urdu", "Sindhi"],
+    correct: 2
+  }
+);
+// General Knowledge & Current Affairs Section
+quizData.push(
+  {
+    question: "Which country is known as the Land of the Rising Sun?",
+    option: ["China", "Japan", "Thailand", "South Korea"],
+    correct: 1
+  },
+  {
+    question: "How many continents are there in the world?",
+    option: ["5", "6", "7", "8"],
+    correct: 2
+  },
+  {
+    question: "Which is the largest ocean on Earth?",
+    option: ["Atlantic", "Indian", "Arctic", "Pacific"],
+    correct: 3
+  },
+  {
+    question: "Which planet is closest to the Sun?",
+    option: ["Venus", "Earth", "Mercury", "Mars"],
+    correct: 2
+  },
+  {
+    question: "Who wrote the national anthem of Pakistan?",
+    option: ["Allama Iqbal", "Hafeez Jullundhri", "Ahmad Faraz", "Faiz Ahmed Faiz"],
+    correct: 1
+  },
+  {
+    question: "Which currency is used in Japan?",
+    option: ["Won", "Yuan", "Dollar", "Yen"],
+    correct: 3
+  },
+  {
+    question: "Which gas is most abundant in the Earth's atmosphere?",
+    option: ["Oxygen", "Hydrogen", "Nitrogen", "Carbon Dioxide"],
+    correct: 2
+  },
+  {
+    question: "Which country hosted the FIFA World Cup 2022?",
+    option: ["Qatar", "Russia", "USA", "France"],
+    correct: 0
+  },
+  {
+    question: "In which year did man first land on the moon?",
+    option: ["1965", "1969", "1971", "1975"],
+    correct: 1
+  },
+  {
+    question: "What is the capital of the United Kingdom?",
+    option: ["Manchester", "London", "Liverpool", "Birmingham"],
+    correct: 1
+  }
+);
+// Technology & Computer Section
+quizData.push(
+  {
+    question: "What does CPU stand for?",
+    option: ["Central Processing Unit", "Computer Power Unit", "Central Printing Unit", "Control Processing Unit"],
+    correct: 0
+  },
+  {
+    question: "Which device is used to input data into a computer?",
+    option: ["Monitor", "Keyboard", "Printer", "Speaker"],
+    correct: 1
+  },
+  {
+    question: "Which of the following is an output device?",
+    option: ["Mouse", "Scanner", "Monitor", "Microphone"],
+    correct: 2
+  },
+  {
+    question: "What is the brain of the computer called?",
+    option: ["RAM", "CPU", "Hard Drive", "Motherboard"],
+    correct: 1
+  },
+  {
+    question: "Which key is used to delete characters to the left of the cursor?",
+    option: ["Delete", "Shift", "Backspace", "Esc"],
+    correct: 2
+  },
+  {
+    question: "Which of these is a type of software?",
+    option: ["CPU", "Mouse", "Microsoft Word", "Monitor"],
+    correct: 2
+  },
+  {
+    question: "What does 'www' stand for in a website browser?",
+    option: ["Web World Work", "World Wide Web", "Web Wide World", "World Work Web"],
+    correct: 1
+  },
+  {
+    question: "Which part of the computer stores data permanently?",
+    option: ["RAM", "CPU", "Hard Drive", "ROM"],
+    correct: 2
+  },
+  {
+    question: "Which of the following is used for communication over long distances?",
+    option: ["Keyboard", "Modem", "Monitor", "USB"],
+    correct: 1
+  },
+  {
+    question: "Which of these is not an operating system?",
+    option: ["Linux", "Windows", "Chrome", "Android"],
+    correct: 2
+  }
+);// IQ & Analytical Reasoning Section
+quizData.push(
+  {
+    question: "What comes next in the sequence: 2, 4, 6, 8, ?",
+    option: ["9", "10", "11", "12"],
+    correct: 1
+  },
+  {
+    question: "If A = 1, B = 2, C = 3, what does D + E equal?",
+    option: ["5", "6", "7", "8"],
+    correct: 2
+  },
+  {
+    question: "Which number is the odd one out: 11, 13, 15, 17, 19?",
+    option: ["11", "13", "15", "17"],
+    correct: 2
+  },
+  {
+    question: "If you rearrange the letters 'CIFAIPC' you get the name of a:",
+    option: ["Country", "City", "Continent", "Ocean"],
+    correct: 0
+  },
+  {
+    question: "What comes next in the series: J, F, M, A, M, J, ?",
+    option: ["J", "K", "L", "N"],
+    correct: 0
+  },
+  {
+    question: "If 5 pens cost Rs. 25, how much do 10 pens cost?",
+    option: ["Rs. 30", "Rs. 50", "Rs. 35", "Rs. 45"],
+    correct: 1
+  },
+  {
+    question: "Ali is older than Sara. Sara is older than Umar. Who is the youngest?",
+    option: ["Ali", "Sara", "Umar", "Can't say"],
+    correct: 2
+  },
+  {
+    question: "Which shape has no corners?",
+    option: ["Square", "Rectangle", "Triangle", "Circle"],
+    correct: 3
+  },
+  {
+    question: "If it is 3 PM now, what time will it be in 5 hours?",
+    option: ["7 PM", "8 PM", "6 PM", "5 PM"],
+    correct: 1
+  },
+  {
+    question: "If 2 + 2 = 4, and 3 + 3 = 6, then 4 + 4 = ?",
+    option: ["6", "7", "8", "9"],
+    correct: 2
+  }
+);
+// Islamic Ethics & Values Section
+quizData.push(
+  {
+    question: "What is the meaning of 'Akhlaq' in Islam?",
+    option: ["Wealth", "Behavior", "Prayer", "Knowledge"],
+    correct: 1
+  },
+  {
+    question: "Islam encourages Muslims to speak the:",
+    option: ["Truth", "Lie", "Gossip", "Flattery"],
+    correct: 0
+  },
+  {
+    question: "Helping others in need is a form of:",
+    option: ["Greed", "Patience", "Sadaqah", "Pride"],
+    correct: 2
+  },
+  {
+    question: "Which characteristic was most known in the Prophet Muhammad (S.A.W)?",
+    option: ["Greed", "Anger", "Truthfulness", "Laziness"],
+    correct: 2
+  },
+  {
+    question: "Islam teaches us to respect:",
+    option: ["Only elders", "Only teachers", "Everyone", "Only family"],
+    correct: 2
+  },
+  {
+    question: "The opposite of honesty is:",
+    option: ["Kindness", "Laziness", "Lying", "Politeness"],
+    correct: 2
+  },
+  {
+    question: "A good Muslim always keeps his:",
+    option: ["House", "Promise", "Friends", "Books"],
+    correct: 1
+  },
+  {
+    question: "Which of the following is an Islamic greeting?",
+    option: ["Good Morning", "Hello", "Salam", "Hi"],
+    correct: 2
+  },
+  {
+    question: "Islam promotes peace, love and:",
+    option: ["Hatred", "Justice", "Jealousy", "Anger"],
+    correct: 1
+  },
+  {
+    question: "Speaking ill of others behind their back is called:",
+    option: ["Respect", "Gheebah (Backbiting)", "Advice", "Tawheed"],
+    correct: 1
+  }
+);
+
+// Reading Comprehension Section
+quizData.push(
+  {
+    question: "According to the passage, what is the main purpose of a library?",
+    option: ["To store furniture", "To provide food", "To offer books for reading", "To sell stationery"],
+    correct: 2
+  },
+  {
+    question: "What do readers usually find in a library?",
+    option: ["Books", "Toys", "Shoes", "Cups"],
+    correct: 0
+  },
+  {
+    question: "Which of the following is NOT mentioned in the passage as a library rule?",
+    option: ["Be quiet", "Return books on time", "Eat inside", "Respect the librarian"],
+    correct: 2
+  },
+  {
+    question: "Why is reading considered a good habit?",
+    option: ["It wastes time", "It improves knowledge", "It is boring", "It is expensive"],
+    correct: 1
+  },
+  {
+    question: "According to the passage, books are like:",
+    option: ["enemies", "friends", "neighbors", "teachers"],
+    correct: 1
+  },
+  {
+    question: "What should you do if you damage a library book?",
+    option: ["Hide it", "Throw it", "Replace or report it", "Ignore it"],
+    correct: 2
+  },
+  {
+    question: "When should you return a borrowed book?",
+    option: ["Next year", "After exams", "On due date", "Whenever you want"],
+    correct: 2
+  },
+  {
+    question: "Why is silence important in the library?",
+    option: ["To watch videos", "To respect readers", "To play games", "To clean books"],
+    correct: 1
+  },
+  {
+    question: "Who helps you find books in a library?",
+    option: ["Teacher", "Principal", "Librarian", "Friend"],
+    correct: 2
+  },
+  {
+    question: "How does reading help students?",
+    option: ["Makes them lazy", "Improves focus and knowledge", "Distracts them", "Wastes time"],
+    correct: 1
+  }
+);
+
+
+// Final Review Section
+quizData.push(
+  {
+    question: "Which is the largest continent by area?",
+    option: ["Africa", "Asia", "Europe", "North America"],
+    correct: 1
+  },
+  {
+    question: "What is the national flower of Pakistan?",
+    option: ["Rose", "Sunflower", "Jasmine", "Tulip"],
+    correct: 2
+  },
+  {
+    question: "How many colors are there in the rainbow?",
+    option: ["5", "6", "7", "8"],
+    correct: 2
+  },
+  {
+    question: "Which organ purifies blood in the human body?",
+    option: ["Liver", "Heart", "Lungs", "Kidneys"],
+    correct: 3
+  },
+  {
+    question: "Which day is celebrated as Pakistan Resolution Day?",
+    option: ["14 August", "23 March", "6 September", "25 December"],
+    correct: 1
+  },
+  {
+    question: "Who was the first female Prime Minister of Pakistan?",
+    option: ["Fatima Jinnah", "Benazir Bhutto", "Hina Rabbani", "Asma Jahangir"],
+    correct: 1
+  },
+  {
+    question: "Which instrument is used to measure temperature?",
+    option: ["Barometer", "Speedometer", "Thermometer", "Altimeter"],
+    correct: 2
+  },
+  {
+    question: "Which month comes after September?",
+    option: ["October", "November", "August", "December"],
+    correct: 0
+  },
+  {
+    question: "How many players are there in a cricket team?",
+    option: ["10", "11", "12", "9"],
+    correct: 1
+  },
+  {
+    question: "Which gas do we breathe in to survive?",
+    option: ["Carbon Dioxide", "Nitrogen", "Oxygen", "Helium"],
+    correct: 2
+  }
+);
+
+
+// export removed for browser compatibility
+
+let currentQuestion = 0;
+let score = 0;
+let userAnswers = [];
+let startTime = Date.now();
+let timeLeft = 3600;
+
+async function sha256(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function verifyPassword() {
+  const input = document.getElementById("passwordInput").value;
+  const hash = await sha256(input);
+  if (hash === correctPasswordHash) {
+    document.getElementById("quizContent").style.display = "block";
+    document.querySelector(".input-group").style.display = "none";
+    document.getElementById("quizHeading").style.display = "none";
+    showQuestion();
+    startTimer();
+  } else {
+    alert("Incorrect password!");
+  }
+}
+
+document.getElementById("startBtn").addEventListener("click", verifyPassword);
+
+function showQuestion() {
+  const passage = document.getElementById("english-passage");
+  if (passage) {
+    passage.style.display = (currentQuestion === 0 || currentQuestion === 1) ? "block" : "none";
+  }
+  const q = quizData[currentQuestion];
+  document.getElementById("questionBox").innerHTML = `<h5>Q${currentQuestion + 1}: ${q.question}</h5>`;
+  const list = document.getElementById("optionList");
+  list.innerHTML = "";
+  q.option.forEach((opt, idx) => {
+    const li = document.createElement("li");
+    li.className = "list-group-item option";
+    li.innerHTML = `<input type='radio' name='option' value='${idx}'> ${opt}`;
+    list.appendChild(li);
+  });
+  document.getElementById("progressText").innerText = `Question ${currentQuestion + 1} of ${quizData.length}`;
+}
+
+function submitAnswer() {
+  const selected = document.querySelector('input[name="option"]:checked');
+  if (!selected) return alert("Please select an option.");
+  const selectedIndex = parseInt(selected.value);
+  userAnswers.push(selectedIndex);
+  if (selectedIndex === quizData[currentQuestion].correct) score++;
+  currentQuestion++;
+  if (currentQuestion < quizData.length) showQuestion();
+  else finishTest();
+}
+
+function prevQuestion() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    showQuestion();
+  }
+}
+
+function finishTest() {
+  document.getElementById("quizContainer").style.display = "none";
+  document.getElementById("resultContainer").style.display = "block";
+  const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+  document.getElementById("finalScore").innerText = score;
+  document.getElementById("finalTime").innerText = `${Math.floor(timeTaken/60)}m ${timeTaken%60}s`;
+
+  const review = document.getElementById("answerReview");
+  review.innerHTML = '<h4>📝 Answer Review:</h4>';
+  quizData.forEach((q, i) => {
+    const userAns = userAnswers[i];
+    const correctAns = q.correct;
+    let optionsHTML = q.option.map((opt, idx) => {
+      let className = '';
+      let label = '';
+      if (idx === correctAns) {
+        className = 'correct';
+        label = '✅ Correct Answer';
+      }
+      if (idx === userAns && userAns !== correctAns) {
+        className = 'wrong';
+        label = '❌ Your Answer is incorrect';
+      }
+      return `<li class="list-group-item ${className}">${opt} ${label ? `<span class='ms-2 fw-bold'>${label}</span>` : ''}</li>`;
+    }).join('');
+    review.innerHTML += `<div class='mb-4'><h6>Q${i+1}: ${q.question}</h6><ul class='list-group'>${optionsHTML}</ul></div>`;
+  });
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  const modeBtn = document.getElementById("modeToggle");
+  modeBtn.innerHTML = document.body.classList.contains("dark-mode") ? "☀️ Light Mode" : "🌗 Dark Mode";
+}
+
+function startTimer() {
+  const display = document.getElementById("timerDisplay");
+  const bar = document.getElementById("timeBar");
+  const interval = setInterval(() => {
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      finishTest();
+    } else {
+      timeLeft--;
+      const min = Math.floor(timeLeft / 60);
+      const sec = timeLeft % 60;
+      display.textContent = `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+      bar.style.width = (timeLeft / 3600) * 100 + "%";
+    }
+  }, 1000);
+}
+
+function printResult() {
+  window.print();
+}
+
+function restartQuiz() {
+  location.reload();
+}
+</script>
+</body>
+</html>

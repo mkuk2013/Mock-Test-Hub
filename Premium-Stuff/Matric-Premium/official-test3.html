@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>IBA STS – Past Paper (23-06-2025) Matric Category</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+    body {
+      background: url('https://images.unsplash.com/photo-1542281286-9e0a16bb7366') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      color: #000;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 30px;
+      margin-top: 50px;
+      color: #000;
+    }
+    .option {
+      background: rgba(255,255,255,0.8);
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      padding: 10px;
+      color: #000;
+    }
+    .dark-mode {
+      background: #121212;
+      color: white;
+    }
+    .dark-mode .glass-card {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+    .dark-mode .option {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+    .correct { background-color: #c8e6c9 !important; }
+    .wrong { background-color: #ffcdd2 !important; }
+    .icon-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+    .passage-glass {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(6px);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 12px;
+      color: #000;
+      margin: 10px 0;
+      font-size: 0.95rem;
+    }
+    .dark-mode #english-passage,
+    .dark-mode #english-passage pre {
+      color: white !important;
+    }
+    @media (max-width: 768px) {
+      .glass-card {
+        padding: 20px;
+        margin-top: 30px;
+      }
+      #quizHeading, h2, h5 {
+        font-size: 1.2rem;
+      }
+      .option {
+        font-size: 0.95rem;
+        padding: 8px;
+      }
+      .btn {
+        font-size: 0.9rem;
+      }
+      #english-passage {
+        font-size: 0.9rem !important;
+      }
+    }
+    @media (max-width: 768px) {
+      .sticky-controls {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(5px);
+        display: flex;
+        justify-content: space-around;
+        padding: 10px;
+        z-index: 999;
+        border-top: 1px solid #ccc;
+      }
+      .sticky-controls button {
+        flex: 1;
+        margin: 0 5px;
+      }
+      #quizContent {
+        padding-bottom: 80px; /* extra space for sticky buttons */
+      }
+    }
+    /* Styles for the Question Palette */
+    #question-palette {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 10px;
+      margin-top: 20px;
+      padding: 15px;
+      background-color: rgba(240, 240, 240, 0.7);
+      border-radius: 8px;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.1);
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+    .dark-mode #question-palette {
+      background-color: rgba(51, 51, 51, 0.7);
+      box-shadow: inset 0 0 8px rgba(255,255,255,0.1);
+    }
+    .palette-btn {
+      flex: 0 0 auto;
+      width: 45px;
+      padding: 10px 5px;
+      background-color: rgba(224, 224, 224, 0.8);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #333;
+      text-align: center;
+    }
+    .dark-mode .palette-btn {
+      background-color: rgba(85, 85, 85, 0.8);
+      border: 1px solid #777;
+      color: #eee;
+    }
+    .palette-btn:hover {
+      background-color: #c0c0c0;
+      border-color: #999;
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .dark-mode .palette-btn:hover {
+      background-color: #666;
+      border-color: #aaa;
+    }
+    .palette-btn.answered {
+      background-color: #d4edda;
+      border-color: #28a745;
+      color: #155724;
+    }
+    .dark-mode .palette-btn.answered {
+      background-color: #2e6f47;
+      border-color: #28a745;
+      color: #d4edda;
+    }
+    .palette-btn.current {
+      background-color: #007bff;
+      border-color: #0056b3;
+      color: white;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+    }
+    .dark-mode .palette-btn.current {
+      background-color: #0056b3;
+      border-color: #003e80;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="glass-card" id="quizContainer">
+<h2 class="text-center mb-4" id="quizHeading">🔒 Enter Password to Begin Past Paper (23-06-2025) Matric Category</h2>
+<div class="input-group mb-4">
+<input class="form-control" id="passwordInput" placeholder="Enter password..." type="password"/>
+<button class="btn btn-light" id="startBtn">Enter</button>
+</div>
+<div id="quizContent" style="display: none;">
+<h2 class="text-center mb-3">IBA STS – Today's Paper (23-06-2025) Matric Category</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+<span><strong>⏱ Time Left: <span id="timerDisplay">60:00</span></strong></span>
+<button class="btn btn-outline-light btn-sm" id="modeToggle" onclick="toggleDarkMode()">🌗 Dark Mode</button>
+</div>
+<div id="english-passage" style="display: none; margin: 20px auto; padding: 20px; border-radius: 15px;backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.2);box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.3);max-width: 1200px; font-size: 16px; color: #000;">
+<strong>Read the Passage and answer the Questions at the end.</strong><br/>
+<pre style="white-space: pre-wrap;">
+The Constitution of the Islamic Republic of Pakistan (1973) has several key features. It is a written and detailed document comprising 280 articles, 12 parts, and six schedules. It declares Islam as the state religion, Urdu as the national language, and English as the official language. Additionally, it ensures an independent judiciary to protect citizens' rights and safeguards the rights of minorities. The 1973 Constitution provides the separation of powers among the Executive, Legislature, and Judiciary. Pakistan is a sovereign state governed by elected representatives.
+</pre>
+</div>
+<div id="questionBox"></div>
+<ul class="list-group" id="optionList"></ul>
+<div id="question-palette" class="mb-4"></div>
+<div class="mt-3">
+<button class="btn btn-light me-2" onclick="prevQuestion()">Previous</button>
+<button class="btn btn-success" onclick="submitAnswer()">Next</button>
+</div>
+<p class="mt-3" id="progressText"></p>
+<div class="progress mt-3">
+<div class="progress-bar bg-info" id="timeBar" style="width:100%;"></div>
+</div>
+</div>
+</div>
+<div class="glass-card" id="resultContainer" style="display: none;">
+<h2 class="text-center">🎉 Test Completed!</h2>
+<p><strong>Score:</strong> <span id="finalScore"></span>/<span id="totalQuestions"></span></p>
+<p><strong>Time Taken:</strong> <span id="finalTime"></span></p>
+<button class="btn btn-info mb-3" onclick="printResult()">🖨 Print Result</button>
+<button class="btn btn-warning mb-3" onclick="restartQuiz()">🔁 Restart Quiz</button>
+<hr/>
+<div id="answerReview"></div>
+</div>
+</div>
+<div class="sticky-controls d-md-none">
+<button class="btn btn-outline-secondary" onclick="prevQuestion()">⬅️ Previous</button>
+<button class="btn btn-outline-success" onclick="submitAnswer()">Next ➡️</button>
+</div>
+<script>
+const correctPasswordHash = "4b911ed9f6ddcaa0185748e7a967da966472fc62d69c27e748018b6d2cef6fea";
+
+const quizData = [
+  // PART I: ENGLISH (40 Questions)
+  // Reading Comprehension (Questions 1-10)
+  {
+    "question": "The similar meaning of the word 'sovereign' is:",
+    "option": ["Autonomous", "Minor", "Secondary", "Inferior"],
+    "correct": 0 // "Autonomous"
+  },
+  {
+    "question": "The similar meaning of the word 'several' is:",
+    "option": ["Individual", "Diverse", "None", "One"],
+    "correct": 1 // "Diverse"
+  },
+  {
+    "question": "The similar meaning of the word 'official' is:",
+    "option": ["Formal", "Indefinite", "Incorrect", "False"],
+    "correct": 0 // "Formal"
+  },
+  {
+    "question": "The opposite meaning of the word 'ensure' is:",
+    "option": ["Assure", "Prevent", "Secure", "Affirm"],
+    "correct": 1 // "Prevent"
+  },
+  {
+    "question": "The opposite meaning of the word 'elected' is:",
+    "option": ["Unelected", "Selected", "Appointed", "Designated"],
+    "correct": 0 // "Unelected"
+  },
+  {
+    "question": "The Constitution of the Islamic Republic of Pakistan consists of:",
+    "option": ["280 articles", "281 articles", "283 articles", "12 articles"],
+    "correct": 0 // "280 articles"
+  },
+  {
+    "question": "The Constitution of the Islamic Republic of Pakistan declares Urdu as:",
+    "option": ["Provincial language", "Local language", "National language", "Official language"],
+    "correct": 2 // "National language"
+  },
+  {
+    "question": "The Constitution of the Islamic Republic of Pakistan declares English as:",
+    "option": ["Official language", "National language", "Provincial language", "Local language"],
+    "correct": 0 // "Official language"
+  },
+  {
+    "question": "The 1973 Constitution provides the separation of powers among the Executive, Legislature, and:",
+    "option": ["Provincial", "National", "Senate", "Judiciary"],
+    "correct": 3 // "Judiciary"
+  },
+  {
+    "question": "Pakistan is a sovereign state governed by:",
+    "option": ["Elected representatives", "Senate members", "Executives", "Judicial members"],
+    "correct": 0 // "Elected representatives"
+  },
+
+  // Synonyms & Antonyms (Questions 11–20)
+  {
+    "question": "The synonym of the word 'chatting' is:",
+    "option": ["Quite", "Silent", "Humming", "Gossip"],
+    "correct": 3 // "Gossip"
+  },
+  {
+    "question": "The antonym of the word 'Start' is:",
+    "option": ["Choose", "Begin", "Elect", "End"],
+    "correct": 3 // "End"
+  },
+  {
+    "question": "The synonym of the word 'selected' is:",
+    "option": ["Held", "Kept", "Restrained", "Appointed"],
+    "correct": 3 // "Appointed"
+  },
+  {
+    "question": "The antonym of the word 'wondrous' is:",
+    "option": ["Amazing", "Normal", "Astonish", "Striking"],
+    "correct": 1 // "Normal"
+  },
+  {
+    "question": "The synonym of the word 'operate' is:",
+    "option": ["Perform", "Cease", "Consume", "Destroy"],
+    "correct": 0 // "Perform"
+  },
+  {
+    "question": "The antonym of the word 'intolerable' is:",
+    "option": ["Tolerable", "Extreme", "Impossible", "Painful"],
+    "correct": 0 // "Tolerable"
+  },
+  {
+    "question": "The synonym of the word 'migrate' is:",
+    "option": ["Emigrate", "Permanent", "Stay", "Remain"],
+    "correct": 0 // "Emigrate"
+  },
+  {
+    "question": "The antonym of the word 'obligatory' is:",
+    "option": ["Mandatory", "Voluntary", "Compulsory", "Unavoidable"],
+    "correct": 1 // "Voluntary"
+  },
+  {
+    "question": "The synonym of the word 'dispute' is:",
+    "option": ["Calm", "Argument", "Peace", "Concord"],
+    "correct": 1 // "Argument"
+  },
+  {
+    "question": "The antonym of the word 'success' is:",
+    "option": ["Failure", "Achievement", "Lie", "Rest"],
+    "correct": 0 // "Failure"
+  },
+
+  // Spell Checking (Questions 21–25)
+  {
+    "question": "Select the correct spelling of a word for 'a place where children study':",
+    "option": ["School", "Skool", "Schooll", "Schol"],
+    "correct": 0 // "School"
+  },
+  {
+    "question": "Select the correct spelling of a word for 'a place where patients are treated':",
+    "option": ["Hospitel", "Hospatal", "Haupital", "Hospital"],
+    "correct": 3 // "Hospital"
+  },
+  {
+    "question": "Choose the correctly spelt word:",
+    "option": ["Delicios", "Delicious", "Delicous", "Delegation"],
+    "correct": 1 // "Delicious"
+  },
+  {
+    "question": "Select the correct spelling of a word for 'a place where flowers are cultivated':",
+    "option": ["Gardin", "Gorden", "Gardan", "Garden"],
+    "correct": 3 // "Garden"
+  },
+  {
+    "question": "Choose the correctly spelt word:",
+    "option": ["Paralyzed", "Peralyzed", "Paralyzzed", "Paralized"],
+    "correct": 0 // "Paralyzed"
+  },
+
+  // Error Detection (Questions 26–30)
+  {
+    "question": "Error Detection: The bird saw that an ant *were* sinking in the water. Identify the error:",
+    "option": ["Saw", "Were", "Sinking", "Water"],
+    "correct": 1 // "Were"
+  },
+  {
+    "question": " Error Detection: Your books are nice but *thees* are old. Identify the error:",
+    "option": ["Books", "Thees", "Are", "Old"],
+    "correct": 1 // "Thees"
+  },
+  {
+    "question": "Error Detection: The old headmaster was walking *below* the road when he fell down. Identify the error:",
+    "option": ["Headmaster", "Below", "Road", "Fell"],
+    "correct": 1 // "Below"
+  },
+  {
+    "question": "Error Detection: I am tired as I have just come back home from my *office?* Identify the error:",
+    "option": ["Tired", "Come", "Office?", "Home"],
+    "correct": 2 // "Office?"
+  },
+  {
+    "question": "Error Detection: We have *complaint* to them so many times about the noise at night. Identify the error:",
+    "option": ["Complaint", "Them", "Noise", "Night"],
+    "correct": 0 // "Complaint"
+  },
+
+  // Prepositions (Questions 31–35)
+  {
+    "question": "You must follow the signal rules ___ your safety.",
+    "option": ["to", "for", "in", "of"],
+    "correct": 1 // "for"
+  },
+  {
+    "question": "The store is ___ the park.",
+    "option": ["near", "on", "among", "between"],
+    "correct": 0 // "near"
+  },
+  {
+    "question": "Hamza looked ___ his friend angrily.",
+    "option": ["on", "at", "of", "for"],
+    "correct": 1 // "at"
+  },
+  {
+    "question": "They were waiting ___ the station ___ twenty minutes.",
+    "option": ["in, for", "in, up to", "at, for", "of, at"],
+    "correct": 2 // "at, for"
+  },
+  {
+    "question": "I have been ringing the doorbell ___ a while, but there is no answer.",
+    "option": ["for", "in", "to", "from"],
+    "correct": 0 // "for"
+  },
+
+  // Sentence Structure (Questions 36–40)
+  {
+    "question": "Select the 'preposition' in the following sentence: We got lost *in* the dark.",
+    "option": ["We", "Got", "Lost", "In"],
+    "correct": 3 // "In"
+  },
+  {
+    "question": "Select the 'subject' of the following sentence: *They* both knew each other.",
+    "option": ["They", "Both", "Knew", "Each other"],
+    "correct": 0 // "They"
+  },
+  {
+    "question": "Select the 'verb' in the following sentence: My brother *plays* cricket.",
+    "option": ["My", "Brother", "Plays", "Cricket"],
+    "correct": 2 // "Plays"
+  },
+  {
+    "question": "Select the 'verb' in the following sentence: She *drank* hot water.",
+    "option": ["She", "Drank", "Water", "Hot"],
+    "correct": 1 // "Drank"
+  },
+  {
+    "question": "Select the 'type' of the following sentence: *Please open the window*.",
+    "option": ["Declarative", "Imperative", "Interrogative", "Exclamatory"],
+    "correct": 1 // "Imperative"
+  },
+
+  // PART II: MATHEMATICS (20 Questions)
+  // Basic Arithmetic (Questions 41–50)
+  {
+    "question": "Select one of the following that is a set:",
+    "option": ["Collection of delicious dishes", "Set of office computer system", "Mathematics books of class X", "Collection of greater numbers"],
+    "correct": 2 // "Mathematics books of class X"
+  },
+  {
+    "question": "Choose the integer from the following:",
+    "option": ["3.5", "1/4", "0.75", "-2"],
+    "correct": 3 // "-2"
+  },
+  {
+    "question": "The square root of 64 is:",
+    "option": ["5", "6", "8", "12"],
+    "correct": 2 // "8"
+  },
+  {
+    "question": "Choose the terminating decimal from the following:",
+    "option": ["1/3", "0.125", "0.6666…", "7/9"],
+    "correct": 1 // "0.125"
+  },
+  {
+    "question": "If X = {2, 4, 6, 8} and Y = {1, 2, 3, 6}, then X ∩ Y =",
+    "option": ["{2, 4, 6, 8}", "{2, 6}", "{1, 2, 3, 6}", "{1, 2, 3, 4, 5, 6, 7, 8}"],
+    "correct": 1 // "{2, 6}"
+  },
+  {
+    "question": "If we round off the decimal 3.8461 up to two decimal places, we get:",
+    "option": ["3.84", "3.81", "3.86", "3.85"],
+    "correct": 2 // "3.86"
+  },
+  {
+    "question": "The value of 2^3 is:",
+    "option": ["5", "6", "8", "9"],
+    "correct": 2 // "8"
+  },
+  {
+    "question": "The square of 31 is:",
+    "option": ["62", "961", "480", "124"],
+    "correct": 1 // "961"
+  },
+  {
+    "question": "If a, b, c ∈ R, then:",
+    "option": ["a < b ⇒ a + c < b + c", "a < b ⇒ a + c > b + c", "a < b ⇒ a + c = b + c", "a < b ⇒ b + c < a + c"],
+    "correct": 0 // "a < b ⇒ a + c < b + c"
+  },
+  {
+    "question": "Farhan purchased four pizzas and three donuts for 1670. Hamid purchased six pizzas and two donuts for 2280. The cost of one pizza will be:",
+    "option": ["Rs. 340", "Rs. 350", "Rs. 360", "Rs. 370"],
+    "correct": 2 // "Rs. 360"
+  },
+  
+  // MODIFICATION: Replaced placeholder questions with user's provided questions (51-60)
+  {
+    "question": "The square of 31 is:",
+    "option": ["62", "961", "480", "124"],
+    "correct": 1
+  },
+  {
+    "question": "If a, b, c ∈ R, then:",
+    "option": ["a < b ⇒ a + c < b + c", "a < b ⇒ a + c > b + c", "a < b ⇒ a + c = b + c", "a < b ⇒ b + c < a + c"],
+    "correct": 0
+  },
+  {
+    "question": "Farhan purchased four pizzas and three donuts for 1670. Hamid purchased six pizzas and two donuts for 2280. The cost of one pizza will be:",
+    "option": ["Rs. 340", "Rs. 350", "Rs. 360", "Rs. 370"],
+    "correct": 2
+  },
+  {
+    "question": "The square root of 64 is:",
+    "option": ["5", "6", "8", "12"],
+    "correct": 2
+  },
+  {
+    "question": "The value of 2^3 is:",
+    "option": ["5", "6", "8", "9"],
+    "correct": 2
+  },
+  {
+    "question": "If we round off the decimal 3.8461 up to two decimal places, we get:",
+    "option": ["3.84", "3.81", "3.86", "3.85"],
+    "correct": 2
+  },
+  {
+    "question": "Choose the terminating decimal from the following:",
+    "option": ["1/3", "0.125", "0.6666…", "7/9"],
+    "correct": 1
+  },
+  {
+    "question": "Choose the integer from the following:",
+    "option": ["3.5", "1/4", "0.75", "-2"],
+    "correct": 3
+  },
+  {
+    "question": "Select one of the following that is a set:",
+    "option": ["Collection of delicious dishes", "Set of office computer system", "Mathematics books of class X", "Collection of greater numbers"],
+    "correct": 2
+  },
+  {
+    "question": "If X = {2, 4, 6, 8} and Y = {1, 2, 3, 6}, then X ∩ Y =",
+    "option": ["{2, 4, 6, 8}", "{2, 6}", "{1, 2, 3, 6}", "{1, 2, 3, 4, 5, 6, 7, 8}"],
+    "correct": 1
+  },
+
+  // PART III: GENERAL KNOWLEDGE (40 Questions)
+  // Current Affairs/World Knowledge (Questions 61–75)
+  {
+    "question": "The city known as the 'City of Lights' in Pakistan is:",
+    "option": ["Lahore", "Karachi", "Islamabad", "Peshawar"],
+    "correct": 1 // "Karachi"
+  },
+  {
+    "question": "Thar Desert is located in which part of Pakistan:",
+    "option": ["Northern", "Southern", "Eastern", "Western"],
+    "correct": 1 // "Southern"
+  },
+  {
+    "question": "The Pakistani city famous for its historical site – Mohenjo-Daro is:",
+    "option": ["Karachi", "Larkana", "Hyderabad", "Sukkur"],
+    "correct": 1 // "Larkana"
+  },
+  {
+    "question": "The Pakistan Super League (PSL) is associated with:",
+    "option": ["Hockey", "Football", "Cricket", "Squash"],
+    "correct": 2 // "Cricket"
+  },
+  {
+    "question": "The impact of inflation on Pakistan’s economy is:",
+    "option": ["It increased purchasing power", "It boosted industrial growth", "It reduced the cost of living", "It led to higher prices of goods and services"],
+    "correct": 3 // "It led to higher prices of goods and services"
+  },
+  {
+    "question": "The China-Pakistan Economic Corridor (CPEC) is important for Pakistan because:",
+    "option": ["It promotes cultural exchange", "It improves infrastructure and energy projects", "It focuses on military cooperation", "It reduces Pakistan’s debt"],
+    "correct": 1 // "It improves infrastructure and energy projects"
+  },
+  {
+    "question": "The significance of Pakistan’s role in the Organization of Islamic Cooperation is:",
+    "option": ["It promotes military alliances", "It focuses on space exploration", "It addresses issues faced by Muslim countries", "It reduces trade barriers"],
+    "correct": 2 // "It addresses issues faced by Muslim countries"
+  },
+  {
+    "question": "Pakistan faced severe floods in 2022 because:",
+    "option": ["Due to excessive rainfall and poor infrastructure", "Due to deforestation", "Due to earthquakes", "Due to industrial pollution"],
+    "correct": 0 // "Due to excessive rainfall and poor infrastructure"
+  },
+  {
+    "question": "The total number of players in soccer on the field is:",
+    "option": ["11", "10", "9", "12"],
+    "correct": 0 // "11"
+  },
+  {
+    "question": "The country famous for the Taj Mahal is:",
+    "option": ["Pakistan", "India", "Iran", "Turkey"],
+    "correct": 1 // "India"
+  },
+  {
+    "question": "The telephone was invented by:",
+    "option": ["Thomas Edison", "Alexander Graham Bell", "Nikola Tesla", "Albert Einstein"],
+    "correct": 1 // "Alexander Graham Bell"
+  },
+  {
+    "question": "The national currency of Japan is:",
+    "option": ["Dollar", "Won", "Yen", "Peso"],
+    "correct": 2 // "Yen"
+  },
+  {
+    "question": "Countries trade with each other because:",
+    "option": ["To decrease their resources", "To increase population and decrease pollution", "To prevent immigration from other countries", "To get goods and services they do not produce"],
+    "correct": 3 // "To get goods and services they do not produce"
+  },
+  {
+    "question": "The primary role of a country’s constitution is:",
+    "option": ["To control people and army in the country", "To define the government’s structure and laws", "To stop political parties from forming government", "To determine the population size and resource distribution"],
+    "correct": 1 // "To define the government’s structure and laws"
+  },
+  {
+    "question": "The term 'equator' refers to:",
+    "option": ["A line dividing the Earth into Northern and Southern Hemispheres", "A line marking the Tropic of Cancer and Tropic of Capricorn", "A line dividing the Earth into Eastern and Western Hemispheres", "A line marking the Prime Meridian"],
+    "correct": 0 // "A line dividing the Earth into Northern and Southern Hemispheres"
+  },
+
+  // Everyday Science (Questions 76–85)
+  {
+    "question": "In plants, the exchange of gases occurs through:",
+    "option": ["Flowers", "Stomata", "Leaf stalk", "Chlorophyll"],
+    "correct": 1 // "Stomata"
+  },
+  {
+    "question": "In the process of respiration, the food is:",
+    "option": ["Broken down to absorb energy", "Broken down to release energy", "Formed in the presence of sunlight", "Formed in the absence of sunlight"],
+    "correct": 1 // "Broken down to release energy"
+  },
+  {
+    "question": "The part of a plant that contains ovules is:",
+    "option": ["Stigma", "Style", "Ovary", "Anther"],
+    "correct": 2 // "Ovary"
+  },
+  {
+    "question": "Cross-pollination is beneficial in plants as:",
+    "option": ["It reduces flower production", "It increases the genetic variety", "It prevents reproduction", "It stops seed germination"],
+    "correct": 1 // "It increases the genetic variety"
+  },
+  {
+    "question": "The organisms commonly used for making antibiotics in the field of biotechnology are:",
+    "option": ["Bacteria", "Virus", "Fungi", "Protozoa"],
+    "correct": 2 // "Fungi"
+  },
+  {
+    "question": "Genetically modified organisms help humans in:",
+    "option": ["Causing genetic mutations", "Increasing food production and resistance to diseases", "Reducing crop yield", "Spreading infections"],
+    "correct": 1 // "Increasing food production and resistance to diseases"
+  },
+  {
+    "question": "The longest period of the periodic table is:",
+    "option": ["Period 1st", "Period 4th", "Period 6th", "Period 7th"],
+    "correct": 2 // "Period 6th"
+  },
+  {
+    "question": "The electrode that undergoes oxidation in an electrochemical cell is:",
+    "option": ["Cathode", "Anode", "Salt bridge", "Electrolyte solution"],
+    "correct": 1 // "Anode"
+  },
+  {
+    "question": "According to Arrhenius’s theory:",
+    "option": ["Acids are the substances that produce hydrogen ions", "Acids are the substances that produce hydroxyl groups", "Acids are electron pair donors", "Acids are proton acceptors"],
+    "correct": 0 // "Acids are the substances that produce hydrogen ions"
+  },
+  {
+    "question": "The hydrolysis of molecules made of 4 amino acids requires:",
+    "option": ["One molecule of water", "Two molecules of water", "Three molecules of water", "Four molecules of water"],
+    "correct": 2 // "Three molecules of water"
+  },
+
+  // Islamiat/Pakistan Studies (Questions 86–90)
+  {
+    "question": "The first mosque on earth is:",
+    "option": ["Mosque of Aqsa", "Bait-ul-Allah", "Mosque of Ayesha", "Mosque of Qiblatain"],
+    "correct": 1 // "Bait-ul-Allah"
+  },
+  {
+    "question": "As in other forms of worship (Ibaadat), the significance of the congregation (ba-jamat namaz) is:",
+    "option": ["Financial Ibaadat", "Thinking and understanding", "Unity between Muslims", "Distinction according to colour and lineage"],
+    "correct": 2 // "Unity between Muslims"
+  },
+  {
+    "question": "Quaid-e-Azam Muhammad Ali Jinnah joined the Muslim League party in 1913 in the month of:",
+    "option": ["February", "March", "April", "October"],
+    "correct": 3 // "October"
+  },
+  {
+    "question": "The South Asian Association of Regional Cooperation (SAARC) was established in 1985, and the president conceived it in:",
+    "option": ["Bangladesh", "Bhutan", "Maldives", "Pakistan"],
+    "correct": 0 // "Bangladesh"
+  },
+  {
+    "question": "The leader who was not in favour of the Two Nation Theory was:",
+    "option": ["Abdul Kalam Azad", "Quaid-e-Azam", "Nawab Saleemullah", "Allama Iqbal"],
+    "correct": 0 // "Abdul Kalam Azad"
+  },
+
+  // Computer (Questions 91–100)
+  {
+    "question": "Which of the following is not used for input?",
+    "option": ["Keyboard", "Speaker", "Mouse", "Scanner"],
+    "correct": 1 // "Speaker"
+  },
+  {
+    "question": "You can open a previously saved program in the computer by clicking on:",
+    "option": ["View Menu", "Save Menu", "File Menu", "Edit Menu"],
+    "correct": 2 // "File Menu"
+  },
+  {
+    "question": "Page Up, Page Down, Delete, Insert, and Arrow keys are known as:",
+    "option": ["Function Keys", "Control Keys", "Navigation Keys", "Typing Keys"],
+    "correct": 2 // "Navigation Keys"
+  },
+  {
+    "question": "Slideshow in Microsoft PowerPoint is launched by:",
+    "option": ["F2", "F3", "F4", "F5"],
+    "correct": 3 // "F5"
+  },
+  {
+    "question": "The shortcut to create a new email is:",
+    "option": ["Ctrl + S", "Ctrl + N", "Ctrl + M", "Ctrl + X"],
+    "correct": 1 // "Ctrl + N"
+  },
+  {
+    "question": "The software used to create multimedia presentations is:",
+    "option": ["Microsoft Excel", "Microsoft Word", "Microsoft Access", "Microsoft PowerPoint"],
+    "correct": 3 // "Microsoft PowerPoint"
+  },
+  {
+    "question": "Picture quality depends on:",
+    "option": ["Pixels", "Dots", "Memory", "CPU"],
+    "correct": 0 // "Pixels"
+  },
+  {
+    "question": "The first social networking site was:",
+    "option": ["Six Degrees", "Facebook", "Twitter", "YouTube"],
+    "correct": 0 // "Six Degrees"
+  },
+  {
+    "question": "The keyboard shortcut key for paste is:",
+    "option": ["Ctrl + V", "Ctrl + X", "Ctrl + C", "Ctrl + Z"],
+    "correct": 1 // "Ctrl + V"
+  },
+  {
+    "question": "The software that performs all necessary tasks in a computer is:",
+    "option": ["OS", "Start Menu", "Office Automation", "Antivirus"],
+    "correct": 0 // "OS"
+  }
+
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let userAnswers = [];
+let startTime = Date.now();
+let timeLeft = 3600; // 60 minutes in seconds
+let timerInterval;
+
+const questionPalette = document.getElementById("question-palette");
+
+async function sha256(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function verifyPassword() {
+  const input = document.getElementById("passwordInput").value;
+  const hash = await sha256(input);
+  if (hash === correctPasswordHash) {
+    document.getElementById("quizContent").style.display = "block";
+    document.querySelector(".input-group").style.display = "none";
+    document.getElementById("quizHeading").style.display = "none";
+    showQuestion();
+    renderQuestionPalette();
+    startTimer();
+  } else {
+    alert("Incorrect password!");
+  }
+}
+document.getElementById("startBtn").addEventListener("click", verifyPassword);
+
+function renderQuestionPalette() {
+  questionPalette.innerHTML = '';
+  quizData.forEach((q, index) => {
+    const button = document.createElement('button');
+    button.classList.add('palette-btn');
+    button.textContent = index + 1;
+    button.onclick = () => {
+      saveCurrentAnswer();
+      currentQuestion = index;
+      showQuestion();
+    };
+    if (userAnswers[index] !== undefined) {
+      button.classList.add('answered');
+    }
+    if (index === currentQuestion) {
+      button.classList.add('current');
+    }
+    questionPalette.appendChild(button);
+  });
+}
+
+function showQuestion() {
+  const passage = document.getElementById("english-passage");
+  if (passage) {
+    passage.style.display = (currentQuestion >= 0 && currentQuestion <= 9) ? "block" : "none";
+  }
+  
+  const q = quizData[currentQuestion];
+  document.getElementById("questionBox").innerHTML = `<h5>Q${currentQuestion + 1}: ${q.question}</h5>`;
+  
+  const list = document.getElementById("optionList");
+  list.innerHTML = "";
+  q.option.forEach((opt, idx) => {
+    const li = document.createElement("li");
+    li.className = "list-group-item option";
+    li.innerHTML = `<input type='radio' name='option' id='opt${idx}' value='${idx}'> <label for='opt${idx}' style='width:100%; cursor:pointer;'>${opt}</label>`;
+    list.appendChild(li);
+  });
+  
+  document.getElementById("progressText").innerText = `Question ${currentQuestion + 1} of ${quizData.length}`;
+  
+  if (userAnswers[currentQuestion] !== undefined) {
+    const radioBtn = document.querySelector(`input[name='option'][value='${userAnswers[currentQuestion]}']`);
+    if (radioBtn) {
+      radioBtn.checked = true;
+    }
+  }
+  
+  renderQuestionPalette();
+}
+
+function saveCurrentAnswer() {
+    const selected = document.querySelector('input[name="option"]:checked');
+    if (selected) {
+        userAnswers[currentQuestion] = parseInt(selected.value);
+    }
+}
+
+
+function submitAnswer() {
+  saveCurrentAnswer();
+  if (userAnswers[currentQuestion] === undefined) {
+      alert("Please select an option.");
+      return;
+  }
+  
+  currentQuestion++;
+  if (currentQuestion < quizData.length) {
+    showQuestion();
+  } else {
+    finishTest();
+  }
+}
+
+function prevQuestion() {
+  saveCurrentAnswer();
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    showQuestion();
+  }
+}
+
+function finishTest() {
+  saveCurrentAnswer();
+  clearInterval(timerInterval);
+
+  document.getElementById("quizContainer").style.display = "none";
+  document.getElementById("resultContainer").style.display = "block";
+  
+  const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+  score = 0;
+  quizData.forEach((q, i) => {
+    if (userAnswers[i] !== undefined && userAnswers[i] === q.correct) {
+      score++;
+    }
+  });
+
+  document.getElementById("finalScore").innerText = score;
+  document.getElementById("totalQuestions").innerText = quizData.length;
+  document.getElementById("finalTime").innerText = `${Math.floor(timeTaken/60)}m ${timeTaken%60}s`;
+  
+  const review = document.getElementById("answerReview");
+  review.innerHTML = '<h4>📝 Answer Review:</h4>';
+  quizData.forEach((q, i) => {
+    const userAnsIndex = userAnswers[i];
+    const correctAnsIndex = q.correct;
+    
+    let optionsHTML = q.option.map((opt, idx) => {
+      let className = '';
+      let label = '';
+      if (idx === correctAnsIndex) {
+        className = 'correct';
+        label = '✅ Correct Answer';
+      }
+      if (idx === userAnsIndex && userAnsIndex !== correctAnsIndex) {
+        className = 'wrong';
+        label = '❌ Your Answer';
+      }
+      return `<li class="list-group-item ${className}">${opt} ${label ? `<span class='ms-2 fw-bold'>${label}</span>` : ''}</li>`;
+    }).join('');
+
+    const noAnswerText = userAnsIndex === undefined ? "<li class='list-group-item wrong'>No Answer provided</li>" : "";
+    review.innerHTML += `<div class='mb-4'><h6>Q${i+1}: ${q.question}</h6><ul class='list-group'>${optionsHTML}${noAnswerText}</ul></div>`;
+  });
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  const modeBtn = document.getElementById("modeToggle");
+  modeBtn.innerHTML = document.body.classList.contains("dark-mode") ? "☀️ Light Mode" : "🌗 Dark Mode";
+}
+
+function startTimer() {
+  const display = document.getElementById("timerDisplay");
+  const bar = document.getElementById("timeBar");
+  timerInterval = setInterval(() => {
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      finishTest();
+    } else {
+      timeLeft--;
+      const min = Math.floor(timeLeft / 60);
+      const sec = timeLeft % 60;
+      display.textContent = `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+      bar.style.width = (timeLeft / 3600) * 100 + "%";
+    }
+  }, 1000);
+}
+
+function printResult() {
+  window.print();
+}
+
+function restartQuiz() {
+  location.reload();
+}
+
+let touchStartX = null;
+document.addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].screenX;
+}, false);
+document.addEventListener('touchend', e => {
+  if (!touchStartX) return;
+  let touchEndX = e.changedTouches[0].screenX;
+  let deltaX = touchEndX - touchStartX;
+  if (deltaX > 50) { // Swipe Right
+      prevQuestion();
+  }
+  else if (deltaX < -50) { // Swipe Left
+      if (userAnswers[currentQuestion] !== undefined) {
+          submitAnswer();
+      } else {
+         alert("Please select an option before swiping to the next question.");
+      }
+  }
+  touchStartX = null;
+}, false);
+</script>
+</body>
+</html>

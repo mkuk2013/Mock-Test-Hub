@@ -1,0 +1,769 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>IBA STS Matric Mock Test 10</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+    body {
+      background: url('https://images.unsplash.com/photo-1542281286-9e0a16bb7366') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      color: #000;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 30px;
+      margin-top: 50px;
+      color: #000;
+    }
+    .option {
+      background: rgba(255,255,255,0.8);
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      padding: 10px;
+      color: #000;
+    }
+    .dark-mode {
+      background: #121212;
+      color: white;
+    }
+    .dark-mode .glass-card {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+    .dark-mode .option {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+    .correct { background-color: #c8e6c9 !important; }
+    .wrong { background-color: #ffcdd2 !important; }
+    .icon-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+  
+.passage-glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 12px;
+  color: #000;
+  margin: 10px 0;
+  font-size: 0.95rem;
+}
+
+
+.dark-mode #english-passage,
+.dark-mode #english-passage pre {
+  color: white !important;
+}
+
+</style>
+</head>
+<body>
+<!-- English Glass Passage -->
+<!-- English Passage -->
+<div class="container">
+<div class="glass-card" id="quizContainer">
+<h2 class="text-center mb-4" id="quizHeading">🔒 Enter Password to Begin Mock Test 10</h2>
+<div class="input-group mb-4">
+<input class="form-control" id="passwordInput" placeholder="Enter password..." type="password"/>
+<button class="btn btn-light" id="startBtn">Enter</button>
+</div>
+<div id="quizContent" style="display: none;">
+<h2 class="text-center mb-3">IBA STS Mock Test 10 – Matric Category</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+<span><strong>⏱ Time Left: <span id="timerDisplay">60:00</span></strong></span>
+<button class="btn btn-outline-light btn-sm" id="modeToggle" onclick="toggleDarkMode()">🌗 Dark Mode</button>
+</div><div id="english-passage" style="display: none; margin: 20px auto; padding: 20px; border-radius: 15px;backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.2);box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.3);max-width: 1200px; font-size: 16px; color: #000;">
+<strong>Read the Passage and answer the Questions at the end.</strong><br/>
+<pre style="white-space: pre-wrap;">
+In ancient times, storytelling was not only a form of entertainment but also a means of preserving culture and history. People gathered around fires, in courtyards, or under the open sky to listen to elders tell stories of bravery, wisdom, love, and morality. These stories often contained deep lessons and were passed from generation to generation through word of mouth. Storytellers used dramatic voices, gestures, and sometimes musical instruments to keep their audience engaged. Their words painted vivid pictures in the minds of the listeners, allowing them to imagine distant lands, heroes, mythical creatures, and life lessons. However, with the advent of modern technology, the tradition of oral storytelling has declined. Television, internet, and mobile phones have taken the place once held by the storyteller. Now, people rarely have time to sit and listen. Despite this, storytelling still holds a special place in education and literature. Teachers use stories to explain complex topics, and authors use them to entertain and inspire readers. The value of a good story remains, even though the way we tell and listen to stories has changed.
+</pre>
+
+</div>
+<div id="questionBox"></div>
+<ul class="list-group" id="optionList"></ul>
+<div class="mt-3">
+<button class="btn btn-light me-2" onclick="prevQuestion()">Previous</button>
+<button class="btn btn-success" onclick="submitAnswer()">Next</button>
+</div>
+<p class="mt-3" id="progressText"></p>
+<div class="progress mt-3">
+<div class="progress-bar bg-info" id="timeBar" style="width:100%;"></div>
+</div>
+</div>
+</div>
+<div class="glass-card" id="resultContainer" style="display: none;">
+<h2 class="text-center">🎉 Test Completed!</h2>
+<p><strong>Score:</strong> <span id="finalScore"></span>/100</p>
+<p><strong>Time Taken:</strong> <span id="finalTime"></span></p>
+<button class="btn btn-info mb-3" onclick="printResult()">🖨 Print Result</button>
+     
+    <button class="btn btn-warning mb-3" onclick="restartQuiz()">🔁 Restart Quiz</button>
+<hr/>
+<div id="answerReview"></div>
+</div>
+</div>
+<script>
+const correctPasswordHash = "4b911ed9f6ddcaa0185748e7a967da966472fc62d69c27e748018b6d2cef6fea";
+
+  
+const quizData = [];
+  // English Section (36 Questions)
+  
+    // const englishPassage = "A close look at the facts relating to political interference in administration shows that it is not a one-way process. There is often a nexus between power-hungry and corrupt politicians and civil servants with convenient principles. Many civil servants are only too anxious to oblige the politicians, and then cash the obligation when they need some special favour. So the attitude of self-righteousness adopted by the civil service is sometimes only a way of covering their own flaws by blaming others. Every now and then some retired civil servants come out with his memoirs, painting a glorious picture of the heights of administrative efficiency reached during his reign. There is often the suggestion that had there not been so much political interference, things would have been even more fantastic. It is not unusual for the self-styled hero to blame not only interfering politicians but also fellow civil servants who were idiots or crooks, for his failures. This attitude of smug self-satisfaction is, unfortunately, developed during the years of service. Self-preservation rather than service is encouraged by our whole system of rules and procedures. The remedy has to be drastic and quickly effective. The over-protection now granted to civil servants must end. Today to remove an erring civil servant is just not possible. And the only thing that the highest authority in the Government, both in the State and at the Centre, can do is to transfer an official from one job to another. The rules for taking disciplinary action are so complicated that, in the end, the defaulting civil servant gets away, and gets his full emoluments even for the period of the disciplinary proceedings, thus making it a paid holiday for him. The result is that the administration has become rule-oriented and not result-oriented. Action is possible against the official who takes some initiative in his work, but no action is ever taken against a person who does not deliver the goods. If the country is to adopt a result-oriented approach, it is necessary to link job performance with job retention.";
+
+quizData.push(
+
+
+ {
+      "question": "According to the passage, what was the main purpose of storytelling in ancient times?",
+      "option": ["To entertain only", "To entertain and preserve history", "To earn money", "To pass time"],
+      "correct": 1
+    },
+    {
+      "question": "Where did people mostly gather to listen to stories in the past?",
+      "option": ["In theaters", "In schools", "Around fires and open spaces", "On the radio"],
+      "correct": 2
+    },
+    {
+      "question": "Which of the following is NOT mentioned as a tool used by storytellers?",
+      "option": ["Musical instruments", "Gestures", "Costumes", "Dramatic voices"],
+      "correct": 2
+    },
+    {
+      "question": "What is the meaning of the underlined phrase 'passed from generation to generation'?",
+      "option": ["Told to many people at once", "Written in books", "Shared from one age group to the next", "Kept secret within families"],
+      "correct": 2
+    },
+    {
+      "question": "What does the underlined word 'vivid' mean in the context of the passage?",
+      "option": ["Clear and bright", "Strange and confusing", "Dark and mysterious", "Small and dull"],
+      "correct": 0
+    },
+    {
+      "question": "What caused the decline of traditional storytelling according to the passage?",
+      "option": ["The shortage of good stories", "The arrival of modern technology", "The disappearance of storytellers", "The lack of listeners"],
+      "correct": 1
+    },
+    {
+      "question": "What tense is mostly used in the passage (excluding the last paragraph)?",
+      "option": ["Present Indefinite Tense", "Past Indefinite Tense", "Past Perfect Tense", "Future Tense"],
+      "correct": 1
+    },
+    {
+      "question": "What does the word 'declined' mean as used in the passage?",
+      "option": ["Improved", "Disappeared completely", "Increased", "Reduced or became less"],
+      "correct": 3
+    },
+    {
+      "question": "What is the antonym (opposite) of the word 'rarely' as used in the passage?",
+      "option": ["Seldom", "Often", "Occasionally", "Sometimes"],
+      "correct": 1
+    },
+    {
+      "question": "Which of the following statements is TRUE based on the passage?",
+      "option": ["Modern people tell more stories than ancient people", "Storytelling is no longer valuable today", "Teachers use stories to teach difficult ideas", "Storytellers only existed in books"],
+      "correct": 2
+    },
+    {
+      "question": "The teacher asked the students to assemble in the auditorium.",
+      "option": ["Build", "Gather", "Report", "Perform"],
+      "correct": 1
+    },
+    {
+      "question": "She gave a brief summary of the article.",
+      "option": ["Detailed", "Long", "Short", "Unclear"],
+      "correct": 2
+    },
+    {
+      "question": "His explanation was so vague that no one could understand it.",
+      "option": ["Confusing", "Clear", "Uncertain", "Difficult"],
+      "correct": 0
+    },
+    {
+      "question": "The medicine had an instant effect on the patient.",
+      "option": ["Slow", "Dangerous", "Quick", "Delayed"],
+      "correct": 2
+    },
+    {
+      "question": "The principal praised her for her sincere efforts.",
+      "option": ["Fake", "Genuine", "Dishonest", "Proud"],
+      "correct": 1
+    },
+    {
+      "question": "He spoke in a polite tone with his elders.",
+      "option": ["Kind", "Rude", "Nice", "Generous"],
+      "correct": 1
+    },
+    {
+      "question": "The manager approved the plan without any hesitation.",
+      "option": ["Decision", "Confidence", "Doubt", "Interest"],
+      "correct": 2
+    },
+    {
+      "question": "They reached the top of the mountain after a tough climb.",
+      "option": ["Smooth", "Rough", "Harsh", "Easy"],
+      "correct": 3
+    },
+    {
+      "question": "The room was dimly lit, making it hard to see clearly.",
+      "option": ["Softly", "Mildly", "Brightly", "Gloomily"],
+      "correct": 2
+    },
+    {
+      "question": "She was reluctant to speak in front of the class.",
+      "option": ["Shy", "Brave", "Willing", "Afraid"],
+      "correct": 2
+    },
+    {
+      "question": "The teacher *told* that honesty is the best policy.",
+      "option": ["told → said", "told → tells", "told → saying", "No error"],
+      "correct": 0
+    },
+    {
+      "question": "He *prefer* coffee over tea in the morning.",
+      "option": ["prefer → prefers", "prefer → preferred", "prefer → preferring", "No error"],
+      "correct": 0
+    },
+    {
+      "question": "My sister is *good in* playing the piano.",
+      "option": ["good in → good at", "good in → good with", "good in → good for", "No error"],
+      "correct": 0
+    },
+    {
+      "question": "They *discussed about* the new project in the meeting.",
+      "option": ["discussed about → discussed", "discussed about → discussing", "discussed about → discussed on", "No error"],
+      "correct": 0
+    },
+    {
+      "question": "Each of the boys *have* completed their homework.",
+      "option": ["have → has", "have → had", "have → having", "No error"],
+      "correct": 0
+    },
+    {
+      "question": "She was worried ___ her exam results.",
+      "option": ["About", "For", "With", "By"],
+      "correct": 0
+    },
+    {
+      "question": "The cat is hiding ___ the table.",
+      "option": ["Over", "Under", "Beside", "On"],
+      "correct": 1
+    },
+    {
+      "question": "We are not allowed to write ___ pencil in this exam.",
+      "option": ["In", "By", "With", "From"],
+      "correct": 2
+    },
+    {
+      "question": "He divided the sweets ___ the children.",
+      "option": ["Among", "Between", "Into", "For"],
+      "correct": 0
+    },
+    {
+      "question": "The train has been delayed ___ heavy rain.",
+      "option": ["With", "Because", "Due to", "Since"],
+      "correct": 2
+    },
+    {
+      "question": "The teacher asked the students ___ to keep quiet.",
+      "option": ["To keep quiet", "To keeping quiet", "Keeping quiet", "Kept quiet"],
+      "correct": 0
+    },
+    {
+      "question": "The bus arrived ___ lately and suddenly.",
+      "option": ["Lately and suddenly", "Late and sudden", "Late and suddenly", "Lately and sudden"],
+      "correct": 2
+    },
+    {
+      "question": "If it rains tomorrow, ___ we stay home.",
+      "option": ["We stayed home", "We would stay home", "We will stay home", "We stay home"],
+      "correct": 2
+    },
+    {
+      "question": "He asked me ___ where do I live.",
+      "option": ["Where do I live", "Where I lived", "Where I did live", "Where did I live"],
+      "correct": 1
+    },
+    {
+      "question": "She is used to ___ in the morning.",
+      "option": ["Walk", "Walking", "Walked", "Walks"],
+      "correct": 1
+    },
+    {
+      "question": "The students ___ their homework before the class.",
+      "option": ["Finish", "Finishes", "Finished", "Finishing"],
+      "correct": 2
+    },
+    {
+      "question": "___ you like to join us for dinner?",
+      "option": ["Would", "Will", "Do", "Have"],
+      "correct": 0
+    },
+    {
+      "question": "She ___ to the market every Sunday.",
+      "option": ["Goes", "Go", "Went", "Going"],
+      "correct": 0
+    },
+    {
+      "question": "The book ___ on the table is mine.",
+      "option": ["Lying", "Lies", "Lays", "Laid"],
+      "correct": 1
+    },
+    {
+      "question": "They ___ the game if they had practiced more.",
+      "option": ["Would win", "Will win", "Won", "Wins"],
+      "correct": 0
+    },
+    {
+      "question": "If A = {2, 3, 5}, B = {1, 3, 5, 7}, then A ∩ B =",
+      "option": ["{2, 3}", "{3, 5}", "{1, 7}", "{2, 3, 5, 7}"],
+      "correct": 1
+    },
+    {
+      "question": "1/6 cm is ___ fraction of 1 meter.",
+      "option": ["1/6", "1/4", "1/5", "3/20"],
+      "correct": 0
+    },
+    {
+      "question": "The value of 25% of 160 + 10% of 200 is ___",
+      "option": ["65", "60", "70", "50"],
+      "correct": 1
+    },
+    {
+      "question": "If a shopkeeper buys a toy for Rs. 200 and sells it for Rs. 250, what is his profit percentage?",
+      "option": ["20%", "25%", "30%", "50%"],
+      "correct": 1
+    },
+    {
+      "question": "What is the Highest Common Factor (HCF) of 24 and 36?",
+      "option": ["6", "12", "18", "24"],
+      "correct": 1
+    },
+    {
+      "question": "Find the value of 'Y' in the ratio 4:7 = 8:Y",
+      "option": ["10", "12", "14", "16"],
+      "correct": 2
+    },
+    {
+      "question": "The value of 1/8 is equivalent to ___",
+      "option": ["0.15", "0.10", "0.125", "0.80"],
+      "correct": 2
+    },
+    {
+      "question": "What is the result of (-15) - (+20)?",
+      "option": ["+5", "-5", "-35", "+35"],
+      "correct": 2
+    },
+    {
+      "question": "The mode of 4, 6, 2, 6, 7, 6, 9 is ___",
+      "option": ["6", "4", "7", "9"],
+      "correct": 0
+    },
+    {
+      "question": "If 30% of a number is 45, what is the number?",
+      "option": ["120", "135", "150", "180"],
+      "correct": 2
+    },
+    {
+      "question": "What is 25% of 160?",
+      "option": ["30", "35", "40", "45"],
+      "correct": 2
+    },
+    {
+      "question": "If the perimeter of a square is 48 cm, what is the length of one side?",
+      "option": ["12 cm", "24 cm", "16 cm", "18 cm"],
+      "correct": 0
+    },
+    {
+      "question": "Find the average of the numbers: 10, 20, 30, 40, 50",
+      "option": ["30", "25", "35", "40"],
+      "correct": 0
+    },
+    {
+      "question": "If 8x - 14 = 5x + 7, then the value of x is:",
+      "option": ["7", "14", "3", "13"],
+      "correct": 0
+    },
+    {
+      "question": "The product of the prime numbers between 1 and 10 is:",
+      "option": ["105", "210", "115", "315"],
+      "correct": 1
+    },
+    {
+      "question": "What is the next number in the sequence: 3, 6, 12, 24, ___",
+      "option": ["36", "40", "48", "60"],
+      "correct": 2
+    },
+    {
+      "question": "A triangle has angles measuring 60°, 60°, and ___. What is the missing angle?",
+      "option": ["45°", "60°", "90°", "120°"],
+      "correct": 1
+    },
+    {
+      "question": "1 kilometer is equal to how many centimeters?",
+      "option": ["1000", "10,000", "100,000", "10,000,000"],
+      "correct": 2
+    },
+    {
+      "question": "'167' can be written in Roman numerals as?",
+      "option": ["CLXVII", "XCVII", "CLXXVII", "VICLX"],
+      "correct": 0
+    },
+    {
+      "question": "If a = 5 and b = 3, what is the value of a² + b²?",
+      "option": ["25", "34", "16", "15"],
+      "correct": 1
+    },
+    {
+      "question": "What is the value of 10% of 250?",
+      "option": ["20", "25", "30", "35"],
+      "correct": 1
+    },
+    {
+      "question": "If the sum of two numbers is 50 and their difference is 10, what is the larger number?",
+      "option": ["20", "25", "30", "35"],
+      "correct": 2
+    },
+    {
+      "question": "The area of a rectangle with length 5 cm and width 3 cm is:",
+      "option": ["10 cm²", "15 cm²", "20 cm²", "25 cm²"],
+      "correct": 1
+    },
+    {
+      "question": "What is 20% of 80?",
+      "option": ["10", "16", "18", "20"],
+      "correct": 1
+    },
+    {
+      "question": "If x + 5 = 12, what is the value of x?",
+      "option": ["5", "7", "10", "12"],
+      "correct": 1
+    },
+    {
+      "question": "The perimeter of a square with side 7 cm is:",
+      "option": ["21 cm", "28 cm", "35 cm", "49 cm"],
+      "correct": 1
+    },
+    {
+      "question": "What is the square root of 49?",
+      "option": ["5", "6", "7", "8"],
+      "correct": 2
+    },
+    {
+      "question": "If 3x = 15, what is x?",
+      "option": ["3", "5", "10", "15"],
+      "correct": 1
+    },
+    {
+      "question": "The sum of angles in a triangle is:",
+      "option": ["90°", "180°", "270°", "360°"],
+      "correct": 1
+    },
+    {
+      "question": "What is 50% of 120?",
+      "option": ["50", "60", "70", "80"],
+      "correct": 1
+    },
+    {
+      "question": "What is the capital of Kazakhstan?",
+      "option": ["Astana", "Tashkent", "Baku", "Bishkek"],
+      "correct": 0
+    },
+    {
+      "question": "Which planet is known as the 'Red Planet'?",
+      "option": ["Mercury", "Mars", "Jupiter", "Saturn"],
+      "correct": 1
+    },
+    {
+      "question": "The currency of Israel is:",
+      "option": ["Bhat", "Yen", "Israeli Dollar", "Shekel"],
+      "correct": 3
+    },
+    {
+      "question": "Pakistan officially joined UNO in 1947 on?",
+      "option": ["14 August", "30 September", "29 November", "31 December"],
+      "correct": 2
+    },
+    {
+      "question": "What is the total number of bones in the adult human body?",
+      "option": ["206", "210", "201", "215"],
+      "correct": 0
+    },
+    {
+      "question": "The Suez Canal connects:",
+      "option": ["Red Sea and Arabian Sea", "Red Sea and Mediterranean Sea", "Arabian Sea and Black Sea", "Caspian Sea and Mediterranean Sea"],
+      "correct": 1
+    },
+    {
+      "question": "Which city is called the 'Gateway to the East'?",
+      "option": ["Hong Kong", "Istanbul", "Dubai", "Singapore"],
+      "correct": 1
+    },
+    {
+      "question": "The chemical symbol for Gold is:",
+      "option": ["Au", "Ag", "Gd", "Go"],
+      "correct": 0
+    },
+    {
+      "question": "International Women's Day is observed every year on:",
+      "option": ["12 March", "16 March", "06 March", "08 March"],
+      "correct": 3
+    },
+    {
+      "question": "Which gas is most abundant in Earth's atmosphere?",
+      "option": ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+      "correct": 2
+    },
+    {
+      "question": "Where is the headquarters of the International Court of Justice (ICJ)?",
+      "option": ["Geneva", "Hague", "Paris", "New York"],
+      "correct": 1
+    },
+    {
+      "question": "Who invented the electric motor in 1821?",
+      "option": ["Thomas Edison", "Nikola Tesla", "Michael Faraday", "James Watt"],
+      "correct": 2
+    },
+    {
+      "question": "The famous book 'Origin of Species' was written by:",
+      "option": ["Newton", "Charles Darwin", "Galileo", "Einstein"],
+      "correct": 1
+    },
+    {
+      "question": "The Indus River originates from:",
+      "option": ["Ladakh", "Tibet", "Gilgit", "Skardu"],
+      "correct": 1
+    },
+    {
+      "question": "Which of the following is the largest desert in Australia?",
+      "option": ["Simpson Desert", "Gibson Desert", "Tanami Desert", "Great Victoria"],
+      "correct": 3
+    },
+    {
+      "question": "The SI unit of force is:",
+      "option": ["Watt", "Joule", "Newton", "Pascal"],
+      "correct": 2
+    },
+    {
+      "question": "Which vitamin is produced in the human body by sunlight?",
+      "option": ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"],
+      "correct": 3
+    },
+    {
+      "question": "Which of the following is a viral disease?",
+      "option": ["Tuberculosis", "Cholera", "Influenza (Flu)", "Typhoid"],
+      "correct": 2
+    },
+    {
+      "question": "Which disease is NOT caused by bacteria?",
+      "option": ["Measles", "Pneumonia", "Tetanus", "Diphtheria"],
+      "correct": 0
+    },
+    {
+      "question": "What is the primary function of kidneys in the human body?",
+      "option": ["Pump blood to all body parts", "Produce digestive enzymes", "Filter blood and remove waste", "Control body temperature"],
+      "correct": 2
+    },
+    {
+      "question": "Which metal is liquid at room temperature?",
+      "option": ["Gold", "Mercury", "Silver", "Copper"],
+      "correct": 1
+    },
+    {
+      "question": "The largest bone in the human body is:",
+      "option": ["Skull", "Rib", "Femur", "Tibia"],
+      "correct": 2
+    },
+    {
+      "question": "Which of the following is a chemical change?",
+      "option": ["Melting ice", "Burning wood", "Dissolving sugar", "Tearing paper"],
+      "correct": 1
+    },
+    {
+      "question": "Which device converts electrical energy into mechanical energy?",
+      "option": ["Generator", "Motor", "Battery", "Transformer"],
+      "correct": 1
+    },
+    {
+      "question": "Which of these is not a greenhouse gas?",
+      "option": ["(CO₂)", "(CH₄)", "(O₂)", "(N₂O)"],
+      "correct": 2
+    },
+    {
+      "question": "Allama Iqbal received his PhD in philosophy from which country?",
+      "option": ["England", "U.S.A", "Italy", "Germany"],
+      "correct": 3
+    },
+    {
+      "question": "Sir Syed Ahmed Khan realized that Muslims were lagging behind in education because of their conservative approach towards:",
+      "option": ["Eastern and Islamic Knowledge", "English and modern knowledge", "Urdu and Islamic Knowledge", "English and Urdu knowledge"],
+      "correct": 1
+    },
+    {
+      "question": "Name the event which was implemented by the authorities of the British Raj India in 1905.",
+      "option": ["Simla deputation", "All India Muslim League", "Partition of Bengal", "Lucknow pact"],
+      "correct": 2
+    },
+    {
+      "question": "The minimum number of goats for which Zakat is compulsory:",
+      "option": ["40", "60", "25", "35"],
+      "correct": 3
+    },
+    {
+      "question": "The founder of Buddhism is ___",
+      "option": ["Siddhartha Gautama", "Abraham", "Jesus", "None of these"],
+      "correct": 0
+    }
+
+  );
+
+
+// export removed for browser compatibility
+
+let currentQuestion = 0;
+let score = 0;
+let userAnswers = [];
+let startTime = Date.now();
+let timeLeft = 3600;
+
+async function sha256(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function verifyPassword() {
+  const input = document.getElementById("passwordInput").value;
+  const hash = await sha256(input);
+  if (hash === correctPasswordHash) {
+    document.getElementById("quizContent").style.display = "block";
+    document.querySelector(".input-group").style.display = "none";
+    document.getElementById("quizHeading").style.display = "none";
+    showQuestion();
+    startTimer();
+  } else {
+    alert("Incorrect password!");
+  }
+}
+
+document.getElementById("startBtn").addEventListener("click", verifyPassword);
+
+function showQuestion() {
+  const passage = document.getElementById("english-passage");
+if (passage) {
+  passage.style.display = (currentQuestion >= 0 && currentQuestion <= 9) ? "block" : "none";
+}
+  const q = quizData[currentQuestion];
+  document.getElementById("questionBox").innerHTML = `<h5>Q${currentQuestion + 1}: ${q.question}</h5>`;
+  const list = document.getElementById("optionList");
+  list.innerHTML = "";
+  q.option.forEach((opt, idx) => {
+    const li = document.createElement("li");
+    li.className = "list-group-item option";
+    li.innerHTML = `<input type='radio' name='option' value='${idx}'> ${opt}`;
+    list.appendChild(li);
+  });
+  document.getElementById("progressText").innerText = `Question ${currentQuestion + 1} of ${quizData.length}`;
+}
+
+function submitAnswer() {
+  const selected = document.querySelector('input[name="option"]:checked');
+  if (!selected) return alert("Please select an option.");
+  const selectedIndex = parseInt(selected.value);
+  userAnswers.push(selectedIndex);
+  if (selectedIndex === quizData[currentQuestion].correct) score++;
+  currentQuestion++;
+  if (currentQuestion < quizData.length) showQuestion();
+  else finishTest();
+}
+
+function prevQuestion() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    showQuestion();
+  }
+}
+
+function finishTest() {
+  document.getElementById("quizContainer").style.display = "none";
+  document.getElementById("resultContainer").style.display = "block";
+  const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+  document.getElementById("finalScore").innerText = score;
+  document.getElementById("finalTime").innerText = `${Math.floor(timeTaken/60)}m ${timeTaken%60}s`;
+
+  const review = document.getElementById("answerReview");
+  review.innerHTML = '<h4>📝 Answer Review:</h4>';
+  quizData.forEach((q, i) => {
+    const userAns = userAnswers[i];
+    const correctAns = q.correct;
+    let optionsHTML = q.option.map((opt, idx) => {
+      let className = '';
+      let label = '';
+      if (idx === correctAns) {
+        className = 'correct';
+        label = '✅ Correct Answer';
+      }
+      if (idx === userAns && userAns !== correctAns) {
+        className = 'wrong';
+        label = '❌ Your Answer is incorrect';
+      }
+      return `<li class="list-group-item ${className}">${opt} ${label ? `<span class='ms-2 fw-bold'>${label}</span>` : ''}</li>`;
+    }).join('');
+    review.innerHTML += `<div class='mb-4'><h6>Q${i+1}: ${q.question}</h6><ul class='list-group'>${optionsHTML}</ul></div>`;
+  });
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  const modeBtn = document.getElementById("modeToggle");
+  modeBtn.innerHTML = document.body.classList.contains("dark-mode") ? "☀️ Light Mode" : "🌗 Dark Mode";
+}
+
+function startTimer() {
+  const display = document.getElementById("timerDisplay");
+  const bar = document.getElementById("timeBar");
+  const interval = setInterval(() => {
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      finishTest();
+    } else {
+      timeLeft--;
+      const min = Math.floor(timeLeft / 60);
+      const sec = timeLeft % 60;
+      display.textContent = `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+      bar.style.width = (timeLeft / 3600) * 100 + "%";
+    }
+  }, 1000);
+}
+
+function printResult() {
+  window.print();
+}
+
+function restartQuiz() {
+  location.reload();
+}
+</script>
+</body>
+</html>

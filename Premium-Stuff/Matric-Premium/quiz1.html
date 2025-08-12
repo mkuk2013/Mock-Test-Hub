@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>IBA STS Matric Mock Test 1</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { display: none; }
+    #timer { font-size: 1.3rem; color: red; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+    .progress { height: 20px; margin-bottom: 10px; }
+
+    
+    
+
+    .result-card {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 30px 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    
+
+    .header-block {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    
+
+    @media (max-width: 576px) {
+      .btn { font-size: 0.9rem; }
+      h1, h2, h4 { font-size: 1.2rem; }
+    }
+  
+
+
+
+
+
+
+
+.dark-mode {
+  background-color: #1e1e1e !important;
+  color: #f0f0f0 !important;
+}
+.dark-mode .form-check-label {
+  color: #ffffff !important;
+}
+.dark-mode footer {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+
+.dark-mode .card {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+.dark-mode .card-title {
+  color: #ffffff !important;
+}
+
+
+.dark-mode .list-group-item {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+
+.dark-mode .header-block {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+</style>
+  <script>
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    const storedHash = "4b911ed9f6ddcaa0185748e7a967da966472fc62d69c27e748018b6d2cef6fea";
+
+    (async () => {
+      const entered = prompt("🔐 This quiz is password protected.\nPlease enter password:");
+      const enteredHash = await hashPassword(entered);
+      if (enteredHash === storedHash) {
+        document.addEventListener("DOMContentLoaded", () => {
+          document.body.style.display = "block";
+        });
+      } else {
+        document.write("<h2 style='text-align:center; color:red; margin-top:20%;'>Access Denied ❌<br>For password, WhatsApp: +923480358640</h2>");
+      }
+    })();
+  </script>
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <div class="header-block mb-3">
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <h1 class="fw-bold text-center w-100 mb-2">IBA STS Matric Mock Test 1</h1>
+        <div class="w-100 text-center text-lg-end">
+          <button id="themeToggle" class="btn btn-sm btn-outline-dark" onclick="toggleDarkMode()">🌓 Dark Mode</button>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="timer" class="text-center mb-2">Time Remaining: 60:00</h2>
+    <div class="progress mb-3">
+      <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;"></div>
+    </div>
+    <div id="progressInfo" class="text-center mb-3 text-primary fw-bold"></div>
+
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <h4 id="questionElem" class="card-title">Question text will appear here</h4>
+        <ul class="list-group mb-3">
+          <li class="list-group-item">
+            <div class="form-check">
+              <input type="radio" class="form-check-input answer" name="answer" id="a">
+              <label class="form-check-label" for="a" id="option1"></label>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="form-check">
+              <input type="radio" class="form-check-input answer" name="answer" id="b">
+              <label class="form-check-label" for="b" id="option2"></label>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="form-check">
+              <input type="radio" class="form-check-input answer" name="answer" id="c">
+              <label class="form-check-label" for="c" id="option3"></label>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="form-check">
+              <input type="radio" class="form-check-input answer" name="answer" id="d">
+              <label class="form-check-label" for="d" id="option4"></label>
+            </div>
+          </li>
+        </ul>
+        <div class="text-center">
+          <button id="prevBtn" class="btn btn-danger me-2">Previous</button>
+          <button id="button" class="btn btn-primary" disabled>Next</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="text-center mt-4">
+      <p>Quiz Created By <a href="https://www.facebook.com/innoxent.mukesh">Mukesh Kumar</a></p>
+    </footer>
+  </div>
+  <script>
+    const quizData = [
+// -------------------- English: Reading & Comprehension (10 MCQs) --------------------
+{ question: "What is the main idea of a passage?", option: ["The subject of the passage", "The purpose of the writer", "The central point the author wants to make", "The summary of the last paragraph"], correct: 2 },
+{ question: "From the passage: 'The sun rose slowly, casting a golden glow' - What does 'casting' mean?", option: ["Throwing", "Pulling", "Grabbing", "Breaking"], correct: 0 },
+{ question: "What does the author imply when he says 'the journey was arduous'?", option: ["It was boring", "It was difficult", "It was easy", "It was short"], correct: 1 },
+{ question: "Why did the author write the passage?", option: ["To entertain", "To persuade", "To inform", "To confuse"], correct: 2 },
+{ question: "What can be inferred from the passage?", option: ["The character was happy", "The weather was stormy", "The event occurred at night", "None of these"], correct: 3 },
+{ question: "The tone of the passage is:", option: ["Angry", "Hopeful", "Sarcastic", "Indifferent"], correct: 1 },
+{ question: "What is the meaning of the word 'vivid' used in the passage?", option: ["Colorless", "Lively", "Dark", "Strange"], correct: 1 },
+{ question: "The phrase 'time flew by' is an example of:", option: ["Simile", "Metaphor", "Hyperbole", "Personification"], correct: 3 },
+{ question: "What is the best title for the passage?", option: ["A Stormy Day", "Adventures in Rain", "A Day in the Wild", "The Golden Sunset"], correct: 3 },
+{ question: "The word 'gloomy' in the passage means:", option: ["Bright", "Sad", "Happy", "Noisy"], correct: 1 },
+
+// -------------------- English: Vocabulary (15 MCQs) --------------------
+// Synonyms (5)
+{ question: "Choose the synonym of 'Abundant'", option: ["Scarce", "Plentiful", "Little", "Empty"], correct: 1 },
+{ question: "Choose the synonym of 'Brief'", option: ["Quick", "Long", "Short", "Slow"], correct: 2 },
+{ question: "Choose the synonym of 'Courage'", option: ["Fear", "Bravery", "Anger", "Strength"], correct: 1 },
+{ question: "Choose the synonym of 'Wealthy'", option: ["Poor", "Greedy", "Rich", "Kind"], correct: 2 },
+{ question: "Choose the synonym of 'Accurate'", option: ["Wrong", "Correct", "Fast", "Dull"], correct: 1 },
+
+// Antonyms (5)
+{ question: "Choose the antonym of 'Optimistic'", option: ["Happy", "Hopeful", "Pessimistic", "Bright"], correct: 2 },
+{ question: "Choose the antonym of 'Generous'", option: ["Kind", "Mean", "Helpful", "Gentle"], correct: 1 },
+{ question: "Choose the antonym of 'Ancient'", option: ["Modern", "Old", "Historic", "Rare"], correct: 0 },
+{ question: "Choose the antonym of 'Visible'", option: ["Seen", "Shown", "Invisible", "Open"], correct: 2 },
+{ question: "Choose the antonym of 'Victory'", option: ["Win", "Success", "Triumph", "Defeat"], correct: 3 },
+
+// Spell Checking (5)
+{ question: "Choose the correctly spelled word:", option: ["Enviroment", "Environment", "Environmant", "Envirenment"], correct: 1 },
+{ question: "Choose the correctly spelled word:", option: ["Accomodation", "Acommodation", "Accommodation", "Accomadation"], correct: 2 },
+{ question: "Choose the correctly spelled word:", option: ["Recieve", "Receive", "Receeve", "Receiv"], correct: 1 },
+{ question: "Choose the correctly spelled word:", option: ["Comitee", "Committee", "Committe", "Committie"], correct: 1 },
+{ question: "Choose the correctly spelled word:", option: ["Government", "Goverment", "Governmant", "Govermant"], correct: 0 },
+
+// -------------------- English: Grammar (15 MCQs) --------------------
+// Error Detection (5)
+{ question: "Identify the error: She don’t like cold drinks.", option: ["She", "don’t", "like", "cold drinks"], correct: 1 },
+{ question: "Identify the error: He have two brothers.", option: ["He", "have", "two", "brothers"], correct: 1 },
+{ question: "Identify the error: I enjoys reading books.", option: ["I", "enjoys", "reading", "books"], correct: 1 },
+{ question: "Identify the error: They was playing outside.", option: ["They", "was", "playing", "outside"], correct: 1 },
+{ question: "Identify the error: She go to school daily.", option: ["She", "go", "to", "school"], correct: 1 },
+
+// Prepositions (5)
+{ question: "He is good ___ English.", option: ["at", "on", "in", "for"], correct: 0 },
+{ question: "The cat is hiding ___ the table.", option: ["over", "under", "above", "beside"], correct: 1 },
+{ question: "He arrived ___ the airport on time.", option: ["in", "to", "at", "on"], correct: 2 },
+{ question: "She is fond ___ music.", option: ["to", "with", "in", "of"], correct: 3 },
+{ question: "They are waiting ___ the bus.", option: ["on", "for", "to", "of"], correct: 1 },
+
+// Sentence Structure (5)
+{ question: "Choose the correct sentence:", option: ["He going is to school.", "Is going school to he.", "He is going to school.", "Going is school to he."], correct: 2 },
+{ question: "Choose the correct sentence:", option: ["She has finish her homework.", "She have finished her homework.", "She has finished her homework.", "She had finish her homework."], correct: 2 },
+{ question: "Choose the correct sentence:", option: ["They is playing cricket.", "They are playing cricket.", "They playing are cricket.", "Are playing cricket they."], correct: 1 },
+{ question: "Choose the correct sentence:", option: ["The boy run fastly.", "The boy runs fast.", "The boy run fast.", "The boy running fast."], correct: 1 },
+{ question: "Choose the correct sentence:", option: ["I have a dog brown.", "A brown I dog have.", "I have brown a dog.", "I have a brown dog."], correct: 3 },
+
+// -------------------- Mathematics: Basic Arithmetic (10 MCQs) --------------------
+{ question: "What is 25 + 37?", option: ["52", "62", "72", "82"], correct: 2 },
+{ question: "What is 100 ÷ 4?", option: ["20", "25", "30", "40"], correct: 1 },
+{ question: "What is the square of 12?", option: ["124", "144", "134", "154"], correct: 1 },
+{ question: "If 5x = 20, what is x?", option: ["2", "3", "4", "5"], correct: 2 },
+{ question: "What is 7 × 6?", option: ["42", "36", "48", "40"], correct: 0 },
+{ question: "What is 81 ÷ 9?", option: ["8", "9", "7", "6"], correct: 1 },
+{ question: "What is 15% of 200?", option: ["25", "30", "35", "40"], correct: 1 },
+{ question: "If a = 2, b = 3, what is a² + b²?", option: ["10", "12", "13", "14"], correct: 2 },
+{ question: "What is the next even number after 38?", option: ["39", "40", "41", "42"], correct: 1 },
+{ question: "What is the HCF of 12 and 18?", option: ["2", "3", "6", "12"], correct: 2 },
+
+// -------------------- Mathematics: Word Problems (10 MCQs) --------------------
+{ question: "Ali bought 3 pencils for Rs.10 each. How much did he spend?", option: ["Rs.20", "Rs.30", "Rs.40", "Rs.50"], correct: 1 },
+{ question: "A car covers 60 km in 2 hours. What is its speed?", option: ["25 km/h", "30 km/h", "40 km/h", "50 km/h"], correct: 1 },
+{ question: "A box contains 5 red and 3 blue balls. How many total balls?", option: ["7", "8", "9", "10"], correct: 1 },
+{ question: "Sara has Rs.200. She buys items worth Rs.150. How much is left?", option: ["Rs.40", "Rs.50", "Rs.60", "Rs.70"], correct: 1 },
+{ question: "One pen costs Rs.25. What is the cost of 4 pens?", option: ["Rs.100", "Rs.75", "Rs.50", "Rs.90"], correct: 0 },
+{ question: "A rectangle has length 10 cm and width 5 cm. Find its area.", option: ["50 cm²", "40 cm²", "60 cm²", "55 cm²"], correct: 0 },
+{ question: "Find the average of 10, 20, 30.", option: ["20", "25", "30", "15"], correct: 0 },
+{ question: "What is the cost of 3 notebooks if each costs Rs.35?", option: ["Rs.95", "Rs.100", "Rs.105", "Rs.110"], correct: 2 },
+{ question: "If a train travels 100 km in 4 hours, what is its average speed?", option: ["20 km/h", "25 km/h", "30 km/h", "40 km/h"], correct: 1 },
+{ question: "Ali had Rs.500, he spent Rs.375. How much is left?", option: ["Rs.100", "Rs.125", "Rs.150", "Rs.175"], correct: 1 },
+
+// -------------------- General Knowledge / Islamiat / Science / CA (20 MCQs) --------------------
+{ question: "What is the first month of the Islamic calendar?", option: ["Muharram", "Safar", "Ramadan", "Rabi-ul-Awwal"], correct: 0 },
+{ question: "Who was the first caliph of Islam?", option: ["Umar RA", "Usman RA", "Ali RA", "Abu Bakr RA"], correct: 3 },
+{ question: "What is the capital of Pakistan?", option: ["Lahore", "Karachi", "Islamabad", "Quetta"], correct: 2 },
+{ question: "Pakistan's national fruit is:", option: ["Banana", "Apple", "Mango", "Peach"], correct: 2 },
+{ question: "Who wrote the national anthem of Pakistan?", option: ["Allama Iqbal", "Hafeez Jullundhri", "Faiz Ahmed Faiz", "Ahmed Faraz"], correct: 1 },
+{ question: "Water boils at:", option: ["100°C", "90°C", "80°C", "120°C"], correct: 0 },
+{ question: "Which gas is most abundant in air?", option: ["Oxygen", "Hydrogen", "Nitrogen", "Carbon Dioxide"], correct: 2 },
+{ question: "What is H2O?", option: ["Oxygen", "Salt", "Water", "Hydrogen Peroxide"], correct: 2 },
+{ question: "CPU stands for:", option: ["Central Programming Unit", "Central Processing Unit", "Computer Power Unit", "Control Processing Unit"], correct: 1 },
+{ question: "Which organ pumps blood?", option: ["Liver", "Brain", "Lungs", "Heart"], correct: 3 },
+{ question: "Current UN Secretary General (2025)?", option: ["Kofi Annan", "Antonio Guterres", "Ban Ki-moon", "Jens Stoltenberg"], correct: 1 },
+{ question: "Who was Pakistan's first PM?", option: ["Liaquat Ali Khan", "Ayub Khan", "Bhutto", "Zia"], correct: 0 },
+{ question: "Which is the Red Planet?", option: ["Earth", "Jupiter", "Mars", "Saturn"], correct: 2 },
+{ question: "Which country shares the longest border with Pakistan?", option: ["India", "China", "Iran", "Afghanistan"], correct: 0 },
+{ question: "Where is Quaid-e-Azam’s tomb?", option: ["Islamabad", "Karachi", "Lahore", "Peshawar"], correct: 1 },
+{ question: "How many Surahs are in the Quran?", option: ["112", "113", "114", "115"], correct: 2 },
+{ question: "Who is the current President of Pakistan (2025)?", option: ["Arif Alvi", "Shehbaz Sharif", "Asif Zardari", "Yusuf Raza Gilani"], correct: 2 },
+{ question: "Which ocean is largest?", option: ["Atlantic", "Indian", "Pacific", "Arctic"], correct: 2 },
+{ question: "What is Pakistan's national sport?", option: ["Cricket", "Football", "Hockey", "Badminton"], correct: 2 },
+{ question: "Which body handles world health issues?", option: ["WHO", "WTO", "UNESCO", "IMF"], correct: 0 },
+
+// -------------------- General Knowledge: Everyday Science (5 MCQs) --------------------
+{
+  question: "Which vitamin is obtained from sunlight?",
+  option: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"],
+  correct: 3
+},
+{
+  question: "Which device is used to measure temperature?",
+  option: ["Barometer", "Thermometer", "Hygrometer", "Altimeter"],
+  correct: 1
+},
+{
+  question: "Which part of the plant conducts photosynthesis?",
+  option: ["Stem", "Leaves", "Roots", "Flowers"],
+  correct: 1
+},
+{
+  question: "Boiling point of water at sea level is:",
+  option: ["90°C", "95°C", "100°C", "105°C"],
+  correct: 2
+},
+{
+  question: "The unit of electric current is:",
+  option: ["Volt", "Ohm", "Ampere", "Watt"],
+  correct: 2
+},
+
+// -------------------- General Knowledge: Computer (5 MCQs) --------------------
+{
+  question: "What does URL stand for?",
+  option: ["Uniform Resource Locator", "Universal Resource Link", "User Reference Line", "Unified Routing Link"],
+  correct: 0
+},
+{
+  question: "Which of the following is a search engine?",
+  option: ["Chrome", "Google", "Facebook", "Gmail"],
+  correct: 1
+},
+{
+  question: "Which component stores data permanently?",
+  option: ["RAM", "ROM", "Hard Disk", "Cache"],
+  correct: 2
+},
+{
+  question: "Shortcut key for 'Copy' is:",
+  option: ["Ctrl + C", "Ctrl + V", "Ctrl + X", "Ctrl + Z"],
+  correct: 0
+},
+{
+  question: "Which programming language is used for web development?",
+  option: ["Python", "Java", "HTML", "C++"],
+  correct: 2
+},
+
+// -------------------- Islamiat / Pakistan Studies (5 MCQs) --------------------
+{
+  question: "Where was the Prophet Muhammad (PBUH) born?",
+  option: ["Madina", "Taif", "Jerusalem", "Makkah"],
+  correct: 3
+},
+{
+  question: "Which city is known as the ‘City of Saints’ in Pakistan?",
+  option: ["Lahore", "Multan", "Karachi", "Peshawar"],
+  correct: 1
+},
+{
+  question: "Which is the highest civil award of Pakistan?",
+  option: ["Nishan-e-Imtiaz", "Hilal-e-Imtiaz", "Sitara-e-Imtiaz", "Tamgha-e-Imtiaz"],
+  correct: 0
+},
+{
+  question: "Which year did Pakistan become a nuclear power?",
+  option: ["1996", "1997", "1998", "1999"],
+  correct: 2
+},
+{
+  question: "In which city was the Pakistan Resolution passed?",
+  option: ["Islamabad", "Lahore", "Karachi", "Rawalpindi"],
+  correct: 1
+},
+
+// -------------------- General Knowledge: Current Affairs (5 MCQs) --------------------
+{
+  question: "Who is the current Prime Minister of Pakistan (2025)?",
+  option: ["Shehbaz Sharif", "Imran Khan", "Asif Zardari", "Anwaar ul Haq Kakar"],
+  correct: 0
+},
+{
+  question: "Which country recently launched its first human spaceflight mission in 2024?",
+  option: ["India", "USA", "China", "Russia"],
+  correct: 2
+},
+{
+  question: "Pakistan was removed from FATF grey list in which year?",
+  option: ["2020", "2021", "2022", "2023"],
+  correct: 2
+},
+{
+  question: "Which is the latest province proposed in Pakistan?",
+  option: ["Hazara", "Gilgit-Baltistan", "South Punjab", "FATA"],
+  correct: 2
+},
+{
+  question: "Which country hosted the ICC Cricket World Cup 2023?",
+  option: ["India", "England", "Australia", "Pakistan"],
+  correct: 0
+}
+
+    ];
+
+    function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  const btn = document.getElementById("themeToggle");
+  if (document.body.classList.contains("dark-mode")) {
+    btn.textContent = "🌞 Light Mode";
+    btn.classList.remove("btn-outline-secondary");
+    btn.classList.add("btn-warning");
+  } else {
+    btn.textContent = "🌓 Dark Mode";
+    btn.classList.remove("btn-warning");
+    btn.classList.add("btn-outline-secondary");
+  }
+}
+
+    const ans = document.querySelectorAll(".answer");
+    const questionElem = document.querySelector("#questionElem");
+    const option1 = document.querySelector("#option1");
+    const option2 = document.querySelector("#option2");
+    const option3 = document.querySelector("#option3");
+    const option4 = document.querySelector("#option4");
+    const submitBtn = document.querySelector("#button");
+    const progressBar = document.querySelector("#progressBar");
+
+    let currentQuiz = 0;
+    let score = 0;
+    let userAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
+    let sectionScores = {};
+    let totalSeconds = 3600;
+
+    // Shuffle questions
+    quizData.sort(() => 0.5 - Math.random());
+
+    function updateProgress() {
+      const percent = ((currentQuiz + 1) / quizData.length) * 100;
+      progressBar.style.width = `${percent}%`;
+    }
+
+    function loadQuiz() {
+      const q = quizData[currentQuiz];
+      questionElem.innerText = `${currentQuiz + 1}/${quizData.length}: ${q.question}`;
+      option1.innerText = q.option[0];
+      option2.innerText = q.option[1];
+      option3.innerText = q.option[2];
+      option4.innerText = q.option[3];
+      document.querySelector("#progressInfo").innerText = `Question ${currentQuiz + 1} of ${quizData.length}`;
+      document.getElementById("prevBtn").disabled = currentQuiz === 0;
+      updateProgress();
+      submitBtn.disabled = true;
+      deselect();
+      if (userAnswers[currentQuiz] !== undefined) {
+        ans[userAnswers[currentQuiz]].checked = true;
+        submitBtn.disabled = false;
+      }
+    }
+
+    function getSelected() {
+      let selectedIndex = -1;
+      ans.forEach((el, idx) => {
+        if (el.checked) selectedIndex = idx;
+      });
+      return selectedIndex;
+    }
+
+    function deselect() {
+      ans.forEach(el => el.checked = false);
+    }
+
+    ans.forEach(el => {
+      el.addEventListener("change", () => {
+        submitBtn.disabled = false;
+      });
+    });
+
+    loadQuiz();
+
+    document.querySelector("#prevBtn").addEventListener("click", () => {
+      if (currentQuiz > 0) {
+        currentQuiz--;
+        loadQuiz();
+      }
+    });
+
+    submitBtn.addEventListener("click", () => {
+      const selected = getSelected();
+      if (selected === -1) return;
+      userAnswers[currentQuiz] = selected;
+      localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+
+      const q = quizData[currentQuiz];
+      if (!sectionScores[q.section]) sectionScores[q.section] = { total: 0, correct: 0 };
+      sectionScores[q.section].total++;
+      if (selected === q.correct) {
+        score++;
+        sectionScores[q.section].correct++;
+      }
+
+      currentQuiz++;
+      if (currentQuiz < quizData.length) {
+        loadQuiz();
+        if (currentQuiz === quizData.length - 1) {
+          submitBtn.innerText = "Finish";
+        }
+      } else {
+        showResult();
+      }
+    });
+
+    function showResult() {
+      clearInterval(timerInterval);
+      localStorage.removeItem("userAnswers");
+      const timeTaken = 3600 - totalSeconds;
+      const minutes = Math.floor(timeTaken / 60);
+      const seconds = timeTaken % 60;
+      let resultHTML = `
+        <div class="result-card text-center"><h4 class="text-center mb-3">🏁 Quiz Finished!</h4>
+        <h5 class="text-center">Your Score: ${score}/${quizData.length}</h5>
+        <h6 class="text-center text-muted">Time Taken: ${minutes}m ${seconds}s</h6>
+        <hr>
+        <div class="text-center mb-4"><div class="mb-3">
+          <strong>Section-wise Breakdown:</strong>
+          <ul style="list-style-position: inside; display: inline-block; text-align: left;">`;
+      for (let section in sectionScores) {
+        const sec = sectionScores[section];
+        const percent = ((sec.correct / sec.total) * 100).toFixed(1);
+        resultHTML += `<li>${section}: ${sec.correct}/${sec.total} (${percent}%)</li>`;
+      }
+      resultHTML += `</ul></ul></div>
+        <div class="mt-4 d-flex justify-content-center gap-3 result-buttons">
+<div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+<button class="btn btn-success" onclick="showReview()">📋 View Answer Review</button>
+<button class="btn btn-outline-primary mb-2">📄 Print / Save PDF</button>
+</div></div>
+        <div class="text-center mt-4">
+          </div>
+<div class="text-center"><button class="btn btn-secondary" onclick="location.reload()">Restart</button>
+</div>
+        </div>`;
+
+      document.querySelector(".card-body").innerHTML = resultHTML;
+    }
+
+    function showReview() {
+      const container = document.querySelector(".card-body");
+      container.innerHTML = `<h4>📋 Review Answers</h4>`;
+      quizData.forEach((q, i) => {
+        const userAns = userAnswers[i];
+        const isCorrect = userAns === q.correct;
+        const userText = q.option[userAns] || "No Answer";
+        const correctText = q.option[q.correct];
+        const status = isCorrect ? "correct" : "incorrect";
+        const icon = isCorrect ? "✔️" : "❌";
+        container.innerHTML += `
+          <div class="mb-3">
+            <strong>${i + 1}. ${q.question}</strong><br>
+            <span class="${status}">${icon} Your Answer: ${userText}</span><br>
+            ${!isCorrect ? `<span class="correct">✔️ Correct Answer: ${correctText}</span>` : ""}
+          </div>`;
+      });
+      container.innerHTML += `
+        <button class="btn btn-outline-primary me-2" onclick="window.print()">🖨️ Print / Save PDF</button>
+        <button class="btn btn-primary" onclick="location.reload()">Restart</button>
+      </div>`;
+    }
+
+    const timerDisplay = document.getElementById("timer");
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    function updateTimer() {
+      const m = Math.floor(totalSeconds / 60);
+      const s = totalSeconds % 60;
+      timerDisplay.textContent = `Time Remaining: ${m}:${s < 10 ? "0" + s : s}`;
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      } else {
+        clearInterval(timerInterval);
+        alert("Time's up!");
+        showResult();
+      }
+    }
+  </script>
+</body>
+</html>

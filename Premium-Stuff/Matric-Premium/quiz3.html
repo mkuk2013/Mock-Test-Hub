@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>IBA STS Matric Mock Test 3</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { display: none; }
+    #timer { font-size: 1.3rem; color: red; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+    .progress { height: 20px; margin-bottom: 10px; }
+
+    .dark-mode { background-color: #1e1e1e; color: #f0f0f0; }
+    .dark-mode .card, .dark-mode .list-group-item, .dark-mode .btn {
+      background-color: #2e2e2e; border-color: #444;
+    }
+    .dark-mode .btn, .dark-mode .card-title {
+      color: white;
+    }
+
+    .result-buttons .btn {
+      width: 100%;
+      max-width: 200px;
+      margin: 10px auto;
+    }
+
+    .result-card {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 30px 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .dark-mode .result-card {
+      background-color: #2b2b2b;
+      box-shadow: 0 5px 20px rgba(255,255,255,0.05);
+    }
+
+    .header-block {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .dark-mode .header-block {
+      background-color: #2e2e2e;
+    }
+
+    @media (max-width: 576px) {
+      .btn { font-size: 0.9rem; }
+      h1, h2, h4 { font-size: 1.2rem; }
+    }
+  
+.dark-mode {
+  background-color: #1e1e1e !important;
+  color: #f0f0f0 !important;
+}
+.dark-mode .form-check-label {
+  color: #ffffff !important;
+}
+.dark-mode footer {
+  background-color: #000000;
+  color: #ffffff;
+}
+.dark-mode .card {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+.dark-mode .card-title {
+  color: #ffffff !important;
+}
+.dark-mode .list-group-item {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+.dark-mode .header-block {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+</style>
+  <script>
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    const storedHash = "4b911ed9f6ddcaa0185748e7a967da966472fc62d69c27e748018b6d2cef6fea";
+
+    (async () => {
+      const entered = prompt("🔐 This quiz is password protected.\nPlease enter password:");
+      const enteredHash = await hashPassword(entered);
+      if (enteredHash === storedHash) {
+        document.addEventListener("DOMContentLoaded", () => {
+          document.body.style.display = "block";
+        });
+      } else {
+        document.write("<h2 style='text-align:center; color:red; margin-top:20%;'>Access Denied ❌<br>For password, WhatsApp: +923480358640</h2>");
+      }
+    })();
+  </script>
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <div class="header-block mb-3">
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <h1 class="fw-bold text-center w-100 mb-2">IBA STS Matric Mock Test 3</h1>
+        <div class="w-100 text-center text-lg-end">
+          <button id="themeToggle" class="btn btn-sm btn-outline-dark" onclick="toggleDarkMode()">🌓 Dark Mode</button>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="timer" class="text-center mb-2">Time Remaining: 60:00</h2>
+    <div class="progress mb-3">
+      <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;"></div>
+    </div>
+    <div id="progressInfo" class="text-center mb-3 text-primary fw-bold"></div>
+
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <h4 id="questionElem" class="card-title">Question text will appear here</h4>
+        <ul class="list-group mb-3">
+          <li class="list-group-item">
+            <div class="form-check">
+              <input type="radio" class="form-check-input answer" name="answer" id="a">
+              <label class="form-check-label" for="a" id="option1"></label>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="form-check">
+              <input type="radio" class="form-check-input answer" name="answer" id="b">
+              <label class="form-check-label" for="b" id="option2"></label>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="form-check">
+              <input type="radio" class="form-check-input answer" name="answer" id="c">
+              <label class="form-check-label" for="c" id="option3"></label>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="form-check">
+              <input type="radio" class="form-check-input answer" name="answer" id="d">
+              <label class="form-check-label" for="d" id="option4"></label>
+            </div>
+          </li>
+        </ul>
+        <div class="text-center">
+          <button id="prevBtn" class="btn btn-danger me-2">Previous</button>
+          <button id="button" class="btn btn-primary" disabled>Next</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="text-center mt-4">
+      <p>Quiz Created By <a href="https://www.facebook.com/innoxent.mukesh">Mukesh Kumar</a></p>
+    </footer>
+  </div>
+    <script>
+    const quizData = [
+   // =======================
+// English: Grammar & Usage
+// =======================
+{
+  question: "Choose the correct tense: She _____ a letter yesterday.",
+  option: ["write", "wrote", "written", "writes"],
+  correct: 1
+},
+{
+  question: "Identify the part of speech: 'Quickly' is a/an _____.",
+  option: ["noun", "adverb", "verb", "adjective"],
+  correct: 1
+},
+{
+  question: "Select the correct sentence:",
+  option: ["He don't like tea.", "He doesn't likes tea.", "He doesn't like tea.", "He don't likes tea."],
+  correct: 2
+},
+{
+  question: "Fill in the blank: I have lived here _____ five years.",
+  option: ["since", "from", "for", "at"],
+  correct: 2
+},
+{
+  question: "Choose the correct article: She bought _____ umbrella.",
+  option: ["a", "an", "the", "no article"],
+  correct: 1
+},
+
+// =======================
+// English: Vocabulary
+// =======================
+{
+  question: "Choose the synonym of 'Brave':",
+  option: ["Coward", "Fearless", "Weak", "Timid"],
+  correct: 1
+},
+{
+  question: "Choose the antonym of 'Difficult':",
+  option: ["Easy", "Hard", "Simple", "Fast"],
+  correct: 0
+},
+{
+  question: "The meaning of 'benevolent' is:",
+  option: ["kind", "greedy", "cruel", "angry"],
+  correct: 0
+},
+{
+  question: "Choose the word most similar to 'Rapid':",
+  option: ["Slow", "Quick", "Late", "Brief"],
+  correct: 1
+},
+{
+  question: "Antonym of 'Include' is:",
+  option: ["Contain", "Omit", "Select", "Pick"],
+  correct: 1
+},
+
+// =======================
+// English: Sentence Structure
+// =======================
+{
+  question: "Which sentence is in passive voice?",
+  option: ["She ate the apple.", "The apple is eating.", "The apple was eaten by her.", "She was eating the apple."],
+  correct: 2
+},
+{
+  question: "Choose the correctly punctuated sentence:",
+  option: ["What a nice day.", "What a nice day!", "What a nice day?", "What a nice day,"],
+  correct: 1
+},
+{
+  question: "Identify the correct question tag: You're coming, _____?",
+  option: ["isn't it", "aren't you", "don't you", "won't you"],
+  correct: 1
+},
+{
+  question: "Select the correct form: He is _____ than his brother.",
+  option: ["taller", "tall", "tallest", "as tall"],
+  correct: 0
+},
+{
+  question: "Choose the correct preposition: She is fond _____ music.",
+  option: ["for", "in", "of", "on"],
+  correct: 2
+},
+
+// =======================
+// English: Comprehension (Short / Logical Inference)
+// =======================
+{
+  question: "Which is the best title for a passage about saving water?",
+  option: ["The Ocean", "Rainfall", "Water is Life", "Rivers of the World"],
+  correct: 2
+},
+{
+  question: "If Ali has three apples and eats one, how many are left?",
+  option: ["1", "2", "3", "0"],
+  correct: 1
+},
+{
+  question: "‘He was as brave as a lion’ is an example of:",
+  option: ["Simile", "Metaphor", "Personification", "Alliteration"],
+  correct: 0
+},
+{
+  question: "What do you infer from: ‘She ran to the door in panic’?",
+  option: ["She was hungry", "She heard something unusual", "She saw a bird", "She forgot the keys"],
+  correct: 1
+},
+{
+  question: "‘Reading makes a full man’ means:",
+  option: ["Only men should read", "Books are heavy", "Reading gives knowledge", "Reading is boring"],
+  correct: 2
+},
+
+// =======================
+// English: Miscellaneous
+// =======================
+{
+  question: "What is the plural of ‘child’?",
+  option: ["childs", "childes", "children", "childrens"],
+  correct: 2
+},
+{
+  question: "Choose the correct spelling:",
+  option: ["Recieve", "Receive", "Receeve", "Receiv"],
+  correct: 1
+},
+{
+  question: "What is the opposite gender of ‘actor’?",
+  option: ["Heroine", "Actress", "Queen", "Waitress"],
+  correct: 1
+},
+{
+  question: "Identify the correct sentence:",
+  option: ["They has gone.", "They gone.", "They have gone.", "They has go."],
+  correct: 2
+},
+{
+  question: "Fill in the blank: I prefer tea _____ coffee.",
+  option: ["over", "than", "to", "above"],
+  correct: 2
+},
+
+// =======================
+// Mathematics
+// =======================
+{
+  question: "What is 12 × 8?",
+  option: ["96", "108", "88", "100"],
+  correct: 0
+},
+{
+  question: "Simplify: 5 + (3 × 2)",
+  option: ["11", "16", "13", "10"],
+  correct: 0
+},
+{
+  question: "What is the square root of 144?",
+  option: ["10", "11", "12", "13"],
+  correct: 2
+},
+{
+  question: "Find the value of x: 2x = 10",
+  option: ["2", "5", "10", "20"],
+  correct: 1
+},
+{
+  question: "What is 15% of 200?",
+  option: ["25", "30", "35", "40"],
+  correct: 1
+},
+
+// More Mathematics Questions
+{
+  question: "If a triangle has angles 90°, 45°, and _____, what is the missing angle?",
+  option: ["35°", "45°", "60°", "90°"],
+  correct: 1
+},
+{
+  question: "What is 7 squared?",
+  option: ["14", "21", "49", "77"],
+  correct: 2
+},
+{
+  question: "Which number is a prime number?",
+  option: ["4", "6", "9", "7"],
+  correct: 3
+},
+{
+  question: "What is the value of π (pi) approximately?",
+  option: ["3.12", "3.14", "3.18", "3.16"],
+  correct: 1
+},
+{
+  question: "Solve: 18 ÷ 3 + 2",
+  option: ["4", "6", "8", "10"],
+  correct: 2
+},
+{
+  question: "LCM of 4 and 6 is:",
+  option: ["12", "24", "6", "8"],
+  correct: 0
+},
+{
+  question: "What is 0.75 as a fraction?",
+  option: ["3/2", "1/4", "3/4", "2/3"],
+  correct: 2
+},
+{
+  question: "Perimeter of a square with side 5 is:",
+  option: ["25", "20", "15", "10"],
+  correct: 1
+},
+{
+  question: "Area of rectangle = length × ____",
+  option: ["Width", "Breadth", "Height", "Depth"],
+  correct: 1
+},
+{
+  question: "Value of 2³ is:",
+  option: ["6", "8", "9", "4"],
+  correct: 1
+},
+{
+  question: "10 × 0 =",
+  option: ["10", "0", "1", "-10"],
+  correct: 1
+},
+{
+  question: "What is 1000 ÷ 100?",
+  option: ["10", "100", "1", "0"],
+  correct: 0
+},
+{
+  question: "Which shape has 3 sides?",
+  option: ["Rectangle", "Circle", "Triangle", "Square"],
+  correct: 2
+},
+{
+  question: "How many minutes in 2 hours?",
+  option: ["60", "90", "120", "100"],
+  correct: 2
+},
+{
+  question: "Which number is an odd number?",
+  option: ["2", "4", "6", "7"],
+  correct: 3
+},
+{
+  question: "What is ⅓ + ⅓?",
+  option: ["½", "⅔", "1", "¾"],
+  correct: 1
+},
+{
+  question: "Roman numeral for 20 is:",
+  option: ["XX", "X", "XV", "XXX"],
+  correct: 0
+},
+{
+  question: "Which is a multiple of 9?",
+  option: ["18", "20", "25", "27"],
+  correct: 0
+},
+{
+  question: "The even number among these is:",
+  option: ["13", "15", "18", "21"],
+  correct: 2
+},
+// =======================
+// General Knowledge
+// =======================
+{
+  question: "Which is the largest continent?",
+  option: ["Africa", "Asia", "Europe", "Australia"],
+  correct: 1
+},
+{
+  question: "Who discovered gravity?",
+  option: ["Newton", "Einstein", "Edison", "Galileo"],
+  correct: 0
+},
+{
+  question: "Capital of Australia is:",
+  option: ["Sydney", "Melbourne", "Canberra", "Perth"],
+  correct: 2
+},
+{
+  question: "Water freezes at _____ °C.",
+  option: ["0", "100", "50", "25"],
+  correct: 0
+},
+{
+  question: "Which gas do plants absorb?",
+  option: ["Oxygen", "Carbon dioxide", "Hydrogen", "Nitrogen"],
+  correct: 1
+},
+{
+  question: "How many days are there in a leap year?",
+  option: ["365", "364", "366", "360"],
+  correct: 2
+},
+{
+  question: "Which is the tallest animal?",
+  option: ["Elephant", "Lion", "Giraffe", "Horse"],
+  correct: 2
+},
+{
+  question: "The largest ocean is:",
+  option: ["Atlantic", "Pacific", "Indian", "Arctic"],
+  correct: 1
+},
+{
+  question: "Which planet is known as the Red Planet?",
+  option: ["Earth", "Venus", "Mars", "Jupiter"],
+  correct: 2
+},
+{
+  question: "What is the currency of Japan?",
+  option: ["Won", "Yuan", "Rupee", "Yen"],
+  correct: 3
+},
+
+// =======================
+// Current Affairs / World Knowledge
+// =======================
+{
+  question: "Current Prime Minister of the UK (2025) is:",
+  option: ["Boris Johnson", "Rishi Sunak", "Keir Starmer", "Theresa May"],
+  correct: 2
+},
+{
+  question: "Which country hosted the 2024 Summer Olympics?",
+  option: ["USA", "France", "Japan", "Brazil"],
+  correct: 1
+},
+{
+  question: "Which country recently joined BRICS in 2024?",
+  option: ["Pakistan", "Egypt", "Iran", "Malaysia"],
+  correct: 2
+},
+{
+  question: "Who is the UN Secretary-General (2025)?",
+  option: ["Antonio Guterres", "Ban Ki-moon", "Kofi Annan", "Tedros Adhanom"],
+  correct: 0
+},
+{
+  question: "Which country launched the Artemis lunar mission?",
+  option: ["Russia", "USA", "China", "India"],
+  correct: 1
+},
+{
+  question: "World Environment Day is observed on:",
+  option: ["June 5", "April 22", "July 11", "March 8"],
+  correct: 0
+},
+{
+  question: "2025 Cricket Champions Trophy will be hosted by:",
+  option: ["India", "Australia", "Pakistan", "England"],
+  correct: 2
+},
+{
+  question: "Which country is leading in AI development globally?",
+  option: ["USA", "Germany", "Japan", "India"],
+  correct: 0
+},
+{
+  question: "Which country is not a G7 member?",
+  option: ["Canada", "India", "Italy", "France"],
+  correct: 1
+},
+{
+  question: "COP28 climate summit was held in:",
+  option: ["Dubai", "Rome", "Doha", "Tokyo"],
+  correct: 0
+},
+{
+  question: "Who won the 2024 Nobel Peace Prize?",
+  option: ["Malala Yousafzai", "UNHCR", "Alexei Navalny", "Doctors Without Borders"],
+  correct: 2
+},
+{
+  question: "Belt and Road Initiative is led by:",
+  option: ["Japan", "USA", "India", "China"],
+  correct: 3
+},
+{
+  question: "Country with the largest Muslim population is:",
+  option: ["Saudi Arabia", "Pakistan", "Indonesia", "Bangladesh"],
+  correct: 2
+},
+{
+  question: "Which is the newest country in the world?",
+  option: ["Kosovo", "South Sudan", "Timor-Leste", "Eritrea"],
+  correct: 1
+},
+{
+  question: "Which country left the European Union in 2020?",
+  option: ["France", "Germany", "UK", "Spain"],
+  correct: 2
+},
+
+// =======================
+// Everyday Science
+// =======================
+{
+  question: "The chemical symbol for water is:",
+  option: ["O2", "H2O", "CO2", "NaCl"],
+  correct: 1
+},
+{
+  question: "Which vitamin is gained from sunlight?",
+  option: ["A", "B", "C", "D"],
+  correct: 3
+},
+{
+  question: "Which organ pumps blood?",
+  option: ["Lungs", "Heart", "Liver", "Kidneys"],
+  correct: 1
+},
+{
+  question: "Boiling point of water in Celsius is:",
+  option: ["90°C", "95°C", "100°C", "110°C"],
+  correct: 2
+},
+{
+  question: "Which is the hardest natural substance?",
+  option: ["Gold", "Iron", "Diamond", "Silver"],
+  correct: 2
+},
+{
+  question: "Which gas do humans exhale?",
+  option: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Helium"],
+  correct: 2
+},
+{
+  question: "How many bones are there in the human body?",
+  option: ["206", "208", "210", "212"],
+  correct: 0
+},
+{
+  question: "Which part of the plant conducts photosynthesis?",
+  option: ["Root", "Leaf", "Stem", "Flower"],
+  correct: 1
+},
+{
+  question: "Earth revolves around the:",
+  option: ["Moon", "Sun", "Mars", "Stars"],
+  correct: 1
+},
+{
+  question: "Which metal is liquid at room temperature?",
+  option: ["Mercury", "Iron", "Gold", "Silver"],
+  correct: 0
+},
+
+// =======================
+// Islamiat / Pakistan Studies
+// =======================
+{
+  question: "How many Surahs are in the Holy Quran?",
+  option: ["112", "113", "114", "115"],
+  correct: 2
+},
+{
+  question: "First constitution of Pakistan was implemented in:",
+  option: ["1949", "1956", "1962", "1973"],
+  correct: 1
+},
+{
+  question: "What is the meaning of 'Zakat'?",
+  option: ["Prayer", "Charity", "Fasting", "Pilgrimage"],
+  correct: 1
+},
+{
+  question: "Who was the first Governor General of Pakistan?",
+  option: ["Liaquat Ali Khan", "Allama Iqbal", "Quaid-e-Azam", "Ayub Khan"],
+  correct: 2
+},
+{
+  question: "When did Pakistan become a republic?",
+  option: ["1956", "1947", "1965", "1971"],
+  correct: 0
+},
+
+// =======================
+// Computer
+// =======================
+{
+  question: "CPU stands for:",
+  option: ["Central Process Unit", "Central Processing Unit", "Computer Personal Unit", "Central Programming Unit"],
+  correct: 1
+},
+{
+  question: "Which of these is an input device?",
+  option: ["Monitor", "Printer", "Keyboard", "Speaker"],
+  correct: 2
+},
+{
+  question: "What does RAM stand for?",
+  option: ["Read Access Memory", "Random Access Memory", "Run Access Memory", "Read Active Memory"],
+  correct: 1
+},
+{
+  question: "Google Chrome is a:",
+  option: ["Software", "Hardware", "Programmer", "Server"],
+  correct: 0
+},
+{
+  question: "Binary system uses which numbers?",
+  option: ["0 and 1", "1 and 2", "2 and 3", "3 and 4"],
+  correct: 0
+},
+{
+  question: "Microsoft Word is used for:",
+  option: ["Calculations", "Typing documents", "Games", "Drawing"],
+  correct: 1
+},
+{
+  question: "Shortcut to copy is:",
+  option: ["Ctrl + V", "Ctrl + X", "Ctrl + C", "Ctrl + Z"],
+  correct: 2
+},
+{
+  question: "Which one is an Operating System?",
+  option: ["Google", "Windows", "Yahoo", "Intel"],
+  correct: 1
+},
+{
+  question: "1 Kilobyte = _____ bytes",
+  option: ["100", "512", "1024", "2048"],
+  correct: 2
+},
+{
+  question: "Which is not a storage device?",
+  option: ["CD", "Hard Disk", "Keyboard", "Pen Drive"],
+  correct: 2
+},
+{
+  question: "Which shortcut is used to paste copied content?",
+  option: ["Ctrl + V", "Ctrl + P", "Ctrl + X", "Ctrl + A"],
+  correct: 0
+}
+
+    ];
+
+    function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  const btn = document.getElementById("themeToggle");
+  if (document.body.classList.contains("dark-mode")) {
+    btn.textContent = "🌞 Light Mode";
+    btn.classList.remove("btn-outline-secondary");
+    btn.classList.add("btn-warning");
+  } else {
+    btn.textContent = "🌓 Dark Mode";
+    btn.classList.remove("btn-warning");
+    btn.classList.add("btn-outline-secondary");
+  }
+}
+
+    const ans = document.querySelectorAll(".answer");
+    const questionElem = document.querySelector("#questionElem");
+    const option1 = document.querySelector("#option1");
+    const option2 = document.querySelector("#option2");
+    const option3 = document.querySelector("#option3");
+    const option4 = document.querySelector("#option4");
+    const submitBtn = document.querySelector("#button");
+    const progressBar = document.querySelector("#progressBar");
+
+    let currentQuiz = 0;
+    let score = 0;
+    let userAnswers = JSON.parse(localStorage.getItem("userAnswers")) || [];
+    let sectionScores = {};
+    let totalSeconds = 3600;
+
+    // Shuffle questions
+    quizData.sort(() => 0.5 - Math.random());
+
+    function updateProgress() {
+      const percent = ((currentQuiz + 1) / quizData.length) * 100;
+      progressBar.style.width = `${percent}%`;
+    }
+
+    function loadQuiz() {
+      const q = quizData[currentQuiz];
+      questionElem.innerText = `${currentQuiz + 1}/${quizData.length}: ${q.question}`;
+      option1.innerText = q.option[0];
+      option2.innerText = q.option[1];
+      option3.innerText = q.option[2];
+      option4.innerText = q.option[3];
+      document.querySelector("#progressInfo").innerText = `Question ${currentQuiz + 1} of ${quizData.length}`;
+      document.getElementById("prevBtn").disabled = currentQuiz === 0;
+      updateProgress();
+      submitBtn.disabled = true;
+      deselect();
+      if (userAnswers[currentQuiz] !== undefined) {
+        ans[userAnswers[currentQuiz]].checked = true;
+        submitBtn.disabled = false;
+      }
+    }
+
+    function getSelected() {
+      let selectedIndex = -1;
+      ans.forEach((el, idx) => {
+        if (el.checked) selectedIndex = idx;
+      });
+      return selectedIndex;
+    }
+
+    function deselect() {
+      ans.forEach(el => el.checked = false);
+    }
+
+    ans.forEach(el => {
+      el.addEventListener("change", () => {
+        submitBtn.disabled = false;
+      });
+    });
+
+    loadQuiz();
+
+    document.querySelector("#prevBtn").addEventListener("click", () => {
+      if (currentQuiz > 0) {
+        currentQuiz--;
+        loadQuiz();
+      }
+    });
+
+    submitBtn.addEventListener("click", () => {
+      const selected = getSelected();
+      if (selected === -1) return;
+      userAnswers[currentQuiz] = selected;
+      localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+
+      const q = quizData[currentQuiz];
+      if (!sectionScores[q.section]) sectionScores[q.section] = { total: 0, correct: 0 };
+      sectionScores[q.section].total++;
+      if (selected === q.correct) {
+        score++;
+        sectionScores[q.section].correct++;
+      }
+
+      currentQuiz++;
+      if (currentQuiz < quizData.length) {
+        loadQuiz();
+        if (currentQuiz === quizData.length - 1) {
+          submitBtn.innerText = "Finish";
+        }
+      } else {
+        showResult();
+      }
+    });
+
+    function showResult() {
+      clearInterval(timerInterval);
+      localStorage.removeItem("userAnswers");
+      const timeTaken = 3600 - totalSeconds;
+      const minutes = Math.floor(timeTaken / 60);
+      const seconds = timeTaken % 60;
+      let resultHTML = `
+        <div class="result-card text-center"><h4 class="text-center mb-3">🏁 Quiz Finished!</h4>
+        <h5 class="text-center">Your Score: ${score}/${quizData.length}</h5>
+        <h6 class="text-center text-muted">Time Taken: ${minutes}m ${seconds}s</h6>
+        <hr>
+        <div class="text-center mb-4"><div class="mb-3">
+          <strong>Section-wise Breakdown:</strong>
+          <ul style="list-style-position: inside; display: inline-block; text-align: left;">`;
+      for (let section in sectionScores) {
+        const sec = sectionScores[section];
+        const percent = ((sec.correct / sec.total) * 100).toFixed(1);
+        resultHTML += `<li>${section}: ${sec.correct}/${sec.total} (${percent}%)</li>`;
+      }
+      resultHTML += `</ul></ul></div>
+        <div class="mt-4 d-flex justify-content-center gap-3 result-buttons">
+<div class="d-flex justify-content-center flex-wrap gap-3 mt-4">
+<button class="btn btn-success" onclick="showReview()">📋 View Answer Review</button>
+<button class="btn btn-outline-primary mb-2">📄 Print / Save PDF</button>
+</div></div>
+        <div class="text-center mt-4">
+          </div>
+<div class="text-center"><button class="btn btn-secondary" onclick="location.reload()">Restart</button>
+</div>
+        </div>`;
+
+      document.querySelector(".card-body").innerHTML = resultHTML;
+    }
+
+    function showReview() {
+      const container = document.querySelector(".card-body");
+      container.innerHTML = `<h4>📋 Review Answers</h4>`;
+      quizData.forEach((q, i) => {
+        const userAns = userAnswers[i];
+        const isCorrect = userAns === q.correct;
+        const userText = q.option[userAns] || "No Answer";
+        const correctText = q.option[q.correct];
+        const status = isCorrect ? "correct" : "incorrect";
+        const icon = isCorrect ? "✔️" : "❌";
+        container.innerHTML += `
+          <div class="mb-3">
+            <strong>${i + 1}. ${q.question}</strong><br>
+            <span class="${status}">${icon} Your Answer: ${userText}</span><br>
+            ${!isCorrect ? `<span class="correct">✔️ Correct Answer: ${correctText}</span>` : ""}
+          </div>`;
+      });
+      container.innerHTML += `
+        <button class="btn btn-outline-primary me-2" onclick="window.print()">🖨️ Print / Save PDF</button>
+        <button class="btn btn-primary" onclick="location.reload()">Restart</button>
+      </div>`;
+    }
+
+    const timerDisplay = document.getElementById("timer");
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    function updateTimer() {
+      const m = Math.floor(totalSeconds / 60);
+      const s = totalSeconds % 60;
+      timerDisplay.textContent = `Time Remaining: ${m}:${s < 10 ? "0" + s : s}`;
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      } else {
+        clearInterval(timerInterval);
+        alert("Time's up!");
+        showResult();
+      }
+    }
+  </script>
+</body>
+</html>

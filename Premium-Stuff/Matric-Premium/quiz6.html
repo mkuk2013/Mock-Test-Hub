@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IBA STS Matric Mock Test 7</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1542281286-9e0a16bb7366') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      color: #000;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 30px;
+      margin-top: 50px;
+      color: #000;
+    }
+    .option {
+      background: rgba(255,255,255,0.8);
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      padding: 10px;
+      color: #000;
+    }
+    .dark-mode {
+      background: #121212;
+      color: white;
+    }
+    .dark-mode .glass-card {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+    .dark-mode .option {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+    .correct { background-color: #c8e6c9 !important; }
+    .wrong { background-color: #ffcdd2 !important; }
+    .icon-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="glass-card" id="quizContainer">
+    <h2 class="text-center mb-4" id="quizHeading">🔒 Enter Password to Begin Mock Test 7</h2>
+    <div class="input-group mb-4">
+      <input type="password" class="form-control" id="passwordInput" placeholder="Enter password..." />
+      <button class="btn btn-light" id="startBtn">Enter</button>
+    </div>
+    <div id="quizContent" style="display: none;">
+      <h2 class="text-center mb-3">IBA STS Mock Test 7 – Matric Category</h2>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <span><strong>⏱ Time Left: <span id="timerDisplay">60:00</span></strong></span>
+        <button class="btn btn-outline-light btn-sm" onclick="toggleDarkMode()" id="modeToggle">🌗 Dark Mode</button>
+      </div>
+      <div id="questionBox"></div>
+      <ul id="optionList" class="list-group"></ul>
+      <div class="mt-3">
+        <button class="btn btn-light me-2" onclick="prevQuestion()">Previous</button>
+        <button class="btn btn-success" onclick="submitAnswer()">Next</button>
+      </div>
+      <p class="mt-3" id="progressText"></p>
+      <div class="progress mt-3">
+        <div id="timeBar" class="progress-bar bg-info" style="width:100%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="glass-card" id="resultContainer" style="display: none;">
+    <h2 class="text-center">🎉 Test Completed!</h2>
+    <p><strong>Score:</strong> <span id="finalScore"></span>/100</p>
+    <p><strong>Time Taken:</strong> <span id="finalTime"></span></p>
+    <button class="btn btn-info mb-3" onclick="printResult()">🖨 Print Result</button>
+    &nbsp;
+    <button class="btn btn-warning mb-3" onclick="restartQuiz()">🔁 Restart Quiz</button>
+    <hr />
+    <div id="answerReview"></div>
+  </div>
+</div>
+
+<script>
+const correctPasswordHash = "4b911ed9f6ddcaa0185748e7a967da966472fc62d69c27e748018b6d2cef6fea";
+
+
+const quizData = [
+{"question": "What should be title of this passage?", "option": ["girl's kindness", "smartness of Yasir", "Luck", "haste of girl"], "correct": 2},
+{"question": "What was Yasir Ali?", "option": ["A Poor Young Boy", "A rich boy", "talented boy", "over smart boy"], "correct": 0},
+{"question": "Where would Yasir and his father live?", "option": ["In Gill colony", "Hyderabad", "Ghareeb abad", "town"], "correct": 2},
+{"question": "What was Yasir's father?", "option": ["Farmer", "Shopkeeper", "Businessman", "very rich"], "correct": 1},
+{"question": "Why did Yasir use to go to the city daily?", "option": ["To Purchase grocery", "Playing cricket", "for sitting at Hotel", "Searching for a job"], "correct": 3},
+{"question": "Who came in Yasir's village in a beautiful car?", "option": ["A Rich Person", "A Rich girl", "Driver of a train", "A Poor girl"], "correct": 1},
+{"question": "Why did the rich girl stop her car in the village?", "option": ["she was thirsty", "she was fond of going villages", "she was very hungry", "to pass the time"], "correct": 0},
+{"question": "What did the girl say to Yasir Ali?", "option": ["asked for water", "asked for meal", "asked for both", "none"], "correct": 0},
+{"question": "After drinking water, what did the girl ask by YasirAli?", "option": ["about her marriage", "about her age", "about her residence", "about her qualification"], "correct": 3},
+{"question": "What kind of job did the girl provide to Yasir Ali?", "option": ["Manager", "she appointed him as doctor", "Peon", "Shopkeeper"], "correct": 0},
+{"question": "Babar Azam (dropped) the catch.", "option": ["plucked", "sent", "fell", "threw down"], "correct": 3},
+{"question": "Their two (major) parts of human nervous system, Central Nervous system & Peripheral Nervous system.", "option": ["Special", "Main", "Definite", "Particular"], "correct": 1},
+{"question": "An M.P.A of our District (contributed) one thousand books to the library of our District.", "option": ["Donated", "Gave", "Added", "Shared"], "correct": 0},
+{"question": "According to the (latest) x-ray, his bone of left hand is broken.", "option": ["formost", "earlier", "the most recent", "the most modern"], "correct": 2},
+{"question": "Fayaz was (seriously) injured by the big cat.", "option": ["very", "specially", "particularly", "critically"], "correct": 3},
+{"question": "Ant was (sinking) in the polluted water.", "option": ["Floating", "Rising", "Moving", "Appearing"], "correct": 0},
+{"question": "(A few) days later the eagle was on another tree.", "option": ["Countless", "Various", "A little", "Many"], "correct": 0},
+{"question": "The cat was looking down the water (below).", "option": ["On", "Above", "Upon", "Over"], "correct": 1},
+{"question": "Students always (criticizes) the teaching method of Yar Mohammad.", "option": ["praises", "supports", "appreciated", "encouraged"], "correct": 0},
+{"question": "Fahad has (ability) to solve problems.", "option": ["non-ability", "mis-ability", "inability", "unable"], "correct": 2},
+{"question": "Choose the correct spelling:", "option": ["abeyence", "abayance", "abeyance", "abeyense"], "correct": 2},
+{"question": "Choose the correct spelling:", "option": ["advercity", "adversity", "advercety", "adverisity"], "correct": 1},
+{"question": "Choose the correct spelling:", "option": ["Emberrassed", "Embarassed", "Embarrased", "Embarrassed"], "correct": 3},
+{"question": "Choose the correct spelling for: 'diseases'", "option": ["Diseases", "Dizises", "Diseses", "Deseases"], "correct": 0},
+{"question": "Choose the correct spelling:", "option": ["Ocupations", "Occuppations", "Occupations", "Occupetions"], "correct": 2},
+{"question": "Which one of these is a complete sentence?", "option": ["Stop!", "My bag not there", "Why don’t you?", "About fifty pounds!"], "correct": 0},
+{"question": "I ___ go to Karachi & you will not follow me.", "option": ["am", "is", "shall", "none"], "correct": 2},
+{"question": "Which sentence is correct?", "option": ["I had already gone to station.", "I already went to station.", "I will go to station when you will come.", "all are correct"], "correct": 0},
+{"question": "I ____ received your letter yesterday.", "option": ["have", "had", "will", "none"], "correct": 1},
+{"question": "If he had worked hard, he ____", "option": ["would have passed.", "have passed.", "is pass.", "will pass."], "correct": 0},
+{"question": "Find the error: We have many work to do.", "option": ["We", "have", "many", "work"], "correct": 3},
+{"question": "Find the error: He ordered for a glass of water.", "option": ["He", "ordered", "for", "a glass"], "correct": 2},
+{"question": "Find the error: Teacher along with students are going to Karachi.", "option": ["Teacher", "along with students", "are going", "to Karachi"], "correct": 2},
+{"question": "Find the error: The poet and philosopher are died.", "option": ["The poet", "and philosopher", "are", "died"], "correct": 2},
+{"question": "Find the error: Nobody is doing something to help them.", "option": ["Nobody", "is", "doing", "something"], "correct": 3},
+{"question": "He is a man ____ word.", "option": ["to", "for", "with", "of"], "correct": 3},
+{"question": "I agree ___ you in this matter.", "option": ["of", "for", "by", "with"], "correct": 3},
+{"question": "Malaria has become a big problem____ our area.", "option": ["within", "for", "in", "at"], "correct": 2},
+{"question": "He is famous ___ singing.", "option": ["for", "from", "by", "in"], "correct": 0},
+{"question": "The shops are open _____ 9:00 O' Clock.", "option": ["at", "in", "for", "on"], "correct": 0},
+{"question": "A triangle has _______ diagonals.", "option": ["0", "3", "6", "None"], "correct": 0},
+{"question": "What is 25% of 200?", "option": ["25", "50", "75", "100"], "correct": 1},
+{"question": "Calculate the average of 1,2,3,4,5.", "option": ["1", "2", "3", "4"], "correct": 2},
+{"question": "Find two numbers whose sum is 28 and the difference is 4.", "option": ["14,12", "15,13", "18,10", "12,16"], "correct": 0},
+{"question": "The cost of an article was Rs.75. First increased by 20%, then reduced by 20%. Final cost?", "option": ["Rs. 76", "Rs. 72", "Rs. 60", "Rs. 75"], "correct": 1},
+{"question": "Each side of a rectangular field is reduced by 40%. Area reduced by?", "option": ["16%", "25%", "64%", "32%"], "correct": 2},
+{"question": "What is the LCM of 6 and 8?", "option": ["24", "12", "16", "18"], "correct": 0},
+{"question": "Convert 0.75 into a fraction.", "option": ["1/2", "3/4", "2/3", "4/5"], "correct": 1},
+{"question": "Find square root of 144.", "option": ["12", "14", "16", "10"], "correct": 0},
+{"question": "What is the perimeter of a square with side 5 cm?", "option": ["10 cm", "25 cm", "20 cm", "15 cm"], "correct": 2},
+{"question": "Simplify: 3(2x + 4) = ?", "option": ["6x + 12", "2x + 7", "5x + 4", "3x + 6"], "correct": 0},
+{"question": "Simplify: 2² + 3²", "option": ["12", "13", "10", "9"], "correct": 1},
+{"question": "Value of (3 + 2)² is:", "option": ["25", "20", "15", "10"], "correct": 0},
+{"question": "What is 30% of 200?", "option": ["60", "50", "70", "80"], "correct": 0},
+{"question": "What is 10% of 800?", "option": ["80", "60", "40", "120"], "correct": 0},
+{"question": "Half of 1 percent written as decimal is:", "option": ["0.05", "5", "0.5", "0.005"], "correct": 3},
+{"question": "The ratio 5:20 expressed as percent is:", "option": ["25%", "50%", "75%", "125%"], "correct": 1},
+{"question": "What is the fraction of 20%?", "option": ["1/4", "1/5", "2/50", "4/80"], "correct": 1},
+{"question": "Solve: 8x - 3 = 21. What is x?", "option": ["x = 2", "x = 3", "x = 4", "x = 5"], "correct": 3},
+{"question": "Solve: (25 ÷ 5) + (18 - 9)", "option": ["10", "12", "9", "8"], "correct": 0},
+{"question": "Which planet is known as the Red Planet?", "option": ["Mars", "Jupiter", "Venus", "Mercury"], "correct": 0},
+{"question": "What is the boiling point of water at sea level?", "option": ["100°C", "90°C", "80°C", "120°C"], "correct": 0},
+{"question": "Which organ purifies our blood?", "option": ["Heart", "Lungs", "Kidneys", "Liver"], "correct": 2},
+{"question": "Which gas is essential for us to breathe?", "option": ["Carbon Dioxide", "Nitrogen", "Oxygen", "Helium"], "correct": 2},
+{"question": "Which part of the plant conducts photosynthesis?", "option": ["Root", "Stem", "Leaf", "Flower"], "correct": 2},
+{"question": "Which vitamin is obtained from sunlight?", "option": ["Vitamin A", "Vitamin C", "Vitamin D", "Vitamin B"], "correct": 2},
+{"question": "The hardest substance found in nature is?", "option": ["Gold", "Iron", "Diamond", "Platinum"], "correct": 2},
+{"question": "Which instrument is used to measure temperature?", "option": ["Barometer", "Thermometer", "Hygrometer", "Ammeter"], "correct": 1},
+{"question": "How many bones are there in human body?", "option": ["206", "205", "201", "210"], "correct": 0},
+{"question": "Which planet is closest to the Sun?", "option": ["Earth", "Venus", "Mars", "Mercury"], "correct": 3},
+{"question": "Who is the current Secretary General of the UN (2025)?", "option": ["Antonio Guterres", "Ban Ki-moon", "Kofi Annan", "None"], "correct": 0},
+{"question": "Which country recently landed a spacecraft on the moon?", "option": ["India", "USA", "China", "Russia"], "correct": 0},
+{"question": "Who is the current Prime Minister of Pakistan (2025)?", "option": ["Imran Khan", "Shehbaz Sharif", "Anwaar Kakar", "Maryam Nawaz"], "correct": 1},
+{"question": "Which city hosted the Expo 2020 (held in 2021)?", "option": ["Dubai", "Doha", "Riyadh", "Paris"], "correct": 0},
+{"question": "Which country won FIFA World Cup 2022?", "option": ["France", "Argentina", "Brazil", "Germany"], "correct": 1},
+{"question": "What does CPU stand for?", "option": ["Central Processing Unit", "Control Panel Unit", "Central Programming Unit", "Computer Processing Unit"], "correct": 0},
+{"question": "Which device is used for printing documents?", "option": ["Monitor", "Keyboard", "Printer", "Scanner"], "correct": 2},
+{"question": "Which of the following is an input device?", "option": ["Monitor", "Printer", "Mouse", "Speaker"], "correct": 2},
+{"question": "Which key is used to delete left character?", "option": ["Delete", "Shift", "Ctrl", "Backspace"], "correct": 3},
+{"question": "Which software is used to create documents?", "option": ["MS Paint", "MS Word", "MS Excel", "MS PowerPoint"], "correct": 1},
+{"question": "What is the full form of USB?", "option": ["United Serial Bus", "Universal Serial Bus", "Uniform Serial Base", "United Signal Base"], "correct": 1},
+{"question": "Which of these is not a search engine?", "option": ["Google", "Bing", "Yahoo", "Windows"], "correct": 3},
+{"question": "What type of file is .jpg?", "option": ["Document", "Image", "Audio", "Video"], "correct": 1},
+{"question": "The brain of the computer is:", "option": ["Keyboard", "Monitor", "CPU", "Mouse"], "correct": 2},
+{"question": "Which part of computer stores data permanently?", "option": ["RAM", "ROM", "CPU", "Hard Disk"], "correct": 3},
+{"question": "Who was the first Caliph of Islam?", "option": ["Umar (R.A)", "Usman (R.A)", "Ali (R.A)", "Abu Bakr (R.A)"], "correct": 3},
+{"question": "When did Pakistan become a nuclear power?", "option": ["1997", "1998", "1995", "1999"], "correct": 1},
+{"question": "Who presented the Pakistan Resolution?", "option": ["Liaquat Ali Khan", "Allama Iqbal", "Quaid-e-Azam", "A.K. Fazlul Haq"], "correct": 3},
+{"question": "How many Surahs are there in the Holy Quran?", "option": ["113", "114", "112", "115"], "correct": 1},
+{"question": "When did Pakistan get independence?", "option": ["14 August 1947", "15 August 1947", "26 January 1947", "23 March 1947"], "correct": 0},
+{"question": "If 2 + 3 = 10, 8 + 4 = 96, then 7 + 2 = ?", "option": ["72", "63", "45", "81"], "correct": 1},
+{"question": "Find the odd one out: Apple, Mango, Banana, Carrot", "option": ["Apple", "Mango", "Banana", "Carrot"], "correct": 3},
+{"question": "Which number comes next: 2, 4, 8, 16, ?", "option": ["24", "30", "32", "36"], "correct": 2},
+{"question": "Which word is different from others?", "option": ["Dog", "Cat", "Cow", "Eagle"], "correct": 3},
+{"question": "Ali is taller than Bilal. Bilal is taller than Asad. Who is tallest?", "option": ["Ali", "Bilal", "Asad", "Can't Say"], "correct": 0},
+{"question": "Which letter comes next: A, C, E, G, ?", "option": ["H", "I", "J", "K"], "correct": 3},
+{"question": "Which shape has 4 equal sides and 4 right angles?", "option": ["Triangle", "Rectangle", "Square", "Circle"], "correct": 2},
+{"question": "Which direction is opposite to North?", "option": ["South", "East", "West", "North-West"], "correct": 0},
+{"question": "Which one is a mammal?", "option": ["Frog", "Whale", "Shark", "Octopus"], "correct": 1},
+{"question": "Identify the verb: 'She runs fast.'", "option": ["She", "fast", "runs", "none"], "correct": 2},
+{"question": "What currency is used in Japan?", "option": ["Won", "Dollar", "Yuan", "Yen"], "correct": 3},
+{"question": "Which is the smallest continent?", "option": ["Europe", "Australia", "Africa", "Antarctica"], "correct": 1},
+{"question": "The sun rises in the ______.", "option": ["West", "North", "South", "East"], "correct": 3},
+{"question": "What does 'www' stand for?", "option": ["World Web Web", "World Wide Web", "Web World Web", "Wide Web World"], "correct": 1},
+{"question": "Which of these is a programming language?", "option": ["HTML", "HTTP", "USB", "Excel"], "correct": 0},
+{"question": "If A = 1, B = 2, then Z = ?", "option": ["26", "25", "24", "23"], "correct": 0},
+{"question": "Which one is not an animal?", "option": ["Cow", "Tiger", "Potato", "Lion"], "correct": 2},
+{"question": "Name of Pakistan's highest mountain?", "option": ["K-1", "K-2", "Everest", "Nanga Parbat"], "correct": 1},
+{"question": "How many colors are in a rainbow?", "option": ["5", "6", "7", "8"], "correct": 2},
+{"question": "Which gas do plants absorb?", "option": ["Oxygen", "Carbon Dioxide", "Hydrogen", "Nitrogen"], "correct": 1}
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let userAnswers = [];
+let startTime = Date.now();
+let timeLeft = 3600;
+
+async function sha256(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function verifyPassword() {
+  const input = document.getElementById("passwordInput").value;
+  const hash = await sha256(input);
+  if (hash === correctPasswordHash) {
+    document.getElementById("quizContent").style.display = "block";
+    document.querySelector(".input-group").style.display = "none";
+    document.getElementById("quizHeading").style.display = "none";
+    showQuestion();
+    startTimer();
+  } else {
+    alert("Incorrect password!");
+  }
+}
+
+document.getElementById("startBtn").addEventListener("click", verifyPassword);
+
+function showQuestion() {
+  const q = quizData[currentQuestion];
+  document.getElementById("questionBox").innerHTML = `<h5>Q${currentQuestion + 1}: ${q.question}</h5>`;
+  const list = document.getElementById("optionList");
+  list.innerHTML = "";
+  q.option.forEach((opt, idx) => {
+    const li = document.createElement("li");
+    li.className = "list-group-item option";
+    li.innerHTML = `<input type='radio' name='option' value='${idx}'> ${opt}`;
+    list.appendChild(li);
+  });
+  document.getElementById("progressText").innerText = `Question ${currentQuestion + 1} of ${quizData.length}`;
+}
+
+function submitAnswer() {
+  const selected = document.querySelector('input[name="option"]:checked');
+  if (!selected) return alert("Please select an option.");
+  const selectedIndex = parseInt(selected.value);
+  userAnswers.push(selectedIndex);
+  if (selectedIndex === quizData[currentQuestion].correct) score++;
+  currentQuestion++;
+  if (currentQuestion < quizData.length) showQuestion();
+  else finishTest();
+}
+
+function prevQuestion() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    showQuestion();
+  }
+}
+
+function finishTest() {
+  document.getElementById("quizContainer").style.display = "none";
+  document.getElementById("resultContainer").style.display = "block";
+  const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+  document.getElementById("finalScore").innerText = score;
+  document.getElementById("finalTime").innerText = `${Math.floor(timeTaken/60)}m ${timeTaken%60}s`;
+
+  const review = document.getElementById("answerReview");
+  review.innerHTML = '<h4>📝 Answer Review:</h4>';
+  quizData.forEach((q, i) => {
+    const userAns = userAnswers[i];
+    const correctAns = q.correct;
+    let optionsHTML = q.option.map((opt, idx) => {
+      let className = '';
+      let label = '';
+      if (idx === correctAns) {
+        className = 'correct';
+        label = '✅ Correct Answer';
+      }
+      if (idx === userAns && userAns !== correctAns) {
+        className = 'wrong';
+        label = '❌ Your Answer is incorrect';
+      }
+      return `<li class="list-group-item ${className}">${opt} ${label ? `<span class='ms-2 fw-bold'>${label}</span>` : ''}</li>`;
+    }).join('');
+    review.innerHTML += `<div class='mb-4'><h6>Q${i+1}: ${q.question}</h6><ul class='list-group'>${optionsHTML}</ul></div>`;
+  });
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  const modeBtn = document.getElementById("modeToggle");
+  modeBtn.innerHTML = document.body.classList.contains("dark-mode") ? "☀️ Light Mode" : "🌗 Dark Mode";
+}
+
+function startTimer() {
+  const display = document.getElementById("timerDisplay");
+  const bar = document.getElementById("timeBar");
+  const interval = setInterval(() => {
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      finishTest();
+    } else {
+      timeLeft--;
+      const min = Math.floor(timeLeft / 60);
+      const sec = timeLeft % 60;
+      display.textContent = `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')}`;
+      bar.style.width = (timeLeft / 3600) * 100 + "%";
+    }
+  }, 1000);
+}
+
+function printResult() {
+  window.print();
+}
+
+function restartQuiz() {
+  location.reload();
+}
+</script>
+</body>
+</html>
+
