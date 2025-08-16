@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBA STS Junior Science Teacher Mock Test 3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            /* Global Colors (Light Mode Defaults) */
+            --background-color: #f0f2f5;
+            --text-color: #333;
+            --card-background: rgba(255, 255, 255, 0.9);
+            --input-background: rgba(240, 240, 240, 0.8);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+
+            /* Action & State Colors (Light Mode) */
+            --primary-color: #4A90E2; /* For current, buttons */
+            --primary-color-rgb: 74, 144, 226;
+            --success-color: #7ED321; /* For answered, correct */
+            --secondary-color: #50E3C2; /* For marked for review */
+            --danger-color: #D0021B; /* For incorrect */
+            --warning-color: #F8E71C; /* For warnings, restart */
+            --text-on-warning: #333;
+
+            /* Specific Palette/Legend Colors (Light Mode) */
+            --unattempted-color: #E0E6EB; /* Clearly distinct light grey */
+            --answered-reviewed-color: #9C27B0; /* Distinct purple */
+
+            /* Progress Bar */
+            --progress-bar-bg: #e0e0e0;
+            --progress-bar-fill: var(--primary-color);
+        }
+
+        .dark-mode {
+            /* Global Colors (Dark Mode) */
+            --background-color: #2C3E50; /* Deep blue-grey */
+            --text-color: #ECF0F1; /* Light grey text */
+            --card-background: rgba(30, 40, 50, 0.9); /* Slightly transparent, darker card */
+            --input-background: rgba(50, 60, 70, 0.8); /* Darker input fields */
+            --border-color: rgba(255, 255, 255, 0.1); /* Subtle white border */
+            --shadow-color: rgba(0, 0, 0, 0.4);
+
+            /* Action & State Colors (Dark Mode) */
+            --primary-color: #4FC3F7; /* Brighter blue for current, buttons */
+            --primary-color-rgb: 79, 195, 247;
+            --success-color: #69F0AE; /* Brighter green for answered, correct */
+            --secondary-color: #00BCD4; /* Vibrant cyan for marked for review */
+            --danger-color: #FF5252; /* Bright red for incorrect */
+            --warning-color: #FFC107; /* Amber for warnings, restart */
+            --text-on-warning: #333;
+
+            /* Specific Palette/Legend Colors (Dark Mode) */
+            --unattempted-color: #B0BEC5; /* Light blue-grey, very visible */
+            --answered-reviewed-color: #E040FB; /* Striking purple */
+
+            /* Progress Bar */
+            --progress-bar-bg: #4A6572;
+            --progress-bar-fill: var(--primary-color);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            transition: background 0.3s ease, color 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .container {
+            background: var(--card-background);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .password-prompt {
+            background: var(--card-background);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .password-prompt input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--input-background);
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .password-prompt input[type="password"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.2);
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+            margin: 5px;
+            font-weight: 600;
+        }
+
+        .btn:hover:not(:disabled) {
+            background-color: color-mix(in srgb, var(--primary-color) 85%, black); /* Slightly darker */
+            transform: translateY(-2px);
+        }
+        .btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background-color: color-mix(in srgb, var(--primary-color) 60%, black);
+        }
+
+        .error-message {
+            color: var(--danger-color);
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .quiz-section {
+            display: none;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: center; /* Center its content */
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .timer {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--danger-color); /* Make timer red */
+            padding: 5px 15px;
+            background: var(--input-background);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            margin: 0 auto; /* Center horizontally */
+        }
+        .timer i {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: var(--progress-bar-bg);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background-color: var(--progress-bar-fill);
+            border-radius: 5px;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .question-container {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        /* NEW STYLE FOR PASSAGE CONTAINER */
+        .passage-container {
+            display: none; /* Hidden by default */
+            background: var(--input-background);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+        .passage-container p {
+            margin-bottom: 5px;
+        }
+        .passage-container strong {
+            color: var(--primary-color);
+        }
+
+
+        .question-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .question-number {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .options label {
+            display: block;
+            background: var(--input-background);
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid transparent;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .options label:hover {
+            background: rgba(var(--primary-color-rgb), 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(var(--primary-color-rgb), 0.1);
+        }
+
+        .options input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+            accent-color: var(--primary-color);
+        }
+
+        .mark-for-review {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: var(--text-color);
+        }
+        .mark-for-review input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.1);
+            accent-color: var(--secondary-color);
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .quiz-navigation button {
+            flex: 1;
+            margin: 5px;
+            min-width: 120px;
+        }
+
+        .submit-quiz-final-btn {
+            background-color: var(--success-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+            margin: 5px;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+            display: none; /* Hidden by default */
+        }
+
+        .submit-quiz-final-btn:hover {
+            background-color: color-mix(in srgb, var(--success-color) 85%, black);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        .submit-quiz-final-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+        }
+        .submit-quiz-final-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background-color: color-mix(in srgb, var(--success-color) 60%, black);
+            box-shadow: none;
+        }
+
+
+        .results-section {
+            display: none;
+            text-align: left;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .results-section h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .score-summary {
+            margin-bottom: 30px; /* Add some space below summary */
+        }
+        .score-summary p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .score-summary strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .answer-review-panel {
+            margin-top: 30px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .answer-review-panel h3 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .review-item {
+            background: var(--input-background);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .review-item p {
+            margin-bottom: 8px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .review-item strong {
+            font-weight: 600;
+        }
+
+        .review-item .correct-answer {
+            color: var(--success-color);
+        }
+
+        .review-item .your-answer {
+            color: var(--danger-color);
+        }
+
+        .review-item .your-answer.correct {
+            color: var(--success-color);
+        }
+        /* Style for Not Attempted in review */
+        .review-item .your-answer.not-attempted {
+            color: var(--text-color); /* Default text color for clarity */
+            font-style: italic;
+        }
+
+
+        /* Positioned after score summary, before review panel */
+        .results-actions { /* Renamed for clarity, combines top and bottom needs */
+            display: flex;
+            justify-content: center;
+            margin-top: 20px; /* Space above buttons */
+            margin-bottom: 30px; /* Space below buttons before review starts */
+            flex-wrap: wrap;
+            padding-bottom: 15px; /* Add padding at the bottom of the action block */
+            border-bottom: 1px dashed var(--border-color); /* Add a separator */
+        }
+        .results-actions .btn {
+            margin: 5px;
+        }
+
+
+        .print-save-btn {
+            background-color: var(--secondary-color);
+        }
+
+        .print-save-btn:hover:not(:disabled) {
+            background-color: color-mix(in srgb, var(--secondary-color) 85%, black);
+        }
+
+        .restart-btn {
+            background-color: var(--warning-color);
+            color: var(--text-on-warning);
+        }
+
+        .restart-btn:hover:not(:disabled) {
+            background-color: color-mix(in srgb, var(--warning-color) 85%, black);
+        }
+
+        .mode-toggle {
+            background: var(--input-background);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px var(--shadow-color);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            z-index: 50;
+            flex-shrink: 0;
+        }
+
+        .mode-toggle .icon {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        /* Question Palette */
+        .question-palette-panel {
+            width: 100%;
+            padding: 15px 0;
+            background: var(--card-background);
+            border-top: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 -4px 15px var(--shadow-color);
+            margin-top: 30px;
+            border-radius: 0 0 20px 20px;
+        }
+        .question-palette-panel h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 700;
+            text-align: center;
+        }
+        .question-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 0 10px;
+            gap: 8px;
+            justify-content: flex-start;
+            padding-bottom: 10px;
+        }
+        .question-grid-item {
+            flex-shrink: 0;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--unattempted-color); /* Default unattempted color */
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+            color: var(--text-color); /* Default text color for unattempted */
+        }
+        .dark-mode .question-grid-item {
+            color: var(--text-color); /* Ensure text is visible on dark unattempted */
+        }
+
+        .question-grid-item:hover {
+            background-color: rgba(var(--primary-color-rgb), 0.15);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        /* Specific states for palette items */
+        .question-grid-item.current {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(var(--primary-color-rgb), 0.3);
+        }
+        .question-grid-item.answered {
+            background-color: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+        .question-grid-item.reviewed {
+            background-color: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+        .question-grid-item.answered.reviewed {
+            background-color: var(--answered-reviewed-color);
+            color: white;
+            border-color: var(--answered-reviewed-color);
+        }
+
+        /* Custom Scrollbar for horizontal palette */
+        .question-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+        .question-grid::-webkit-scrollbar-track {
+            background: var(--progress-bar-bg);
+            border-radius: 10px;
+        }
+        .question-grid::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+        .question-grid::-webkit-scrollbar-thumb:hover {
+            background: color-mix(in srgb, var(--primary-color) 80%, black);
+        }
+
+
+        .palette-legend {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 0 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            margin-right: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .dark-mode .legend-color {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .password-prompt {
+                padding: 30px;
+            }
+
+            .password-prompt input[type="password"] {
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .quiz-header {
+                flex-direction: column;
+                align-items: center;
+                padding-bottom: 15px;
+                margin-bottom: 20px;
+            }
+
+            .timer {
+                margin-top: 10px;
+                font-size: 1.3rem;
+            }
+
+            .question-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .question-number {
+                margin-bottom: 10px;
+            }
+
+            .mode-toggle {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+                position: static;
+                transform: none;
+                align-self: flex-end;
+                margin-top: 10px;
+            }
+
+
+            .question-text {
+                font-size: 1rem;
+            }
+
+            .options label {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .quiz-navigation {
+                flex-direction: column;
+            }
+
+            .quiz-navigation button {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            .question-palette-panel {
+                padding: 10px 0;
+            }
+            .question-grid {
+                padding: 0 5px;
+                gap: 5px;
+            }
+            .question-grid-item {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+            .palette-legend {
+                gap: 10px;
+                padding: 0 5px;
+            }
+            .legend-item {
+                font-size: 0.85rem;
+            }
+            .legend-color {
+                width: 18px;
+                height: 18px;
+            }
+            .results-actions {
+                flex-direction: column; /* Stack buttons vertically on small screens */
+            }
+            .results-actions .btn {
+                width: 100%; /* Full width for buttons */
+            }
+        }
+        /* For Print Media */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                display: block;
+                padding: 0;
+                margin: 0;
+            }
+            .container, .password-overlay, .quiz-section, .question-palette-panel,
+            .mode-toggle, .quiz-navigation, .progress-bar-container,
+            .mark-for-review {
+                display: none !important;
+            }
+            .results-section {
+                display: block !important;
+                position: static !important;
+                width: auto !important;
+                max-width: none !important;
+                padding: 20mm !important;
+                box-shadow: none !important;
+                backdrop-filter: none !important;
+                border: none !important;
+                background: white !important;
+                color: black !important;
+            }
+            .results-section h2, .score-summary p, .answer-review-panel h3, .review-item p {
+                color: black !important;
+            }
+            .review-item .correct-answer {
+                color: #28a745 !important;
+            }
+            .review-item .your-answer {
+                color: #dc3545 !important;
+            }
+            .review-item .your-answer.correct {
+                color: #28a745 !important;
+            }
+            /* Print style for Not Attempted */
+            .review-item .your-answer.not-attempted {
+                color: #555 !important; /* A darker grey for clarity in print */
+                font-style: italic !important;
+            }
+
+            .review-item {
+                background: #f8f8f8 !important;
+                border: 1px solid #eee !important;
+                box-shadow: none !important;
+            }
+            /* Ensure results-actions are visible for print, but styled appropriately */
+            .results-actions {
+                display: flex !important; /* Make sure they display */
+                justify-content: center !important;
+                margin-top: 15px !important; /* Adjust margin for print */
+                margin-bottom: 20px !important; /* Adjust margin for print */
+                padding-bottom: 10px !important;
+                border-bottom: 1px dashed #ccc !important; /* Visual separator */
+            }
+            .results-actions .btn {
+                background-color: #f0f0f0 !important; /* Lighter background for print */
+                color: #333 !important; /* Darker text */
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+                transform: none !important;
+                opacity: 1 !important;
+                cursor: default !important;
+            }
+        }
+        .quiz-footer {
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            background: var(--card-background); /* Match container background */
+            border-radius: 0 0 20px 20px; /* Match bottom border radius of container */
+        }
+
+        .quiz-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .quiz-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="password-overlay" id="passwordOverlay">
+        <div class="password-prompt">
+            <h2>Enter Password to Start Mock Test</h2>
+            <input type="password" id="passwordInput" placeholder="Enter password">
+            <button class="btn" id="passwordSubmitBtn">Submit</button>
+            <p class="error-message" id="passwordError"></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>IBA STS Junior Science Teacher Mock Test 3</h1>
+
+        <div class="quiz-section" id="quizSection">
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+            <div class="quiz-header">
+                <div class="timer"><i class="far fa-clock"></i> Time Left: <span id="timeLeft">50:00</span></div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-meta">
+                    <p class="question-number">Question <span id="currentQuestionNumber">1</span> of <span id="totalQuestions"></span></p>
+                    <div class="mode-toggle" id="modeToggle">
+                        <span class="icon">☀️</span>
+                    </div>
+                </div>
+                <div id="passageContainer" class="passage-container"></div>
+                <h2 class="question-text" id="questionText"></h2>
+                <div class="options" id="optionsContainer">
+                    </div>
+                <div class="mark-for-review">
+                    <input type="checkbox" id="markForReviewCheckbox">
+                    <label for="markForReviewCheckbox">Mark for Review</label>
+                </div>
+            </div>
+
+            <div class="quiz-navigation">
+                <button class="btn" id="prevBtn">Previous</button>
+                <button class="btn" id="nextBtn">Next</button>
+                <button class="submit-quiz-final-btn" id="submitQuizFinalBtn">Submit Quiz</button>
+            </div>
+
+            <div class="question-palette-panel" id="questionPalettePanel">
+                <h3><i class="fas fa-palette"></i> Question Palette</h3>
+                <div class="question-grid" id="questionGrid">
+                    </div>
+                <div class="palette-legend">
+                    <div class="legend-item"><span class="legend-color" data-color-type="current"></span> Current</div>
+                    <div class="legend-item"><span class="legend-color" data-color-type="answered"></span> Answered</div>
+                    <div class="legend-item"><span class="legend-color" data-color-type="marked"></span> Marked for Review</div>
+                    <div class="legend-item"><span class="legend-color" data-color-type="unattempted"></span> Unattempted</div>
+                    <div class="legend-item"><span class="legend-color" data-color-type="answered-reviewed"></span> Answered & Reviewed</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <h2>Mock Test Results</h2>
+            <div class="score-summary">
+                <p>Total Questions: <strong id="resTotalQuestions"></strong></p>
+                <p>Attempted: <strong id="resAttempted"></strong></p>
+                <p>Correct Answers: <strong id="resCorrectAnswers"></strong></p>
+                <p>Incorrect Answers: <strong id="resIncorrectAnswers"></strong></p>
+                <p>Your Score: <strong id="resScore"></strong>%</p>
+            </div>
+
+            <div class="results-actions" id="resultsActions">
+                <button class="btn print-save-btn" id="printSaveBtn">Print / Save as PDF</button>
+                <button class="btn restart-btn" id="restartQuizBtn">Restart Quiz</button>
+            </div>
+
+            <div class="answer-review-panel">
+                <h3>Answer Review</h3>
+                <div id="reviewItemsContainer">
+                    </div>
+            </div>
+        </div>
+        <footer class="quiz-footer">
+            <p>JST Mock Test Series Created By <a href="https://facebook.com/innoxent.mukesh">Mukesh Kumar</a></p>
+        </footer>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        // Simple obfuscation: XOR cipher with a key
+        const passwordKey = 123; // A simple numeric key for XOR
+
+        function obfuscate(str) {
+            return str.split('').map(char => String.fromCharCode(char.charCodeAt(0) ^ passwordKey)).join('');
+        }
+
+        const actualEncryptedPassword = obfuscate('ibajst2025');
+
+        // Note: For real security, this is NOT sufficient. This only prevents casual inspection.
+        // A determined user can still find the de-obfuscation logic in client-side JS.
+        // Server-side authentication is required for true security.
+
+ const questions = [
+  {
+    question: "1. What challenges Pakistan’s agriculture sector?",
+    options: ["Water scarcity and outdated farming techniques", "Excessive rainfall and pests", "High funding and overpopulation", "Modern equipment and surplus water"],
+    answer: "Water scarcity and outdated farming techniques",
+    section: "English - Comprehension",
+    passage: "Pakistan’s agriculture sector faces challenges like water scarcity and outdated farming techniques, reducing crop yields. Climate change and soil degradation exacerbate losses. The government’s Agriculture Modernization Plan promotes drip irrigation and hybrid seeds, but funding shortages limit progress. Farmer training and technology adoption are crucial for growth."
+  },
+  {
+    question: "2. What exacerbates agricultural losses?",
+    options: ["Improved irrigation and fertilizers", "Climate change and soil degradation", "Advanced machinery and training", "Government subsidies and policies"],
+    answer: "Climate change and soil degradation",
+    section: "English - Comprehension",
+    passage: "Pakistan’s agriculture sector faces challenges like water scarcity and outdated farming techniques, reducing crop yields. Climate change and soil degradation exacerbate losses. The government’s Agriculture Modernization Plan promotes drip irrigation and hybrid seeds, but funding shortages limit progress. Farmer training and technology adoption are crucial for growth."
+  },
+  {
+    question: "3. What does the Agriculture Modernization Plan promote?",
+    options: ["Traditional farming and manual tools", "Chemical fertilizers and pesticides", "Drip irrigation and hybrid seeds", "Deforestation and urban farming"],
+    answer: "Drip irrigation and hybrid seeds",
+    section: "English - Comprehension",
+    passage: "Pakistan’s agriculture sector faces challenges like water scarcity and outdated farming techniques, reducing crop yields. Climate change and soil degradation exacerbate losses. The government’s Agriculture Modernization Plan promotes drip irrigation and hybrid seeds, but funding shortages limit progress. Farmer training and technology adoption are crucial for growth."
+  },
+  {
+    question: "4. Choose the synonym for 'crucial':",
+    options: ["Minor", "Optional", "Temporary", "Essential"],
+    answer: "Essential",
+    section: "English - Synonyms"
+  },
+  {
+    question: "5. Choose the synonym for 'limit':",
+    options: ["Expand", "Restrict", "Encourage", "Increase"],
+    answer: "Restrict",
+    section: "English - Synonyms"
+  },
+  {
+    question: "6. Antonym of 'outdated':",
+    options: ["Old", "Modern", "Ancient", "Obsolete"],
+    answer: "Modern",
+    section: "English - Antonyms"
+  },
+  {
+    question: "7. Antonym of 'shortages':",
+    options: ["Deficits", "Losses", "Surpluses", "Scarcity"],
+    answer: "Surpluses",
+    section: "English - Antonyms"
+  },
+  {
+    question: "8. Error in: 'The farmer, along with his workers, were planting crops.'",
+    options: ["The farmer", "were planting", "along with", "his workers"],
+    answer: "were planting",
+    section: "English - Error Detection & Sentence Structure"
+  },
+  {
+    question: "9. Sentence with subject-verb agreement error:",
+    options: ["Each of the farmers were using hybrid seeds.", "The team of workers is efficient.", "The crops grow well in fertile soil.", "He plants the seeds carefully."],
+    answer: "Each of the farmers were using hybrid seeds.",
+    section: "English - Error Detection & Sentence Structure"
+  },
+  {
+    question: "10. Correctly structured sentence:",
+    options: ["He improve yield, farming diligently.", "Farming diligent, he improved the yield.", "After farming diligently, he improved the yield.", "He improved yield farming diligent."],
+    answer: "After farming diligently, he improved the yield.",
+    section: "English - Error Detection & Sentence Structure"
+  },
+  {
+    question: "11. Error in: 'One of the fields in the region are barren.'",
+    options: ["One of", "the fields", "in the region", "are barren"],
+    answer: "are barren",
+    section: "English - Error Detection & Sentence Structure"
+  },
+  {
+    question: "12. Correct preposition: 'He is skilled _____ modern farming.'",
+    options: ["at", "in", "on", "with"],
+    answer: "at",
+    section: "English - Prepositions"
+  },
+  {
+    question: "13. Fill in: 'The project is scheduled _____ November.'",
+    options: ["for", "in", "on", "at"],
+    answer: "for",
+    section: "English - Prepositions"
+  },
+  {
+    question: "14. 'To sow the seeds' means:",
+    options: ["To waste resources", "To end a project", "To start something productive", "To destroy crops"],
+    answer: "To start something productive",
+    section: "English - Idioms"
+  },
+  {
+    question: "15. 'To reap the rewards' means:",
+    options: ["To face losses", "To work harder", "To plant crops", "To gain benefits"],
+    answer: "To gain benefits",
+    section: "English - Idioms"
+  },
+  {
+    question: "16. Formula for calcium carbonate:",
+    options: ["CaCO₃", "CaSO₄", "CaCl₂", "CaO"],
+    answer: "CaCO₃",
+    section: "General Science - Chemistry"
+  },
+  {
+    question: "17. Atomic number of Carbon:",
+    options: ["8", "6", "12", "14"],
+    answer: "6",
+    section: "General Science - Chemistry"
+  },
+  {
+    question: "18. Substance that increases reaction rate:",
+    options: ["Inhibitor", "Reactant", "Catalyst", "Product"],
+    answer: "Catalyst",
+    section: "General Science - Chemistry"
+  },
+  {
+    question: "19. Reaction absorbing heat:",
+    options: ["Endothermic", "Exothermic", "Neutral", "Combustion"],
+    answer: "Endothermic",
+    section: "General Science - Chemistry"
+  },
+  {
+    question: "20. Mixture with uniform composition:",
+    options: ["Heterogeneous", "Suspension", "Homogeneous", "Colloid"],
+    answer: "Homogeneous",
+    section: "General Science - Chemistry"
+  },
+  {
+    question: "21. Organic compound with formula C₇H₁₆:",
+    options: ["Hexane", "Heptane", "Methane", "Ethane"],
+    answer: "Heptane",
+    section: "General Science - Chemistry"
+  },
+  {
+    question: "22. General formula for ketones:",
+    options: ["CₙH₂ₙO₂", "CₙH₂ₙO", "CₙH₂ₙ₊₂", "CₙH₂ₙ₊₁OH"],
+    answer: "CₙH₂ₙO",
+    section: "General Science - Chemistry"
+  },
+  {
+    question: "23. Organ that stores bile:",
+    options: ["Liver", "Pancreas", "Gallbladder", "Stomach"],
+    answer: "Gallbladder",
+    section: "General Science - Biology"
+  },
+  {
+    question: "24. Nutrient essential for red blood cell production:",
+    options: ["Iron", "Calcium", "Potassium", "Magnesium"],
+    answer: "Iron",
+    section: "General Science - Biology"
+  },
+  {
+    question: "25. Reptile structure for camouflage:",
+    options: ["Feathers", "Fur", "Scales", "Wings"],
+    answer: "Scales",
+    section: "General Science - Biology"
+  },
+  {
+    question: "26. Term for animals that migrate seasonally:",
+    options: ["Hibernating", "Nocturnal", "Migratory", "Sedentary"],
+    answer: "Migratory",
+    section: "General Science - Biology"
+  },
+  {
+    question: "27. Part of a plant that produces pollen:",
+    options: ["Stigma", "Ovary", "Anther", "Petal"],
+    answer: "Anther",
+    section: "General Science - Biology"
+  },
+  {
+    question: "28. Process that allows plants to absorb nutrients:",
+    options: ["Photosynthesis", "Absorption", "Transpiration", "Respiration"],
+    answer: "Absorption",
+    section: "General Science - Biology"
+  },
+  {
+    question: "29. Plants that grow on other plants:",
+    options: ["Parasites", "Carnivorous", "Epiphytes", "Succulents"],
+    answer: "Epiphytes",
+    section: "General Science - Biology"
+  },
+  {
+    question: "30. Value of gas constant R:",
+    options: ["8.31 J/(mol·K)", "8.21 J/(mol·K)", "8.41 J/(mol·K)", "8.51 J/(mol·K)"],
+    answer: "8.31 J/(mol·K)",
+    section: "General Science - Physics"
+  },
+  {
+    question: "31. SI unit of pressure:",
+    options: ["Newton", "Pascal", "Joule", "Watt"],
+    answer: "Pascal",
+    section: "General Science - Physics"
+  },
+  {
+    question: "32. Rate of change of velocity:",
+    options: ["Speed", "Momentum", "Acceleration", "Force"],
+    answer: "Acceleration",
+    section: "General Science - Physics"
+  },
+  {
+    question: "33. Formula for density:",
+    options: ["ρ = V/m", "ρ = mV", "ρ = m/V", "ρ = m + V"],
+    answer: "ρ = m/V",
+    section: "General Science - Physics"
+  },
+  {
+    question: "34. Device that measures temperature:",
+    options: ["Barometer", "Hydrometer", "Thermometer", "Anemometer"],
+    answer: "Thermometer",
+    section: "General Science - Physics"
+  },
+  {
+    question: "35. Angle of incidence equals angle of reflection is called:",
+    options: ["Refraction", "Diffraction", "Reflection", "Dispersion"],
+    answer: "Reflection",
+    section: "General Science - Physics"
+  },
+  {
+    question: "36. BRICS Summit June 2025 host country:",
+    options: ["India", "Russia", "Brazil", "China"],
+    answer: "China",
+    section: "General Knowledge"
+  },
+  {
+    question: "37. Women's Football World Cup May 2025 winner:",
+    options: ["Germany", "Spain", "United States", "France"],
+    answer: "United States",
+    section: "General Knowledge"
+  },
+  {
+    question: "38. Event marking Benazir Bhutto’s rise to PM:",
+    options: ["1986 Elections", "1988 Elections", "1990 Elections", "1993 Elections"],
+    answer: "1988 Elections",
+    section: "General Knowledge"
+  },
+  {
+    question: "39. 1887 institution for Muslim education:",
+    options: ["Muhammadan Educational Conference", "Aligarh Muslim University", "Deoband School", "Jamia Millia Islamia"],
+    answer: "Muhammadan Educational Conference",
+    section: "General Knowledge"
+  },
+  {
+    question: "40. 1907 Congress split event:",
+    options: ["Lucknow Pact", "Surat Split", "Calcutta Session", "Nagpur Session"],
+    answer: "Surat Split",
+    section: "General Knowledge"
+  },
+  {
+    question: "41. Roots of x² - 25x + k = 0; product = 84 → k = ?",
+    options: ["25", "84", "100", "64"],
+    answer: "84",
+    section: "Mathematics"
+  },
+  {
+    question: "42. Simple Interest: $5,000 at 10% for 2 years",
+    options: ["$500", "$750", "$1,000", "$1,500"],
+    answer: "$1,000",
+    section: "Mathematics"
+  },
+  {
+    question: "43. Ratio 7:8; sum = 90 → Larger number?",
+    options: ["42", "48", "45", "50"],
+    answer: "48",
+    section: "Mathematics"
+  },
+  {
+    question: "44. Speed of bike: 480 km in 8 hrs (m/s)?",
+    options: ["12.5 m/s", "16.67 m/s", "20 m/s", "25 m/s"],
+    answer: "16.67 m/s",
+    section: "Mathematics"
+  },
+  {
+    question: "45. Solve: 22x - 20 = x + 41",
+    options: ["3", "4", "2", "5"],
+    answer: "5",
+    section: "Mathematics"
+  },
+  {
+    question: "46. USB stands for:",
+    options: ["Universal Serial Bus", "Uniform System Bus", "Universal System Backup", "Unique Serial Buffer"],
+    answer: "Universal Serial Bus",
+    section: "Computer Knowledge"
+  },
+  {
+    question: "47. Data structure for dynamic memory allocation:",
+    options: ["Array", "Stack", "Linked List", "Queue"],
+    answer: "Linked List",
+    section: "Computer Knowledge"
+  },
+  {
+    question: "48. In databases, a trigger is:",
+    options: ["A data type", "A query", "An action based on an event", "A storage unit"],
+    answer: "An action based on an event",
+    section: "Computer Knowledge"
+  },
+  {
+    question: "49. Binary of decimal 30:",
+    options: ["11110", "11100", "11010", "10000"],
+    answer: "11110",
+    section: "Computer Knowledge"
+  },
+  {
+    question: "50. Protocol used for web Browse:",
+    options: ["FTP", "SMTP", "HTTP", "TCP"],
+    answer: "HTTP",
+    section: "Computer Knowledge"
+  }
+];
+
+
+
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let timeLeft = 3000; // 50 minutes in seconds
+        let timerInterval;
+        const totalQuestions = questions.length;
+        let quizStarted = false;
+
+        // Elements
+        const passwordOverlay = document.getElementById('passwordOverlay');
+        const passwordInput = document.getElementById('passwordInput');
+        const passwordSubmitBtn = document.getElementById('passwordSubmitBtn');
+        const passwordError = document.getElementById('passwordError');
+        const quizSection = document.getElementById('quizSection');
+        const passageContainer = document.getElementById('passageContainer'); // MODIFIED: Get passage container
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const currentQuestionNumberSpan = document.getElementById('currentQuestionNumber');
+        const totalQuestionsSpan = document.getElementById('totalQuestions');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitQuizFinalBtn = document.getElementById('submitQuizFinalBtn');
+        const timeLeftSpan = document.getElementById('timeLeft');
+        const progressBarFill = document.getElementById('progressBarFill');
+        const markForReviewCheckbox = document.getElementById('markForReviewCheckbox');
+        const questionPalettePanel = document.getElementById('questionPalettePanel');
+        const questionGrid = document.getElementById('questionGrid');
+        const resultsSection = document.getElementById('resultsSection');
+        const resTotalQuestions = document.getElementById('resTotalQuestions');
+        const resAttempted = document.getElementById('resAttempted');
+        const resCorrectAnswers = document.getElementById('resCorrectAnswers');
+        const resIncorrectAnswers = document.getElementById('resIncorrectAnswers');
+        const resScore = document.getElementById('resScore');
+        const reviewItemsContainer = document.getElementById('reviewItemsContainer');
+        const printSaveBtn = document.getElementById('printSaveBtn');
+        const restartQuizBtn = document.getElementById('restartQuizBtn');
+        const modeToggle = document.getElementById('modeToggle');
+        const modeToggleIcon = modeToggle.querySelector('.icon');
+
+        // Initialize userAnswers array
+        for (let i = 0; i < totalQuestions; i++) {
+            userAnswers.push({
+                answer: null,
+                markedForReview: false,
+                attempted: false
+            });
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimer() {
+            timeLeft--;
+            timeLeftSpan.textContent = formatTime(timeLeft);
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                submitQuiz();
+            }
+        }
+
+        // MODIFIED: loadQuestion function updated
+        function loadQuestion() {
+            const questionData = questions[currentQuestionIndex];
+
+            // Show or hide the passage container based on the question
+            if (questionData.passage) {
+                passageContainer.innerHTML = `<p><strong>Read the passage and answer the questions that follow:</strong></p><p>${questionData.passage}</p>`;
+                passageContainer.style.display = 'block';
+            } else {
+                passageContainer.style.display = 'none';
+            }
+
+            questionText.innerHTML = questionData.question;
+            optionsContainer.innerHTML = ''; // Clear previous options
+
+            questionData.options.forEach((option, index) => {
+                const label = document.createElement('label');
+                const radioInput = document.createElement('input');
+                radioInput.type = 'radio';
+                radioInput.name = 'quizOption';
+                radioInput.value = option;
+                radioInput.id = `option${index}`;
+
+                label.appendChild(radioInput);
+                label.appendChild(document.createTextNode(option));
+                optionsContainer.appendChild(label);
+
+                // Pre-select if answer exists
+                if (userAnswers[currentQuestionIndex].answer === option) {
+                    radioInput.checked = true;
+                }
+
+                radioInput.addEventListener('change', (event) => {
+                    userAnswers[currentQuestionIndex].answer = event.target.value;
+                    userAnswers[currentQuestionIndex].attempted = true;
+                    updatePaletteItemStatus(currentQuestionIndex);
+                });
+            });
+
+            // Update Mark for Review checkbox
+            markForReviewCheckbox.checked = userAnswers[currentQuestionIndex].markedForReview;
+            markForReviewCheckbox.removeEventListener('change', handleMarkForReviewChange); // Remove old listener
+            markForReviewCheckbox.addEventListener('change', handleMarkForReviewChange); // Add new listener
+
+            currentQuestionNumberSpan.textContent = currentQuestionIndex + 1;
+            totalQuestionsSpan.textContent = totalQuestions;
+            updateProgressBar();
+            updateNavigationButtons();
+            updatePaletteActiveStatus();
+        }
+
+
+        function handleMarkForReviewChange() {
+            userAnswers[currentQuestionIndex].markedForReview = markForReviewCheckbox.checked;
+            updatePaletteItemStatus(currentQuestionIndex);
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+            progressBarFill.style.width = `${progress}%`;
+        }
+
+        function updateNavigationButtons() {
+            prevBtn.disabled = currentQuestionIndex === 0;
+
+            // Show/hide Next and Submit buttons based on current question index
+            if (currentQuestionIndex === totalQuestions - 1) {
+                nextBtn.style.display = 'none'; // Hide next button on the last question
+                submitQuizFinalBtn.style.display = 'inline-block'; // Show submit button on the last question
+            } else {
+                nextBtn.style.display = 'inline-block'; // Show next button
+                submitQuizFinalBtn.style.display = 'none'; // Hide submit button
+            }
+        }
+
+        function showNextQuestion() {
+            if (currentQuestionIndex < totalQuestions - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+        }
+
+        function showPreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function submitQuiz() {
+            clearInterval(timerInterval);
+            quizSection.style.display = 'none';
+            resultsSection.style.display = 'block';
+            calculateResults();
+            displayReview();
+        }
+
+        function calculateResults() {
+            let correctAnswersCount = 0;
+            let attemptedQuestionsCount = 0;
+
+            userAnswers.forEach((userAnswer, index) => {
+                if (userAnswer.attempted) {
+                    attemptedQuestionsCount++;
+                    if (userAnswer.answer === questions[index].answer) {
+                        correctAnswersCount++;
+                    }
+                }
+            });
+
+            const incorrectAnswersCount = attemptedQuestionsCount - correctAnswersCount;
+            const score = (correctAnswersCount / totalQuestions) * 100; // Updated to calculate percentage
+
+            resTotalQuestions.textContent = totalQuestions;
+            resAttempted.textContent = attemptedQuestionsCount;
+            resCorrectAnswers.textContent = correctAnswersCount;
+            resIncorrectAnswers.textContent = incorrectAnswersCount;
+            resScore.textContent = score.toFixed(2);
+        }
+
+        function displayReview() {
+            reviewItemsContainer.innerHTML = ''; // Clear previous review items
+
+            questions.forEach((question, index) => {
+                const reviewItem = document.createElement('div');
+                reviewItem.classList.add('review-item');
+
+                const userAnswerData = userAnswers[index];
+                const attempted = userAnswerData.attempted;
+                const yourAnswer = userAnswerData.answer;
+                const correctAnswer = question.answer;
+
+                let answerStatusClass = 'not-attempted'; // Default for unattempted
+                let answerText = 'Not Attempted';
+
+                if (attempted) {
+                    if (yourAnswer === correctAnswer) {
+                        answerStatusClass = 'correct';
+                        answerText = `Your Answer: <strong class="your-answer correct">${yourAnswer}</strong>`;
+                    } else {
+                        answerStatusClass = 'incorrect';
+                        answerText = `Your Answer: <strong class="your-answer">${yourAnswer}</strong>`;
+                    }
+                }
+
+                reviewItem.innerHTML = `
+                    <p><strong>Q${index + 1}:</strong> ${question.question}</p>
+                    <p class="your-answer ${answerStatusClass}">${answerText}</p>
+                    <p>Correct Answer: <strong class="correct-answer">${correctAnswer}</strong></p>
+                `;
+                reviewItemsContainer.appendChild(reviewItem);
+            });
+        }
+
+        function generateQuestionPalette() {
+            questionGrid.innerHTML = '';
+            questions.forEach((_, index) => {
+                const item = document.createElement('div');
+                item.classList.add('question-grid-item');
+                item.textContent = index + 1;
+                item.dataset.questionIndex = index;
+                item.addEventListener('click', () => {
+                    currentQuestionIndex = index;
+                    loadQuestion();
+                });
+                questionGrid.appendChild(item);
+            });
+            updatePaletteAllStatus();
+        }
+
+        function updatePaletteItemStatus(index) {
+            const item = questionGrid.querySelector(`[data-question-index="${index}"]`);
+            if (item) {
+                item.classList.remove('current', 'answered', 'reviewed', 'unattempted', 'answered-reviewed');
+
+                const userAnswer = userAnswers[index];
+                if (userAnswer.attempted && userAnswer.markedForReview) {
+                    item.classList.add('answered-reviewed');
+                } else if (userAnswer.attempted) {
+                    item.classList.add('answered');
+                } else if (userAnswer.markedForReview) {
+                    item.classList.add('reviewed');
+                } else {
+                    item.classList.add('unattempted');
+                }
+
+                // Ensure current question is always highlighted after updating status
+                updatePaletteActiveStatus();
+            }
+        }
+
+        function updatePaletteAllStatus() {
+            userAnswers.forEach((_, index) => {
+                updatePaletteItemStatus(index);
+            });
+        }
+
+        function updatePaletteActiveStatus() {
+            // Remove 'current' from all items first
+            questionGrid.querySelectorAll('.question-grid-item').forEach(item => {
+                item.classList.remove('current');
+            });
+            // Add 'current' to the active question
+            const currentItem = questionGrid.querySelector(`[data-question-index="${currentQuestionIndex}"]`);
+            if (currentItem) {
+                currentItem.classList.add('current');
+            }
+        }
+
+        function restartQuiz() {
+            if (confirm("Are you sure you want to restart the quiz? Your current progress will be lost.")) {
+                currentQuestionIndex = 0;
+                timeLeft = 3000;
+                userAnswers = [];
+                for (let i = 0; i < totalQuestions; i++) {
+                    userAnswers.push({
+                        answer: null,
+                        markedForReview: false,
+                        attempted: false
+                    });
+                }
+                resultsSection.style.display = 'none';
+                quizSection.style.display = 'block';
+                loadQuestion();
+                generateQuestionPalette(); // Re-initialize palette colors
+                clearInterval(timerInterval);
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+        }
+
+        // Print/Save as PDF functionality
+        printSaveBtn.addEventListener('click', () => {
+            const element = document.getElementById('resultsSection');
+            const opt = {
+                margin: 10,
+                filename: 'Quiz_Results.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: 'avoid-all', after: '.review-item' } // Avoid breaking review items
+            };
+            html2pdf().set(opt).from(element).save();
+        });
+
+
+        // Dark Mode Toggle
+        modeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                modeToggleIcon.textContent = '🌙'; // Moon icon for dark mode
+            } else {
+                modeToggleIcon.textContent = '☀️'; // Sun icon for light mode
+            }
+            // Recalculate legend colors when mode changes
+            updateLegendColors();
+        });
+
+        // Function to apply colors to legend items based on current mode
+        function updateLegendColors() {
+            const rootStyle = getComputedStyle(document.documentElement);
+
+            const legendItems = document.querySelectorAll('.palette-legend .legend-item .legend-color');
+            legendItems.forEach(legendColorDiv => {
+                const colorType = legendColorDiv.dataset.colorType;
+                let colorToApply = '';
+
+                switch (colorType) {
+                    case 'current':
+                        colorToApply = rootStyle.getPropertyValue('--primary-color');
+                        break;
+                    case 'answered':
+                        colorToApply = rootStyle.getPropertyValue('--success-color');
+                        break;
+                    case 'marked':
+                        colorToApply = rootStyle.getPropertyValue('--secondary-color');
+                        break;
+                    case 'unattempted':
+                        colorToApply = rootStyle.getPropertyValue('--unattempted-color');
+                        break;
+                    case 'answered-reviewed':
+                        colorToApply = rootStyle.getPropertyValue('--answered-reviewed-color');
+                        break;
+                    default:
+                        colorToApply = '#ccc'; // Fallback
+                }
+                legendColorDiv.style.backgroundColor = colorToApply;
+                legendColorDiv.style.border = `1px solid ${rootStyle.getPropertyValue('--border-color')}`;
+            });
+        }
+
+
+        // Event Listeners
+        passwordSubmitBtn.addEventListener('click', () => {
+            const enteredPassword = passwordInput.value;
+            const encryptedEnteredPassword = obfuscate(enteredPassword);
+
+            if (encryptedEnteredPassword === actualEncryptedPassword) {
+                passwordOverlay.style.display = 'none';
+                quizSection.style.display = 'block';
+                loadQuestion();
+                generateQuestionPalette();
+                timerInterval = setInterval(updateTimer, 1000);
+                quizStarted = true;
+            } else {
+                passwordError.textContent = 'Incorrect password. Please try again.';
+            }
+        });
+
+        // Allow pressing Enter in password field
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                passwordSubmitBtn.click();
+            }
+        });
+
+        prevBtn.addEventListener('click', showPreviousQuestion);
+        nextBtn.addEventListener('click', showNextQuestion);
+        submitQuizFinalBtn.addEventListener('click', submitQuiz);
+        restartQuizBtn.addEventListener('click', restartQuiz);
+
+        // Initial setup
+        updateLegendColors(); // Set initial legend colors based on default mode
+    </script>
+</body>
+</html>
