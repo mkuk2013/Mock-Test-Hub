@@ -1253,7 +1253,7 @@
             border-color: var(--primary-blue);
         }
         body.dark-mode .app-card.card-danger {
-            border-color: #dc3545;
+            border-color: #dc3545 !important;
         }
         body.dark-mode .app-card.card-success {
             border-color: var(--accent-emerald);
@@ -1479,7 +1479,59 @@
             color: white !important;
         }
 
-    </style>
+    
+        /* 🔹 Dark Mode Card Borders */
+        body.dark-mode .app-card.card-primary {
+            border: 2px solid var(--primary-blue) !important;
+        }
+        body.dark-mode .app-card.card-danger {
+            border: 2px solid #dc3545 !important;
+        }
+        body.dark-mode .app-card.card-success {
+            border: 2px solid var(--accent-emerald) !important;
+        }
+        body.dark-mode .app-card.card-secondary {
+            border: 2px solid #6c757d !important;
+        }
+
+        /* 🔹 Dark Mode Outline Buttons */
+        body.dark-mode .btn-outline-primary {
+            border: 2px solid var(--primary-blue) !important;
+            color: var(--primary-blue) !important;
+        }
+        body.dark-mode .btn-outline-danger {
+            border: 2px solid #dc3545 !important;
+            color: #dc3545 !important;
+        }
+        body.dark-mode .btn-outline-success {
+            border: 2px solid var(--accent-emerald) !important;
+            color: var(--accent-emerald) !important;
+        }
+        body.dark-mode .btn-outline-secondary {
+            border: 2px solid #6c757d !important;
+            color: #6c757d !important;
+        }
+
+
+        /* 🔹 Dark Mode Hover Effects for Outline Buttons */
+        body.dark-mode .btn-outline-primary:hover {
+            background-color: var(--primary-blue) !important;
+            color: #fff !important;
+        }
+        body.dark-mode .btn-outline-danger:hover {
+            background-color: #dc3545 !important;
+            color: #fff !important;
+        }
+        body.dark-mode .btn-outline-success:hover {
+            background-color: var(--accent-emerald) !important;
+            color: #fff !important;
+        }
+        body.dark-mode .btn-outline-secondary:hover {
+            background-color: #6c757d !important;
+            color: #fff !important;
+        }
+
+</style>
 </head>
 <body>
 
