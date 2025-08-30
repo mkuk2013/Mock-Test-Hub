@@ -587,43 +587,6 @@
             transform: scale(1.1);
         }
         
-        /* Admin Tab Styling */
-        .nav-tab.admin-tab {
-            background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
-            color: white;
-            font-weight: 600;
-            border: 2px solid rgba(220, 38, 38, 0.3);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
-        }
-        
-        .nav-tab.admin-tab::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .nav-tab.admin-tab:hover::before {
-            left: 100%;
-        }
-        
-        .nav-tab.admin-tab:hover {
-            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4), 0 0 30px rgba(220, 38, 38, 0.2);
-            border-color: rgba(239, 68, 68, 0.5);
-        }
-        
-        .nav-tab.admin-tab i {
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
-        }
-        
         .content-section {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(var(--glass-blur));
@@ -1605,9 +1568,7 @@
                     <button class="nav-tab" onclick="showSection('video-lectures')">
                         <i class="fas fa-play-circle mr-2"></i>Video Lectures
                     </button>
-                    <button class="nav-tab admin-tab" onclick="goToAdmin()">
-                        <i class="fas fa-cog mr-2"></i>Admin Panel
-                    </button>
+
                 </div>
             </div>
             
@@ -1726,7 +1687,7 @@
             maxAttempts: 5,
             lockoutDuration: 300000, // 5 minutes
             sessionTimeout: 7200000, // 2 hours (extended)
-            validPasswords: ['premium2024', 'education123', 'mocktesthub', 'secure@access', 'admin123'], // Default passwords
+            validPasswords: ['premium2024', 'education123', 'mocktesthub', 'secure@access'], // Default passwords
             encryptionKey: 'educational_hub_2024', // Not used for password hashing, but kept for context
             passwordCheckInterval: 10000, // 10 seconds (as requested)
             timestampTolerance: 5000 // 5 seconds tolerance for timestamp comparison
@@ -2267,11 +2228,6 @@
             }
         }
         
-        // Admin Panel Navigation Function
-        function goToAdmin() {
-            // Redirect to admin.html 
-            window.location.href = 'admin.html';
-        }
         
         // Security monitoring functions
         function detectDevTools() {
