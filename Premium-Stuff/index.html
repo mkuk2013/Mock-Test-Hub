@@ -136,9 +136,10 @@
             -webkit-backdrop-filter: blur(var(--glass-blur));
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center; /* Centered the content */
             z-index: 10000;
             animation: fadeIn 0.6s ease-out;
+            padding: 1rem; /* Padding for smaller screens */
         }
         
         .security-container {
@@ -147,8 +148,8 @@
             -webkit-backdrop-filter: blur(var(--glass-blur));
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-xl);
-            padding: 3rem;
-            max-width: 480px;
+            padding: 2rem; /* Reduced padding */
+            max-width: 450px; /* Reduced max-width */
             width: 90%;
             box-shadow: var(--shadow-2xl), var(--shadow-glow);
             position: relative;
@@ -201,20 +202,20 @@
         
         .security-header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem; /* Reduced margin */
             position: relative;
             z-index: 1;
         }
         
         .security-icon {
-            width: 90px;
-            height: 90px;
+            width: 70px; /* Reduced size */
+            height: 70px; /* Reduced size */
             background: var(--gradient-primary);
             border-radius: var(--radius-full);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
+            margin: 0 auto 1rem; /* Reduced margin */
             box-shadow: var(--shadow-lg), 0 0 30px rgba(99, 102, 241, 0.3);
             position: relative;
             animation: iconFloat 3s ease-in-out infinite;
@@ -242,18 +243,18 @@
         
         .security-title {
             font-family: 'Poppins', sans-serif;
-            font-size: 2.25rem;
+            font-size: 1.75rem; /* Reduced font size */
             font-weight: 800;
             color: white;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem; /* Reduced margin */
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             letter-spacing: -0.02em;
         }
         
         .security-subtitle {
             color: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
-            line-height: 1.7;
+            font-size: 1rem; /* Reduced font size */
+            line-height: 1.6; /* Adjusted line height */
             font-weight: 400;
             max-width: 400px;
             margin: 0 auto;
@@ -263,8 +264,8 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            margin: 2rem 0;
+            padding: 1rem; /* Reduced padding */
+            margin: 1.5rem 0; /* Reduced margin */
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
@@ -306,15 +307,15 @@
         
         .password-input-group {
             position: relative;
-            margin: 2rem 0;
+            margin: 1.5rem 0; /* Reduced margin */
         }
         
         .password-input {
             width: 100%;
-            padding: 1.25rem 1.25rem 1.25rem 3.5rem;
+            padding: 1rem 1rem 1rem 3rem; /* Reduced padding */
             border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: var(--radius-lg);
-            font-size: 1.1rem;
+            font-size: 1rem; /* Reduced font size */
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             color: white;
@@ -336,11 +337,11 @@
         
         .password-input-icon {
             position: absolute;
-            left: 1.25rem;
+            left: 1rem; /* Adjusted for new padding */
             top: 50%;
             transform: translateY(-50%);
             color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
+            font-size: 1rem; /* Adjusted for new padding */
         }
         
         .unlock-button {
@@ -348,9 +349,9 @@
             background: var(--gradient-premium);
             color: white;
             border: none;
-            padding: 1.25rem 2rem;
+            padding: 1rem 1.5rem; /* Reduced padding */
             border-radius: var(--radius-lg);
-            font-size: 1.1rem;
+            font-size: 1rem; /* Reduced font size */
             font-weight: 700;
             cursor: pointer;
             transition: all var(--transition-normal);
@@ -411,7 +412,7 @@
         /* Enhanced Main Content Styles */
         .main-content {
             display: none;
-            min-height: 90vh;
+            min-height: 85vh;
             background: var(--bg-secondary);
             position: relative;
         }
@@ -585,6 +586,43 @@
         
         .nav-tab:hover i {
             transform: scale(1.1);
+        }
+        
+        /* Admin Tab Styling */
+        .nav-tab.admin-tab {
+            background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+            color: white;
+            font-weight: 600;
+            border: 2px solid rgba(220, 38, 38, 0.3);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+        }
+        
+        .nav-tab.admin-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .nav-tab.admin-tab:hover::before {
+            left: 100%;
+        }
+        
+        .nav-tab.admin-tab:hover {
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4), 0 0 30px rgba(220, 38, 38, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+        
+        .nav-tab.admin-tab i {
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
         }
         
         .content-section {
@@ -1568,7 +1606,9 @@
                     <button class="nav-tab" onclick="showSection('video-lectures')">
                         <i class="fas fa-play-circle mr-2"></i>Video Lectures
                     </button>
-
+                    <button class="nav-tab admin-tab" onclick="goToAdmin()">
+                        <i class="fas fa-cog mr-2"></i>Admin Panel
+                    </button>
                 </div>
             </div>
             
@@ -1687,7 +1727,7 @@
             maxAttempts: 5,
             lockoutDuration: 300000, // 5 minutes
             sessionTimeout: 7200000, // 2 hours (extended)
-            validPasswords: ['premium2024', 'education123', 'mocktesthub', 'secure@access'], // Default passwords
+            validPasswords: ['premium2024', 'education123', 'mocktesthub', 'secure@access', 'admin123'], // Default passwords
             encryptionKey: 'educational_hub_2024', // Not used for password hashing, but kept for context
             passwordCheckInterval: 10000, // 10 seconds (as requested)
             timestampTolerance: 5000 // 5 seconds tolerance for timestamp comparison
@@ -2228,6 +2268,11 @@
             }
         }
         
+        // Admin Panel Navigation Function
+        function goToAdmin() {
+            // Redirect to admin.html 
+            window.location.href = 'admin.html';
+        }
         
         // Security monitoring functions
         function detectDevTools() {
@@ -2271,3 +2316,4 @@
     </script>
 </body>
 </html>
+
