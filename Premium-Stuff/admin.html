@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-        <html lang="en">
-    <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Educational Hub</title>
@@ -528,6 +528,10 @@
                         <i class="fas fa-video"></i>
                         Video Lectures
                     </a>
+                    <a href="#" class="nav-link" data-section="itdigitallearning">
+                        <i class="fas fa-laptop-code"></i>
+                        IT & Digital Learning
+                    </a>
                     <a href="#" class="nav-link" data-section="security">
                         <i class="fas fa-shield-alt"></i>
                         Security Settings
@@ -593,6 +597,14 @@
                             </div>
                             <div class="stats-value" id="videolectures-count">0</div>
                             <div class="stats-label">Video Lectures</div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-icon bg-teal-100 text-teal-600">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <div class="stats-value" id="itdigitallearning-count">0</div>
+                            <div class="stats-label">IT & Digital Learning</div>
                         </div>
                     </div>
                 </div>
@@ -1119,6 +1131,93 @@
                     </div>
                 </div>
                 
+                <div id="itdigitallearning-section" class="content-section hidden">
+                    <div class="mb-6">
+                        <h1 class="text-3xl font-bold text-gray-800">IT & Digital Learning</h1>
+                        <p class="text-gray-600">Manage your IT and digital learning resources</p>
+                    </div>
+                    
+                    <div class="form-section" id="itdigitallearning-form">
+                        <div class="form-section-header">
+                            <h3 class="text-lg font-semibold" id="itdigitallearning-form-title">Add New IT & Digital Learning Resource</h3>
+                            <button type="button" class="text-gray-400 hover:text-gray-600" onclick="toggleForm('itdigitallearning')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <form id="itdigitallearning-form-element" onsubmit="saveItem(event, 'itdigitallearning')">
+                            <input type="hidden" id="itdigitallearning-item-id">
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                                <input type="text" id="itdigitallearning-item-title" class="form-input" placeholder="Enter title" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <textarea id="itdigitallearning-item-description" class="form-input" rows="3" placeholder="Enter description"></textarea>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Icon Class</label>
+                                <input type="text" id="itdigitallearning-item-icon" class="form-input" placeholder="e.g., fas fa-laptop-code">
+                                <p class="text-sm text-gray-500 mt-1">Font Awesome icon class (optional)</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Link</label>
+                                <input type="url" id="itdigitallearning-item-link" class="form-input" placeholder="https://example.com" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Action Text</label>
+                                <input type="text" id="itdigitallearning-item-actiontext" class="form-input" placeholder="e.g., Access, View">
+                                <p class="text-sm text-gray-500 mt-1">Text for the action button (optional)</p>
+                            </div>
+                            
+                            <div class="flex justify-end gap-2">
+                                <button type="button" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50" onclick="toggleForm('itdigitallearning')">Cancel</button>
+                                <button type="submit" class="btn-primary">
+                                    <i class="fas fa-save me-2"></i>Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">All IT & Digital Learning Resources</h2>
+                            <button class="btn-primary" onclick="showAddForm('itdigitallearning')">
+                                <i class="fas fa-plus me-2"></i>Add New Resource
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Icon</th>
+                                        <th>Link</th>
+                                        <th>Action Text</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="itdigitallearning-data">
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">
+                                            <div class="flex justify-center">
+                                                <div class="loading-spinner" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
                 <div id="security-section" class="content-section hidden">
                     <div class="mb-6">
                         <h1 class="text-3xl font-bold text-gray-800">Security Settings</h1>
@@ -1356,7 +1455,7 @@
         
         // Load dashboard stats
         async function loadDashboardStats() {
-            const tables = ['pdfbooks', 'testnotes', 'pastpapers', 'mocktestsoffline', 'mocktestsonline', 'videolectures'];
+            const tables = ['pdfbooks', 'testnotes', 'pastpapers', 'mocktestsoffline', 'mocktestsonline', 'videolectures', 'itdigitallearning'];
             
             for (const table of tables) {
                 try {
@@ -1516,7 +1615,8 @@
                 'pastpapers': 'Past Paper',
                 'mocktestsoffline': 'Mock Test (Offline)',
                 'mocktestsonline': 'Mock Test (Online)',
-                'videolectures': 'Video Lecture'
+                'videolectures': 'Video Lecture',
+                'itdigitallearning': 'IT & Digital Learning Resource'
             };
             return names[section] || 'Item';
         }
@@ -1735,5 +1835,5 @@
             }, 3000);
         }
     </script>
- </body>
+</body>
 </html>

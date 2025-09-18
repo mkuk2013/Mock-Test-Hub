@@ -1606,6 +1606,9 @@
                     <button class="nav-tab" onclick="showSection('video-lectures')">
                         <i class="fas fa-play-circle mr-2"></i>Video Lectures
                     </button>
+                    <button class="nav-tab" onclick="showSection('it-digital-learning')">
+                        <i class="fas fa-laptop-code mr-2"></i>IT & Digital Learning
+                    </button>
                     <!-- <button class="nav-tab admin-tab" onclick="goToAdmin()">
                         <i class="fas fa-cog mr-2"></i>Admin Panel
                     </button> -->
@@ -1698,6 +1701,22 @@
                     <div class="content-loading">
                         <div class="content-spinner"></div>
                         <p class="ml-4 text-gray-600">Loading Video Lectures...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="it-digital-learning" class="content-section">
+                <h3 class="section-title">IT & Digital Learning</h3>
+                <p class="section-description">
+                    Explore our comprehensive collection of IT and digital learning resources. 
+                    From programming fundamentals to advanced technologies, these materials will help you develop 
+                    the digital skills needed in today's tech-driven world.
+                </p>
+                
+                <div id="it-digital-learning-content" class="cards-grid">
+                    <div class="content-loading">
+                        <div class="content-spinner"></div>
+                        <p class="ml-4 text-gray-600">Loading IT & Digital Learning...</p>
                     </div>
                 </div>
             </div>
@@ -2263,6 +2282,9 @@
                 case 'video-lectures':
                     fetchContent('videolectures', 'video-lectures-content');
                     break;
+                case 'it-digital-learning':
+                    fetchContent('itdigitallearning', 'it-digital-learning-content');
+                    break;
                 default:
                     console.warn('Unknown section:', sectionId);
             }
@@ -2316,4 +2338,3 @@
     </script>
 </body>
 </html>
-
