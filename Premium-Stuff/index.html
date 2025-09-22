@@ -904,6 +904,39 @@
             text-decoration: none;
             box-shadow: var(--shadow-2xl), 0 0 40px rgba(37, 211, 102, 0.6);
         }
+
+        /* New Content Badge */
+        .new-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--gradient-premium);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: var(--shadow-md);
+            animation: badgePulse 2s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); box-shadow: var(--shadow-md); }
+            50% { transform: scale(1.1); box-shadow: var(--shadow-lg);}
+        }
+
+        /* Notification Modal */
+        #notification-window {
+            transition: transform 0.3s ease-out;
+        }
+        #notification-window.show {
+            transform: translateY(0);
+        }
+        #notification-badge.hidden {
+            display: none;
+        }
         
         /* Enhanced Responsive Design */
         @media (max-width: 1024px) {
@@ -1027,6 +1060,12 @@
                 width: 60px;
                 height: 60px;
                 font-size: 1.5rem;
+            }
+
+            .new-badge {
+                top: 1rem;
+                right: 1rem;
+                font-size: 0.7rem;
             }
             
             .whatsapp-float {
@@ -1200,125 +1239,6 @@
             box-shadow: var(--shadow-xl), 0 0 25px rgba(99, 102, 241, 0.4);
         }
         
-        /* Enhanced Notification Toast */
-        .notification-toast {
-            position: fixed;
-            bottom: 120px;
-            right: 2rem;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(var(--glass-blur));
-            border-radius: var(--radius-lg);
-            padding: 1.25rem 1.75rem;
-            box-shadow: var(--shadow-2xl), 0 0 30px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transform: translateX(120%);
-            transition: all var(--transition-normal);
-            max-width: 380px;
-            min-width: 300px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .notification-toast.show {
-            transform: translateX(0);
-            animation: toastSlideIn 0.6s var(--transition-bounce);
-        }
-        
-        @keyframes toastSlideIn {
-            0% {
-                transform: translateX(120%) scale(0.8);
-                opacity: 0;
-            }
-            60% {
-                transform: translateX(-10px) scale(1.05);
-                opacity: 1;
-            }
-            100% {
-                transform: translateX(0) scale(1);
-                opacity: 1;
-            }
-        }
-        
-        .notification-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: var(--radius-full);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 1.25rem;
-            position: relative;
-        }
-        
-        .notification-icon::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: var(--radius-full);
-            background: inherit;
-            opacity: 0.2;
-            animation: iconPulse 2s ease-in-out infinite;
-        }
-        
-        .notification-icon.info {
-            background: rgba(99, 102, 241, 0.15);
-            color: var(--primary-color);
-        }
-        
-        .notification-icon.warning {
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--warning-color);
-        }
-        
-        .notification-icon.success {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success-color);
-        }
-        
-        .notification-icon.error {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--error-color);
-        }
-        
-        .notification-content {
-            flex-grow: 1;
-        }
-        
-        .notification-title {
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-            color: var(--text-primary);
-            font-size: 1rem;
-            letter-spacing: -0.01em;
-        }
-        
-        .notification-message {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-        
-        .notification-close {
-            background: none;
-            border: none;
-            color: var(--text-tertiary);
-            cursor: pointer;
-            font-size: 1.25rem;
-            padding: 0.25rem;
-            border-radius: var(--radius-sm);
-            transition: all var(--transition-fast);
-            line-height: 1;
-        }
-        
-        .notification-close:hover {
-            color: var(--text-secondary);
-            background: rgba(0, 0, 0, 0.05);
-            transform: scale(1.1);
-        }
-        
         /* Enhanced Keyframe Animations */
         @keyframes fadeIn {
             from { 
@@ -1431,19 +1351,6 @@
             background: var(--gradient-dark);
         }
         
-        body.dark-mode .notification-toast {
-            background: rgba(30, 41, 59, 0.95);
-            border-color: rgba(51, 65, 85, 0.5);
-        }
-        
-        body.dark-mode .notification-title {
-            color: var(--dark-text-primary);
-        }
-        
-        body.dark-mode .notification-message {
-            color: var(--dark-text-secondary);
-        }
-        
         body.dark-mode .session-expired {
             background: rgba(30, 41, 59, 0.95);
             border-color: rgba(51, 65, 85, 0.5);
@@ -1476,11 +1383,9 @@
                 0 0 40px rgba(255, 255, 255, 0.1);
         }
         
-        /* Dark Mode Toggle Button (if needed) */
+        /* Dark Mode Toggle Button */
         .dark-mode-toggle {
-            position: fixed;
-            top: 2rem;
-            left: 2rem;
+            position: static; /* Let flexbox handle positioning */
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1492,7 +1397,6 @@
             justify-content: center;
             cursor: pointer;
             transition: all var(--transition-normal);
-            z-index: 1000;
             color: white;
             font-size: 1.25rem;
         }
@@ -1501,13 +1405,56 @@
             background: rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
         }
+
+        /* Notification Bell Style */
+        .notification-bell-style {
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-full);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            color: white;
+        }
+
+        .notification-bell-style:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        /* Dark Mode Notification Modal */
+        body.dark-mode #notification-window {
+            background: var(--dark-bg-secondary);
+            border: 1px solid var(--dark-border-medium);
+        }
+        body.dark-mode #notification-window h3 {
+            color: var(--dark-text-primary);
+        }
+        body.dark-mode #notification-window button {
+            color: var(--dark-text-tertiary);
+        }
+        body.dark-mode #notification-window button:hover {
+            color: var(--dark-text-primary);
+        }
+        body.dark-mode #notification-list li {
+            color: var(--dark-text-secondary);
+        }
+        body.dark-mode #notification-list li:hover {
+            background: var(--dark-bg-tertiary);
+        }
+        body.dark-mode #notification-list .font-semibold {
+            color: var(--primary-light);
+        }
     </style>
 </head>
 <body>
-    <!-- Dark Mode Toggle -->
-    <button id="dark-mode-toggle" class="dark-mode-toggle" title="Toggle Dark Mode">
-        🌙
-    </button>
+    
     <div id="security-overlay" class="security-overlay">
         <div class="security-container">
             <div class="security-header">
@@ -1564,21 +1511,19 @@
         <button onclick="redirectToLogin()" class="session-expired-button">Login Again</button>
     </div>
     
-    <div id="notification-toast" class="notification-toast">
-        <div id="notification-icon" class="notification-icon">
-            <i class="fas fa-info-circle"></i>
-        </div>
-        <div class="notification-content">
-            <div id="notification-title" class="notification-title">Notification</div>
-            <div id="notification-message" class="notification-message">Message content</div>
-        </div>
-        <button class="notification-close" onclick="hideNotification()">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
-    
     <div id="main-content" class="main-content">
         <header class="header">
+             <!-- Dark Mode Toggle and Notification Bell -->
+            <div class="absolute top-8 left-8 z-20 flex items-center gap-4">
+                <button id="dark-mode-toggle" class="dark-mode-toggle">
+                    🌙
+                </button>
+                <div id="notification-bell" class="notification-bell-style">
+                    <i class="fas fa-bell text-xl"></i>
+                    <span id="notification-badge" class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center border-2 border-white font-bold">0</span>
+                </div>
+            </div>
+
             <div class="header-content">
                 <h1 class="header-title">Premium Educational Hub</h1>
                 <p class="header-subtitle">Your comprehensive resource for academic excellence and test preparation materials</p>
@@ -1609,9 +1554,6 @@
                     <button class="nav-tab" onclick="showSection('it-digital-learning')">
                         <i class="fas fa-laptop-code mr-2"></i>IT & Digital Learning
                     </button>
-                    <!-- <button class="nav-tab admin-tab" onclick="goToAdmin()">
-                        <i class="fas fa-cog mr-2"></i>Admin Panel
-                    </button> -->
                 </div>
             </div>
             
@@ -1729,6 +1671,19 @@
         </footer>
     </div>
     
+    <!-- Notification Modal -->
+    <div id="notification-modal" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-start pt-20">
+        <div id="notification-window" class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-11/12 md:w-1/3 max-w-lg p-6 transform transition-all -translate-y-full">
+            <div class="flex justify-between items-center pb-3 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Haal hi mein Shamil Shuda Mawad</h3>
+                <button id="close-notification-modal" class="text-gray-500 text-3xl hover:text-gray-800 dark:hover:text-white">&times;</button>
+            </div>
+            <ul id="notification-list" class="space-y-2 max-h-80 overflow-y-auto mt-4">
+                <!-- New items will be listed here dynamically -->
+            </ul>
+        </div>
+    </div>
+
     <a href="https://wa.me/923480358640" class="whatsapp-float" target="_blank" title="WhatsApp Support" id="whatsapp-float-btn">
         <i class="fab fa-whatsapp"></i>
     </a>
@@ -1741,22 +1696,24 @@
         const supabaseUrl = 'https://zbxinuoktkkgxtvarqik.supabase.co';
         const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpieGludW9rdGtrZ3h0dmFycWlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ4NTA2MDAsImV4cCI6MjA3MDQyNjYwMH0.8PrjVQRnHwf2zZdDQOOeqQtWP9-ZgjzEL2Pp2TQzsek';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+        
         // Security Configuration
         const SECURITY_CONFIG = {
             maxAttempts: 5,
             lockoutDuration: 300000, // 5 minutes
             sessionTimeout: 7200000, // 2 hours (extended)
             validPasswords: ['premium2024', 'education123', 'mocktesthub', 'secure@access', 'admin123'], // Default passwords
-            encryptionKey: 'educational_hub_2024', // Not used for password hashing, but kept for context
             passwordCheckInterval: 10000, // 10 seconds (as requested)
-            timestampTolerance: 5000 // 5 seconds tolerance for timestamp comparison
+            recentThresholdDays: 7 // Days to consider as "recent"
         };
         
         let attemptCount = 0;
         let isLocked = false;
         let sessionStartTime = null;
-        let currentPasswordHash = null; // This will now store the SHA-256 hash
+        let currentPasswordHash = null;
         let passwordCheckInterval = null;
+
+        let allNewItems = [];
         
         // SHA-256 Hashing Function
         async function sha256(message) {
@@ -1767,7 +1724,6 @@
             return hexHash;
         }
 
-        // Initialize security on page load
         document.addEventListener('DOMContentLoaded', function() {
             initializeSecurity();
             setupKeyboardListeners();
@@ -1775,7 +1731,6 @@
             initializeDarkMode();
         });
         
-        // Dark Mode Functionality
         function initializeDarkMode() {
             const darkModeToggle = document.getElementById('dark-mode-toggle');
             const isDarkMode = localStorage.getItem('darkMode') === 'true';
@@ -1790,38 +1745,23 @@
                 const isDark = document.body.classList.contains('dark-mode');
                 localStorage.setItem('darkMode', isDark);
                 this.textContent = isDark ? '☀️' : '🌙';
-                
-                // Show notification
-                showNotification('info', 'Theme Changed', 
-                    isDark ? 'Dark mode enabled' : 'Light mode enabled');
             });
         }
         
         function initializeSecurity() {
-            // Check if user is locked out
             const lockoutTime = localStorage.getItem('lockoutTime');
             if (lockoutTime && Date.now() - parseInt(lockoutTime) < SECURITY_CONFIG.lockoutDuration) {
                 showLockoutMessage();
                 return;
             }
-            
-            // Clear any existing lockout
             localStorage.removeItem('lockoutTime');
             attemptCount = parseInt(localStorage.getItem('attemptCount') || '0');
         }
         
         function setupKeyboardListeners() {
             const passwordInput = document.getElementById('password-input');
-            passwordInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    authenticateUser();
-                }
-            });
-            
-            // Clear error message when user starts typing
-            passwordInput.addEventListener('input', function() {
-                hideErrorMessage();
-            });
+            passwordInput.addEventListener('keypress', (e) => (e.key === 'Enter') && authenticateUser());
+            passwordInput.addEventListener('input', () => hideErrorMessage());
         }
         
         async function checkExistingSession() {
@@ -1830,15 +1770,7 @@
                 try {
                     const session = JSON.parse(sessionData);
                     if (session.authenticated && Date.now() - session.startTime < SECURITY_CONFIG.sessionTimeout) {
-                        // Check if password hash is stored
-                        if (session.currentPasswordHash) {
-                            currentPasswordHash = session.currentPasswordHash; // Use the hash from session
-                        } else {
-                            // Fallback for older sessions that might not have currentPasswordHash
-                            // This part might need adjustment based on how you want to handle old sessions
-                            console.warn("Old session format detected, no currentPasswordHash. Re-authenticating might be needed.");
-                            // For now, we'll just proceed, but monitoring might fail if no hash is set.
-                        }
+                        currentPasswordHash = session.currentPasswordHash;
                         grantAccess();
                         return;
                     }
@@ -1855,9 +1787,7 @@
                 return;
             }
             
-            const passwordInput = document.getElementById('password-input');
-            const password = passwordInput.value.trim();
-            
+            const password = document.getElementById('password-input').value.trim();
             if (!password) {
                 showErrorMessage('Please enter a password.');
                 return;
@@ -1865,34 +1795,19 @@
             
             showLoadingState();
             
-            // Hash the input password for comparison
             const inputPasswordHash = await sha256(password);
             
-            // Check against Supabase security settings
             try {
-                const { data, error } = await supabase
-                    .from('securitysettings')
-                    .select('accesspassword') // Assuming accesspassword is plain-text in DB
-                    .limit(1);
+                const { data, error } = await supabase.from('securitysettings').select('accesspassword').limit(1);
+                if (error) throw error;
                 
-                if (error) {
-                    throw error;
-                }
-                
-                // Simulate authentication delay for security
-                setTimeout(async () => { // Made this async to await sha256
+                setTimeout(async () => {
                     let isValid = false;
-                    let actualPasswordFromDB = null;
-
                     if (data && data.length > 0) {
-                        actualPasswordFromDB = data[0].accesspassword;
-                        // Compare hashed input with hashed DB password (assuming DB password is plain-text)
-                        if (inputPasswordHash === await sha256(actualPasswordFromDB)) {
-                            isValid = true;
-                        }
+                        const dbPasswordHash = await sha256(data[0].accesspassword);
+                        if (inputPasswordHash === dbPasswordHash) isValid = true;
                     }
                     
-                    // If not valid from Supabase, check against default passwords
                     if (!isValid) {
                         for (const validPassword of SECURITY_CONFIG.validPasswords) {
                             if (inputPasswordHash === await sha256(validPassword)) {
@@ -1903,15 +1818,12 @@
                     }
                     
                     if (isValid) {
-                        // Successful authentication
                         attemptCount = 0;
                         localStorage.removeItem('attemptCount');
-                        // Store the hash of the successfully authenticated password
-                        createSecureSession(inputPasswordHash); 
+                        createSecureSession(inputPasswordHash);
                         localStorage.setItem('currentPasswordHash', inputPasswordHash);
                         grantAccess();
                     } else {
-                        // Failed authentication
                         handleFailedAttempt();
                     }
                     
@@ -1929,7 +1841,6 @@
             localStorage.setItem('attemptCount', attemptCount.toString());
             
             if (attemptCount >= SECURITY_CONFIG.maxAttempts) {
-                // Lock the account
                 isLocked = true;
                 localStorage.setItem('lockoutTime', Date.now().toString());
                 showLockoutMessage();
@@ -1937,8 +1848,6 @@
                 const remainingAttempts = SECURITY_CONFIG.maxAttempts - attemptCount;
                 showErrorMessage(`Invalid password. ${remainingAttempts} attempts remaining.`);
             }
-            
-            // Clear password field
             document.getElementById('password-input').value = '';
         }
         
@@ -1946,11 +1855,8 @@
             const sessionData = {
                 startTime: Date.now(),
                 authenticated: true,
-                userAgent: navigator.userAgent,
-                timestamp: new Date().toISOString(),
-                currentPasswordHash: passwordHash // Store the SHA-256 hash
+                currentPasswordHash: passwordHash
             };
-            
             localStorage.setItem('secureSession', JSON.stringify(sessionData));
             sessionStartTime = Date.now();
             currentPasswordHash = passwordHash;
@@ -1960,9 +1866,8 @@
             const overlay = document.getElementById('security-overlay');
             const mainContent = document.getElementById('main-content');
             const securityIndicator = document.getElementById('security-indicator');
-            const whatsappButton = document.getElementById('whatsapp-float-btn'); 
+            const whatsappButton = document.getElementById('whatsapp-float-btn');
             
-            // Smooth transition
             overlay.style.opacity = '0';
             setTimeout(() => {
                 overlay.style.display = 'none';
@@ -1970,72 +1875,36 @@
                 securityIndicator.classList.add('show');
                 whatsappButton.style.display = 'flex';
                 
-                // Start session monitoring
                 startSessionMonitoring();
-                
-                // Start password change monitoring
                 startPasswordChangeMonitoring();
-                
-                // Load initial data for the active section (PDF Books by default)
+                setupNotificationSystem();
+                checkForAllNewContent();
                 showSection('pdf-books');
-                
-                // Show welcome notification
-                showNotification('success', 'Access Granted', 'Welcome to the Premium Educational Hub!');
             }, 500);
         }
         
         function startSessionMonitoring() {
-            // Monitor for session timeout
             setInterval(() => {
                 if (sessionStartTime && Date.now() - sessionStartTime > SECURITY_CONFIG.sessionTimeout) {
                     logout();
                 }
-            }, 60000); // Check every minute
-            
-            // Monitor for suspicious activity
-            document.addEventListener('visibilitychange', function() {
-                if (document.hidden) {
-                    // Page is hidden, could be suspicious
-                    console.log('Session monitoring: Page hidden');
-                }
-            });
+            }, 60000);
         }
         
         function startPasswordChangeMonitoring() {
-            // Check for password changes every 10 seconds
             passwordCheckInterval = setInterval(async () => {
                 try {
-                    const { data, error } = await supabase
-                        .from('securitysettings')
-                        .select('accesspassword') // Assuming accesspassword is plain-text in DB
-                        .limit(1);
-                    
-                    if (error) {
-                        throw error;
-                    }
+                    const { data, error } = await supabase.from('securitysettings').select('accesspassword').limit(1);
+                    if (error) throw error;
                     
                     if (data && data.length > 0) {
-                        const currentPasswordFromDB = data[0].accesspassword;
-                        // Hash the password from DB for comparison
-                        const newPasswordHashFromDB = await sha256(currentPasswordFromDB);
+                        const newPasswordHashFromDB = await sha256(data[0].accesspassword);
                         const storedHash = localStorage.getItem('currentPasswordHash');
                         
-                        console.log('--- Password Change Monitoring ---');
-                        console.log('Password from DB (plain-text):', currentPasswordFromDB);
-                        console.log('Hashed DB Password:', newPasswordHashFromDB);
-                        console.log('Stored Session Hash:', storedHash);
-                        console.log('Hashes match?', newPasswordHashFromDB === storedHash);
-                        console.log('----------------------------------');
-
                         if (storedHash && newPasswordHashFromDB !== storedHash) {
-                            localStorage.removeItem('currentPasswordHash');
                             clearInterval(passwordCheckInterval);
-                            console.log('Password change detected, destroying session immediately');
-                            showNotification('warning', 'Security Update', 'Your access code has been changed. Session terminated.');
                             forceLogout();
                         }
-                    } else {
-                        console.warn('No password found in DB during monitoring — skipping check.');
                     }
                 } catch (error) {
                     console.error('Error checking for password changes:', error);
@@ -2044,148 +1913,153 @@
         }
         
         function forceLogout() {
-            // Clear session data
             localStorage.removeItem('secureSession');
-            localStorage.removeItem('currentPasswordHash'); // Ensure this is also cleared
-            
-            // Hide main content
-            document.getElementById('main-content').style.display = 'none';
-            document.getElementById('security-indicator').classList.remove('show');
-            document.getElementById('whatsapp-float-btn').style.display = 'none';
-            
-            // Show login screen
-            const overlay = document.getElementById('security-overlay');
-            overlay.style.display = 'flex';
-            overlay.style.opacity = '1';
-            
-            // Reset form
-            document.getElementById('password-input').value = '';
-            hideErrorMessage();
-            
-            // Show notification
-            showNotification('info', 'Session Ended', 'Please log in again to continue.');
-        }
-        
-        function showSessionExpired() {
-            const sessionExpiredModal = document.getElementById('session-expired');
-            sessionExpiredModal.classList.add('show');
-            
-            // Hide the main content
-            document.getElementById('main-content').style.display = 'none';
-            document.getElementById('security-indicator').classList.remove('show');
-            document.getElementById('whatsapp-float-btn').style.display = 'none';
-        }
-        
-        function redirectToLogin() {
-            // Clear session data
-            localStorage.removeItem('secureSession');
-            localStorage.removeItem('currentPasswordHash'); // Ensure this is also cleared
-            
-            // Hide session expired modal
-            document.getElementById('session-expired').classList.remove('show');
-            
-            // Show login screen
-            document.getElementById('security-overlay').style.display = 'flex';
-            document.getElementById('security-overlay').style.opacity = '1';
-            
-            // Reset form
-            document.getElementById('password-input').value = '';
-            hideErrorMessage();
+            localStorage.removeItem('currentPasswordHash');
+            location.reload();
         }
         
         function logout() {
             localStorage.removeItem('secureSession');
-            localStorage.removeItem('currentPasswordHash'); // Ensure this is also cleared
+            localStorage.removeItem('currentPasswordHash');
             location.reload();
         }
         
         function showLoadingState() {
             const button = document.querySelector('.unlock-button');
-            const buttonText = document.getElementById('button-text');
-            const spinner = document.getElementById('button-spinner');
-            
             button.disabled = true;
-            buttonText.style.display = 'none';
-            spinner.style.display = 'inline-block';
+            document.getElementById('button-text').style.display = 'none';
+            document.getElementById('button-spinner').style.display = 'inline-block';
         }
         
         function hideLoadingState() {
             const button = document.querySelector('.unlock-button');
-            const buttonText = document.getElementById('button-text');
-            const spinner = document.getElementById('button-spinner');
-            
             button.disabled = false;
-            buttonText.style.display = 'inline';
-            spinner.style.display = 'none';
+            document.getElementById('button-text').style.display = 'inline';
+            document.getElementById('button-spinner').style.display = 'none';
         }
         
         function showErrorMessage(message) {
-            const errorElement = document.getElementById('error-message');
-            const errorText = document.getElementById('error-text');
-            
-            errorText.textContent = message;
-            errorElement.classList.add('show');
+            document.getElementById('error-text').textContent = message;
+            document.getElementById('error-message').classList.add('show');
         }
         
         function hideErrorMessage() {
-            const errorElement = document.getElementById('error-message');
-            errorElement.classList.remove('show');
+            document.getElementById('error-message').classList.remove('show');
         }
         
         function showLockoutMessage() {
             const remainingTime = Math.ceil((SECURITY_CONFIG.lockoutDuration - (Date.now() - parseInt(localStorage.getItem('lockoutTime')))) / 1000 / 60);
             showErrorMessage(`Account locked due to multiple failed attempts. Try again in ${remainingTime} minutes.`);
-            
-            // Disable input and button
             document.getElementById('password-input').disabled = true;
             document.querySelector('.unlock-button').disabled = true;
         }
+
+        // --- Notification System ---
+
+        function setupNotificationSystem() {
+            const bell = document.getElementById('notification-bell');
+            const modal = document.getElementById('notification-modal');
+            const windowEl = document.getElementById('notification-window');
+            const closeBtn = document.getElementById('close-notification-modal');
+
+            bell.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+                setTimeout(() => windowEl.classList.add('show'), 10);
+            });
+
+            const closeModal = () => {
+                windowEl.classList.remove('show');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    // Notifications check karne ke baad, current time ko store karein
+                    localStorage.setItem('lastNotificationCheck', new Date().toISOString());
+                    // Badge ko foran clear karein
+                    allNewItems = [];
+                    updateNotificationUI();
+                }, 300);
+            };
+
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => (e.target === modal) && closeModal());
+        }
         
-        // Notification system
-        function showNotification(type, title, message) {
-            const toast = document.getElementById('notification-toast');
-            const icon = document.getElementById('notification-icon');
-            const titleEl = document.getElementById('notification-title');
-            const messageEl = document.getElementById('notification-message');
+        async function checkForAllNewContent() {
+            const tables = [
+                { name: 'pdfbooks', friendlyName: 'PDF Books' },
+                { name: 'testnotes', friendlyName: 'Test Notes' },
+                { name: 'pastpapers', friendlyName: 'Past Papers' },
+                { name: 'mocktestsoffline', friendlyName: 'Offline Mock Tests' },
+                { name: 'mocktestsonline', friendlyName: 'Online Mock Tests' },
+                { name: 'videolectures', friendlyName: 'Video Lectures' },
+                { name: 'itdigitallearning', friendlyName: 'IT & Digital Learning' }
+            ];
+
+            const lastCheckedTimestamp = localStorage.getItem('lastNotificationCheck');
+            // Agar user ne pehle check kiya hai, to us waqt ko istemal karein. Warna, pichle 7 din ka default lein.
+            const thresholdDate = lastCheckedTimestamp 
+                ? new Date(lastCheckedTimestamp) 
+                : new Date(new Date().setDate(new Date().getDate() - SECURITY_CONFIG.recentThresholdDays));
             
-            // Set icon based on type
-            icon.className = `notification-icon ${type}`;
-            switch(type) {
-                case 'info':
-                    icon.innerHTML = '<i class="fas fa-info-circle"></i>';
-                    break;
-                case 'warning':
-                    icon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
-                    break;
-                case 'success':
-                    icon.innerHTML = '<i class="fas fa-check-circle"></i>';
-                    break;
-                case 'error':
-                    icon.innerHTML = '<i class="fas fa-times-circle"></i>';
-                    break;
+            allNewItems = [];
+            const promises = tables.map(table => 
+                supabase.from(table.name)
+                        .select('*')
+                        // Sirf us content ko layein jo aakhri check ke baad add hua hai
+                        .gt('created_at', thresholdDate.toISOString())
+            );
+
+            try {
+                const results = await Promise.all(promises);
+                results.forEach((result, index) => {
+                    const table = tables[index];
+                    const { data, error } = result;
+                    if (error) {
+                        console.warn(`Could not check recent items for ${table.name}. Does 'created_at' column exist?`, error.message);
+                        return;
+                    }
+                    if (data) {
+                        data.forEach(item => {
+                            allNewItems.push({ ...item, category: table.friendlyName });
+                        });
+                    }
+                });
+                updateNotificationUI();
+            } catch (e) {
+                console.error("Failed to check for new content:", e);
             }
-            
-            titleEl.textContent = title;
-            messageEl.textContent = message;
-            
-            // Show notification
-            toast.classList.add('show');
-            
-            // Auto hide after 5 seconds
-            setTimeout(() => {
-                hideNotification();
-            }, 5000);
         }
         
-        function hideNotification() {
-            const toast = document.getElementById('notification-toast');
-            toast.classList.remove('show');
+        function updateNotificationUI() {
+            const badge = document.getElementById('notification-badge');
+            const list = document.getElementById('notification-list');
+            list.innerHTML = '';
+
+            allNewItems.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+            if (allNewItems.length > 0) {
+                badge.textContent = allNewItems.length;
+                badge.classList.remove('hidden');
+                allNewItems.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700';
+                    li.innerHTML = `<span class="font-semibold text-indigo-500">${item.category}:</span> <span class="text-gray-700 dark:text-gray-300">${item.title}</span>`;
+                    list.appendChild(li);
+                });
+            } else {
+                badge.classList.add('hidden');
+                list.innerHTML = `<li class="text-center text-gray-500 py-4">Aapke aakhri visit ke baad koi naya content shamil nahi hua hai.</li>`;
+            }
         }
         
-        // Helper to create a content card HTML
         function createContentCardHtml(item) {
+            const itemDate = new Date(item.created_at);
+            const thresholdDate = new Date();
+            thresholdDate.setDate(thresholdDate.getDate() - SECURITY_CONFIG.recentThresholdDays);
+            const isNew = item.created_at && itemDate > thresholdDate;
+
             return `
                 <div class="card">
+                    ${isNew ? '<span class="new-badge">Naya</span>' : ''}
                     <div class="card-icon">
                         <i class="${item.icon || 'fas fa-question-circle'}"></i>
                     </div>
@@ -2199,142 +2073,88 @@
             `;
         }
         
-        // Generic fetch function for any content type
         async function fetchContent(tableName, contentDivId) {
             const contentDiv = document.getElementById(contentDivId);
-            contentDiv.innerHTML = `
-                <div class="content-loading">
-                    <div class="content-spinner"></div>
-                    <p class="ml-4 text-gray-600">Loading ${tableName.replace(/([A-Z])/g, ' $1').trim()}...</p>
-                </div>
-            `;
+            const friendlyTableName = tableName.replace(/([A-Z])/g, ' $1').replace('pdf', 'PDF ').replace('it', 'IT ').trim();
+
+            contentDiv.innerHTML = `<div class="content-loading"><div class="content-spinner"></div><p>Loading ${friendlyTableName}...</p></div>`;
             
             try {
-                const { data, error } = await supabase
-                    .from(tableName)
-                    .select('*')
-                    .order('title', { ascending: true });
-                
-                if (error) {
-                    throw error;
-                }
+                const { data, error } = await supabase.from(tableName).select('*').order('created_at', { ascending: false });
+                if (error) throw error;
                 
                 if (data.length === 0) {
-                    contentDiv.innerHTML = `
-                        <p class="text-center text-gray-500 col-span-full">No ${tableName.replace(/([A-Z])/g, ' $1').trim()} available yet. Please check back later!</p>
-                    `;
+                    contentDiv.innerHTML = `<p class="text-center text-gray-500 col-span-full">Abhi tak koi ${friendlyTableName} available nahi hai.</p>`;
                     return;
                 }
                 
-                contentDiv.innerHTML = ''; // Clear loading state
+                contentDiv.innerHTML = '';
                 data.forEach(item => {
-                    const cardHtml = createContentCardHtml(item);
-                    contentDiv.insertAdjacentHTML('beforeend', cardHtml);
+                    contentDiv.insertAdjacentHTML('beforeend', createContentCardHtml(item));
                 });
+
             } catch (error) {
-                console.error(`Error fetching ${tableName} from Supabase:`, error);
-                contentDiv.innerHTML = `
-                    <p class="text-center text-red-500 col-span-full">Failed to load ${tableName.replace(/([A-Z])/g, ' $1').trim()}. Please try again later.</p>
-                `;
-            }
-        }
-        
-        // Navigation Functions
-        function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Remove active class from all tabs
-            const tabs = document.querySelectorAll('.nav-tab');
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected section
-            document.getElementById(sectionId).classList.add('active');
-            
-            // Add active class to the corresponding tab
-            const activeTab = document.querySelector(`[onclick="showSection('${sectionId}')"]`);
-            if (activeTab) {
-                activeTab.classList.add('active');
-            }
-            
-            // Dynamically fetch data for the selected section
-            switch (sectionId) {
-                case 'pdf-books':
-                    fetchContent('pdfbooks', 'pdf-books-content');
-                    break;
-                case 'test-notes':
-                    fetchContent('testnotes', 'test-notes-content');
-                    break;
-                case 'past-papers':
-                    fetchContent('pastpapers', 'past-papers-content');
-                    break;
-                case 'mock-tests-offline':
-                    fetchContent('mocktestsoffline', 'mock-tests-offline-content');
-                    break;
-                case 'mock-tests-online':
-                    fetchContent('mocktestsonline', 'mock-tests-online-content');
-                    break;
-                case 'video-lectures':
-                    fetchContent('videolectures', 'video-lectures-content');
-                    break;
-                case 'it-digital-learning':
-                    fetchContent('itdigitallearning', 'it-digital-learning-content');
-                    break;
-                default:
-                    console.warn('Unknown section:', sectionId);
-            }
-        }
-        
-        // Admin Panel Navigation Function
-        function goToAdmin() {
-            // Redirect to admin.html 
-            window.location.href = 'admin.html';
-        }
-        
-        // Security monitoring functions
-        function detectDevTools() {
-            let devtools = {
-                open: false,
-                orientation: null
-            };
-            const threshold = 160;
-            
-            setInterval(() => {
-                if (window.outerHeight - window.innerHeight > threshold || 
-                    window.outerWidth - window.innerWidth > threshold) {
-                    if (!devtools.open) {
-                        devtools.open = true;
-                        console.warn('Developer tools detected');
-                        // Could implement additional security measures here
+                console.warn(`Error fetching ${tableName} with 'created_at' order. Falling back.`, error.message);
+                try {
+                    const { data: fallbackData, error: fallbackError } = await supabase.from(tableName).select('*');
+                    if (fallbackError) throw fallbackError;
+
+                     if (fallbackData.length === 0) {
+                        contentDiv.innerHTML = `<p class="text-center text-gray-500 col-span-full">Abhi tak koi ${friendlyTableName} available nahi hai.</p>`;
+                        return;
                     }
-                } else {
-                    devtools.open = false;
+
+                    contentDiv.innerHTML = '';
+                    fallbackData.slice().reverse().forEach(item => {
+                         contentDiv.insertAdjacentHTML('beforeend', createContentCardHtml(item));
+                    });
+
+                } catch (finalError) {
+                     console.error(`Error fetching ${tableName} (fallback):`, finalError);
+                    contentDiv.innerHTML = `<p class="text-center text-red-500 col-span-full">${friendlyTableName} load karne mein masla hua.</p>`;
                 }
-            }, 500);
+            }
         }
         
-        // Initialize additional security measures
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelector(`[onclick="showSection('${sectionId}')"]`).classList.add('active');
+            
+            const tableMap = {
+                'pdf-books': { name: 'pdfbooks', contentId: 'pdf-books-content' },
+                'test-notes': { name: 'testnotes', contentId: 'test-notes-content' },
+                'past-papers': { name: 'pastpapers', contentId: 'past-papers-content' },
+                'mock-tests-offline': { name: 'mocktestsoffline', contentId: 'mock-tests-offline-content' },
+                'mock-tests-online': { name: 'mocktestsonline', contentId: 'mock-tests-online-content' },
+                'video-lectures': { name: 'videolectures', contentId: 'video-lectures-content' },
+                'it-digital-learning': { name: 'itdigitallearning', contentId: 'it-digital-learning-content' }
+            };
+            if(tableMap[sectionId]) {
+                fetchContent(tableMap[sectionId].name, tableMap[sectionId].contentId);
+            }
+        }
+
+        // --- Security and Utility Functions ---
+        
+        function detectDevTools() {
+            const threshold = 160;
+            setInterval(() => {
+                if (window.outerHeight - window.innerHeight > threshold || window.outerWidth - window.innerWidth > threshold) {
+                    console.warn('Developer tools detected');
+                }
+            }, 1000);
+        }
+        
         detectDevTools();
-        
-        // Prevent right-click context menu (optional)
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-        
-        // Prevent common keyboard shortcuts (optional)
-        document.addEventListener('keydown', function(e) {
-            // Prevent F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-            if (e.keyCode === 123 || 
-                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) ||
-                (e.ctrlKey && e.keyCode === 85)) {
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) {
                 e.preventDefault();
             }
         });
     </script>
 </body>
 </html>
+
