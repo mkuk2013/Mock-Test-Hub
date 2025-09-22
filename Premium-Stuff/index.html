@@ -2047,7 +2047,7 @@
                 });
             } else {
                 badge.classList.add('hidden');
-                list.innerHTML = `<li class="text-center text-gray-500 py-4">Aapke aakhri visit ke baad koi naya content shamil nahi hua hai.</li>`;
+                list.innerHTML = `<li class="text-center text-gray-500 py-4">No new content has been added since your last visit.</li>`;
             }
         }
         
@@ -2059,7 +2059,7 @@
 
             return `
                 <div class="card">
-                    ${isNew ? '<span class="new-badge">Naya</span>' : ''}
+                    ${isNew ? '<span class="new-badge">New</span>' : ''}
                     <div class="card-icon">
                         <i class="${item.icon || 'fas fa-question-circle'}"></i>
                     </div>
