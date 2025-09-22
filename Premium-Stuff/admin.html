@@ -1684,7 +1684,8 @@
                             description,
                             icon,
                             link,
-                            actiontext
+                            actiontext,
+                            created_at: new Date().toISOString() // Add current timestamp
                         }]);
                     
                     if (error) throw error;
