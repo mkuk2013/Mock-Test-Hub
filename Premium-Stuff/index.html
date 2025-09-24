@@ -514,7 +514,7 @@
             backdrop-filter: blur(var(--glass-blur));
             border-radius: var(--radius-xl);
             padding: 1.5rem;
-            margin: -3rem auto 4rem;
+            margin: -3rem auto 0; /* Adjusted margin */
             max-width: 1200px;
             box-shadow: var(--shadow-2xl), 0 0 40px rgba(99, 102, 241, 0.1);
             position: relative;
@@ -945,7 +945,7 @@
             }
             
             .nav-container {
-                margin: -2.5rem auto 3rem;
+                margin: -2.5rem auto 0;
                 padding: 1.25rem;
             }
             
@@ -986,7 +986,7 @@
             }
             
             .nav-container {
-                margin: -2rem auto 2.5rem;
+                margin: -2rem auto 0;
                 padding: 1rem;
             }
             
@@ -1044,7 +1044,7 @@
             }
             
             .nav-container {
-                margin: -1.5rem auto 2rem;
+                margin: -1.5rem auto 0;
             }
             
             .content-section {
@@ -1556,6 +1556,22 @@
                     </button>
                 </div>
             </div>
+
+            <!-- New Search Section -->
+            <div id="search-section" class="max-w-4xl mx-auto my-8 px-4">
+                 <div class="search-container mt-6 mb-2 max-w-3xl mx-auto">
+                    <div class="relative">
+                        <span class="absolute left-6 inset-y-0 flex items-center text-2xl text-gray-400">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" id="search-input" placeholder="Search for anything..."
+                               class="w-full pl-16 pr-8 py-5 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 
+                                      rounded-full focus:outline-none focus:ring-4 focus:ring-indigo-400/50 dark:focus:ring-indigo-500/50
+                                      focus:border-indigo-500 dark:focus:border-indigo-500 transition-all duration-300 text-gray-800 dark:text-gray-200 
+                                      placeholder-gray-500 dark:placeholder-gray-400 text-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
             
             <div id="pdf-books" class="content-section active">
                 <h3 class="section-title">PDF Books Collection</h3>
@@ -1662,6 +1678,16 @@
                     </div>
                 </div>
             </div>
+
+            <div id="search-results" class="content-section">
+                <h3 class="section-title">Search Results</h3>
+                <p class="section-description" id="search-results-description">
+                    Showing results for your query.
+                </p>
+                <div id="search-results-content" class="cards-grid">
+                    <!-- Results will be injected here -->
+                </div>
+            </div>
         </div>
         
         <footer class="footer">
@@ -1712,8 +1738,8 @@
         let sessionStartTime = null;
         let currentPasswordHash = null;
         let passwordCheckInterval = null;
-
         let allNewItems = [];
+        let activeSectionIdBeforeSearch = 'pdf-books';
         
         // SHA-256 Hashing Function
         async function sha256(message) {
@@ -1879,6 +1905,7 @@
                 startPasswordChangeMonitoring();
                 setupNotificationSystem();
                 checkForAllNewContent();
+                setupGlobalSearch();
                 showSection('pdf-books');
             }, 500);
         }
@@ -1955,7 +1982,6 @@
         }
 
         // --- Notification System ---
-
         function setupNotificationSystem() {
             const bell = document.getElementById('notification-bell');
             const modal = document.getElementById('notification-modal');
@@ -1971,9 +1997,7 @@
                 windowEl.classList.remove('show');
                 setTimeout(() => {
                     modal.classList.add('hidden');
-                    // Notifications check karne ke baad, current time ko store karein
                     localStorage.setItem('lastNotificationCheck', new Date().toISOString());
-                    // Badge ko foran clear karein
                     allNewItems = [];
                     updateNotificationUI();
                 }, 300);
@@ -1985,42 +2009,32 @@
         
         async function checkForAllNewContent() {
             const tables = [
-                { name: 'pdfbooks', friendlyName: 'PDF Books' },
-                { name: 'testnotes', friendlyName: 'Test Notes' },
-                { name: 'pastpapers', friendlyName: 'Past Papers' },
-                { name: 'mocktestsoffline', friendlyName: 'Offline Mock Tests' },
-                { name: 'mocktestsonline', friendlyName: 'Online Mock Tests' },
-                { name: 'videolectures', friendlyName: 'Video Lectures' },
+                { name: 'pdfbooks', friendlyName: 'PDF Books' }, { name: 'testnotes', friendlyName: 'Test Notes' },
+                { name: 'pastpapers', friendlyName: 'Past Papers' }, { name: 'mocktestsoffline', friendlyName: 'Offline Mock Tests' },
+                { name: 'mocktestsonline', friendlyName: 'Online Mock Tests' }, { name: 'videolectures', friendlyName: 'Video Lectures' },
                 { name: 'itdigitallearning', friendlyName: 'IT & Digital Learning' }
             ];
 
             const lastCheckedTimestamp = localStorage.getItem('lastNotificationCheck');
-            // Agar user ne pehle check kiya hai, to us waqt ko istemal karein. Warna, pichle 7 din ka default lein.
             const thresholdDate = lastCheckedTimestamp 
                 ? new Date(lastCheckedTimestamp) 
                 : new Date(new Date().setDate(new Date().getDate() - SECURITY_CONFIG.recentThresholdDays));
             
             allNewItems = [];
             const promises = tables.map(table => 
-                supabase.from(table.name)
-                        .select('*')
-                        // Sirf us content ko layein jo aakhri check ke baad add hua hai
-                        .gt('created_at', thresholdDate.toISOString())
+                supabase.from(table.name).select('*').gt('created_at', thresholdDate.toISOString())
             );
 
             try {
                 const results = await Promise.all(promises);
                 results.forEach((result, index) => {
                     const table = tables[index];
-                    const { data, error } = result;
-                    if (error) {
-                        console.warn(`Could not check recent items for ${table.name}. Does 'created_at' column exist?`, error.message);
+                    if (result.error) {
+                        console.warn(`Could not check recent items for ${table.name}.`, result.error.message);
                         return;
                     }
-                    if (data) {
-                        data.forEach(item => {
-                            allNewItems.push({ ...item, category: table.friendlyName });
-                        });
+                    if (result.data) {
+                        result.data.forEach(item => allNewItems.push({ ...item, category: table.friendlyName }));
                     }
                 });
                 updateNotificationUI();
@@ -2033,7 +2047,6 @@
             const badge = document.getElementById('notification-badge');
             const list = document.getElementById('notification-list');
             list.innerHTML = '';
-
             allNewItems.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
             if (allNewItems.length > 0) {
@@ -2051,6 +2064,7 @@
             }
         }
         
+        // --- Content Rendering ---
         function createContentCardHtml(item) {
             const itemDate = new Date(item.created_at);
             const thresholdDate = new Date();
@@ -2076,59 +2090,115 @@
         async function fetchContent(tableName, contentDivId) {
             const contentDiv = document.getElementById(contentDivId);
             const friendlyTableName = tableName.replace(/([A-Z])/g, ' $1').replace('pdf', 'PDF ').replace('it', 'IT ').trim();
-
             contentDiv.innerHTML = `<div class="content-loading"><div class="content-spinner"></div><p>Loading ${friendlyTableName}...</p></div>`;
             
             try {
                 const { data, error } = await supabase.from(tableName).select('*').order('created_at', { ascending: false });
                 if (error) throw error;
                 
-                if (data.length === 0) {
-                    contentDiv.innerHTML = `<p class="text-center text-gray-500 col-span-full">Abhi tak koi ${friendlyTableName} available nahi hai.</p>`;
-                    return;
-                }
-                
-                contentDiv.innerHTML = '';
-                data.forEach(item => {
-                    contentDiv.insertAdjacentHTML('beforeend', createContentCardHtml(item));
-                });
-
+                contentDiv.innerHTML = data.length === 0 
+                    ? `<p class="text-center text-gray-500 col-span-full">Abhi tak koi ${friendlyTableName} available nahi hai.</p>`
+                    : data.map(createContentCardHtml).join('');
             } catch (error) {
-                console.warn(`Error fetching ${tableName} with 'created_at' order. Falling back.`, error.message);
-                try {
-                    const { data: fallbackData, error: fallbackError } = await supabase.from(tableName).select('*');
-                    if (fallbackError) throw fallbackError;
-
-                     if (fallbackData.length === 0) {
-                        contentDiv.innerHTML = `<p class="text-center text-gray-500 col-span-full">Abhi tak koi ${friendlyTableName} available nahi hai.</p>`;
-                        return;
-                    }
-
-                    contentDiv.innerHTML = '';
-                    fallbackData.slice().reverse().forEach(item => {
-                         contentDiv.insertAdjacentHTML('beforeend', createContentCardHtml(item));
-                    });
-
-                } catch (finalError) {
-                     console.error(`Error fetching ${tableName} (fallback):`, finalError);
-                    contentDiv.innerHTML = `<p class="text-center text-red-500 col-span-full">${friendlyTableName} load karne mein masla hua.</p>`;
-                }
+                console.error(`Error fetching ${tableName}:`, error);
+                contentDiv.innerHTML = `<p class="text-center text-red-500 col-span-full">${friendlyTableName} load karne mein masla hua.</p>`;
             }
         }
         
+        // --- Search Functionality ---
+        function debounce(func, delay = 350) {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    func.apply(this, args);
+                }, delay);
+            };
+        }
+
+        async function executeSearch(searchTerm) {
+            const searchResultsContainer = document.getElementById('search-results');
+            const searchResultsContent = document.getElementById('search-results-content');
+            const searchResultsDescription = document.getElementById('search-results-description');
+            
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            searchResultsContainer.classList.add('active');
+            searchResultsContent.innerHTML = `<div class="content-loading"><div class="content-spinner"></div><p>Searching...</p></div>`;
+            searchResultsDescription.innerHTML = `Searching for: <span class="font-bold text-indigo-500">"${searchTerm}"</span>`;
+
+            const tables = ['pdfbooks', 'testnotes', 'pastpapers', 'mocktestsoffline', 'mocktestsonline', 'videolectures', 'itdigitallearning'];
+
+            try {
+                const searchPromises = tables.map(table =>
+                    supabase.from(table).select('*').or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`)
+                );
+                const results = await Promise.all(searchPromises);
+                const allMatches = results.flatMap(result => result.data || []);
+
+                searchResultsContent.innerHTML = '';
+
+                if (allMatches.length > 0) {
+                    searchResultsDescription.innerHTML = `Found <span class="font-bold text-indigo-500">${allMatches.length}</span> results for: <span class="font-bold text-indigo-500">"${searchTerm}"</span>`;
+                    allMatches.forEach(item => {
+                        searchResultsContent.insertAdjacentHTML('beforeend', createContentCardHtml(item));
+                    });
+                } else {
+                     searchResultsDescription.innerHTML = `No results found for: <span class="font-bold text-indigo-500">"${searchTerm}"</span>`;
+                     searchResultsContent.innerHTML = `
+                        <div class="no-results-message text-center text-gray-500 col-span-full py-10">
+                            <div class="flex flex-col items-center justify-center text-center">
+                                <i class="fas fa-box-open text-5xl mb-4 text-gray-400"></i>
+                                <p class="text-2xl font-semibold text-gray-700 dark:text-gray-300">Nothing Found</p>
+                                <p class="text-gray-500 dark:text-gray-400 mt-2">We couldn't find any content matching your search. Try using different keywords.</p>
+                            </div>
+                        </div>
+                     `;
+                }
+            } catch (error) {
+                console.error('Error during global search:', error);
+                searchResultsContent.innerHTML = `<p class="text-center text-red-500 col-span-full">An error occurred during search.</p>`;
+            }
+        }
+
+        function setupGlobalSearch() {
+            const searchInput = document.getElementById('search-input');
+            const searchResultsContainer = document.getElementById('search-results');
+
+            const debouncedSearch = debounce((event) => {
+                const searchTerm = event.target.value.toLowerCase().trim();
+                if (searchTerm.length >= 3) {
+                    const currentlyActive = document.querySelector('.content-section.active:not(#search-results)');
+                    if (currentlyActive) activeSectionIdBeforeSearch = currentlyActive.id;
+                    executeSearch(searchTerm);
+                } else {
+                    searchResultsContainer.classList.remove('active');
+                    const lastActiveSection = document.getElementById(activeSectionIdBeforeSearch);
+                    if (lastActiveSection) {
+                        lastActiveSection.classList.add('active');
+                    } else {
+                        document.getElementById('pdf-books').classList.add('active');
+                    }
+                }
+            });
+            searchInput.addEventListener('input', debouncedSearch);
+        }
+
         function showSection(sectionId) {
+            document.getElementById('search-input').value = '';
+            document.getElementById('search-results').classList.remove('active');
             document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
+            
+            const sectionToShow = document.getElementById(sectionId);
+            sectionToShow.classList.add('active');
+            activeSectionIdBeforeSearch = sectionId;
+
             document.querySelector(`[onclick="showSection('${sectionId}')"]`).classList.add('active');
             
             const tableMap = {
-                'pdf-books': { name: 'pdfbooks', contentId: 'pdf-books-content' },
-                'test-notes': { name: 'testnotes', contentId: 'test-notes-content' },
-                'past-papers': { name: 'pastpapers', contentId: 'past-papers-content' },
-                'mock-tests-offline': { name: 'mocktestsoffline', contentId: 'mock-tests-offline-content' },
-                'mock-tests-online': { name: 'mocktestsonline', contentId: 'mock-tests-online-content' },
-                'video-lectures': { name: 'videolectures', contentId: 'video-lectures-content' },
+                'pdf-books': { name: 'pdfbooks', contentId: 'pdf-books-content' }, 'test-notes': { name: 'testnotes', contentId: 'test-notes-content' },
+                'past-papers': { name: 'pastpapers', contentId: 'past-papers-content' }, 'mock-tests-offline': { name: 'mocktestsoffline', contentId: 'mock-tests-offline-content' },
+                'mock-tests-online': { name: 'mocktestsonline', contentId: 'mock-tests-online-content' }, 'video-lectures': { name: 'videolectures', contentId: 'video-lectures-content' },
                 'it-digital-learning': { name: 'itdigitallearning', contentId: 'it-digital-learning-content' }
             };
             if(tableMap[sectionId]) {
@@ -2137,7 +2207,6 @@
         }
 
         // --- Security and Utility Functions ---
-        
         function detectDevTools() {
             const threshold = 160;
             setInterval(() => {
