@@ -376,10 +376,6 @@
             box-shadow: var(--shadow-xl), 0 0 30px rgba(255, 215, 0, 0.5);
         }
         
-        .unlock-button:hover::before {
-            transform: translateX(100%);
-        }
-        
         .unlock-button:active {
             transform: translateY(-1px);
         }
@@ -1061,6 +1057,20 @@
                 height: 55px;
                 font-size: 24px;
             }
+
+            /* Helper on mobile */
+            .ai-helper-container {
+                right: 20px;
+                bottom: 20px; /* WhatsApp button ke barabar (20px) */
+            }
+
+            .ai-chat-window {
+                width: 90vw; /* full width on mobile */
+                height: 70vh;
+                left: 5vw;
+                right: 5vw;
+                bottom: 80px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1103,6 +1113,21 @@
                 font-size: 22px;
                 bottom: 15px;
                 left: 15px;
+            }
+            
+            .ai-helper-container {
+                right: 15px;
+                bottom: 15px; /* WhatsApp button ke barabar (15px) */
+            }
+
+            .ai-helper-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+
+            .ai-chat-window {
+                bottom: 70px;
             }
         }
         
@@ -1341,6 +1366,12 @@
         }
         
         body.dark-mode::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: 
                 radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
@@ -1515,6 +1546,225 @@
         .icon-shadow {
             filter: drop-shadow(0 3px 5px rgba(0,0,0,0.25));
         }
+
+        /* --- NEW AI HELPER CHAT STYLES --- */
+
+        .ai-helper-container {
+            position: fixed;
+            bottom: 40px; /* WhatsApp button ke barabar (40px) */
+            right: 40px; /* Right side mein set kiya */
+            z-index: 9999; 
+            cursor: pointer;
+            /* For mobile responsiveness */
+            @media (max-width: 768px) {
+                right: 20px;
+                bottom: 20px; /* WhatsApp button ke barabar (20px) */
+            }
+        }
+
+        .ai-helper-icon {
+            /* **FINAL FIX: Simplified to the standard robot icon with clean circle background** */
+            width: 65px;
+            height: 65px;
+            background: var(--gradient-primary); /* Primary Gradient background */
+            color: white;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: var(--shadow-xl), 0 0 30px rgba(99, 102, 241, 0.4);
+            position: relative;
+            transition: all var(--transition-normal);
+            animation: helperIconFloat 3s ease-in-out infinite;
+        }
+
+        .ai-helper-icon i {
+             /* Font Awesome icon styling */
+             filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+             transition: transform 0.3s ease;
+        }
+
+        @keyframes helperIconFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-8px) scale(1.05); }
+        }
+
+        .ai-helper-icon:hover {
+            box-shadow: var(--shadow-2xl), 0 0 40px rgba(99, 102, 241, 0.8);
+        }
+        
+        /* Removed all custom SVG styles since we switched back to fas fa-robot */
+        
+        .ai-chat-window {
+            position: absolute;
+            bottom: 75px;
+            right: 0;
+            width: 350px;
+            height: 400px;
+            background: var(--bg-primary); 
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-2xl);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform-origin: bottom right;
+            animation: slideUpBounce 0.4s var(--transition-bounce);
+        }
+
+        @media (max-width: 768px) {
+            .ai-chat-window {
+                width: 90vw; 
+                height: 70vh;
+                left: 5vw;
+                right: 5vw;
+            }
+        }
+
+        .ai-chat-window.hidden {
+            display: none;
+        }
+
+        .chat-header {
+            padding: 1rem;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .chat-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            line-height: 1;
+            transition: transform 0.2s;
+        }
+        
+        .chat-header button:hover {
+            transform: rotate(90deg);
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background: var(--bg-secondary);
+        }
+
+        .message {
+            padding: 0.6rem 0.8rem;
+            margin-bottom: 0.7rem;
+            max-width: 85%;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            position: relative;
+            filter: drop-shadow(0 1px 1px rgba(0,0,0,0.1));
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .user-message {
+            background: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        .assistant-message {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .typing-indicator {
+            background: #FFD700;
+            color: var(--text-primary);
+            font-style: italic;
+            opacity: 0.8;
+            border: none;
+            text-align: center;
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 0.7rem;
+            border-top: 1px solid var(--border-medium);
+            background: var(--bg-primary);
+        }
+
+        #chat-input {
+            flex-grow: 1;
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-full);
+            outline: none;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        #chat-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .chat-input-container button {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: var(--radius-full);
+            margin-left: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-input-container button:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Dark Mode for Helper */
+        body.dark-mode .ai-chat-window {
+            background: var(--dark-bg-secondary);
+            border-color: var(--dark-border-medium);
+        }
+        body.dark-mode .chat-messages {
+            background: var(--dark-bg-tertiary);
+        }
+        body.dark-mode .assistant-message {
+            background: var(--dark-bg-secondary);
+            border-color: var(--dark-border-light);
+            color: var(--dark-text-primary);
+        }
+        body.dark-mode #chat-input {
+            background: var(--dark-bg-tertiary);
+            border-color: var(--dark-border-medium);
+            color: var(--dark-text-primary);
+        }
+        body.dark-mode .user-message {
+             background: var(--primary-light);
+        }
+        
+        body.dark-mode .ai-helper-icon {
+            /* Dark Mode: No change needed as background is none */
+            background: var(--gradient-primary); 
+            border: none;
+        }
+        
     </style>
 </head>
 <body>
@@ -1803,6 +2053,29 @@
         <i class="fab fa-whatsapp"></i>
     </a>
     
+    <!-- AI HELPER AVATAR AND CHAT WINDOW -->
+    <div id="ai-helper" class="ai-helper-container">
+        <div class="ai-helper-icon" onclick="toggleHelperChat()">
+            <!-- Simple Robot Icon -->
+            <i class="fas fa-robot text-white text-2xl"></i>
+        </div>
+        <div id="ai-chat-window" class="ai-chat-window hidden">
+            <div class="chat-header">
+                <span class="font-bold">Ilmi - Study Assistant</span>
+                <button onclick="toggleHelperChat()">&times;</button>
+            </div>
+            <div id="chat-messages" class="chat-messages">
+                <!-- Initial Welcome Message -->
+                <div class="message assistant-message">Hello! Mai **Ilmi**, aapka Study Assistant hoon. Mai aapko content dhoondhne aur platform ke sections ke bare mein madad kar sakta hoon. Aap apna sawaal type karein.</div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Aapka sawaal..." onkeypress="if(event.key === 'Enter') sendMessage()">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+    <!-- END AI HELPER -->
+
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0"></script>
     
@@ -1847,6 +2120,174 @@
             setupJoinModal();
         });
         
+        // --- NEW AI HELPER FUNCTIONS (Rule-Based) ---
+        
+        function appendMessage(text, sender) {
+            const messagesDiv = document.getElementById('chat-messages');
+            
+            const messageEl = document.createElement('div');
+            messageEl.classList.add('message');
+            messageEl.classList.add(sender === 'user' ? 'user-message' : 'assistant-message');
+            // Use innerHTML for bold formatting in bot's welcome message
+            messageEl.innerHTML = text; 
+            messagesDiv.appendChild(messageEl);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight; 
+        }
+
+        function toggleHelperChat() {
+            const chatWindow = document.getElementById('ai-chat-window');
+            chatWindow.classList.toggle('hidden');
+            // Jab chat open ho, toh input par focus karein
+            if (!chatWindow.classList.contains('hidden')) {
+                setTimeout(() => document.getElementById('chat-input').focus(), 100);
+            }
+        }
+
+        function generateBotResponse(query) {
+            // --- 1. Basic Greetings & Social ---
+            if (query.includes("hello") || query.includes("hi") || query.includes("hey") || query.includes("kaise ho")) {
+                return "Hello! Mai **Ilmi**, aapka Study Assistant hoon. Aap koi bhi topic search kar sakte hain (jaise: 'Physics notes') ya sections ke bare mein pooch sakte hain.";
+            }
+            
+            // --- 2. Content Sections Guide (Direct Section Trigger) ---
+            if (query.includes("pdf") || query.includes("book") || query.includes("kitab")) {
+                return "SECTION_TRIGGER:pdf-books:PDF Books";
+            } 
+            if (query.includes("notes") || query.includes("revision") || query.includes("study material")) {
+                return "SECTION_TRIGGER:test-notes:Test Notes";
+            }
+            if (query.includes("paper") || query.includes("past") || query.includes("pichle saal")) {
+                return "SECTION_TRIGGER:past-papers:Past Papers";
+            }
+            if (query.includes("mock") || query.includes("test") || query.includes("imtihan") || query.includes("online test")) {
+                return "SECTION_TRIGGER:mock-tests-online:Online Mock Tests";
+            }
+            if (query.includes("offline test") || query.includes("download test")) {
+                return "SECTION_TRIGGER:mock-tests-offline:Offline Mock Tests";
+            }
+            if (query.includes("video") || query.includes("lecture") || query.includes("samjhana")) {
+                return "SECTION_TRIGGER:video-lectures:Video Lectures";
+            }
+            if (query.includes("it") || query.includes("digital") || query.includes("coding") || query.includes("computer")) {
+                return "SECTION_TRIGGER:it-digital-learning:IT & Digital Learning";
+            }
+            
+            // --- 3. Platform Actions & Help ---
+            if (query.includes("whatsapp") || query.includes("contact") || query.includes("group") || query.includes("support")) {
+                return "Agar aapko koi technical issue hai ya group join karna hai, toh screen ke **bottom left** par **Green WhatsApp icon** par click karein. Aap direct admin se baat kar sakte hain.";
+            }
+
+            // --- 4. Fallback/Search Trigger (If no specific keyword matches, treat it as a search query) ---
+            // MDCAT, ECAT, search terms ya 3 ya us se zyada letters par direct search trigger
+            // Note: Single short words like 'Adobe' are now handled here with minimum length 3
+            if (query.includes("mdcat") || query.includes("ecat") || query.includes("search") || query.includes("dhundh") || query.includes("find") || query.includes("kya hai") || query.length >= 3) {
+                 return "SEARCH_TRIGGER Aapki query par Global Search chala raha hoon...";
+            }
+            
+            // --- 5. Generic Fallback (Short, non-searchable queries) ---
+            return "Mujhe theek se samajh nahi aaya. Mai sirf **PDF Books, Notes, Tests, Videos** jaise sections ke bare mein ya specific keywords (**MDCAT, Physics**) par hi search kar sakta hoon. Kya aap koi specific content dhoondh rahe hain?";
+        }
+
+        async function performHelperSearch(searchTerm) {
+            // executeSearch is defined later and performs the full fetch and DOM update for search-results.
+            // We need to wait for executeSearch to complete before reading the DOM for results.
+            
+            // Call the search function
+            await executeSearch(searchTerm); 
+
+            // **IMPROVEMENT:** Wait a moment to ensure DOM update is complete (100ms for robust sync)
+            // This is the crucial step to ensure the search DOM has updated before reading the result count
+            await new Promise(resolve => setTimeout(resolve, 100)); 
+            
+            // After executeSearch runs, the DOM should be updated. We read the result from the DOM.
+            const searchResultsDescription = document.getElementById('search-results-description').textContent;
+            
+            // Regular Expression se count extract karna. Example: "Found 11 results for: "mdcat""
+            const match = searchResultsDescription.match(/Found\s+(\d+)\s+results/);
+            
+            // Agar match milta hai, to count return karo, warna 0.
+            if (match && match[1]) {
+                return parseInt(match[1], 10);
+            }
+            
+            // Agar description mein 'No results found' hai, to 0 return karo
+            if (searchResultsDescription.includes("No results found")) {
+                return 0;
+            }
+            
+            // Fallback (Agar kuch bhi clear na ho to default 0)
+            return 0;
+        }
+
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const messageText = input.value.trim();
+            if (messageText === "") return;
+
+            // 1. User Message Display
+            appendMessage(messageText, 'user');
+            input.value = '';
+
+            // 2. Typing Indicator
+            const messagesDiv = document.getElementById('chat-messages');
+            const typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('message', 'assistant-message', 'typing-indicator');
+            typingIndicator.textContent = '...Aapke liye content dhoondh raha hoon...';
+            messagesDiv.appendChild(typingIndicator);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight; 
+
+            // 3. Main Logic: Check for direct keywords or trigger search
+            const query = messageText.toLowerCase();
+            let botResponse = generateBotResponse(query);
+            let shouldSearch = false;
+            let searchTerm = '';
+
+            if (botResponse.includes("SEARCH_TRIGGER")) {
+                shouldSearch = true;
+                // Query se "search", "find", etc. jaise words hatao
+                searchTerm = query.replace(/^(search|find|dhoondho|mujhe|batao|kya hai)/, '').trim() || query; 
+                botResponse = botResponse.replace("SEARCH_TRIGGER", ""); 
+            }
+
+            if (shouldSearch) {
+                // Set main search bar value to show the user what was searched
+                document.getElementById('search-input').value = searchTerm;
+                
+                // Search ko asynchronous (async) execute karte hain aur result ka wait karte hain
+                const searchResultCount = await performHelperSearch(searchTerm);
+                
+                // 4. Response ko search result ke mutabik update karte hain (SYNCED RESPONSE)
+                if (searchResultCount > 0) {
+                    botResponse = `Aapke keyword "**${searchTerm}**" se **${searchResultCount}** content items mile hain. Maine **Search Results** section khol diya hai. Aap scrolling karke results dekh sakte hain.`;
+                } else {
+                    // Agar koi match nahi mila, to search bar ke results se sync ho jayega
+                    botResponse = `Aapke keyword "**${searchTerm}**" se **koi content nahi mila**. Search Results section mein "Nothing Found" dikh raha hoga. Behtar results ke liye koi aur keyword (jaise **Physics Notes**) try karein ya upar diye gaye tabs check karein.`;
+                }
+
+                
+            } else if (botResponse.includes("SECTION_TRIGGER")) {
+                const parts = botResponse.split(":");
+                const sectionId = parts[1].trim();
+                const sectionName = parts[2].trim();
+                
+                // Section ko active karte hain
+                showSection(sectionId);
+                
+                botResponse = `Theek hai! Maine aapke liye **${sectionName}** section khol diya hai. Ab aap wahan content dekh sakte hain.`;
+            }
+
+            // Thoda delay taaki real lage
+            setTimeout(() => {
+                // Remove typing indicator
+                typingIndicator.remove();
+                // Send final response
+                appendMessage(botResponse, 'assistant');
+            }, 800);
+        }
+
+        // --- Rest of the existing code ---
+
         function initializeDarkMode() {
             const darkModeToggle = document.getElementById('dark-mode-toggle');
             const isDarkMode = localStorage.getItem('darkMode') === 'true';
@@ -1878,6 +2319,12 @@
             const passwordInput = document.getElementById('password-input');
             passwordInput.addEventListener('keypress', (e) => (e.key === 'Enter') && authenticateUser());
             passwordInput.addEventListener('input', () => hideErrorMessage());
+
+            // Add listener for helper input
+            const chatInput = document.getElementById('chat-input');
+            if (chatInput) {
+                 chatInput.addEventListener('keypress', (e) => (e.key === 'Enter') && sendMessage());
+            }
         }
 
         function setupJoinModal() {
@@ -2122,10 +2569,10 @@
             const closeModal = () => {
                 windowEl.classList.remove('show');
                 setTimeout(() => {
-                    modal.classList.add('hidden');
                     localStorage.setItem('lastNotificationCheck', new Date().toISOString());
                     allNewItems = [];
                     updateNotificationUI();
+                    modal.classList.add('hidden');
                 }, 300);
             };
 
@@ -2352,7 +2799,3 @@
     </script>
 </body>
 </html>
-
-
-
-
