@@ -2039,7 +2039,7 @@
             </p>
             
             <div class="space-y-4 px-4">
-                <a href="https://chat.whatsapp.com/KMb4eG7Sp2S0xu2OvRfxVB" target="_blank" class="join-group-button block w-full bg-gradient-to-r from-green-400 to-green-500 text-white font-semibold py-3 px-5 rounded-full text-lg hover:from-green-500 hover:to-green-600 transition-all duration-300 ease-in-out flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 hover:scale-105">
+                <a href="https://chat.whatsapp.com/JRV1RSY8kYxK18XJeGTD5i" target="_blank" class="join-group-button block w-full bg-gradient-to-r from-green-400 to-green-500 text-white font-semibold py-3 px-5 rounded-full text-lg hover:from-green-500 hover:to-green-600 transition-all duration-300 ease-in-out flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 hover:scale-105">
                     <i class="fab fa-whatsapp mr-3"></i> Join WhatsApp Group
                 </a>
                 <a href="https://wa.me/+923480358640" target="_blank" class="join-group-button block w-full bg-gradient-to-r from-green-400 to-green-500 text-white font-semibold py-3 px-5 rounded-full text-lg hover:from-green-500 hover:to-green-600 transition-all duration-300 ease-in-out flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 hover:scale-105">
@@ -2462,6 +2462,7 @@
                 
                 startSessionMonitoring();
                 startPasswordChangeMonitoring();
+                startKeepAlivePing(); // <-- ADDED YOUR KEEP-ALIVE PING HERE
                 setupNotificationSystem();
                 checkForAllNewContent();
                 setupGlobalSearch();
@@ -2510,6 +2511,41 @@
                     console.error('Error checking for password changes:', error);
                 }
             }, SECURITY_CONFIG.passwordCheckInterval);
+        }
+
+        // --- NEW KEEP-ALIVE FUNCTION ---
+        function startKeepAlivePing() {
+            const performPing = async () => {
+                if (!supabaseUrl || !supabaseAnonKey) {
+                    console.warn("Supabase credentials not found, skipping keep-alive ping.");
+                    return;
+                }
+                
+                // We ping a simple, existing table to keep the project active.
+                // Using 'securitysettings' as it's already used for auth.
+                // This is a lightweight 'read' operation.
+                const keepAliveUrl = `${supabaseUrl}/rest/v1/securitysettings?select=accesspassword&limit=1`;
+                
+                try {
+                    await fetch(keepAliveUrl, {
+                        method: 'GET',
+                        headers: {
+                            'apikey': supabaseAnonKey,
+                            'Authorization': `Bearer ${supabaseAnonKey}`,
+                            'Accept': 'application/json'
+                        }
+                    });
+                    console.log("Pinged Supabase to keep project active.");
+                } catch (error) {
+                    console.error("Supabase keep-alive ping failed:", error);
+                }
+            };
+
+            // Run the first ping immediately after login
+            performPing(); 
+            
+            // Set interval for subsequent pings (every 1 hour)
+            setInterval(performPing, 1000 * 60 * 60); 
         }
         
         function forceLogout() {
