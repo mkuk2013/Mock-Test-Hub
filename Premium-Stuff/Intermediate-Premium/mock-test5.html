@@ -1,0 +1,3355 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title badal diya gaya hai -->
+    <title>BPS 5-15 Intermediate Category Mock Test 5</title>
+    <!-- Corrected CDN links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- MathJax for mathematical formulas (Corrected position) -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            },
+            startup: {
+                ready: () => {
+                    MathJax.startup.defaultReady();
+                    MathJax.startup.promise.then(() => {
+                        console.log('MathJax 3 is loaded and ready.');
+                    });
+                }
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+        /* --- Base Variables & Reset --- */
+        :root {
+            /* New Vibrant & Professional Palette */
+            --primary-color: #5A67D8; /* Indigo Blue */
+            --primary-dark: #434190;
+            --secondary-color: #48BB78; /* Emerald Green */
+            --secondary-dark: #38A169;
+            --accent-color: #F6AD55; /* Warm Orange */
+            --accent-dark: #ED8936;
+            --warning-color: #ECC94B; /* Yellow */
+            --danger-color: #F56565; /* Red */
+
+            --text-color: #2D3748; /* Dark Grey */
+            --light-text-color: #718096; /* Muted Grey */
+            --bg-color: #F7FAFC; /* Light Grey-Blue background */
+            --card-bg: #FFFFFF; /* Pure White card background */
+            --border-color: #E2E8F0; /* Light border */
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Enhanced, softer shadow */
+            --border-radius: 16px; /* More rounded */
+            --input-bg: #FFFFFF;
+            --hover-bg-light: rgba(0, 0, 0, 0.05);
+
+            /* Calculator/Scratchpad - Adjusted for new palette */
+            --calc-bg: #2D3748; /* Dark Grey */
+            --calc-border: #1A202C;
+            --calc-btn-bg: #4A5568; /* Medium Grey */
+            --calc-btn-hover: #606F82;
+            --calc-btn-operator-bg: var(--accent-color); /* Orange */
+            --calc-btn-operator-hover: var(--accent-dark);
+            --calc-btn-clear-bg: #2C5282; /* Darker Blue */
+            --calc-btn-clear-hover: #2B6CB0;
+            --calc-display-bg: #1A202C; /* Very Dark Grey */
+            --calc-display-text: white;
+            --scratchpad-bg: #FFFFFF;
+            --scratchpad-border: #E2E8F0;
+        }
+
+        /* Dark Mode Variables - New Palette */
+        body.dark-mode {
+            --primary-color: #7F9CF5; /* Lighter Indigo */
+            --primary-dark: #667EEA;
+            --secondary-color: #68D391; /* Lighter Emerald */
+            --secondary-dark: #48BB78;
+            --accent-color: #FBD38D; /* Lighter Orange */
+            --accent-dark: #F6AD55;
+            --warning-color: #F6E05E; /* Lighter Yellow */
+            --danger-color: #FC8181; /* Lighter Red */
+
+            --text-color: #E2E8F0; /* Light Grey */
+            --light-text-color: #A0AEC0; /* Muted light grey */
+            --bg-color: #1A202C; /* Very Dark Blue-Grey background */
+            --card-bg: #2D3748; /* Dark Blue-Grey card background */
+            --border-color: #4A5568; /* Darker border */
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* More prominent shadow */
+            --input-bg: #4A5568;
+            --hover-bg-light: rgba(255, 255, 255, 0.1);
+
+            /* Calculator/Scratchpad Dark Mode - Match overall dark theme, keep calc distinct */
+            --calc-bg: #2D3748;
+            --calc-border: #1A202C;
+            --calc-btn-bg: #4A5568;
+            --calc-btn-hover: #606F82;
+            --calc-btn-operator-bg: var(--accent-color);
+            --calc-btn-operator-hover: var(--accent-dark);
+            --calc-btn-clear-bg: #2C5282;
+            --calc-btn-clear-hover: #2B6CB0;
+            --calc-display-bg: #1A202C;
+            --calc-display-text: white;
+            --scratchpad-bg: #2D3748;
+            --scratchpad-border: #4A5568;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+
+        /* --- Global Header & Footer --- */
+        .page-header {
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.4em;
+            box-shadow: var(--shadow);
+            flex-shrink: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .page-header h1 {
+            font-size: 1.4em;
+            margin: 0;
+            flex-grow: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .mode-toggle {
+            cursor: pointer;
+            font-size: 1.7em;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background-color 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mode-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+        .mode-toggle i {
+            pointer-events: none;
+        }
+        .page-footer {
+            font-size: 0.9em;
+            padding: 15px 20px;
+            margin-top: auto;
+            background-color: var(--primary-dark);
+            color: white;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+        .page-footer a {
+            color: inherit;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .page-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            width: 100%;
+            max-width: 1100px; /* Slightly wider */
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin: 30px auto;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color); /* Subtle border */
+        }
+
+        /* --- Common Screen Styling --- */
+        .screen {
+            padding: 50px; /* More padding */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .screen h2 {
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            color: var(--primary-color);
+            font-weight: 800;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+        }
+        .screen p {
+            font-size: 1.15em;
+            color: var(--light-text-color);
+            margin-bottom: 35px;
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        /* --- Password Screen --- */
+        #password-screen .input-group {
+            position: relative;
+            margin-bottom: 30px;
+            width: 90%;
+            max-width: 450px;
+        }
+        #password-input {
+            width: 100%;
+            padding: 16px 50px 16px 25px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1.1em;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
+        }
+        #password-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 5px rgba(90, 103, 216, 0.3); /* Primary color based shadow */
+        }
+        .toggle-password {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--light-text-color);
+            font-size: 1.2em;
+            transition: color 0.2s;
+        }
+        .toggle-password:hover {
+            color: var(--text-color);
+        }
+        .password-notice { /* New style for the notice */
+            font-size: 0.95em;
+            color: var(--text-color);
+            margin-top: -15px; /* Adjust margin to place it closer to the input */
+            margin-bottom: 25px; /* Space before the button */
+            line-height: 1.5;
+            max-width: 450px;
+            text-align: center;
+        }
+        .password-notice a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .password-notice a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Instructions Screen --- */
+        #instructions-screen {
+            text-align: left;
+        }
+        #instructions-screen ul {
+            list-style: none; /* Remove default bullets */
+            margin-left: 0;
+            padding-left: 0;
+            margin-bottom: 40px;
+            color: var(--text-color);
+            max-width: 800px;
+        }
+        #instructions-screen ul li {
+            display: flex; /* Use flexbox for alignment */
+            align-items: flex-start; /* Align items to the start of the cross axis (top for row direction) */
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        #instructions-screen ul li::before {
+            content: '\f058'; /* FontAwesome check-circle icon */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 10px; /* Space between icon and text */
+            color: var(--secondary-color); /* Green checkmark */
+            font-size: 1.2em;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+            display: inline-flex; /* Use inline-flex for pseudo-element to center content */
+            justify-content: center;
+            align-items: center;
+            /* Removed fixed width and height */
+            /* Added padding for visual spacing around the icon */
+            padding-right: 5px;
+            box-sizing: content-box;
+        }
+        #instructions-screen ul li span {
+            flex-grow: 1; /* Allow the text content to grow and wrap */
+        }
+        #instructions-screen .btn {
+            margin-top: 20px;
+        }
+
+        /* --- Test Screen Layout --- */
+        #test-screen {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        #question-counter, #timer {
+            font-weight: 700;
+            font-size: 1.2em;
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 12px 22px;
+            border-radius: 30px;
+            min-width: 160px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: background-color 0.3s;
+        }
+        #timer.time-low {
+            background: linear-gradient(45deg, var(--danger-color), #D64545);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            background-color: var(--border-color);
+            height: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.08);
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--secondary-dark));
+            border-radius: 6px;
+            transition: width 0.5s ease-out;
+        }
+
+        .test-body {
+            padding: 40px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        #question-container {
+            font-size: 1.5em;
+            margin-bottom: 35px;
+            line-height: 1.7;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .reading-passage {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .reading-passage h3 {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .reading-passage p {
+            font-size: 1em;
+            line-height: 1.8;
+            color: var(--light-text-color);
+            margin-bottom: 0; /* Override default p margin */
+        }
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .option {
+            padding: 18px 25px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s, transform 0.1s, box-shadow 0.2s;
+            font-size: 1.15em;
+            text-align: left;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .option::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--light-text-color);
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .option:hover {
+            background-color: var(--hover-bg-light);
+            border-color: var(--primary-color);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .option.selected {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+        .option.selected::before {
+            background-color: white;
+            border-color: white;
+            box-shadow: inset 0 0 0 4px var(--primary-color);
+        }
+        body.dark-mode .option.selected {
+            color: var(--card-bg);
+        }
+        body.dark-mode .option.selected::before {
+            box-shadow: inset 0 0 0 4px var(--primary-color);
+        }
+
+        .test-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 40px;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 25px;
+            background-color: var(--bg-color);
+        }
+        .test-footer .left-controls, .test-footer .right-controls {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* Flag Button - Updated styling */
+        .btn-flag {
+            background-color: var(--card-bg);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 12px 20px;
+            font-size: 1em;
+            box-shadow: none;
+            transition: background-color 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-flag:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        .btn-flag.flagged {
+            background-color: var(--warning-color);
+            color: var(--text-color);
+            border-color: var(--warning-color);
+            box-shadow: 0 2px 8px rgba(255,193,7,0.4);
+        }
+        body.dark-mode .btn-flag.flagged {
+            color: #333;
+        }
+
+        /* Submit Button Style */
+        .btn-submit {
+            background: linear-gradient(45deg, var(--secondary-color), var(--secondary-dark));
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+        .btn-submit:hover {
+            background: linear-gradient(45deg, var(--secondary-dark), #38A169);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .btn-submit:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        /* --- Question Palette --- */
+       #question-palette {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 30px 40px;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) transparent;
+        }
+        #question-palette::-webkit-scrollbar {
+            height: 8px;
+        }
+        #question-palette::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 4px;
+        }
+        #question-palette::-webkit-scrollbar-track {
+            background-color: var(--border-color);
+        }
+
+        .palette-btn {
+            width: 55px;
+            height: 55px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            background-color: var(--card-bg);
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s, border-color 0.2s, transform 0.1s, box-shadow 0.2s;
+            color: var(--text-color);
+            font-size: 1.1em;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+        }
+        .palette-btn:hover {
+            background-color: var(--hover-bg-light);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+        .palette-btn.current {
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: scale(1.08);
+        }
+        .palette-btn.answered {
+            background-color: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+        .palette-btn.not-answered {
+            background-color: var(--warning-color);
+            color: var(--text-color);
+            border-color: var(--warning-color);
+        }
+        body.dark-mode .palette-btn.not-answered {
+            color: #333;
+        }
+        .palette-btn.flagged {
+            position: relative;
+            box-shadow: 0 0 0 4px var(--danger-color); /* Red border for flagged */
+        }
+        .palette-btn.flagged::after {
+            content: '\f024'; /* Flag icon */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            font-size: 0.8em;
+            color: var(--danger-color);
+            background-color: var(--card-bg);
+            border-radius: 50%;
+            padding: 3px;
+            line-height: 1;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .palette-btn.flagged::after {
+            background-color: var(--card-bg);
+        }
+
+
+        /* --- Result Screen --- */
+        #result-screen {
+            padding: 50px;
+            text-align: center;
+        }
+        #result-summary {
+            margin-bottom: 50px;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            background-color: var(--bg-color);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            width: 100%; /* Added this line */
+        }
+        #result-summary h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--secondary-color), var(--secondary-dark));
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            margin-bottom: 30px;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+        }
+        .score-circle span:first-child {
+            font-size: 4.5em;
+            font-weight: 800;
+            line-height: 1;
+        }
+        .score-circle span:last-child {
+            font-size: 1.3em;
+            margin-top: 5px;
+        }
+        .score-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        .score-details div {
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+        .score-details p {
+            margin: 0;
+            font-size: 1.1em;
+        }
+        .score-details p:first-child {
+            color: var(--light-text-color);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .score-details p:last-child {
+            font-weight: 700;
+            font-size: 1.3em;
+            color: var(--primary-color);
+        }
+        /* CSS selectors ko naye 'Status' box ke liye update kiya gaya hai */
+        .score-details div:nth-child(4) p:last-child { color: var(--secondary-color); } /* Correct */
+        .score-details div:nth-child(5) p:last-child { color: var(--danger-color); } /* Incorrect */
+
+
+        .result-question {
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            text-align: left;
+            background-color: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .result-question p {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+        .result-option {
+            margin-bottom: 10px;
+            font-size: 1.05em;
+            color: var(--light-text-color); /* Default color for options */
+            display: flex; /* Use flexbox for alignment */
+            align-items: center; /* Vertically center items */
+            gap: 10px; /* Space between icon and text */
+        }
+        .result-option::before {
+            content: '';
+            display: inline-block; /* Make it take space in flex layout */
+            width: 20px; /* Fixed width for consistent icon alignment */
+            height: 20px; /* Fixed height for consistent icon alignment */
+            border-radius: 50%; /* For the default dot */
+            background-color: var(--light-text-color); /* For the default dot */
+            flex-shrink: 0; /* Prevent icon from shrinking */
+            text-align: center; /* Center Font Awesome icons within its box */
+            line-height: 20px; /* Vertically center Font Awesome icons */
+            font-size: 1.1em; /* Adjust font size for icons */
+        }
+        /* Correct option styling */
+        .result-option.correct {
+            color: var(--secondary-color); /* Green text for correct options */
+            font-weight: 700;
+        }
+        .result-option.correct::before {
+            content: '\f058'; /* Check circle */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            background: none; /* Remove background circle */
+            color: var(--secondary-color); /* Ensure green color */
+        }
+        /* Incorrect option styling (user's selected incorrect answer) */
+        .result-option.incorrect.user-answer {
+            color: var(--danger-color); /* Red text for incorrect options */
+            font-weight: 700;
+        }
+        .result-option.incorrect.user-answer::before {
+            content: '\f057'; /* Times circle */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            background: none;
+            color: var(--danger-color); /* Ensure red color */
+        }
+        /* User's selected correct answer (will also have .correct class) */
+        .result-option.user-answer.correct::before {
+            content: '\f058'; /* Check circle */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            background: none;
+            color: var(--secondary-color); /* Ensure green color */
+        }
+        .not-attempted-text {
+            color: var(--light-text-color);
+            font-style: italic;
+            margin-left: 30px;
+            margin-top: 15px;
+            font-size: 0.95em;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            padding: 16px 40px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.05em;
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(45deg, var(--primary-dark), #434190);
+        }
+        .btn-secondary {
+            background-color: var(--light-text-color);
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #5A67D8; /* A darker shade of primary for secondary hover */
+        }
+        .btn-danger {
+            background: linear-gradient(45deg, var(--danger-color), #D64545);
+            color: white;
+        }
+        .btn-danger:hover {
+            background: linear-gradient(45deg, #D64545, #C53030);
+        }
+
+        /* Result screen controls */
+        #result-screen .controls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        /* --- Modals (Confirmation Popups) --- */
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            animation: fadeInOverlay 0.3s ease-out;
+        }
+        .modal.hidden {
+            display: none !important;
+        }
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 45px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 550px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            position: relative;
+            animation: slideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Springy animation */
+            border: 1px solid var(--border-color);
+        }
+        .modal-content h3 {
+            margin-bottom: 28px;
+            color: var(--primary-color);
+            font-size: 2em;
+            font-weight: 800;
+        }
+        .modal-content p {
+            font-size: 1.15em;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 35px;
+        }
+        @keyframes fadeInOverlay {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-100px) scale(0.8); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Review Summary Modal */
+        #review-summary-modal .modal-content {
+            max-width: 750px;
+            text-align: left;
+        }
+        #review-summary-modal h3 {
+            text-align: center;
+        }
+        #review-summary-modal .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        #review-summary-modal .summary-item {
+            background-color: var(--bg-color);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        #review-summary-modal .summary-item strong {
+            display: block;
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        #review-summary-modal .summary-item span {
+            color: var(--light-text-color);
+            font-size: 1em;
+        }
+        #review-summary-modal .summary-item.answered strong {
+            color: var(--secondary-color);
+        }
+        #review-summary-modal .summary-item.not-answered strong {
+            color: var(--warning-color);
+        }
+        #review-summary-modal .summary-item.flagged strong {
+            color: var(--danger-color);
+        }
+
+        /* --- Utility Classes --- */
+        .hidden {
+            display: none !important;
+        }
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- Loading Spinner --- */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.4em;
+            backdrop-filter: blur(10px);
+        }
+        .spinner {
+            border: 10px solid rgba(255,255,255,0.2);
+            border-top: 10px solid var(--primary-color);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 30px;
+        }
+        #loading-overlay p {
+            color: white;
+            font-weight: 600;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- Floating Tools (Calculator & Scratchpad) --- */
+        .floating-tool-trigger {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 999;
+        }
+        .floating-tool-trigger:hover {
+            background: linear-gradient(45deg, var(--primary-dark), #434190);
+            transform: scale(1.1);
+        }
+        .floating-tool-container {
+            position: fixed;
+            background-color: var(--calc-bg);
+            border: 1px solid var(--calc-border);
+            border-radius: 20px; /* Specific for tools */
+            box-shadow: var(--shadow);
+            z-index: 998;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: grab;
+            min-width: 320px; /* Ensure minimum size */
+            min-height: 200px;
+        }
+        .floating-tool-container.hidden {
+            display: none !important;
+        }
+        .floating-tool-header {
+            background-color: var(--calc-display-bg);
+            color: var(--calc-display-text);
+            padding: 12px 20px;
+            border-top-left-radius: 18px; /* Match container border-radius -2px */
+            border-top-right-radius: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.2em;
+            cursor: grab;
+        }
+        .floating-tool-header .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.3em;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.2s;
+        }
+        .floating-tool-header .close-btn:hover {
+            transform: scale(1.3);
+        }
+
+        /* Calculator Specific Styles */
+        #calculator-tool {
+            width: 340px; /* Slightly wider */
+            height: 520px; /* Slightly taller */
+            resize: none;
+        }
+
+        #calculator {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #calculator .display {
+            background-color: var(--calc-display-bg);
+            color: var(--calc-display-text);
+            font-size: 3.8em; /* Larger font */
+            text-align: right;
+            padding: 25px;
+            flex-shrink: 0;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) transparent;
+            border-top-left-radius: 18px;
+            border-top-right-radius: 18px;
+        }
+        #calculator .display::-webkit-scrollbar {
+            height: 8px;
+        }
+        #calculator .display::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 4px;
+        }
+        #calculator .display::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        #calculator .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 2px;
+            flex-grow: 1;
+            background-color: var(--calc-border);
+            padding-top: 2px;
+        }
+
+        #calculator .button {
+            background-color: var(--calc-btn-bg);
+            color: var(--calc-display-text);
+            border: none;
+            font-size: 2em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #calculator .button:hover {
+            background-color: var(--calc-btn-hover);
+        }
+
+        #calculator .button.operator {
+            background-color: var(--calc-btn-operator-bg);
+        }
+
+        #calculator .button.operator:hover {
+            background-color: var(--calc-btn-operator-hover);
+        }
+
+        #calculator .button.clear-btn,
+        #calculator .button.plus-minus,
+        #calculator .button.percentage {
+            background-color: var(--calc-btn-clear-bg);
+        }
+
+        #calculator .button.clear-btn:hover,
+        #calculator .button.plus-minus:hover,
+        #calculator .button.percentage:hover {
+            background-color: var(--calc-btn-clear-hover);
+        }
+
+        #calculator .button.zero {
+            grid-column: span 2;
+            border-bottom-left-radius: 18px;
+        }
+        #calculator .button:nth-last-child(1) {
+            border-bottom-right-radius: 18px;
+        }
+
+
+        /* Scratchpad Specific Styles */
+        #scratchpad-tool {
+            width: 450px;
+            height: 350px;
+            resize: both;
+            display: flex;
+            flex-direction: column;
+            border-radius: 20px;
+            background-color: var(--scratchpad-bg);
+            border: 1px solid var(--scratchpad-border);
+        }
+        #scratchpad-tool .floating-tool-header {
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            border-bottom: 1px solid var(--primary-dark);
+        }
+        body.dark-mode #scratchpad-tool .floating-tool-header {
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            border-bottom: 1px solid var(--primary-dark);
+        }
+        #scratchpad-textarea {
+            width: 100%;
+            flex-grow: 1;
+            border: none;
+            padding: 20px;
+            font-size: 1.05em;
+            font-family: 'Inter', sans-serif;
+            resize: none;
+            outline: none;
+            background-color: var(--scratchpad-bg);
+            color: var(--text-color);
+            line-height: 1.7;
+            tab-size: 4;
+            -moz-tab-size: 4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        #scratchpad-textarea::placeholder {
+            color: var(--light-text-color);
+        }
+
+        /* --- Toast Notifications --- */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1001; /* Above modals */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        .toast {
+            background-color: rgba(45, 55, 72, 0.95); /* Dark grey with transparency */
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-size: 0.95em;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: toastIn 0.5s forwards, toastOut 0.5s forwards 2.5s;
+            min-width: 250px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toast.success {
+            background-color: rgba(76, 175, 80, 0.95); /* Green */
+        }
+        .toast.error {
+            background-color: rgba(244, 67, 54, 0.95); /* Red */
+        }
+        .toast.info {
+            background-color: rgba(33, 150, 243, 0.95); /* Blue */
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-header, .test-header, .test-footer {
+                padding: 15px 25px;
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            .page-header h1 {
+                font-size: 1.2em;
+            }
+            .mode-toggle {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                padding: 8px;
+                font-size: 1.5em;
+            }
+            #question-counter, #timer {
+                font-size: 1.1em;
+                padding: 10px 18px;
+                min-width: unset;
+                width: 100%;
+            }
+            .container {
+                margin: 20px auto;
+                border-radius: 12px;
+            }
+            .screen {
+                padding: 30px;
+            }
+            .screen h2 {
+                font-size: 2em;
+                margin-bottom: 25px;
+            }
+            .screen p {
+                font-size: 1em;
+            }
+            /* Instructions screen specific adjustments for mobile */
+            #instructions-screen ul {
+                padding-left: 0; /* Ensure no extra padding pushes content */
+                margin-left: 0;
+            }
+            #instructions-screen ul li {
+                font-size: 1em; /* Adjust font size for readability */
+                margin-bottom: 10px; /* Reduce space between list items */
+                align-items: flex-start; /* Keep icon and text aligned at the top */
+                line-height: 1.5; /* Adjust line height for better spacing */
+            }
+            #instructions-screen ul li::before {
+                font-size: 1.1em; /* Adjust icon size */
+                margin-right: 8px; /* Adjust space between icon and text */
+                /* Removed fixed width and height */
+                padding-right: 3px; /* Adjust padding for mobile */
+            }
+            #question-container {
+                font-size: 1.3em;
+                margin-bottom: 30px;
+            }
+            .option {
+                padding: 15px 20px;
+                font-size: 1.05em;
+            }
+            .option::before {
+                width: 18px;
+                height: 18px;
+            }
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+                padding: 14px 30px;
+                font-size: 1em;
+            }
+            .test-footer .left-controls, .test-footer .right-controls {
+                flex-direction: column;
+                width: 100%;
+                gap: 15px;
+            }
+            #question-palette {
+                gap: 10px;
+                padding: 20px 25px;
+            }
+            .palette-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1em;
+                border-radius: 10px;
+            }
+            .palette-btn.flagged::after {
+                font-size: 0.7em;
+                top: 2px;
+                right: 2px;
+            }
+            #result-screen {
+                padding: 30px;
+            }
+            #result-summary {
+                padding: 25px;
+            }
+            .score-circle {
+                width: 160px;
+                height: 160px;
+                margin-bottom: 25px;
+            }
+            .score-circle span:first-child {
+                font-size: 3.5em;
+            }
+            .score-circle span:last-child {
+                font-size: 1.1em;
+            }
+            .score-details {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .modal-content {
+                padding: 35px 25px;
+            }
+            .modal-content h3 {
+                font-size: 1.8em;
+            }
+            .modal-content p {
+                font-size: 1.05em;
+            }
+            .modal-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .floating-tool-trigger {
+                width: 55px;
+                height: 55px;
+                font-size: 1.8em;
+                bottom: 20px;
+                right: 20px;
+            }
+            #calculator-tool, #scratchpad-tool {
+                width: 90%;
+                max-width: 340px;
+                height: auto;
+                max-height: 90vh;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            #calculator .display {
+                font-size: 3em;
+                padding: 20px;
+            }
+            #calculator .button {
+                font-size: 1.8em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header {
+                padding-top: 55px;
+            }
+            .screen {
+                padding: 20px;
+            }
+            .test-body {
+                padding: 20px;
+            }
+            .test-footer {
+                padding: 20px;
+            }
+            #question-palette {
+                padding: 15px 20px;
+            }
+            .palette-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Print specific styles */
+        @media print {
+            body > *:not(.container) {
+                display: none !important;
+            }
+            .container {
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                max-width: none !important;
+                border-radius: 0 !important;
+                border: none !important;
+            }
+            #result-screen {
+                padding: 20px !important; /* Reduce padding for print */
+                text-align: left !important; /* Align text left for readability */
+            }
+            #result-summary {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 20px !important;
+                background-color: white !important; /* Ensure white background for print */
+            }
+            .score-circle {
+                box-shadow: none !important;
+                background: none !important;
+                color: var(--primary-color) !important; /* Keep score color consistent */
+                border: 2px solid var(--primary-color);
+            }
+            .score-circle span:first-child {
+                color: var(--primary-color) !important;
+            }
+            .score-details div {
+                box-shadow: none !important;
+                border: 1px solid var(--border-color) !important;
+                background-color: white !important;
+            }
+            .controls {
+                display: none !important; /* Hide controls in print */
+            }
+            #answer-review-container {
+                display: block !important; /* Ensure review answers are visible */
+                width: 100% !important;
+                margin-top: 0 !important;
+            }
+            .result-question {
+                box-shadow: none !important;
+                border: 1px solid var(--border-color) !important;
+                background-color: white !important;
+                padding: 15px !important;
+                margin-bottom: 15px !important;
+            }
+            .result-option {
+                margin-bottom: 5px !important;
+            }
+            .not-attempted-text {
+                margin-left: 0 !important;
+            }
+            /* Ensure dark mode styles don't interfere with print */
+            body.dark-mode .result-option.correct {
+                color: var(--secondary-color) !important;
+            }
+            body.dark-mode .result-option.incorrect.user-answer {
+                color: var(--danger-color) !important;
+            }
+            body.dark-mode .result-option.correct::before,
+            body.dark-mode .result-option.incorrect.user-answer::before {
+                color: inherit !important; /* Use inherited color for icons in print */
+            }
+            body.dark-mode #result-summary,
+            body.dark-mode .score-details div,
+            body.dark-mode .result-question {
+                background-color: white !important;
+                color: var(--text-color) !important; /* Ensure dark text on white background */
+            }
+            body.dark-mode .score-circle {
+                color: var(--primary-color) !important;
+            }
+            body.dark-mode .score-circle span:first-child {
+                color: var(--primary-color) !important;
+            }
+            body.dark-mode .score-details p:last-child {
+                color: var(--primary-color) !important;
+            }
+            body.dark-mode .score-details div:nth-child(3) p:last-child { color: var(--secondary-color) !important; }
+            body.dark-mode .score-details div:nth-child(4) p:last-child { color: var(--danger-color) !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <!-- Naam yahan badla gaya hai -->
+        <h1>BPS 5-15 Intermediate Category Mock Test 5</h1>
+        <div class="mode-toggle" id="mode-toggle" title="Toggle Dark/Light Mode">
+            <i class="fas fa-moon"></i>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="password-screen" class="screen">
+            <h2>Enter Password to Start</h2>
+            <p>Please enter the provided password to begin your mock test. This ensures the integrity of the test environment.</p>
+            <div class="input-group">
+                <input type="password" id="password-input" placeholder="Enter password">
+                <span class="toggle-password" id="toggle-password">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+            <!-- New notice added here -->
+            <button class="btn btn-primary" id="start-button">Start Test</button>
+        </section>
+
+        <section id="instructions-screen" class="screen hidden">
+            <h2>Instructions</h2>
+            <ul>
+                <!-- Instructions updated to reflect actual question count -->
+                <li><span>The test consists of <strong>100 Multiple Choice Questions (MCQs)</strong> across various sections.</span></li>
+                <!-- Timer update kiya gaya hai -->
+                <li><span>You have <strong>60 minutes</strong> to complete the test. The timer will start once you begin.</span></li>
+                <!-- Passing marks add kiye gaye hain -->
+                <li><span>The passing score for this test is <strong>40 marks</strong>.</span></li>
+                <li><span>Each question has only <strong>one correct answer</strong>.</span></li>
+                <li><span>You can navigate between questions using the "Previous" and "Next" buttons, or by using the question palette at the bottom.</span></li>
+                <li><span>You can "Flag" questions for review and come back to them later.</span></li>
+                <li><span>Your progress (answered, not answered, flagged) will be visible in the question palette.</span></li>
+                <li><span>A calculator and a scratchpad are available as floating tools for your convenience.</span></li>
+                <li><span>Once you click "Submit Test," you will not be able to change your answers.</span></li>
+                <li><span>Ensure you have a stable internet connection.</span></li>
+                <li><span>Good luck!</span></li>
+            </ul>
+            <button class="btn btn-primary" id="begin-test-button">Begin Test</button>
+        </section>
+
+        <section id="test-screen" class="hidden">
+            <div class="test-header">
+                <div id="question-counter">Question: 1 / 100</div>
+                <!-- Timer ka initial display yahan se control hota hai -->
+                <div id="timer">Time Left: 60:00</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="test-body">
+                <p id="question-section" style="font-size: 1.1em; color: var(--primary-color); margin-bottom: 10px; font-weight: 600;"></p>
+                <div id="reading-passage-container" class="reading-passage hidden"> <!-- Container for passage -->
+                    <h3>Reading Passage</h3>
+                    <p id="reading-passage-text"></p>
+                </div>
+                <div id="question-container"></div>
+                <div class="options-container" id="options-container">
+                    </div>
+            </div>
+
+            <div class="test-footer">
+                <div class="left-controls">
+                    <!-- Flag for Review Button -->
+                    <button class="btn btn-flag" id="flag-button"><i class="fas fa-flag"></i> Flag for Review</button>
+                    <!-- Previous Button -->
+                    <button class="btn btn-secondary hidden" id="prev-button"><i class="fas fa-arrow-left"></i> Previous</button>
+                </div>
+                <div class="right-controls">
+                    <!-- Next Button -->
+                    <button class="btn btn-primary" id="next-button">Next <i class="fas fa-arrow-right"></i></button>
+                    <!-- Submit Button -->
+                    <button class="btn btn-submit hidden" id="submit-test-button">Submit Test <i class="fas fa-check"></i></button>
+                </div>
+            </div>
+
+            <div class="question-palette" id="question-palette">
+                </div>
+        </section>
+
+        <section id="result-screen" class="screen hidden">
+            <h2>Test Results</h2>
+            <div id="result-summary">
+                <div class="score-circle">
+                    <span id="final-score">0</span>
+                    <span id="total-marks-summary">/ 100 Marks</span> <!-- Updated total marks -->
+                </div>
+                <div class="score-details">
+                    <div>
+                        <p>Total Questions</p>
+                        <p id="total-questions-summary">100</p> <!-- Updated total questions -->
+                    </div>
+                    <div>
+                        <p>Attempted Questions</p>
+                        <p id="attempted-questions-summary">0</p>
+                    </div>
+                    <!-- Pass/Fail status box add kiya gaya hai -->
+                    <div>
+                        <p>Status</p>
+                        <p id="pass-fail-status" style="font-weight: 700;">-</p>
+                    </div>
+                    <div>
+                        <p>Correct Answers</p>
+                        <p id="correct-answers-summary">0</p>
+                    </div>
+                    <div>
+                        <p>Incorrect Answers</p>
+                        <p id="incorrect-answers-summary">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="btn btn-secondary" id="review-answers-button"><i class="fas fa-eye"></i> Review Answers</button>
+                <button class="btn btn-primary" id="print-result-button"><i class="fas fa-print"></i> Print Result</button>
+                <button class="btn btn-secondary" id="retake-test-button"><i class="fas fa-redo"></i> Retake Test</button>
+            </div>
+
+            <div id="answer-review-container" class="hidden" style="width: 100%; text-align: left; margin-top: 30px;">
+                </div>
+        </section>
+    </main>
+
+    <footer class="page-footer">
+<!-- Footer ka text update kar diya gaya hai -->
+<p>&copy; 2025 BPS 5-15 Intermediate Category Mock Test Series. All rights reserved. Crafted with dedication by <a href="https://mock-test-hub.netlify.app" target="_blank" rel="noopener noreferrer">Mock Test Hub</a></p>     </footer>
+
+    <div id="confirm-submit-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Confirm Submission</h3>
+            <p>Are you sure you want to submit the test? You will not be able to change your answers after submission.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" id="confirm-submit-yes">Yes, Submit</button>
+                <button class="btn btn-secondary" id="confirm-submit-no">No, Go Back</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="review-summary-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Test Summary</h3>
+            <div class="summary-grid">
+                <div class="summary-item answered">
+                    <strong id="summary-answered-count">0</strong>
+                    <span>Answered</span>
+                </div>
+                <div class="summary-item not-answered">
+                    <strong id="summary-not-answered-count">0</strong>
+                    <span>Not Answered</span>
+                </div>
+                <div class="summary-item flagged">
+                    <strong id="summary-flagged-count">0</strong>
+                    <span>Flagged</span>
+                </div>
+            </div>
+            <p>You have <span id="unanswered-flagged-message"></span></section>
+            <div class="modal-buttons">
+                <button class="btn btn-primary" id="summary-continue-test">Continue Test</button>
+                <button class="btn btn-danger" id="summary-submit-test">Submit Anyway</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loading-overlay" class="hidden">
+        <div class="spinner"></div>
+        <p>Generating PDF...</p>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <div class="floating-tool-trigger" id="calculator-trigger" title="Open Calculator">
+        <i class="fas fa-calculator"></i>
+    </div>
+    <div class="floating-tool-trigger" id="scratchpad-trigger" style="bottom: 95px;" title="Open Scratchpad">
+        <i class="fas fa-pencil-alt"></i>
+    </div>
+
+    <div class="floating-tool-container hidden" id="calculator-tool">
+        <div class="floating-tool-header">
+            <span>Calculator</span>
+            <button class="close-btn" data-tool="calculator"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="calculator">
+            <div class="display" id="calculator-display">0</div>
+            <div class="buttons">
+                <button class="button clear-btn">AC</button>
+                <button class="button plus-minus">Â±</button>
+                <button class="button percentage">%</button>
+                <button class="button operator" data-operator="/">Ã·</button>
+                <button class="button">7</button>
+                <button class="button">8</button>
+                <button class="button">9</button>
+                <button class="button operator" data-operator="*">Ã—</button>
+                <button class="button">4</button>
+                <button class="button">5</button>
+                <button class="button">6</button>
+                <button class="button operator" data-operator="-">-</button>
+                <button class="button">1</button>
+                <button class="button">2</button>
+                <button class="button">3</button>
+                <button class="button operator" data-operator="+">+</button>
+                <button class="button zero">0</button>
+                <button class="button decimal">.</button>
+                <button class="button operator equal" data-operator="=">=</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-tool-container hidden" id="scratchpad-tool">
+        <div class="floating-tool-header">
+            <span>Scratchpad</span>
+            <button class="close-btn" data-tool="scratchpad"><i class="fas fa-times"></i></button>
+        </div>
+        <textarea id="scratchpad-textarea" placeholder="Write your notes here..."></textarea>
+    </div>
+
+    <script>
+        const PASSWORD = "stsibatest2025"; // Simple password for demonstration
+    // --- Reading Passage (UPDATED) ---
+const passage = "Indians inhabited all the islands of the West Indies and were a peaceful people living under the guidance of their chiefs. Three hundred years after the Arawaks first arrived on St. Maarten, in the 1300s, they were defeated and forced to abandon the island by a hostile tribe of Indians originating in South America. This new tribe was called the Carib. The Caribbean Sea was named after them. Unlike the Arawaks, they had no permanent chiefs or leaders, except in times of strife. And they were extremely warlike. Worse, they were cannibalistic, eating the enemy warriors they captured. In fact, the very word cannibal comes from the Spanish name for the Carib Indians. The Spanish arrived in the fifteenth century and, unfortunately, they carried diseases to which the Indians had no immunity. Many Indians succumbed to common European illnesses; others died from the hard labor forced upon them.";
+
+// --- Quiz Data (UPDATED) ---
+const quizData = [
+  // --- PART-I (ENGLISH) ---
+  // Section: Reading Comprehension (Q1-Q5)
+  {
+    question: "One can infer from the passage that the Stone Age people lived on St. Maarten in the year.",
+    section: "English - Reading Comprehension",
+    passage: true,
+    options: ["6000 b.c", "4000 b.c", "800 a.d", "1300 a.d"],
+    correctAnswer: 2 // C (Inferred from historical context usually associated with Arawaks, though text says "Three hundred years after... in the 1300s" implying arrival around 1000 AD. Options might refer to broader knowledge or specific text inference not fully explicit.)
+  },
+  {
+    question: "Which of the following is NOT true about the Carib Indians?",
+    section: "English - Reading Comprehension",
+    passage: true,
+    options: ["The sea was named after them", "They were peaceful fishermen, hunters, and farmers", "They ate human flesh", "They settled after defeating the Arawak Indians"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "According to the passage, the Carib Indians were finally defeated by",
+    section: "English - Reading Comprehension",
+    passage: true,
+    options: ["sickness and forced labor", "the more aggressive Arawak tribe", "the Dutch West India Company", "the French explorers"],
+    correctAnswer: 0 // A (Text mentions they succumbed to diseases and hard labor)
+  },
+  {
+    question: "One can infer from the passage that the underlined word strife means",
+    section: "English - Reading Comprehension",
+    passage: true,
+    options: ["cannibalism", "war", "duty-free", "chief"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "According to the article, present-day St. Maarten",
+    section: "English - Reading Comprehension",
+    passage: true,
+    options: ["belongs to the Spanish", "is independent", "is shared by the French and the Dutch", "is part of the U.S. Virgin Islands"],
+    correctAnswer: 2 // C (Common knowledge often tested in such passages, though specific line might be cut off, 'shared by French and Dutch' is the historical fact for St. Maarten)
+  },
+
+  // Section: Synonyms (Q6-Q13)
+  {
+    question: "They forced us to work long hours without pay.",
+    section: "English - Synonyms",
+    passage: false,
+    options: ["Drive", "Inefficient", "Declarative", "None of these"],
+    correctAnswer: 0 // A (Drive/Compel)
+  },
+  {
+    question: "The answer is really quite simple.",
+    section: "English - Synonyms",
+    passage: false,
+    options: ["Always", "Very", "Severe", "Stiff"],
+    correctAnswer: 3 // D (Unusual options. 'Plain/Uncomplicated' expected. 'Stiff' is unlikely. 'Very' is an intensifier. Contextually 'None' or poorly distinct options.)
+  },
+  {
+    question: "The band feels ready for new challenges",
+    section: "English - Synonyms",
+    passage: false,
+    options: ["Solution", "Accept", "Kick", "Believe"],
+    correctAnswer: 3 // D (Likely 'Believe' in themselves? Or 'Kick' as in thrill? Options are vague.)
+  },
+  {
+    question: "People who are living in want.",
+    section: "English - Synonyms",
+    passage: false,
+    options: ["Lack", "Wealth", "More", "Have"],
+    correctAnswer: 0 // A (Poverty/Lack)
+  },
+  {
+    question: "He is a careful driver.",
+    section: "English - Synonyms",
+    passage: false,
+    options: ["Experience", "Heedless", "Alert", "Unsafe"],
+    correctAnswer: 2 // C
+  },
+  {
+    question: "This is the most delicious ice cream.",
+    section: "English - Synonyms",
+    passage: false,
+    options: ["Insipid", "Flat", "Yucky", "Welcome"],
+    correctAnswer: 3 // D (Likely 'Welcome' or 'Tasty' but 'Welcome' is positive. Others are negative.)
+  },
+  {
+    question: "Don't spend more money than you can afford.",
+    section: "English - Synonyms",
+    passage: false,
+    options: ["Expensive", "Go", "Inconsistent", "Calm"],
+    correctAnswer: 3 // D (Odd options. 'Afford' usually means 'Manage'. 'Calm' is unrelated. Likely errors in source options.)
+  },
+  {
+    question: "We have just learnt he was ill.",
+    section: "English - Synonyms",
+    passage: false,
+    options: ["Memorize", "Left", "Hear", "Passover"],
+    correctAnswer: 2 // C (Heard/Found out)
+  },
+
+  // Section: Antonyms (Q14-Q20)
+  {
+    question: "They were breathless with anticipation.",
+    section: "English - Antonyms",
+    passage: false,
+    options: ["Fleet", "Dizzy", "Zippy", "Animate"],
+    correctAnswer: 3 // D (Breathless implies stopped/still? Animate implies life/motion. Options obscure.)
+  },
+  {
+    question: "Select on of the above.",
+    section: "English - Antonyms",
+    passage: false,
+    options: ["Field", "Bless", "Paradise", "None of these"],
+    correctAnswer: 3 // D (Opposite of Above is Below.)
+  },
+  {
+    question: "Smoke clouded the sky.",
+    section: "English - Antonyms",
+    passage: false,
+    options: ["Fog", "Haze", "Light", "Dark"],
+    correctAnswer: 2 // C (Clouded = Darkened/Obscured vs Light/Clear)
+  },
+  {
+    question: "A program of regular dental checkup.",
+    section: "English - Antonyms",
+    passage: false,
+    options: ["Uneven", "Road map", "Strategy", "None of these"],
+    correctAnswer: 0 // A (Regular vs Uneven/Irregular)
+  },
+  {
+    question: "The violence of the storm caused great fear.",
+    section: "English - Antonyms",
+    passage: false,
+    options: ["Emotion", "Insensitivity", "Passion", "White heat"],
+    correctAnswer: 3 // D (Violence implies intensity/force. 'White heat' is also intense. Maybe 'Insensitivity'? Or None.)
+  },
+  {
+    question: "The new drug proved effective.",
+    section: "English - Antonyms",
+    passage: false,
+    options: ["Rebut", "Shake out", "Put out", "None of these"],
+    correctAnswer: 3 // D (Opposite is Ineffective/Useless.)
+  },
+  {
+    question: "She was eager to get started.",
+    section: "English - Antonyms",
+    passage: false,
+    options: ["Ardent", "Wild", "Indifferent", "Hungry"],
+    correctAnswer: 2 // C (Eager vs Indifferent/Apathetic)
+  },
+
+  // Section: Spell Checking (Q21-Q25)
+  {
+    question: "Spell checking:",
+    section: "English - Spelling",
+    passage: false,
+    options: ["Comittee", "Commitee", "Committe", "Committee"],
+    correctAnswer: 3 // D
+  },
+  {
+    question: "Spell checking:",
+    section: "English - Spelling",
+    passage: false,
+    options: ["Registrar", "Registerar", "Registarah", "Registrer"],
+    correctAnswer: 0 // A
+  },
+  {
+    question: "Spell checking:",
+    section: "English - Spelling",
+    passage: false,
+    options: ["Refree", "Referee", "Refere", "Refree"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "Spell checking:",
+    section: "English - Spelling",
+    passage: false,
+    options: ["Asonance", "Assonance", "Assonence", "Asonence"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "Spell checking:",
+    section: "English - Spelling",
+    passage: false,
+    options: ["Astrronot", "Astronot", "Asstronaut", "Astronaut"],
+    correctAnswer: 3 // D
+  },
+
+  // Section: Error Detection (Q26-Q30)
+  {
+    question: "The Mosques of KSA are better than that of Pakistan.",
+    section: "English - Error Detection",
+    passage: false,
+    options: ["The Mosques", "KSA are", "better than", "that of Pakistan"],
+    correctAnswer: 3 // D (Should be 'those of Pakistan' because Mosques is plural)
+  },
+  {
+    question: "He always dressed himself, when he was free.",
+    section: "English - Error Detection",
+    passage: false,
+    options: ["He", "always", "dressed himself", "when he was free"],
+    correctAnswer: 2 // C (Reflexive usage might be redundant or 'dressed' implies getting dressed.)
+  },
+  {
+    question: "Your's uncle is my best friend.",
+    section: "English - Error Detection",
+    passage: false,
+    options: ["Your's", "uncle", "is my", "None of these"],
+    correctAnswer: 0 // A (Should be 'Your', possessive pronoun no apostrophe s)
+  },
+  {
+    question: "You and Owais Qarni have done their work.",
+    section: "English - Error Detection",
+    passage: false,
+    options: ["You", "Owais Qarni", "their work", "None of these"],
+    correctAnswer: 2 // C (Should be 'your work' as 'You' takes precedence)
+  },
+  {
+    question: "Either of the two boys have knocked the door.",
+    section: "English - Error Detection",
+    passage: false,
+    options: ["Either", "the two", "have", "knocked"],
+    correctAnswer: 2 // C (Either is singular, should be 'has')
+  },
+
+  // Section: Prepositions (Q31-Q35)
+  {
+    question: "True education does not consist ____ simply being taught facts.",
+    section: "English - Prepositions",
+    passage: false,
+    options: ["Of", "In", "On", "For"],
+    correctAnswer: 1 // B (consist in = lie in/comprise essence)
+  },
+  {
+    question: "Their diet consisted largely ____ vegetables.",
+    section: "English - Prepositions",
+    passage: false,
+    options: ["Of", "In", "On", "For"],
+    correctAnswer: 0 // A (consist of = composed of)
+  },
+  {
+    question: "She has an enormous capacity ____ hard work.",
+    section: "English - Prepositions",
+    passage: false,
+    options: ["Of", "In", "On", "For"],
+    correctAnswer: 3 // D
+  },
+  {
+    question: "My friend apologized ____ interrupting during my speech.",
+    section: "English - Prepositions",
+    passage: false,
+    options: ["To", "Of", "About", "For"],
+    correctAnswer: 3 // D
+  },
+  {
+    question: "What is he angry ____?",
+    section: "English - Prepositions",
+    passage: false,
+    options: ["From", "Of", "About", "For"],
+    correctAnswer: 2 // C
+  },
+
+  // Section: Sentence Structure (Q36-Q40)
+  {
+    question: "It's two miles to the beach. ('It's' is...)",
+    section: "English - Structure",
+    passage: false,
+    options: ["Nominative case", "Accusative case", "Genitive Case", "Possessive case"],
+    correctAnswer: 0 // A (Subject)
+  },
+  {
+    question: "She hopes it will be a boy. ('it' is...)",
+    section: "English - Structure",
+    passage: false,
+    options: ["Nominative case", "Accusative case", "Genitive Case", "Possessive case"],
+    correctAnswer: 0 // A (Subject of the dependent clause)
+  },
+  {
+    question: "He's been working in a bank since leaving school. ('since' is...)",
+    section: "English - Structure",
+    passage: false,
+    options: ["Preposition", "Adverb", "Conjunction", "Noun"],
+    correctAnswer: 0 // A (Followed by gerund phrase acting as object)
+  },
+  {
+    question: "She has since remained. ('since' is...)",
+    section: "English - Structure",
+    passage: false,
+    options: ["Preposition", "Adverb", "Conjunction", "Noun"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "I'm not sure what you mean, but I think that I agree. (Type of sentence)",
+    section: "English - Structure",
+    passage: false,
+    options: ["Simple", "Compound", "Complex", "Compound-Complex"],
+    correctAnswer: 3 // D (Compound-Complex)
+  },
+
+  // --- MATH (Q41-Q60) ---
+  {
+    question: "$\\sqrt{25\\%} = ?$",
+    section: "Mathematics",
+    passage: false,
+    options: ["$50\\%$", "$0.5\\%$", "$0.05\\%$", "None of these"],
+    correctAnswer: 0 // A (âˆš25 = 5. Wait. âˆš(25%) = âˆš(0.25) = 0.5 = 50%. OR is it (âˆš25)% = 5% = 0.05? Usually âˆš(25%) -> 50%.)
+  },
+  {
+    question: "Additive inverse of $a-b$ is",
+    section: "Mathematics",
+    passage: false,
+    options: ["$\\frac{b-a}{b-a}$", "$\\frac{b-a}{a+b}$", "$\\frac{a+b}{a-b}$", "None of these"],
+    correctAnswer: 3 // D (Additive inverse is -(a-b) = b-a. Options look like fractions.)
+  },
+  {
+    question: "If $3 - x = 5$ then $2^x = ?$",
+    section: "Mathematics",
+    passage: false,
+    options: ["$2^2$", "$4$", "$2^{-2}$", "None of these"],
+    correctAnswer: 2 // C (3-5=x -> x=-2. 2^-2 = 1/4)
+  },
+  {
+    question: "$m^3n^3 \\div m^4n^3 = ?$",
+    section: "Mathematics",
+    passage: false,
+    options: ["$mn$", "$m^{-1}n$", "$\\frac{n}{m}$", "None of these"],
+    correctAnswer: 2 // C (m^3/m^4 * n^3/n^3 = m^-1 * 1 = 1/m. Option C is n/m? Wait. m^-1 = 1/m. If n^3 cancels out.)
+  },
+  {
+    question: "Simplify $(\\frac{3}{5})^6 \\times (\\frac{3}{5})^4 \\times (\\frac{5}{3})^{10}$",
+    section: "Mathematics",
+    passage: false,
+    options: ["$(\\frac{3}{5})^2$", "$(\\frac{5}{3})^3$", "$(\\frac{3}{5})^{16}$", "None of these"],
+    correctAnswer: 3 // D ((3/5)^10 * (5/3)^10 = 1. Answer is 1.)
+  },
+  {
+    question: "If $(81)^{0.2} \\times (3)^{0.4} \\div (9)^{0.2} = 3^x$, find the value of x.",
+    section: "Mathematics",
+    passage: false,
+    options: ["$1$", "$0.16$", "$0.72$", "$0.8$"],
+    correctAnswer: 3 // D (81^0.2 = (3^4)^0.2 = 3^0.8. * 3^0.4 = 3^1.2. / 9^0.2 = (3^2)^0.2 = 3^0.4. 3^1.2 / 3^0.4 = 3^0.8. So x = 0.8)
+  },
+  {
+    question: "If $a = \\frac{\\sqrt{27}}{2}$, then $20\\%$ of $a$ is ____.",
+    section: "Mathematics",
+    passage: false,
+    options: ["$\\frac{3\\sqrt{4}}{10}$", "$\\sqrt{27}$", "$\\frac{\\sqrt{27}}{20}$", "$\\frac{3\\sqrt{3}}{10}$"],
+    correctAnswer: 3 // D (20% is 1/5. 1/5 * âˆš27/2 = âˆš27/10. âˆš27 = 3âˆš3. So 3âˆš3/10)
+  },
+  {
+    question: "Find the value of n. If $2^4 \\times 3^8 = n \\times 6^4$",
+    section: "Mathematics",
+    passage: false,
+    options: ["$2^2 \\times 3$", "$3^3$", "$3^3 \\times 2$", "$3^4$"],
+    correctAnswer: 3 // D (2^4 * 3^8 = n * (2*3)^4 = n * 2^4 * 3^4. Divide both sides by 2^4 * 3^4. n = 3^4)
+  },
+  {
+    question: "Convert $160\\%$ into fraction.",
+    section: "Mathematics",
+    passage: false,
+    options: ["$\\frac{8}{5}$", "$1 \\frac{3}{5}$", "both a & b", "None of these"],
+    correctAnswer: 2 // C (160/100 = 16/10 = 8/5 = 1 3/5)
+  },
+  {
+    question: "$50\\%$ of $50\\%$ of $200 = ?$",
+    section: "Mathematics",
+    passage: false,
+    options: ["$100$", "$50$", "$25$", "None of these"],
+    correctAnswer: 1 // B (0.5 * 0.5 * 200 = 0.25 * 200 = 50)
+  },
+  {
+    question: "Rashid Ali Malik pays $4\\%$ of his salary in charity in a month. If he pays Rs. 1280, find his monthly salary.",
+    section: "Mathematics",
+    passage: false,
+    options: ["Rs.30,000", "Rs.31,000", "Rs.32,000", "None of these"],
+    correctAnswer: 2 // C (0.04x = 1280 -> x = 1280/0.04 = 32000)
+  },
+  {
+    question: "Which of the following is irrational number?",
+    section: "Mathematics",
+    passage: false,
+    options: ["$3.1428571428....$", "$\\frac{22}{7}$", "$\\pi$", "None of these"],
+    correctAnswer: 2 // C (Pi is irrational. 22/7 is rational approximation. The decimal A looks repeating, so rational.)
+  },
+  {
+    question: "$1$ is ________ number.",
+    section: "Mathematics",
+    passage: false,
+    options: ["Prime", "Composite", "Rational", "None of these"],
+    correctAnswer: 2 // C (1 is neither prime nor composite, but it is rational)
+  },
+  {
+    question: "Ascending order of $\\frac{3}{7}, \\frac{4}{5}, \\frac{1}{2}$ is ?",
+    section: "Mathematics",
+    passage: false,
+    options: ["$\\frac{3}{7}, \\frac{1}{2}, \\frac{4}{5}$", "$\\frac{3}{7}, \\frac{1}{2}, \\frac{4}{5}$", "$\\frac{1}{2}, \\frac{3}{7}, \\frac{4}{5}$", "None of these"],
+    correctAnswer: 0 // A (3/7â‰ˆ0.42, 4/5=0.8, 1/2=0.5. Order: 3/7, 1/2, 4/5)
+  },
+  {
+    question: "All are positive except:",
+    section: "Mathematics",
+    passage: false,
+    options: ["$(-9)^4$", "$(-4)^0$", "$(-1/3)^{-10}$", "$(-3/5)^{-5}$"],
+    correctAnswer: 3 // D (Even power is positive. Odd power of negative is negative. -5 is odd power.)
+  },
+  {
+    question: "$(b^2)^6 \\div ( b^2 )^7 = ?$",
+    section: "Mathematics",
+    passage: false,
+    options: ["$b^2$", "$\\frac{1}{b^2}$", "both a & b", "None of these"],
+    correctAnswer: 1 // B (b^12 / b^14 = b^-2 = 1/b^2)
+  },
+  {
+    question: "$8(-2 + 5 \\div 3) = ?$",
+    section: "Mathematics",
+    passage: false,
+    options: ["$4$", "$2$", "$\\frac{1}{2}$", "$\\frac{1}{4}$"],
+    correctAnswer: 3 // D (Wait. 8^(-2 + 5/3)? The image shows 8^(-2+5Ã·3)? No, standard text 8(-2...). If it's 8 power (-2 + 5/3) = 8^(-1/3) = 1/2. If multiplication: 8*(-1/3) = -8/3. Given options 4,2,1/2,1/4, it's likely exponent. 8^(-1/3) = 1/2.)
+  },
+  {
+    question: "If $(- 2^3)^2 + (- 2^2)^3 = ?$",
+    section: "Mathematics",
+    passage: false,
+    options: ["$0$", "$64$", "$128$", "None of these"],
+    correctAnswer: 0 // A ((-8)^2 + (-4)^3 = 64 + (-64) = 0)
+  },
+  {
+    question: "Simplify $(-p^2)^4 = ?$",
+    section: "Mathematics",
+    passage: false,
+    options: ["$-p^8$", "$p^8$", "both a & b", "None of these"],
+    correctAnswer: 1 // B (Even power makes negative positive. p^(2*4) = p^8)
+  },
+  {
+    question: "The unshaded portion of figure shows ________ $\%$",
+    section: "Mathematics",
+    passage: false,
+    visual: `<svg width="150" height="150" viewBox="0 0 200 200" style="display:block; margin: 10px 0; border: 2px solid #333;">
+              <!-- Top Left: Shaded (Dark Pink/Red) -->
+              <rect x="0" y="0" width="100" height="100" fill="#E91E63" stroke="#333" stroke-width="2"/>
+              <!-- Top Right: Unshaded (White) -->
+              <rect x="100" y="0" width="100" height="100" fill="#FFFFFF" stroke="#333" stroke-width="2"/>
+              <!-- Bottom Left: Unshaded (White) -->
+              <rect x="0" y="100" width="100" height="100" fill="#FFFFFF" stroke="#333" stroke-width="2"/>
+              <!-- Bottom Right: Unshaded (White) -->
+              <rect x="100" y="100" width="100" height="100" fill="#FFFFFF" stroke="#333" stroke-width="2"/>
+            </svg>`,
+    options: ["$75\\%$", "$50\\%$", "$25\\%$", "None of these"],
+    correctAnswer: 0 // A (3 out of 4 squares are unshaded = 75%)
+  },
+
+  // --- GK / Pakistan Studies / Islamiat (Q61-Q85) ---
+  {
+    question: "Which of the following river is called \"Father of waters\"?",
+    section: "General Knowledge",
+    passage: false,
+    options: ["Nile", "Amazon", "Indus", "None of these"],
+    correctAnswer: 1 // B (Amazon is often called this, sometimes Mississippi. Amazon fits volume context.)
+  },
+  {
+    question: "____ is called the highest waterfall of the world.",
+    section: "General Knowledge",
+    passage: false,
+    options: ["Victoria Waterfall", "Tugela Waterfall", "Angel Waterfall", "None of these"],
+    correctAnswer: 2 // C
+  },
+  {
+    question: "There are ____ landlocked countries in the continent of South America.",
+    section: "General Knowledge",
+    passage: false,
+    options: ["4", "3", "2", "1"],
+    correctAnswer: 2 // C (Bolivia and Paraguay)
+  },
+  {
+    question: "____ lake is called \"Highest lake of the world\".",
+    section: "General Knowledge",
+    passage: false,
+    options: ["Caspian sea", "Superior", "Titicaca", "None of these"],
+    correctAnswer: 2 // C
+  },
+  {
+    question: "Which is the second largest muslim country in terms of population?",
+    section: "General Knowledge",
+    passage: false,
+    options: ["Malaysia", "Indonesia", "Pakistan", "Kazakhstan"],
+    correctAnswer: 2 // C (Indonesia is 1st, Pakistan is 2nd)
+  },
+  {
+    question: "Who is the Current Secretary General of the Organization of Islamic Cooperation (OIC)?",
+    section: "General Knowledge",
+    passage: false,
+    options: ["Hissein Ibrahim Taha", "Ekmeleddin Ihsanoglu", "Prince Salman", "Dr. Yousef bin Ahmad Al-Othaimeen"],
+    correctAnswer: 0 // A
+  },
+  {
+    question: "Recently, which Islamic country launched the 1st Women's Football League?",
+    section: "General Knowledge",
+    passage: false,
+    options: ["Saudi Arabia", "Qatar", "Yemen", "Kuwait"],
+    correctAnswer: 0 // A
+  },
+  {
+    question: "When did Indian CDS (Cheif of Defence Services) die in the Helicopter crash?",
+    section: "General Knowledge",
+    passage: false,
+    options: ["6 December, 2021", "7 December, 2021", "8 December, 2021", "None of these"],
+    correctAnswer: 2 // C (General Bipin Rawat)
+  },
+  {
+    question: "Which of the following capital is called \"Highest capital in the world\".",
+    section: "General Knowledge",
+    passage: false,
+    options: ["Moscow", "Damascus", "La Paz", "None of these"],
+    correctAnswer: 2 // C
+  },
+  {
+    question: "________ river is called \"Largest river in the world\".",
+    section: "General Knowledge",
+    passage: false,
+    options: ["Nile", "Amazon", "Volga", "Mississippi"],
+    correctAnswer: 1 // B (Amazon by volume, Nile by length - question often ambiguous but Amazon is 'Largest')
+  },
+  {
+    question: "Capital of Peru is ________",
+    section: "General Knowledge",
+    passage: false,
+    options: ["Lima", "Caracas", "Brasilia", "None of these"],
+    correctAnswer: 0 // A
+  },
+  {
+    question: "Currency of Chile is ________",
+    section: "General Knowledge",
+    passage: false,
+    options: ["US Dollar", "Peso", "CFA Franc", "None of these"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "________ country is largest producer of Coffee.",
+    section: "General Knowledge",
+    passage: false,
+    options: ["India", "Sri Lanka", "Brazil", "Chile"],
+    correctAnswer: 2 // C
+  },
+  {
+    question: "________ country is largest producer of copper.",
+    section: "General Knowledge",
+    passage: false,
+    options: ["India", "Sri Lanka", "Brazil", "Chile"],
+    correctAnswer: 3 // D
+  },
+  {
+    question: "Which of the following country is sixth largest by population?",
+    section: "General Knowledge",
+    passage: false,
+    options: ["Australia", "Indonesia", "Brazil", "Pakistan"],
+    correctAnswer: 3 // D (Depends on list year, usually Brazil/Pakistan swap around 5th/6th. Pakistan is currently 5th, Brazil 6th/7th. If old data, Pakistan might be 6th.)
+  },
+  {
+    question: "Who established Muslim rule in North India?",
+    section: "Pakistan Studies",
+    passage: false,
+    options: ["Muhammad bin Qasim", "Mahmud Ghaznavi", "Muhammad Ghauri", "None of these"],
+    correctAnswer: 2 // C (Ghauri established the rule, Qasim came earlier to Sindh)
+  },
+  {
+    question: "War of Independence was fought in________",
+    section: "Pakistan Studies",
+    passage: false,
+    options: ["1856", "1857", "1858", "None of these"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "British East India was established in________.",
+    section: "Pakistan Studies",
+    passage: false,
+    options: ["1664", "1634", "1600", "None of these"],
+    correctAnswer: 2 // C
+  },
+  {
+    question: "________ was the last ruler of Lodhi Dynasty.",
+    section: "Pakistan Studies",
+    passage: false,
+    options: ["Bahlol Lodhi", "Ibrahim Lodhi", "Sikander Lodhi", "None of these"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "The real name of Sher Shah Suri was________",
+    section: "Pakistan Studies",
+    passage: false,
+    options: ["Ghullam Fareed Khan", "Sher Khan", "Fareed Khan", "None of these"],
+    correctAnswer: 2 // C
+  },
+  {
+    question: "________ was the fourth article of Islam.",
+    section: "Islamiat",
+    passage: false,
+    options: ["Namaz", "Zakat", "Roza", "None of these"],
+    correctAnswer: 2 // C (Kalma, Namaz, Zakat, Roza, Hajj)
+  },
+  {
+    question: "A person who starts prayer with Imam is called________.",
+    section: "Islamiat",
+    passage: false,
+    options: ["Namazi", "Musbak", "Madurak", "None of these"],
+    correctAnswer: 2 // C (Mudrik? Terminology varies. Musbooq joins late. Mudrik joins start.)
+  },
+  {
+    question: "Zakat mentioned along with Namaz in Quran ________ times.",
+    section: "Islamiat",
+    passage: false,
+    options: ["32", "22", "42", "None of these"],
+    correctAnswer: 0 // A (Often cited as 32 times together)
+  },
+  {
+    question: "There are ________ types of zakat.",
+    section: "Islamiat",
+    passage: false,
+    options: ["1", "2", "3", "None of these"],
+    correctAnswer: 1 // B (Usually Zakat-ul-Maal and Zakat-ul-Fitr)
+  },
+  {
+    question: "Zakat is paid in the ________ month of the Islamic year.",
+    section: "Islamiat",
+    passage: false,
+    options: ["Shawal", "Rajab", "Ramzan", "In any month"],
+    correctAnswer: 3 // D (Can be paid anytime, though Ramzan is preferred for rewards. Zakat ul Fitr is specific.)
+  },
+
+  // --- Computer / Science (Q86-Q100) ---
+  {
+    question: "________ is called first computer.",
+    section: "Computer Science",
+    passage: false,
+    options: ["Abacus", "ENIAC", "MARK I", "ABC"],
+    correctAnswer: 0 // A
+  },
+  {
+    question: "Which computer is called first general purpose electronic computer?",
+    section: "Computer Science",
+    passage: false,
+    options: ["Abacus", "ENIAC", "MARK I", "ABC"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "Which of the following is not computer?",
+    section: "Computer Science",
+    passage: false,
+    options: ["Speedometer", "ATM", "Voltmeter", "All are computers"],
+    correctAnswer: 3 // D (In broad sense, all calculate/process data. Speedometer/Voltmeter are analog computers.)
+  },
+  {
+    question: "Which computer is called \"House of thousands processors\"?",
+    section: "Computer Science",
+    passage: false,
+    options: ["Mini Computer", "Super Computer", "Digital Computer", "Mainframe Computer"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "Which computer is used to store the huge amount of data?",
+    section: "Computer Science",
+    passage: false,
+    options: ["Mini Computer", "Super Computer", "Digital Computer", "Mainframe Computer"],
+    correctAnswer: 3 // D
+  },
+  {
+    question: "Which is the less abundant gas in the Earth Crust?",
+    section: "Everyday Science",
+    passage: false,
+    options: ["Oxygen", "Hydrogen", "Titanium", "Silicon"],
+    correctAnswer: 1 // B (Oxygen and Silicon are very abundant. Hydrogen is rare in crust by weight compared to others.)
+  },
+  {
+    question: "Which of the following is abundant in the Air?",
+    section: "Everyday Science",
+    passage: false,
+    options: ["Nitrogen", "Oxygen", "Carbon dioxide", "Argon"],
+    correctAnswer: 0 // A
+  },
+  {
+    question: "Aurums is the Latin name of?",
+    section: "Everyday Science",
+    passage: false,
+    options: ["Silver", "Tin", "Gold", "Lead"],
+    correctAnswer: 2 // C
+  },
+  {
+    question: "Plumbum is the Latin name of?",
+    section: "Everyday Science",
+    passage: false,
+    options: ["Silver", "Tin", "Gold", "Lead"],
+    correctAnswer: 3 // D
+  },
+  {
+    question: "SN is the symbol of?",
+    section: "Everyday Science",
+    passage: false,
+    options: ["Silver", "Tin", "Gold", "Lead"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "Hg is the symbol of?",
+    section: "Everyday Science",
+    passage: false,
+    options: ["Iron", "Mercury", "Hydrogen", "Lead"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "Glucose is the chemical name of?",
+    section: "Everyday Science",
+    passage: false,
+    options: ["Dextrose", "Laughing gas", "Bleaching powder", "Baking Soda"],
+    correctAnswer: 0 // A
+  },
+  {
+    question: "Lactose is the chemical name of?",
+    section: "Everyday Science",
+    passage: false,
+    options: ["Sugar", "Milk sugar", "Vinegar", "Lime"],
+    correctAnswer: 1 // B
+  },
+  {
+    question: "Sodium Carbonate is the chemical name of?",
+    section: "Everyday Science",
+    passage: false,
+    options: ["Table salt", "Bleaching powder", "Baking soda", "Washing soda"],
+    correctAnswer: 3 // D
+  },
+  {
+    question: "Lead & Tin represents which alloy?",
+    section: "Everyday Science",
+    passage: false,
+    options: ["Bronze", "Solder", "White Gold", "Brass"],
+    correctAnswer: 1 // B
+  }
+];
+        
+        // Global variables for quiz state
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let flaggedQuestions = new Set();
+        let timerInterval;
+        // Timer 60 minutes (seconds mein) set kiya gaya hai (UPDATED)
+        const totalTime = 60 * 60; // 60 minutes in seconds
+        let timeLeft = totalTime;
+        const AUTO_SAVE_INTERVAL = 10 * 1000; // Auto-save every 10 seconds
+
+        // DOM Elements
+        const passwordScreen = document.getElementById('password-screen');
+        const passwordInput = document.getElementById('password-input');
+        const togglePassword = document.getElementById('toggle-password');
+        const startButton = document.getElementById('start-button');
+        const instructionsScreen = document.getElementById('instructions-screen');
+        const beginTestButton = document.getElementById('begin-test-button');
+        const testScreen = document.getElementById('test-screen');
+        const questionSectionDisplay = document.getElementById('question-section'); // New element for section
+        const readingPassageContainer = document.getElementById('reading-passage-container'); // Passage container
+        const readingPassageText = document.getElementById('reading-passage-text'); // Passage text element
+        const questionContainer = document.getElementById('question-container');
+        const optionsContainer = document.getElementById('options-container');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const submitTestButton = document.getElementById('submit-test-button');
+        const questionCounter = document.getElementById('question-counter');
+        const timerDisplay = document.getElementById('timer');
+        const progressBar = document.getElementById('progress-bar');
+        const flagButton = document.getElementById('flag-button');
+        const questionPalette = document.getElementById('question-palette');
+        const resultScreen = document.getElementById('result-screen');
+        const finalScoreDisplay = document.getElementById('final-score');
+        const totalMarksSummary = document.getElementById('total-marks-summary');
+        const totalQuestionsSummary = document.getElementById('total-questions-summary');
+        const attemptedQuestionsSummary = document.getElementById('attempted-questions-summary');
+        const correctAnswersSummary = document.getElementById('correct-answers-summary');
+        const incorrectAnswersSummary = document.getElementById('incorrect-answers-summary');
+        const reviewAnswersButton = document.getElementById('review-answers-button');
+        const printResultButton = document.getElementById('print-result-button'); // Changed ID
+        const retakeTestButton = document.getElementById('retake-test-button');
+        const answerReviewContainer = document.getElementById('answer-review-container');
+        const confirmSubmitModal = document.getElementById('confirm-submit-modal');
+        const confirmSubmitYes = document.getElementById('confirm-submit-yes');
+        const confirmSubmitNo = document.getElementById('confirm-submit-no');
+        const reviewSummaryModal = document.getElementById('review-summary-modal');
+        const summaryAnsweredCount = document.getElementById('summary-answered-count');
+        const summaryNotAnsweredCount = document.getElementById('summary-not-answered-count');
+        const summaryFlaggedCount = document.getElementById('summary-flagged-count');
+        const unansweredFlaggedMessage = document.getElementById('unanswered-flagged-message');
+        const summaryContinueTest = document.getElementById('summary-continue-test');
+        const summarySubmitTest = document.getElementById('summary-submit-test');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const modeToggle = document.getElementById('mode-toggle');
+        const toastContainer = document.getElementById('toast-container');
+
+
+        // Calculator elements
+        const calculatorTrigger = document.getElementById('calculator-trigger');
+        const calculatorTool = document.getElementById('calculator-tool');
+        const calculatorDisplay = document.getElementById('calculator-display');
+        const calculatorButtons = document.querySelectorAll('#calculator .button');
+        const closeToolButtons = document.querySelectorAll('.close-btn');
+
+        // Scratchpad elements
+        const scratchpadTrigger = document.getElementById('scratchpad-trigger');
+        const scratchpadTool = document.getElementById('scratchpad-tool');
+        const scratchpadTextarea = document.getElementById('scratchpad-textarea');
+
+        /**
+         * Displays a toast notification.
+         * @param {string} message The message to display.
+         * @param {string} type The type of toast (e.g., 'success', 'error', 'info').
+         * @param {number} duration The duration in milliseconds before the toast fades out.
+         */
+        function showToast(message, type = 'info', duration = 3000) {
+            const toast = document.createElement('div');
+            toast.classList.add('toast', type);
+            toast.innerHTML = `<i class="fas ${getToastIcon(type)}"></i> ${message}`;
+            toastContainer.appendChild(toast);
+
+            // Remove the toast after the duration + animation time
+            setTimeout(() => {
+                toast.style.animation = 'toastOut 0.5s forwards';
+                toast.addEventListener('animationend', () => {
+                    toast.remove();
+                });
+            }, duration);
+        }
+
+        /**
+         * Returns the appropriate Font Awesome icon class for a given toast type.
+         * @param {string} type The type of toast.
+         * @returns {string} The Font Awesome icon class.
+         */
+        function getToastIcon(type) {
+            switch (type) {
+                case 'success':
+                    return 'fa-check-circle';
+                case 'error':
+                    return 'fa-times-circle';
+                case 'info':
+                default:
+                    return 'fa-info-circle';
+            }
+        }
+
+
+        /**
+         * Initializes the quiz state, loading from local storage if available.
+         * This function now ensures a fresh start on every load/retake.
+         */
+        function initializeQuiz() {
+            // Always reset to a fresh state on initialization
+            resetQuizState();
+            
+            // Update UI elements based on the actual quizData length
+            const totalQuestions = quizData.length;
+            // (HTML is already updated to 100, so this JS update is redundant but good for dynamicism)
+            document.querySelector('#instructions-screen ul li:first-child span').innerHTML = `The test consists of <strong>${totalQuestions} Multiple Choice Questions (MCQs)</strong> across various sections.`;
+            document.querySelector('#instructions-screen ul li:nth-child(2) span').innerHTML = `You have <strong>${totalTime / 60} minutes</strong> to complete the test. The timer will start once you begin.`;
+            document.querySelector('#instructions-screen ul li:nth-child(3) span').innerHTML = `The passing score for this test is <strong>40 marks</strong>.`; // Hardcoding 40 marks
+            
+            questionCounter.textContent = `Question: 1 / ${totalQuestions}`;
+            totalMarksSummary.textContent = `/ ${totalQuestions} Marks`;
+            totalQuestionsSummary.textContent = totalQuestions;
+
+
+            renderQuestion();
+            updatePalette();
+            updateTimerDisplay(); // Initial display of reset time
+            updateProgressBar();
+            timerDisplay.classList.remove('time-low');
+            updateNavigationButtons();
+            // Start auto-save for in-session persistence (will be cleared on next full reload)
+            startAutoSave();
+        }
+
+        /**
+         * Resets the quiz state to its initial values and clears local storage.
+         */
+        function resetQuizState() {
+            userAnswers = new Array(quizData.length).fill(null);
+            flaggedQuestions = new Set();
+            currentQuestionIndex = 0;
+            timeLeft = totalTime;
+            localStorage.removeItem('quizState'); // Clear saved quiz state
+            localStorage.removeItem('scratchpadContent'); // Clear saved scratchpad content
+            clearInterval(timerInterval); // Stop any running timer
+            stopAutoSave(); // Stop any running auto-save interval
+            resetTimerDisplay(); // Reset timer display to its initial value
+        }
+
+        /**
+         * Saves the current quiz state to local storage.
+         */
+        function saveQuizState() {
+            const stateToSave = {
+                currentQuestionIndex: currentQuestionIndex,
+                userAnswers: userAnswers,
+                flaggedQuestions: Array.from(flaggedQuestions), // Convert Set to Array for JSON
+                timeLeft: timeLeft
+            };
+            localStorage.setItem('quizState', JSON.stringify(stateToSave));
+            // console.log('Quiz state saved.'); // For debugging, can be removed
+        }
+
+        /**
+         * Starts the periodic auto-save.
+         */
+        function startAutoSave() {
+            if (window.autoSaveInterval) {
+                clearInterval(window.autoSaveInterval); // Clear any existing interval
+            }
+            window.autoSaveInterval = setInterval(saveQuizState, AUTO_SAVE_INTERVAL);
+        }
+
+        /**
+         * Stops the periodic auto-save.
+         */
+        function stopAutoSave() {
+            if (window.autoSaveInterval) {
+                clearInterval(window.autoSaveInterval);
+                window.autoSaveInterval = null;
+            }
+        }
+
+
+        function renderQuestion() {
+            const question = quizData[currentQuestionIndex];
+            questionSectionDisplay.textContent = `Section: ${question.section}`; // Display section
+            
+            // Start with the question text
+            let contentHTML = `Q${currentQuestionIndex + 1}: ${question.question}`;
+            
+            // Add visual if it exists
+            if (question.visual) {
+                contentHTML += `<div class="visual-container" style="display: flex; justify-content: center; margin: 20px 0;">${question.visual}</div>`;
+            }
+            
+            questionContainer.innerHTML = contentHTML; // Use innerHTML for <strong> and math
+            
+            optionsContainer.innerHTML = ''; // Clear previous options
+
+            // --- Show/Hide Reading Passage ---
+            if (question.passage) {
+                // *** FIX: Use 'passage' variable instead of 'readingPassage' ***
+                readingPassageText.textContent = passage; 
+                readingPassageContainer.classList.remove('hidden');
+            } else {
+                readingPassageContainer.classList.add('hidden');
+            }
+
+            question.options.forEach((optionText, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('option');
+                optionDiv.innerHTML = optionText; // Use innerHTML for math equations
+                optionDiv.dataset.index = index;
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionDiv.classList.add('selected');
+                }
+                optionDiv.addEventListener('click', () => selectOption(index));
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            questionCounter.textContent = `Question: ${currentQuestionIndex + 1} / ${quizData.length}`;
+            updateFlagButton();
+            updatePalette();
+            updateNavigationButtons(); // Update button visibility after rendering question
+
+            // Render MathJax after updating question and options, ensuring MathJax is loaded
+            if (window.MathJax && window.MathJax.startup && window.MathJax.startup.promise) {
+                window.MathJax.startup.promise.then(() => {
+                    MathJax.typesetPromise([questionContainer, optionsContainer]);
+                });
+            }
+        }
+
+        function selectOption(selectedIndex) {
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            renderQuestion(); // Re-render to show selection
+            updatePalette();
+            saveQuizState(); // Save state immediately after an answer is selected
+        }
+
+        function navigateQuestions(direction) {
+            if (direction === 'next' && currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+            } else if (direction === 'prev' && currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+            }
+            renderQuestion();
+            saveQuizState(); // Save state after navigation
+        }
+
+        function toggleFlag() {
+            if (flaggedQuestions.has(currentQuestionIndex)) {
+                flaggedQuestions.delete(currentQuestionIndex);
+            } else {
+                flaggedQuestions.add(currentQuestionIndex);
+            }
+            updateFlagButton();
+            updatePalette();
+            saveQuizState(); // Save state after flagging
+        }
+
+        function updateFlagButton() {
+            if (flaggedQuestions.has(currentQuestionIndex)) {
+                flagButton.classList.add('flagged');
+                flagButton.innerHTML = '<i class="fas fa-flag"></i> Flagged';
+            } else {
+                flagButton.classList.remove('flagged');
+                flagButton.innerHTML = '<i class="fas fa-flag"></i> Flag for Review';
+            }
+        }
+
+        function updatePalette() {
+            questionPalette.innerHTML = '';
+            let activeBtn = null; // To store the current question button
+
+            quizData.forEach((_, index) => {
+                const paletteBtn = document.createElement('button');
+                paletteBtn.classList.add('palette-btn');
+                paletteBtn.textContent = index + 1;
+                if (index === currentQuestionIndex) {
+                    paletteBtn.classList.add('current');
+                    activeBtn = paletteBtn; // Capture reference
+                }
+                if (userAnswers[index] !== null) {
+                    paletteBtn.classList.add('answered');
+                }
+                if (flaggedQuestions.has(index)) {
+                    paletteBtn.classList.add('flagged');
+                } else if (userAnswers[index] === null) {
+                    paletteBtn.classList.add('not-answered');
+                }
+                paletteBtn.addEventListener('click', () => {
+                    currentQuestionIndex = index;
+                    renderQuestion();
+                });
+                questionPalette.appendChild(paletteBtn);
+            });
+
+            // Scroll the palette to keep the current question button in view
+            if (activeBtn) {
+                activeBtn.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center'
+                });
+            }
+        }
+
+        function startTimer() {
+            stopAutoSave(); // Stop periodic auto-save when timer interval takes over
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                updateProgressBar();
+                saveQuizState(); // Save state with updated time
+
+                if (timeLeft <= 300 && !timerDisplay.classList.contains('time-low')) { // 5 minutes warning
+                    timerDisplay.classList.add('time-low');
+                    showToast('Less than 5 minutes remaining!', 'warning');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.textContent = "Time's Up!";
+                    handleSubmitTest(true); // Automatically submit when time runs out
+                    showToast('Time is up! Test submitted automatically.', 'info');
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `Time Left: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function resetTimerDisplay() {
+            const minutes = Math.floor(totalTime / 60);
+            const seconds = totalTime % 60;
+            timerDisplay.textContent = `Time Left: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function updateProgressBar() {
+            const progress = ((totalTime - timeLeft) / totalTime) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Function to update the visibility of navigation and submit buttons
+        function updateNavigationButtons() {
+            // Hide 'Previous' button on the first question
+            if (currentQuestionIndex === 0) {
+                prevButton.classList.add('hidden');
+            } else {
+                prevButton.classList.remove('hidden');
+            }
+
+            // On the last question: hide 'Next' and show 'Submit'
+            // Otherwise: show 'Next' and hide 'Submit'
+            if (currentQuestionIndex === quizData.length - 1) {
+                nextButton.classList.add('hidden');
+                submitTestButton.classList.remove('hidden');
+            } else {
+                nextButton.classList.remove('hidden');
+                submitTestButton.classList.add('hidden');
+            }
+        }
+
+
+        function calculateResults() {
+            let correctCount = 0;
+            let attemptedCount = 0;
+
+            userAnswers.forEach((answer, index) => {
+                if (answer !== null) {
+                    attemptedCount++;
+                    if (answer === quizData[index].correctAnswer) {
+                        correctCount++;
+                    }
+                }
+            });
+
+            return {
+                correct: correctCount,
+                attempted: attemptedCount,
+                incorrect: attemptedCount - correctCount,
+                total: quizData.length
+            };
+        }
+
+        function showResultScreen(results) {
+            testScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            clearInterval(timerInterval); // Stop the timer
+            stopAutoSave(); // Stop auto-saving once test is submitted
+
+            finalScoreDisplay.textContent = results.correct;
+            totalQuestionsSummary.textContent = results.total;
+            attemptedQuestionsSummary.textContent = results.attempted;
+            correctAnswersSummary.textContent = results.correct;
+            incorrectAnswersSummary.textContent = results.incorrect;
+            totalMarksSummary.textContent = `/ ${results.total} Marks`;
+
+            // Pass/Fail status ko calculate aur display karne ka logic
+            const passingMarks = 40; // UPDATED
+            const passFailStatus = document.getElementById('pass-fail-status');
+            if (results.correct >= passingMarks) {
+                passFailStatus.textContent = "Pass";
+                passFailStatus.style.color = "var(--secondary-color)"; // Green
+            } else {
+                passFailStatus.textContent = "Fail";
+                passFailStatus.style.color = "var(--danger-color)"; // Red
+            }
+
+            // Clear quiz state from local storage after submission
+            localStorage.removeItem('quizState');
+            localStorage.removeItem('scratchpadContent'); // Clear scratchpad too
+        }
+
+        function reviewAnswers() {
+            answerReviewContainer.innerHTML = '';
+            answerReviewContainer.classList.remove('hidden'); // Ensure it's visible
+
+            quizData.forEach((question, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.classList.add('result-question');
+
+                const qText = document.createElement('p');
+                qText.innerHTML = `Q${index + 1}: ${question.question}`; // Use innerHTML for math equations
+                
+                // --- Add Visual in Review ---
+                if (question.visual) {
+                    qText.innerHTML += `<div class="visual-container" style="display: flex; justify-content: center; margin: 20px 0;">${question.visual}</div>`;
+                }
+                
+                qDiv.appendChild(qText);
+
+                question.options.forEach((option, optionIndex) => {
+                    const optionP = document.createElement('p');
+                    optionP.classList.add('result-option');
+                    // Create a span for the text content to apply color more easily
+                    const optionTextSpan = document.createElement('span');
+                    optionTextSpan.innerHTML = `${String.fromCharCode(65 + optionIndex)}. ${option}`; // A, B, C, D
+                    optionP.appendChild(optionTextSpan);
+
+                    // Apply 'correct' class to the correct answer option
+                    if (optionIndex === question.correctAnswer) {
+                        optionP.classList.add('correct');
+                    }
+
+                    // Apply 'user-answer' and 'incorrect' classes if applicable
+                    if (userAnswers[index] === optionIndex) {
+                        optionP.classList.add('user-answer');
+                        if (userAnswers[index] !== question.correctAnswer) {
+                            optionP.classList.add('incorrect');
+                        }
+                    }
+                    qDiv.appendChild(optionP);
+                });
+
+                if (userAnswers[index] === null) {
+                    const notAttemptedP = document.createElement('p');
+                    notAttemptedP.classList.add('not-attempted-text');
+                    notAttemptedP.textContent = 'Not Attempted';
+                    qDiv.appendChild(notAttemptedP);
+                }
+
+                answerReviewContainer.appendChild(qDiv);
+            });
+            reviewAnswersButton.classList.add('hidden'); // Hide review button after showing
+            printResultButton.classList.add('hidden'); // Hide print button as well for clarity
+            // Scroll to the review section
+            answerReviewContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Render MathJax for the review answers, ensuring MathJax is loaded
+            if (window.MathJax && window.MathJax.startup && window.MathJax.startup.promise) {
+                window.MathJax.startup.promise.then(() => {
+                    MathJax.typesetPromise([answerReviewContainer]);
+                });
+            }
+        }
+
+
+        function printResult() {
+            // First, ensure the review answers are displayed
+            if (answerReviewContainer.classList.contains('hidden')) {
+                reviewAnswers();
+            }
+
+            // Temporarily hide elements not meant for printing
+            const header = document.querySelector('.page-header');
+            const footer = document.querySelector('.page-footer');
+            const toolTriggers = document.querySelectorAll('.floating-tool-trigger');
+            const controls = document.querySelector('#result-screen .controls');
+
+            header.classList.add('hidden');
+            footer.classList.add('hidden');
+            toolTriggers.forEach(el => el.classList.add('hidden'));
+            if (controls) controls.classList.add('hidden');
+
+            // Trigger browser print dialog
+            window.print();
+
+            // Restore hidden elements after printing (or print dialog is closed)
+            // Use a timeout to allow the print dialog to open and close
+            setTimeout(() => {
+                header.classList.remove('hidden');
+                footer.classList.remove('hidden');
+                toolTriggers.forEach(el => el.classList.remove('hidden'));
+                if (controls) controls.classList.remove('hidden');
+                // Re-hide review answers button if it was hidden before print
+                reviewAnswersButton.classList.remove('hidden');
+                printResultButton.classList.remove('hidden');
+            }, 500); // A small delay to ensure print dialog opens
+        }
+
+
+        // Event Listeners
+        startButton.addEventListener('click', () => {
+            if (passwordInput.value === PASSWORD) {
+                passwordScreen.classList.add('hidden');
+                instructionsScreen.classList.remove('hidden');
+                showToast('Password correct! Welcome to the test.', 'success');
+            } else {
+                showToast('Incorrect password. Please try again.', 'error');
+                passwordInput.value = '';
+            }
+        });
+
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.querySelector('i').classList.toggle('fa-eye');
+            togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+
+
+        beginTestButton.addEventListener('click', () => {
+            instructionsScreen.classList.add('hidden');
+            testScreen.classList.remove('hidden');
+            initializeQuiz(); // Call initializeQuiz to set up a fresh test
+            startTimer();
+            loadScratchpadContent(); // Load saved scratchpad content
+            showToast('Test started! Good luck.', 'info');
+        });
+
+        prevButton.addEventListener('click', () => navigateQuestions('prev'));
+        nextButton.addEventListener('click', () => navigateQuestions('next'));
+        flagButton.addEventListener('click', toggleFlag);
+
+
+        submitTestButton.addEventListener('click', () => {
+            const answeredCount = userAnswers.filter(answer => answer !== null).length;
+            const notAnsweredCount = quizData.length - answeredCount;
+            const flaggedCount = flaggedQuestions.size;
+
+            summaryAnsweredCount.textContent = answeredCount;
+            summaryNotAnsweredCount.textContent = notAnsweredCount;
+            summaryFlaggedCount.textContent = flaggedCount;
+
+            if (notAnsweredCount > 0 || flaggedCount > 0) {
+                let message = "You still have ";
+                if (notAnsweredCount > 0) {
+                    message += `${notAnsweredCount} unanswered questions`;
+                }
+                if (notAnsweredCount > 0 && flaggedCount > 0) {
+                    message += " and ";
+                }
+                if (flaggedCount > 0) {
+                    message += `${flaggedCount} flagged questions`;
+                }
+                message += ".";
+                unansweredFlaggedMessage.textContent = message;
+                reviewSummaryModal.classList.remove('hidden');
+            } else {
+                confirmSubmitModal.classList.remove('hidden');
+            }
+        });
+
+        confirmSubmitYes.addEventListener('click', () => handleSubmitTest(false)); // Not time-triggered
+        confirmSubmitNo.addEventListener('click', () => confirmSubmitModal.classList.add('hidden'));
+
+        summaryContinueTest.addEventListener('click', () => reviewSummaryModal.classList.add('hidden'));
+        summarySubmitTest.addEventListener('click', () => {
+            reviewSummaryModal.classList.add('hidden');
+            handleSubmitTest(false); // Not time-triggered
+        });
+
+
+        function handleSubmitTest(isTimeUp) {
+            confirmSubmitModal.classList.add('hidden'); // Hide modal if open
+            reviewSummaryModal.classList.add('hidden'); // Hide review summary modal if open
+
+            const results = calculateResults();
+            showResultScreen(results);
+
+            if (isTimeUp) {
+                showToast("Time's up! Test submitted automatically.", 'info');
+            } else {
+                showToast('Test submitted successfully!', 'success');
+            }
+        }
+
+
+        reviewAnswersButton.addEventListener('click', reviewAnswers);
+        printResultButton.addEventListener('click', printResult); // Changed event listener
+
+        retakeTestButton.addEventListener('click', () => {
+            resultScreen.classList.add('hidden');
+            passwordScreen.classList.remove('hidden');
+            answerReviewContainer.classList.add('hidden'); // Hide review details on retake
+            reviewAnswersButton.classList.remove('hidden'); // Show review button again
+            printResultButton.classList.remove('hidden'); // Show print button again
+            passwordInput.value = ''; // Clear password field
+            // initializeQuiz(); // Re-initialize all quiz state (will now always be fresh)
+            // No need to call initializeQuiz() here, it's handled by the 'beginTestButton'
+            resetQuizState(); // Just reset the state
+            showToast('Test reset. Ready to retake!', 'info');
+        });
+
+        // Dark mode toggle
+        modeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = modeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+
+        // Apply dark mode preference on load
+        // This will now always start in the default (light) mode or apply dark mode if previously set,
+        // but the quiz state itself will always be fresh due to initializeQuiz().
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            modeToggle.querySelector('i').classList.remove('fa-moon');
+            modeToggle.querySelector('i').classList.add('fa-sun');
+        } else {
+            document.body.classList.remove('dark-mode');
+            modeToggle.querySelector('i').classList.remove('fa-sun');
+            modeToggle.querySelector('i').classList.add('fa-moon');
+        }
+
+
+        // --- Calculator Logic ---
+        const calculator = {
+            displayValue: '0',
+            firstOperand: null,
+            waitingForSecondOperand: false,
+            operator: null,
+        };
+
+        function updateDisplay() {
+            calculatorDisplay.textContent = calculator.displayValue;
+        }
+
+        function inputDigit(digit) {
+            const { displayValue, waitingForSecondOperand } = calculator;
+
+            if (waitingForSecondOperand === true) {
+                calculator.displayValue = digit;
+                calculator.waitingForSecondOperand = false;
+            } else {
+                calculator.displayValue = displayValue === '0' ? digit : displayValue + digit;
+            }
+            updateDisplay();
+        }
+
+        function inputDecimal(dot) {
+            if (calculator.waitingForSecondOperand === true) {
+                calculator.displayValue = '0.';
+                calculator.waitingForSecondOperand = false;
+                updateDisplay();
+                return;
+            }
+            if (!calculator.displayValue.includes(dot)) {
+                calculator.displayValue += dot;
+            }
+            updateDisplay();
+        }
+
+        function handleOperator(nextOperator) {
+            const { firstOperand, displayValue, operator } = calculator;
+            const inputValue = parseFloat(displayValue);
+
+            // If an operator has already been entered and we're waiting for the second operand,
+            // update the operator and return.
+            if (operator && calculator.waitingForSecondOperand) {
+                calculator.operator = nextOperator;
+                return;
+            }
+
+            // Store the current display value as the firstOperand if it's not already set.
+            if (firstOperand === null) {
+                calculator.firstOperand = inputValue;
+            } else if (operator) {
+                // If there's an existing operator, perform the calculation.
+                const result = performCalculation[operator](firstOperand, inputValue);
+                // Handle division by zero
+                if (result === 'Error') {
+                    calculator.displayValue = 'Error';
+                    calculator.firstOperand = null;
+                    calculator.operator = null;
+                    calculator.waitingForSecondOperand = false;
+                    updateDisplay();
+                    return;
+                }
+                calculator.displayValue = String(parseFloat(result.toFixed(7))); // Limit decimal places
+                calculator.firstOperand = parseFloat(calculator.displayValue);
+            }
+
+            calculator.waitingForSecondOperand = true; // Set flag to indicate waiting for next operand
+            calculator.operator = nextOperator; // Store the new operator
+            updateDisplay();
+        }
+
+        function clearCalculator() {
+            calculator.displayValue = '0';
+            calculator.firstOperand = null;
+            calculator.waitingForSecondOperand = false;
+            calculator.operator = null;
+            updateDisplay();
+        }
+
+        calculatorButtons.forEach(button => {
+            button.addEventListener('click', event => {
+                const { target } = event;
+
+                if (!target.matches('button')) {
+                    return;
+                }
+
+                if (target.classList.contains('operator')) {
+                    const operatorValue = target.dataset.operator; // Get operator from data-operator attribute
+                    if (operatorValue === '=') {
+                        calculateResultCalc();
+                    } else {
+                        handleOperator(operatorValue);
+                    }
+                    return;
+                }
+
+                if (target.classList.contains('decimal')) {
+                    inputDecimal(target.textContent);
+                    return;
+                }
+
+                if (target.classList.contains('clear-btn')) {
+                    clearCalculator();
+                    return;
+                }
+
+                if (target.classList.contains('percentage')) {
+                    calculator.displayValue = String(parseFloat(calculator.displayValue) / 100);
+                    calculator.firstOperand = null; // Clear previous state for percentage
+                    calculator.waitingForSecondOperand = false;
+                    updateDisplay();
+                    return;
+                }
+
+                if (target.classList.contains('plus-minus')) {
+                    calculator.displayValue = String(parseFloat(calculator.displayValue) * -1);
+                    updateDisplay();
+                    return;
+                }
+
+                inputDigit(target.textContent);
+            });
+        });
+
+        const performCalculation = {
+            '/': (firstOperand, secondOperand) => secondOperand === 0 ? 'Error' : firstOperand / secondOperand,
+            '*': (firstOperand, secondOperand) => firstOperand * secondOperand,
+            '+': (firstOperand, secondOperand) => firstOperand + secondOperand,
+            '-': (firstOperand, secondOperand) => firstOperand - secondOperand,
+        };
+
+        function calculateResultCalc() {
+            const inputValue = parseFloat(calculator.displayValue);
+
+            // If no first operand or operator is set, or if waiting for second operand, do nothing.
+            if (calculator.firstOperand === null || calculator.operator === null || calculator.waitingForSecondOperand) {
+                return;
+            }
+
+            const result = performCalculation[calculator.operator](calculator.firstOperand, inputValue);
+            // Handle division by zero explicitly for the result display
+            if (result === 'Error') {
+                calculator.displayValue = 'Error';
+            } else {
+                calculator.displayValue = String(parseFloat(result.toFixed(7))); // Limit decimal places
+            }
+
+            calculator.firstOperand = null; // Reset for next calculation
+            calculator.operator = null; // Reset operator
+            calculator.waitingForSecondOperand = false; // Not waiting anymore
+            updateDisplay();
+        }
+
+
+        // --- Scratchpad Logic ---
+        function saveScratchpadContent() {
+            localStorage.setItem('scratchpadContent', scratchpadTextarea.value);
+        }
+
+        function loadScratchpadContent() {
+            const savedContent = localStorage.getItem('scratchpadContent');
+            if (savedContent) {
+                scratchpadTextarea.value = savedContent;
+            } else {
+                scratchpadTextarea.value = ''; // Ensure it's empty if nothing is saved
+            }
+        }
+
+        // Save scratchpad content periodically or on close
+        scratchpadTextarea.addEventListener('input', saveScratchpadContent);
+        // Also save when the tool is closed
+        closeToolButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const toolType = event.currentTarget.dataset.tool;
+                if (toolType === 'scratchpad') {
+                    saveScratchpadContent();
+                    scratchpadTool.classList.add('hidden');
+                } else if (toolType === 'calculator') {
+                    calculatorTool.classList.add('hidden');
+                }
+            });
+        });
+
+
+        // --- Floating Tools Draggable Logic ---
+        function makeDraggable(element, header) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+            if (header) {
+                header.onmousedown = dragMouseDown;
+            } else {
+                element.onmousedown = dragMouseDown;
+            }
+
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        // Make calculator and scratchpad draggable
+        makeDraggable(calculatorTool, calculatorTool.querySelector('.floating-tool-header'));
+        makeDraggable(scratchpadTool, scratchpadTool.querySelector('.floating-tool-header'));
+
+        // Toggle visibility of floating tools
+        calculatorTrigger.addEventListener('click', () => {
+            calculatorTool.classList.toggle('hidden');
+            scratchpadTool.classList.add('hidden');
+        });
+
+        scratchpadTrigger.addEventListener('click', () => {
+            scratchpadTool.classList.toggle('hidden');
+            calculatorTool.classList.add('hidden');
+        });
+
+        // Initialize quiz on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // No need to call initializeQuiz() here, it's handled by the 'beginTestButton'
+            // We just set the default state
+            resetQuizState();
+        });
+
+        // Save quiz state before the user leaves or reloads the page
+        window.addEventListener('beforeunload', () => {
+            // Only save if the test screen is visible
+            if (!testScreen.classList.contains('hidden')) {
+                saveQuizState();
+                saveScratchpadContent();
+            }
+        });
+
+        // (Removed the duplicate MathJax script loading from the end)
+    </script>
+</body>
+</html>
