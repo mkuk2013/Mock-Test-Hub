@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" style="scroll-behavior: smooth; scroll-padding-top: 120px;">
+
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title>Mock Test Hub</title>
     <link rel="icon" href="mock_test_hub_logo_transparent.png" type="image/png">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <style>
         /* Premium Professional Color Palette */
@@ -15,38 +20,133 @@
             --white: #FFFFFF;
             --off-white: #FAFBFC;
             --light-gray: #F0F2F5;
-            --dark-text: #1A1D23; /* Deep charcoal for strong contrast */
-            --medium-text: #4A5568; /* Sophisticated gray for secondary text */
-            --primary-blue: #3B82F6; /* Modern vibrant blue */
+            --dark-text: #1A1D23;
+            /* Deep charcoal for strong contrast */
+            --medium-text: #4A5568;
+            /* Sophisticated gray for secondary text */
+            --primary-blue: #3B82F6;
+            /* Modern vibrant blue */
             --primary-dark-blue: #2563EB;
-            --secondary-purple: #8B5CF6; /* Premium purple accent */
-            --accent-emerald: #10B981; /* Premium emerald for highlights */
-            --accent-orange: #F59E0B; /* Golden orange for badges */
-            --shadow-light: rgba(59, 130, 246, 0.08); /* Blue-tinted light shadow */
-            --shadow-medium: rgba(59, 130, 246, 0.15); /* Blue-tinted medium shadow */
-            --shadow-heavy: rgba(26, 29, 35, 0.12); /* Professional dark shadow */
+            --secondary-purple: #8B5CF6;
+            /* Premium purple accent */
+            --accent-emerald: #10B981;
+            /* Premium emerald for highlights */
+            --accent-orange: #F59E0B;
+            /* Golden orange for badges */
+            --shadow-light: rgba(59, 130, 246, 0.08);
+            /* Blue-tinted light shadow */
+            --shadow-medium: rgba(59, 130, 246, 0.15);
+            /* Blue-tinted medium shadow */
+            --shadow-heavy: rgba(26, 29, 35, 0.12);
+            /* Professional dark shadow */
             --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
 
+        /* Floating Background Shapes */
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: floatShape 20s infinite ease-in-out alternate;
+            border-radius: 50%;
+        }
+
+        .shape-1 {
+            top: -10%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(102, 126, 234, 0.4);
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 700px;
+            height: 700px;
+            background: rgba(240, 147, 251, 0.4);
+            animation-delay: -5s;
+        }
+
+        .shape-3 {
+            top: 40%;
+            right: 10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(79, 172, 254, 0.4);
+            animation-delay: -10s;
+        }
+
+        @keyframes floatShape {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(50px, 50px) rotate(20deg);
+            }
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
         /* Premium Dark Mode with Sophisticated Colors */
         body.dark-mode {
-            --white: #0F172A; /* Rich dark navy for cards */
-            --off-white: #020617; /* Deep space background */
-            --light-gray: #1E293B; /* Sophisticated dark borders */
-            --dark-text: #F1F5F9; /* Crisp white text */
-            --medium-text: #CBD5E1; /* Elegant light gray text */
-            --primary-blue: #60A5FA; /* Bright sky blue for dark mode */
-            --primary-dark-blue: #3B82F6; /* Vivid blue on hover */
-            --secondary-purple: #A78BFA; /* Luxurious purple accent */
-            --accent-emerald: #34D399; /* Fresh emerald for highlights */
-            --accent-orange: #FBBF24; /* Warm gold for badges */
-            --shadow-light: rgba(0, 0, 0, 0.5); /* Deep atmospheric shadows */
-            --shadow-medium: rgba(0, 0, 0, 0.7); /* Rich depth shadows */
-            --shadow-heavy: rgba(0, 0, 0, 0.9); /* Maximum depth shadows */
-            --dark-card: #0F172A; /* Premium dark card background */
-            --dark-border: rgba(241, 245, 249, 0.1); /* Subtle light borders */
+            --white: #0F172A;
+            /* Rich dark navy for cards */
+            --off-white: #020617;
+            /* Deep space background */
+            --light-gray: #1E293B;
+            /* Sophisticated dark borders */
+            --dark-text: #F1F5F9;
+            /* Crisp white text */
+            --medium-text: #CBD5E1;
+            /* Elegant light gray text */
+            --primary-blue: #60A5FA;
+            /* Bright sky blue for dark mode */
+            --primary-dark-blue: #3B82F6;
+            /* Vivid blue on hover */
+            --secondary-purple: #A78BFA;
+            /* Luxurious purple accent */
+            --accent-emerald: #34D399;
+            /* Fresh emerald for highlights */
+            --accent-orange: #FBBF24;
+            /* Warm gold for badges */
+            --shadow-light: rgba(0, 0, 0, 0.5);
+            /* Deep atmospheric shadows */
+            --shadow-medium: rgba(0, 0, 0, 0.7);
+            /* Rich depth shadows */
+            --shadow-heavy: rgba(0, 0, 0, 0.9);
+            /* Maximum depth shadows */
+            --dark-card: #0F172A;
+            /* Premium dark card background */
+            --dark-border: rgba(241, 245, 249, 0.1);
+            /* Subtle light borders */
             --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
@@ -69,9 +169,10 @@
 
 
 
-        
+
         body.dark-mode nav.navbar {
-            background: rgba(15, 23, 42, 0.9); /* Slightly transparent dark background */
+            background: rgba(15, 23, 42, 0.9);
+            /* Slightly transparent dark background */
             box-shadow: 0 2px 15px var(--shadow-medium);
         }
 
@@ -89,16 +190,19 @@
         }
 
         body.dark-mode .hero {
-            background: #111827; /* Dark background for hero */
+            background: #111827;
+            /* Dark background for hero */
             box-shadow: 0 6px 25px var(--shadow-medium);
         }
 
         body.dark-mode .section-title {
-            color: var(--primary-blue); /* Titles stand out with primary blue */
+            color: var(--primary-blue);
+            /* Titles stand out with primary blue */
         }
 
         body.dark-mode .section-title::after {
-            background: var(--secondary-green); /* Underline with secondary green */
+            background: var(--secondary-green);
+            /* Underline with secondary green */
         }
 
         body.dark-mode .section-description {
@@ -121,9 +225,11 @@
         body.dark-mode .content-card-general,
         body.dark-mode .stat-item {
             background: var(--dark-card);
-            border: 1px solid var(--dark-border); /* Apply light border */
+            border: 1px solid var(--dark-border);
+            /* Apply light border */
             box-shadow: 0 2px 10px var(--shadow-light);
-            color: var(--dark-text); /* Ensure card text is light */
+            color: var(--dark-text);
+            /* Ensure card text is light */
         }
 
         body.dark-mode .app-card:hover,
@@ -131,12 +237,14 @@
         body.dark-mode .stat-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px var(--shadow-medium);
-            border-color: var(--primary-blue); /* Highlight hover with primary blue */
+            border-color: var(--primary-blue);
+            /* Highlight hover with primary blue */
         }
 
         body.dark-mode .app-card .icon,
         body.dark-mode .contact-card-item .contact-icon {
-            color: var(--secondary-green); /* Icons with secondary green */
+            color: var(--secondary-green);
+            /* Icons with secondary green */
         }
 
         body.dark-mode .app-card h5,
@@ -153,7 +261,7 @@
             border-color: var(--primary-blue) !important;
         }
 
-        
+
 
         body.dark-mode .app-card .btn-outline-primary:hover {
             background-color: var(--primary-blue);
@@ -171,57 +279,77 @@
 
         /* How It Works Section */
         body.dark-mode #how-it-works {
-            background: linear-gradient(135deg, #1A202C, #0B0F19); /* Dark gradient */
+            background: linear-gradient(135deg, #1A202C, #0B0F19);
+            /* Dark gradient */
             box-shadow: 0 6px 20px var(--shadow-medium);
-            border: 1px solid var(--dark-border); /* Apply light border */
+            border: 1px solid var(--dark-border);
+            /* Apply light border */
         }
+
         body.dark-mode #how-it-works .step-icon-circle {
             background: var(--primary-blue);
             color: var(--dark-text);
             box-shadow: 0 3px 10px var(--shadow-light);
         }
+
         body.dark-mode #how-it-works .step-item:hover .step-icon-circle {
             background: var(--secondary-green);
             box-shadow: 0 5px 12px var(--shadow-medium);
         }
+
         body.dark-mode #how-it-works .step-item h4 {
             color: var(--dark-text);
         }
+
         body.dark-mode #how-it-works .step-item p {
             color: var(--medium-text);
         }
+
         body.dark-mode .step-arrow {
-            color: var(--dark-border); /* Darker arrows */
+            color: var(--dark-border);
+            /* Darker arrows */
         }
 
         /* Stats Section */
         body.dark-mode .stats-section {
-            background: linear-gradient(135deg, #1A202C, #0B0F19); /* Dark gradient */
+            background: linear-gradient(135deg, #1A202C, #0B0F19);
+            /* Dark gradient */
             box-shadow: 0 8px 25px var(--shadow-medium);
-            border: 1px solid var(--dark-border); /* Apply light border */
+            border: 1px solid var(--dark-border);
+            /* Apply light border */
         }
+
         body.dark-mode .stats-section::before {
             background-image: radial-gradient(var(--medium-text) 1px, transparent 1px);
             opacity: 0.05;
         }
+
         body.dark-mode .stats-section .container {
-                    position: relative;
-                    z-index: 1;
-                }
-        body.dark-mode .stats-section .section-title, body.dark-mode .stats-section .section-description {
-                    color: var(--dark-text);
-                }
+            position: relative;
+            z-index: 1;
+        }
+
+        body.dark-mode .stats-section .section-title,
+        body.dark-mode .stats-section .section-description {
+            color: var(--dark-text);
+        }
+
         body.dark-mode .stats-section .section-title::after {
-                    background: var(--primary-blue);
-                }
+            background: var(--primary-blue);
+        }
+
         body.dark-mode .stat-icon-wrap {
-            background: rgba(72, 187, 120, 0.15); /* Secondary green with transparency */
+            background: rgba(72, 187, 120, 0.15);
+            /* Secondary green with transparency */
             color: var(--secondary-green);
             box-shadow: 0 1px 6px var(--shadow-light);
         }
+
         body.dark-mode .stat-value {
-            color: var(--primary-blue); /* Stat values in primary blue */
+            color: var(--primary-blue);
+            /* Stat values in primary blue */
         }
+
         body.dark-mode .stat-label {
             color: var(--medium-text);
         }
@@ -229,12 +357,15 @@
         /* About Us & Contact Us Sections */
         body.dark-mode .content-card-general {
             background: var(--dark-card);
-            border: 1px solid var(--dark-border); /* Apply light border */
+            border: 1px solid var(--dark-border);
+            /* Apply light border */
             box-shadow: 0 4px 18px var(--shadow-medium);
         }
+
         body.dark-mode .content-card-general h2 {
             color: var(--dark-text);
         }
+
         body.dark-mode .content-card-general p {
             color: var(--medium-text);
         }
@@ -242,6 +373,7 @@
         body.dark-mode .contact-card-item a {
             color: var(--primary-blue);
         }
+
         body.dark-mode .contact-card-item a:hover {
             color: var(--secondary-green);
         }
@@ -252,20 +384,24 @@
             color: var(--medium-text);
             border-top: 1px solid var(--dark-border);
         }
+
         body.dark-mode footer a {
             color: var(--primary-blue);
         }
+
         body.dark-mode footer a:hover {
             color: var(--secondary-green);
         }
 
         /* Floating WhatsApp Button */
         body.dark-mode .whatsapp-bubble {
-            background: #25D366; /* Keep original WhatsApp green for brand consistency */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            background: #25D366;
+            /* Keep original WhatsApp green for brand consistency */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
+
         body.dark-mode .whatsapp-bubble:hover {
-            box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
         }
 
         /* Back to Top Button */
@@ -273,28 +409,29 @@
             background: var(--primary-blue);
             box-shadow: 0 3px 12px var(--shadow-medium);
         }
+
         body.dark-mode #backToTop:hover {
             background: var(--primary-dark-blue);
         }
 
         /* Gradient Text for dark mode */
         body.dark-mode .gradient-text {
-          background: linear-gradient(to right, var(--primary-blue), var(--secondary-green));
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+            background: linear-gradient(to right, var(--primary-blue), var(--secondary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* Button hover gradient for dark mode */
         body.dark-mode .btn-gradient:hover {
-          background: linear-gradient(135deg, var(--secondary-green), var(--primary-blue));
-          color: #fff !important;
-          border-color: transparent !important;
+            background: linear-gradient(135deg, var(--secondary-green), var(--primary-blue));
+            color: #fff !important;
+            border-color: transparent !important;
         }
 
         /* Particle Background for dark mode */
         body.dark-mode::before {
-          background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
-          opacity: 0.05;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            opacity: 0.05;
         }
 
         /* Premium Typography & Body Styles */
@@ -302,21 +439,31 @@
             font-family: 'Inter', 'Roboto', system-ui, -apple-system, sans-serif;
             background: var(--off-white);
             color: var(--medium-text);
-            line-height: 1.6; /* Improved readability */
+            line-height: 1.6;
+            /* Improved readability */
             overflow-x: hidden;
-            letter-spacing: -0.01em; /* Tighter letter spacing for modern look */
-            font-size: 16px; /* Optimal reading size */
+            letter-spacing: -0.01em;
+            /* Tighter letter spacing for modern look */
+            font-size: 16px;
+            /* Optimal reading size */
             font-weight: 400;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Plus Jakarta Sans', 'Lora', serif;
             color: var(--dark-text);
             font-weight: 700;
-            line-height: 1.2; /* Optimized for headings */
-            letter-spacing: -0.02em; /* Tighter for premium feel */
+            line-height: 1.2;
+            /* Optimized for headings */
+            letter-spacing: -0.02em;
+            /* Tighter for premium feel */
         }
 
         /* Premium Navbar */
@@ -332,6 +479,7 @@
             transition: all 0.3s ease;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
+
         nav .navbar-brand {
             font-weight: 800;
             color: var(--primary-blue) !important;
@@ -343,11 +491,13 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         nav .navbar-brand img {
             height: 45px;
             margin-right: 12px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
+
         nav .nav-link {
             color: var(--medium-text);
             font-weight: 500;
@@ -358,6 +508,7 @@
             font-size: 1rem;
             letter-spacing: 0.02em;
         }
+
         nav .nav-link::after {
             content: '';
             position: absolute;
@@ -370,9 +521,11 @@
             border-radius: 2px;
             transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         nav .nav-link:hover {
             color: var(--primary-blue);
         }
+
         nav .nav-link:hover::after,
         nav .nav-link.active::after {
             width: 100%;
@@ -381,14 +534,19 @@
         /* Premium Hero Section with Gradient Background */
         .hero {
             position: relative;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            padding: 120px 15px 100px; /* More spacious padding */
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            padding: 120px 15px 100px;
+            /* More spacious padding */
             text-align: center;
             border-bottom-left-radius: 60px;
             border-bottom-right-radius: 60px;
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3); /* Premium colored shadow */
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+            /* Premium colored shadow */
             overflow: hidden;
-            min-height: 600px; /* More imposing height */
+            min-height: 600px;
+            /* More imposing height */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -405,20 +563,23 @@
             z-index: 0;
         }
 
-        .hero h1, .hero p {
+        .hero h1,
+        .hero p {
             color: #FFFFFF;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .hero-content {
             position: relative;
             z-index: 1;
-            max-width: 800px; /* Reduced max-width */
+            max-width: 800px;
+            /* Reduced max-width */
             margin: 0 auto;
         }
 
         .hero h1 {
-            font-size: 4.5rem; /* Larger, more impactful */
+            font-size: 4.5rem;
+            /* Larger, more impactful */
             font-weight: 800;
             margin-bottom: 24px;
             background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
@@ -426,8 +587,10 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         .hero p {
-            font-size: 1.25rem; /* Larger for better readability */
+            font-size: 1.25rem;
+            /* Larger for better readability */
             margin-bottom: 40px;
             max-width: 700px;
             margin-left: auto;
@@ -435,11 +598,15 @@
             opacity: 0.95;
             font-weight: 400;
         }
+
         .btn-cta {
-            padding: 16px 40px; /* More substantial padding */
+            padding: 16px 40px;
+            /* More substantial padding */
             font-weight: 600;
-            border-radius: 50px; /* Fully rounded for modern look */
-            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2); /* White shadow for contrast */
+            border-radius: 50px;
+            /* Fully rounded for modern look */
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+            /* White shadow for contrast */
             font-size: 1.1rem;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
@@ -452,6 +619,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .btn-cta::before {
             content: '';
             position: absolute;
@@ -459,12 +627,14 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
         }
+
         .btn-cta:hover::before {
             left: 100%;
         }
+
         .btn-cta:hover {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
@@ -475,16 +645,20 @@
 
         /* Premium Section Styling */
         .section-padding {
-            padding: 100px 15px; /* More generous spacing */
+            padding: 100px 15px;
+            /* More generous spacing */
         }
+
         .section-title {
             text-align: center;
-            font-size: 3.5rem; /* Larger, more impactful */
+            font-size: 3.5rem;
+            /* Larger, more impactful */
             margin-bottom: 24px;
             color: var(--dark-text);
             position: relative;
             font-weight: 800;
         }
+
         .section-title::after {
             content: '';
             display: block;
@@ -494,6 +668,7 @@
             margin: 16px auto 0;
             border-radius: 2px;
         }
+
         .section-description {
             text-align: center;
             font-size: 1.2rem;
@@ -505,7 +680,8 @@
         }
 
         .premium-badge {
-            background-color: #dc3545; /* Red color */
+            background-color: #dc3545;
+            /* Red color */
             color: white;
             font-size: 10px;
             padding: 4px 8px;
@@ -515,10 +691,12 @@
             right: 10px;
             z-index: 10;
             font-weight: 700;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
+
         body.dark-mode .premium-badge {
-            background-color: #dc3545; /* Red color */
+            background-color: #dc3545;
+            /* Red color */
             color: white;
         }
 
@@ -535,7 +713,8 @@
         .app-card {
             background: var(--white);
             border: 1px solid var(--light-gray);
-            border-radius: 20px; /* More rounded for modern look */
+            border-radius: 20px;
+            /* More rounded for modern look */
             padding: 32px;
             box-shadow: 0 8px 32px var(--shadow-light);
             text-align: center;
@@ -547,6 +726,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .app-card::before {
             content: '';
             position: absolute;
@@ -558,15 +738,18 @@
             transform: scaleX(0);
             transition: transform 0.4s ease;
         }
+
         .app-card:hover::before {
             transform: scaleX(1);
         }
+
         .app-card:hover {
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 20px 60px var(--shadow-heavy);
             border-color: var(--primary-blue);
             background: linear-gradient(145deg, var(--white), #f8fafc);
         }
+
         .app-card .icon {
             font-size: 56px;
             background: var(--gradient-primary);
@@ -577,14 +760,20 @@
             transition: all 0.4s ease;
             display: inline-block;
         }
+
         .app-card .icon img {
-             width: 80px; /* Ensure image fits */
-             height: 80px; /* Ensure image fits */
-             margin-bottom: 5px; /* Apply margin for spacing */
-             display: block; /* Ensure it takes up its own line */
-             margin-left: auto;
-             margin-right: auto;
+            width: 80px;
+            /* Ensure image fits */
+            height: 80px;
+            /* Ensure image fits */
+            margin-bottom: 5px;
+            /* Apply margin for spacing */
+            display: block;
+            /* Ensure it takes up its own line */
+            margin-left: auto;
+            margin-right: auto;
         }
+
         .app-card:hover .icon {
             background: var(--gradient-secondary);
             -webkit-background-clip: text;
@@ -592,6 +781,7 @@
             background-clip: text;
             transform: scale(1.1) rotate(5deg);
         }
+
         .app-card h5 {
             font-weight: 700;
             font-size: 1.4rem;
@@ -599,6 +789,7 @@
             color: var(--dark-text);
             line-height: 1.3;
         }
+
         .app-card p {
             color: var(--medium-text);
             font-size: 1rem;
@@ -607,48 +798,86 @@
             line-height: 1.6;
             font-weight: 400;
         }
+
         .app-card .btn {
             padding: 12px 28px;
             font-weight: 600;
-            border-radius: 50px; /* Fully rounded buttons */
+            border-radius: 50px;
+            /* Fully rounded buttons */
             font-size: 0.95rem;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             border: none;
             position: relative;
             overflow: hidden;
         }
+
         /* Premium Button Variants */
-        .app-card .btn-primary { 
-            background: var(--gradient-primary); 
+        .app-card .btn-primary {
+            background: var(--gradient-primary);
             color: white;
         }
-        .app-card .btn-primary:hover { 
+
+        .app-card .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
-        .app-card .btn-danger { 
-            background: var(--gradient-secondary); 
+
+        .app-card .btn-danger {
+            background: var(--gradient-secondary);
             color: white;
         }
-        .app-card .btn-danger:hover { 
+
+        .app-card .btn-danger:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4);
         }
-        .app-card .btn-success { 
-            background: var(--gradient-success); 
+
+        .app-card .btn-success {
+            background: var(--gradient-success);
             color: white;
         }
-        .app-card .btn-success:hover { 
+
+        .app-card .btn-success:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
         }
-        .app-card .btn-outline-primary { color: var(--primary-blue); border-color: var(--primary-blue); background-color: transparent; }
-        .app-card .btn-outline-primary:hover { background-color: var(--primary-blue); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-        .app-card .btn-outline-danger { color: #dc3545; border-color: #dc3545; background-color: transparent; }
-        .app-card .btn-outline-danger:hover { background-color: #dc3545; color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-        .app-card .btn-outline-secondary { color: #6c757d; border-color: #6c757d; background-color: transparent; }
-        .app-card .btn-outline-secondary:hover { background-color: #6c757d; color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+        .app-card .btn-outline-primary {
+            color: var(--primary-blue);
+            border-color: var(--primary-blue);
+            background-color: transparent;
+        }
+
+        .app-card .btn-outline-primary:hover {
+            background-color: var(--primary-blue);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .app-card .btn-outline-danger {
+            color: #dc3545;
+            border-color: #dc3545;
+            background-color: transparent;
+        }
+
+        .app-card .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .app-card .btn-outline-secondary {
+            color: #6c757d;
+            border-color: #6c757d;
+            background-color: transparent;
+        }
+
+        .app-card .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
 
 
         .new-badge {
@@ -663,6 +892,7 @@
             font-weight: 600;
             box-shadow: 0 2px 8px rgba(240, 147, 251, 0.4);
         }
+
         .badge-update {
             font-weight: 500;
             margin-top: 16px;
@@ -672,15 +902,33 @@
             display: block;
             font-size: 0.9rem;
         }
+
         @keyframes pulse-text {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
+
         @keyframes pulse-badge {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         /* Why Choose Us Section - Premium Icons */
@@ -690,6 +938,7 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         #features .app-card:hover .icon {
             background: var(--gradient-primary);
             -webkit-background-clip: text;
@@ -708,6 +957,7 @@
             position: relative;
             overflow: hidden;
         }
+
         #how-it-works::before {
             content: '';
             position: absolute;
@@ -718,14 +968,17 @@
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23e2e8f0" stroke-width="0.5" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
             z-index: 0;
         }
+
         #how-it-works .container {
             position: relative;
             z-index: 1;
         }
+
         .step-item {
             text-align: center;
             position: relative;
         }
+
         .step-icon-circle {
             width: 80px;
             height: 80px;
@@ -741,6 +994,7 @@
             transition: all 0.4s ease;
             position: relative;
         }
+
         .step-icon-circle::before {
             content: '';
             position: absolute;
@@ -754,34 +1008,45 @@
             transition: opacity 0.4s ease;
             z-index: -1;
         }
+
         .step-item:hover .step-icon-circle {
             transform: scale(1.1);
         }
+
         .step-item:hover .step-icon-circle::before {
             opacity: 0.3;
         }
+
         body.dark-mode #how-it-works {
-            background: linear-gradient(135deg, #1A202C, #0B0F19); /* Dark gradient */
+            background: linear-gradient(135deg, #1A202C, #0B0F19);
+            /* Dark gradient */
             box-shadow: 0 6px 20px var(--shadow-medium);
-            border: 1px solid var(--dark-border); /* Apply light border */
+            border: 1px solid var(--dark-border);
+            /* Apply light border */
         }
+
         body.dark-mode #how-it-works .step-icon-circle {
             background: var(--primary-blue);
             color: var(--dark-text);
             box-shadow: 0 3px 10px var(--shadow-light);
         }
+
         body.dark-mode #how-it-works .step-item:hover .step-icon-circle {
             background: var(--secondary-green);
             box-shadow: 0 5px 12px var(--shadow-medium);
         }
+
         body.dark-mode #how-it-works .step-item h4 {
             color: var(--dark-text);
         }
+
         body.dark-mode #how-it-works .step-item p {
             color: var(--medium-text);
         }
+
         body.dark-mode .step-arrow {
-            color: var(--dark-border); /* Darker arrows */
+            color: var(--dark-border);
+            /* Darker arrows */
         }
 
         /* Premium Stats Section - Fixed visibility */
@@ -796,6 +1061,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .stats-section::before {
             content: '';
             position: absolute;
@@ -806,15 +1072,18 @@
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
             z-index: 0;
         }
+
         .stats-section .container {
             position: relative;
             z-index: 1;
         }
+
         .stats-section .section-title,
         .stats-section .section-description {
             color: white !important;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
         }
+
         /* Override gradient text for stats section title */
         .stats-section .section-title.gradient-text {
             background: none !important;
@@ -823,11 +1092,13 @@
             background-clip: unset !important;
             color: white !important;
             font-size: 3.5rem;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)) !important;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)) !important;
         }
+
         .stats-section .section-title::after {
             background: rgba(255, 255, 255, 0.5);
         }
+
         .stat-item {
             display: flex;
             align-items: center;
@@ -840,11 +1111,13 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             transition: all 0.4s ease;
         }
+
         .stat-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
             background: rgba(255, 255, 255, 0.25);
         }
+
         .stat-icon-wrap {
             width: 60px;
             height: 60px;
@@ -860,12 +1133,14 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
         }
+
         .stat-value {
             font-size: 3rem;
             font-weight: 800;
             color: white;
             line-height: 1;
         }
+
         .stat-label {
             font-size: 1rem;
             color: rgba(255, 255, 255, 0.9);
@@ -885,6 +1160,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .content-card-general::before {
             content: '';
             position: absolute;
@@ -894,18 +1170,21 @@
             height: 6px;
             background: var(--gradient-primary);
         }
+
         .content-card-general h2 {
             font-size: 2.8rem;
             font-weight: 800;
             margin-bottom: 24px;
             color: var(--dark-text);
         }
+
         .content-card-general p {
             font-size: 1.1rem;
             color: var(--medium-text);
             line-height: 1.7;
             margin-bottom: 20px;
         }
+
         /* Premium Contact Cards */
         .contact-card-item {
             background: var(--white);
@@ -923,6 +1202,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .contact-card-item::before {
             content: '';
             position: absolute;
@@ -934,28 +1214,34 @@
             transform: scaleX(0);
             transition: transform 0.4s ease;
         }
+
         .contact-card-item:hover::before {
             transform: scaleX(1);
         }
+
         .contact-card-item:hover {
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 20px 60px var(--shadow-heavy);
         }
+
         .contact-card-item .contact-icon {
             font-size: 48px;
             margin-bottom: 16px;
             color: var(--primary-blue);
             transition: all 0.4s ease;
         }
+
         .contact-card-item:hover .contact-icon {
             transform: scale(1.1) rotate(5deg);
         }
+
         .contact-card-item h6 {
             font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 12px;
             color: var(--dark-text);
         }
+
         .contact-card-item a {
             font-size: 1rem;
             color: var(--primary-blue);
@@ -964,6 +1250,7 @@
             transition: color 0.3s ease;
             font-weight: 500;
         }
+
         .contact-card-item a:hover {
             color: var(--secondary-purple);
             text-decoration: underline;
@@ -979,6 +1266,7 @@
             margin-top: 100px;
             position: relative;
         }
+
         footer::before {
             content: '';
             position: absolute;
@@ -988,23 +1276,28 @@
             height: 4px;
             background: var(--gradient-primary);
         }
+
         body.dark-mode footer {
             background: #0B0F19;
             color: var(--medium-text);
             border-top: 1px solid var(--dark-border);
         }
+
         footer a {
             color: var(--primary-blue);
             text-decoration: none;
             transition: color 0.3s ease;
         }
+
         body.dark-mode footer a {
             color: var(--primary-blue);
         }
+
         footer a:hover {
             color: var(--secondary-green);
             text-decoration: underline;
         }
+
         body.dark-mode footer a:hover {
             color: var(--secondary-green);
         }
@@ -1026,12 +1319,14 @@
             z-index: 1000;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .whatsapp-bubble:hover {
             transform: translateY(-4px) scale(1.05);
             box-shadow: 0 15px 50px rgba(37, 211, 102, 0.6);
             text-decoration: none;
             color: white;
         }
+
         .whatsapp-bubble i {
             font-size: 24px;
             margin-right: 10px;
@@ -1057,6 +1352,7 @@
             align-items: center;
             justify-content: center;
         }
+
         #backToTop:hover {
             transform: translateY(-4px) scale(1.1);
             box-shadow: 0 15px 50px rgba(102, 126, 234, 0.6);
@@ -1068,6 +1364,7 @@
             transform: translateY(30px);
             transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .fade-in-up.visible {
             opacity: 1;
             transform: translateY(0);
@@ -1075,95 +1372,387 @@
 
         /* Pulse Animations */
         @keyframes pulse-text {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.02); }
-            100% { opacity: 1; transform: scale(1); }
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.02);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
+
         @keyframes pulse-badge {
-            0% { transform: scale(1); box-shadow: 0 2px 8px rgba(240, 147, 251, 0.4); }
-            50% { transform: scale(1.1); box-shadow: 0 4px 16px rgba(240, 147, 251, 0.6); }
-            100% { transform: scale(1); box-shadow: 0 2px 8px rgba(240, 147, 251, 0.4); }
+            0% {
+                transform: scale(1);
+                box-shadow: 0 2px 8px rgba(240, 147, 251, 0.4);
+            }
+
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 4px 16px rgba(240, 147, 251, 0.6);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 2px 8px rgba(240, 147, 251, 0.4);
+            }
         }
 
         /* Enhanced Responsive Design */
         @media (max-width: 1200px) {
-            .hero h1 { font-size: 4rem; }
-            .section-title { font-size: 3rem; }
-            .stats-section, #how-it-works { margin: 80px auto; }
+            .hero h1 {
+                font-size: 4rem;
+            }
+
+            .section-title {
+                font-size: 3rem;
+            }
+
+            .stats-section,
+            #how-it-works {
+                margin: 80px auto;
+            }
         }
 
         @media (max-width: 991px) {
-            body { font-size: 15px; }
-            nav .navbar-brand { font-size: 1.6rem; }
-            nav .navbar-brand img { height: 40px; }
-            nav .nav-link { font-size: 0.95rem; margin: 0 12px; }
-            .hero { padding: 100px 15px 80px; min-height: 500px; }
-            .hero h1 { font-size: 3.5rem; margin-bottom: 20px; }
-            .hero p { font-size: 1.1rem; margin-bottom: 35px; }
-            .btn-cta { padding: 14px 35px; font-size: 1rem; }
-            .section-padding { padding: 80px 15px; }
-            .section-title { font-size: 2.8rem; margin-bottom: 20px; }
-            .section-description { font-size: 1.1rem; margin-bottom: 50px; }
-            .app-card { padding: 28px; }
-            .app-card .icon { font-size: 50px; margin-bottom: 18px; }
-            .app-card h5 { font-size: 1.3rem; margin-bottom: 14px; }
-            .app-card p { font-size: 0.95rem; margin-bottom: 20px; }
-            .app-card .btn { padding: 11px 25px; font-size: 0.9rem; }
-            #how-it-works { padding: 70px 15px; margin: 80px auto; }
-            .step-icon-circle { width: 75px; height: 75px; font-size: 30px; margin-bottom: 18px; }
-            .stats-section { margin: 80px auto; padding: 80px 15px; }
-            .stat-value { font-size: 2.8rem; }
-            .stat-label { font-size: 0.95rem; }
-            .stat-icon-wrap { width: 55px; height: 55px; font-size: 26px; margin-right: 18px; }
-            .content-card-general { padding: 50px 35px; margin: 80px auto; }
-            .content-card-general h2 { font-size: 2.4rem; margin-bottom: 20px; }
-            .content-card-general p { font-size: 1rem; margin-bottom: 18px; }
-            .contact-card-item { padding: 28px; }
-            .contact-card-item .contact-icon { font-size: 44px; margin-bottom: 14px; }
-            .contact-card-item h6 { font-size: 1.1rem; margin-bottom: 10px; }
-            .contact-card-item a { font-size: 0.95rem; }
+            body {
+                font-size: 15px;
+            }
+
+            nav .navbar-brand {
+                font-size: 1.6rem;
+            }
+
+            nav .navbar-brand img {
+                height: 40px;
+            }
+
+            nav .nav-link {
+                font-size: 0.95rem;
+                margin: 0 12px;
+            }
+
+            .hero {
+                padding: 100px 15px 80px;
+                min-height: 500px;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+                margin-bottom: 20px;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                margin-bottom: 35px;
+            }
+
+            .btn-cta {
+                padding: 14px 35px;
+                font-size: 1rem;
+            }
+
+            .section-padding {
+                padding: 80px 15px;
+            }
+
+            .section-title {
+                font-size: 2.8rem;
+                margin-bottom: 20px;
+            }
+
+            .section-description {
+                font-size: 1.1rem;
+                margin-bottom: 50px;
+            }
+
+            .app-card {
+                padding: 28px;
+            }
+
+            .app-card .icon {
+                font-size: 50px;
+                margin-bottom: 18px;
+            }
+
+            .app-card h5 {
+                font-size: 1.3rem;
+                margin-bottom: 14px;
+            }
+
+            .app-card p {
+                font-size: 0.95rem;
+                margin-bottom: 20px;
+            }
+
+            .app-card .btn {
+                padding: 11px 25px;
+                font-size: 0.9rem;
+            }
+
+            #how-it-works {
+                padding: 70px 15px;
+                margin: 80px auto;
+            }
+
+            .step-icon-circle {
+                width: 75px;
+                height: 75px;
+                font-size: 30px;
+                margin-bottom: 18px;
+            }
+
+            .stats-section {
+                margin: 80px auto;
+                padding: 80px 15px;
+            }
+
+            .stat-value {
+                font-size: 2.8rem;
+            }
+
+            .stat-label {
+                font-size: 0.95rem;
+            }
+
+            .stat-icon-wrap {
+                width: 55px;
+                height: 55px;
+                font-size: 26px;
+                margin-right: 18px;
+            }
+
+            .content-card-general {
+                padding: 50px 35px;
+                margin: 80px auto;
+            }
+
+            .content-card-general h2 {
+                font-size: 2.4rem;
+                margin-bottom: 20px;
+            }
+
+            .content-card-general p {
+                font-size: 1rem;
+                margin-bottom: 18px;
+            }
+
+            .contact-card-item {
+                padding: 28px;
+            }
+
+            .contact-card-item .contact-icon {
+                font-size: 44px;
+                margin-bottom: 14px;
+            }
+
+            .contact-card-item h6 {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+
+            .contact-card-item a {
+                font-size: 0.95rem;
+            }
         }
 
         @media (max-width: 767px) {
-            body { font-size: 14px; }
-            nav.navbar { padding: 12px 15px; }
-            nav .navbar-brand { font-size: 1.4rem; }
-            nav .navbar-brand img { height: 35px; }
-            nav .nav-link { font-size: 0.9rem; margin: 6px 0; padding: 8px 0; }
-            .hero { padding: 80px 15px 60px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; min-height: 450px; }
-            .hero h1 { font-size: 2.8rem; margin-bottom: 16px; }
-            .hero p { font-size: 1rem; margin-bottom: 30px; }
-            .btn-cta { padding: 12px 28px; font-size: 0.95rem; }
-            .section-padding { padding: 60px 15px; }
-            .section-title { font-size: 2.2rem; margin-bottom: 16px; }
-            .section-title::after { width: 60px; height: 3px; margin: 12px auto 0; }
-            .section-description { font-size: 1rem; margin-bottom: 40px; }
-            .app-card { padding: 24px; }
-            .app-card .icon { font-size: 48px; margin-bottom: 16px; }
-            .app-card .icon img { width: 48px; height: 48px; }
-            .app-card h5 { font-size: 1.2rem; margin-bottom: 10px; }
-            .app-card p { font-size: 0.9rem; margin-bottom: 16px; }
-            .app-card .btn { padding: 10px 22px; font-size: 0.85rem; }
-            #how-it-works { padding: 50px 15px; margin: 60px auto; }
-            .step-icon-circle { width: 70px; height: 70px; font-size: 28px; margin-bottom: 14px; }
-            .stats-section { margin: 60px auto; padding: 60px 15px; }
-            .stat-value { font-size: 2.2rem; }
-            .stat-label { font-size: 0.9rem; }
-            .stat-icon-wrap { width: 50px; height: 50px; font-size: 24px; margin: 0 auto 12px auto; }
-            .stat-item { flex-direction: column; text-align: center; padding: 20px; }
-            .stat-item div { text-align: center; }
-            .content-card-general { padding: 40px 25px; margin: 60px auto; }
-            .content-card-general h2 { font-size: 2rem; margin-bottom: 16px; }
-            .content-card-general p { font-size: 0.95rem; margin-bottom: 14px; }
-            .contact-card-item { padding: 24px; }
-            .contact-card-item .contact-icon { font-size: 40px; margin-bottom: 12px; }
-            .contact-card-item h6 { font-size: 1rem; margin-bottom: 8px; }
-            .contact-card-item a { font-size: 0.9rem; }
-            .whatsapp-bubble { padding: 12px 20px; font-size: 15px; right: 20px; bottom: 20px; }
-            .whatsapp-bubble i { font-size: 22px; margin-right: 8px; }
-            #backToTop { width: 50px; height: 50px; font-size: 22px; left: 20px; bottom: 20px; }
+            body {
+                font-size: 14px;
+            }
+
+            nav.navbar {
+                padding: 12px 15px;
+            }
+
+            nav .navbar-brand {
+                font-size: 1.4rem;
+            }
+
+            nav .navbar-brand img {
+                height: 35px;
+            }
+
+            nav .nav-link {
+                font-size: 0.9rem;
+                margin: 6px 0;
+                padding: 8px 0;
+            }
+
+            .hero {
+                padding: 80px 15px 60px;
+                border-bottom-left-radius: 40px;
+                border-bottom-right-radius: 40px;
+                min-height: 450px;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+                margin-bottom: 16px;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+
+            .btn-cta {
+                padding: 12px 28px;
+                font-size: 0.95rem;
+            }
+
+            .section-padding {
+                padding: 60px 15px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+                margin-bottom: 16px;
+            }
+
+            .section-title::after {
+                width: 60px;
+                height: 3px;
+                margin: 12px auto 0;
+            }
+
+            .section-description {
+                font-size: 1rem;
+                margin-bottom: 40px;
+            }
+
+            .app-card {
+                padding: 24px;
+            }
+
+            .app-card .icon {
+                font-size: 48px;
+                margin-bottom: 16px;
+            }
+
+            .app-card .icon img {
+                width: 48px;
+                height: 48px;
+            }
+
+            .app-card h5 {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+
+            .app-card p {
+                font-size: 0.9rem;
+                margin-bottom: 16px;
+            }
+
+            .app-card .btn {
+                padding: 10px 22px;
+                font-size: 0.85rem;
+            }
+
+            #how-it-works {
+                padding: 50px 15px;
+                margin: 60px auto;
+            }
+
+            .step-icon-circle {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+                margin-bottom: 14px;
+            }
+
+            .stats-section {
+                margin: 60px auto;
+                padding: 60px 15px;
+            }
+
+            .stat-value {
+                font-size: 2.2rem;
+            }
+
+            .stat-label {
+                font-size: 0.9rem;
+            }
+
+            .stat-icon-wrap {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+                margin: 0 auto 12px auto;
+            }
+
+            .stat-item {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .stat-item div {
+                text-align: center;
+            }
+
+            .content-card-general {
+                padding: 40px 25px;
+                margin: 60px auto;
+            }
+
+            .content-card-general h2 {
+                font-size: 2rem;
+                margin-bottom: 16px;
+            }
+
+            .content-card-general p {
+                font-size: 0.95rem;
+                margin-bottom: 14px;
+            }
+
+            .contact-card-item {
+                padding: 24px;
+            }
+
+            .contact-card-item .contact-icon {
+                font-size: 40px;
+                margin-bottom: 12px;
+            }
+
+            .contact-card-item h6 {
+                font-size: 1rem;
+                margin-bottom: 8px;
+            }
+
+            .contact-card-item a {
+                font-size: 0.9rem;
+            }
+
+            .whatsapp-bubble {
+                padding: 12px 20px;
+                font-size: 15px;
+                right: 20px;
+                bottom: 20px;
+            }
+
+            .whatsapp-bubble i {
+                font-size: 22px;
+                margin-right: 8px;
+            }
+
+            #backToTop {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+                left: 20px;
+                bottom: 20px;
+            }
         }
-    
+
         /* Enhanced Dark Mode Styling */
         body.dark-mode nav.navbar {
             background: rgba(15, 23, 42, 0.95);
@@ -1258,12 +1847,15 @@
         body.dark-mode .app-card.card-primary {
             border-color: var(--primary-blue);
         }
+
         body.dark-mode .app-card.card-danger {
             border-color: #dc3545 !important;
         }
+
         body.dark-mode .app-card.card-success {
             border-color: var(--accent-emerald);
         }
+
         body.dark-mode .app-card.card-secondary {
             border-color: #6c757d;
         }
@@ -1291,12 +1883,15 @@
         body.dark-mode .app-card.card-primary {
             border-color: var(--primary-blue) !important;
         }
+
         body.dark-mode .app-card.card-danger {
             border-color: #dc3545 !important;
         }
+
         body.dark-mode .app-card.card-success {
             border-color: var(--accent-emerald) !important;
         }
+
         body.dark-mode .app-card.card-secondary {
             border-color: #6c757d !important;
         }
@@ -1306,29 +1901,34 @@
             border-color: var(--primary-blue) !important;
             box-shadow: 0 20px 60px var(--shadow-heavy), 0 0 0 2px var(--primary-blue);
         }
+
         body.dark-mode .app-card.card-danger:hover {
             border-color: #dc3545 !important;
             box-shadow: 0 20px 60px var(--shadow-heavy), 0 0 0 2px #dc3545;
         }
+
         body.dark-mode .app-card.card-success:hover {
             border-color: var(--accent-emerald) !important;
             box-shadow: 0 20px 60px var(--shadow-heavy), 0 0 0 2px var(--accent-emerald);
         }
+
         body.dark-mode .app-card.card-secondary:hover {
             border-color: #6c757d !important;
             box-shadow: 0 20px 60px var(--shadow-heavy), 0 0 0 2px #6c757d;
         }
 
         body.dark-mode .stats-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Same gradient as light mode */
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3); /* Same shadow as light mode */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* Same gradient as light mode */
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+            /* Same shadow as light mode */
             color: white;
         }
 
         body.dark-mode .stats-section .section-title,
         body.dark-mode .stats-section .section-description {
             color: #FFFFFF !important;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
         }
 
         /* Ensure stats section title doesn't use gradient text */
@@ -1344,8 +1944,10 @@
 
 
         body.dark-mode .stats-section::before {
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>'); /* Same pattern as light mode */
-            opacity: 0.6; /* Same opacity as light mode */
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+            /* Same pattern as light mode */
+            opacity: 0.6;
+            /* Same opacity as light mode */
         }
 
         body.dark-mode .stat-value {
@@ -1390,10 +1992,21 @@
         }
 
         /* Dark mode contact icons - maintain brand colors */
-        body.dark-mode .contact-card-item .fa-whatsapp { color: #25D366 !important; }
-        body.dark-mode .contact-card-item .fa-square-whatsapp { color: #25D366 !important; }
-        body.dark-mode .contact-card-item .fa-facebook-f { color: #1877F2 !important; }
-        body.dark-mode .contact-card-item .fa-users { color: var(--primary-blue) !important; }
+        body.dark-mode .contact-card-item .fa-whatsapp {
+            color: #25D366 !important;
+        }
+
+        body.dark-mode .contact-card-item .fa-square-whatsapp {
+            color: #25D366 !important;
+        }
+
+        body.dark-mode .contact-card-item .fa-facebook-f {
+            color: #1877F2 !important;
+        }
+
+        body.dark-mode .contact-card-item .fa-users {
+            color: var(--primary-blue) !important;
+        }
 
         /* Comprehensive Dark Mode Text Visibility Fixes */
         body.dark-mode h1,
@@ -1466,12 +2079,12 @@
             -webkit-text-fill-color: var(--dark-text) !important;
             background-clip: unset !important;
             color: var(--dark-text) !important;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         /* Emoji and special character visibility */
         body.dark-mode .section-title {
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) !important;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)) !important;
         }
 
         /* Ensure badge visibility */
@@ -1485,17 +2098,20 @@
             color: white !important;
         }
 
-    
+
         /* 🔹 Dark Mode Card Borders */
         body.dark-mode .app-card.card-primary {
             border: 2px solid var(--primary-blue) !important;
         }
+
         body.dark-mode .app-card.card-danger {
             border: 2px solid #dc3545 !important;
         }
+
         body.dark-mode .app-card.card-success {
             border: 2px solid var(--accent-emerald) !important;
         }
+
         body.dark-mode .app-card.card-secondary {
             border: 2px solid #6c757d !important;
         }
@@ -1505,14 +2121,17 @@
             border: 2px solid var(--primary-blue) !important;
             color: var(--primary-blue) !important;
         }
+
         body.dark-mode .btn-outline-danger {
             border: 2px solid #dc3545 !important;
             color: #dc3545 !important;
         }
+
         body.dark-mode .btn-outline-success {
             border: 2px solid var(--accent-emerald) !important;
             color: var(--accent-emerald) !important;
         }
+
         body.dark-mode .btn-outline-secondary {
             border: 2px solid #6c757d !important;
             color: #6c757d !important;
@@ -1524,595 +2143,635 @@
             background-color: var(--primary-blue) !important;
             color: #fff !important;
         }
+
         body.dark-mode .btn-outline-danger:hover {
             background-color: #dc3545 !important;
             color: #fff !important;
         }
+
         body.dark-mode .btn-outline-success:hover {
             background-color: var(--accent-emerald) !important;
             color: #fff !important;
         }
+
         body.dark-mode .btn-outline-secondary:hover {
             background-color: #6c757d !important;
             color: #fff !important;
         }
-
-</style>
+    </style>
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img alt="Mock Test Hub Logo" src="mock_test_hub_logo_transparent.png"/>
-            Mock Test Hub
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#home">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#tests">Tests</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#how-it-works">How It Works</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#features">Why Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <button id="themeToggle" class="btn btn-sm btn-outline-secondary ms-2">🌙</button>
-                </li>
-            </ul>
-        </div>
+    <!-- Background Shapes -->
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
     </div>
-</nav>
 
-
-<div class="hero fade-in-up" id="home">
-    <div id="particles-js" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 0;"></div>
-    <div class="container hero-content">
-        <h1>Ace Your Exams, Confidently.</h1>
-        <p>Your ultimate platform for high-quality mock tests, designed to help you excel in competitive examinations.</p>
-        <a class="btn-cta btn-gradient" href="#tests">Start Practicing Now <i class="fa-solid fa-arrow-right ms-2"></i></a>
-    </div>
-</div>
-
-<section class="section-padding" id="tests">
-    <div class="container">
-        <h2 class="section-title fade-in-up gradient-text">Our Comprehensive Mock Tests</h2>
-        <p class="section-description fade-in-up">Access diverse, meticulously designed mock tests, tailored to match latest exam patterns.</p>
-        <div class="row g-4 justify-content-center mt-4">
-            <!-- Matric Card (Existing) -->
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card card-secondary">
-                    <div class="icon"><i class="fa-solid fa-book-open"></i></div>
-                    <h5>Matric Mock Test</h5>
-                    <p>High-quality practice for Matric level exams. Covers essential subjects for thorough prep.</p>
-                    <p class="badge-update"><span class="text-muted">Official Sample Paper (Tests Ended)</span></p>
-                    <button class="btn btn-outline-secondary disabled" disabled>Tests Ended</button>
-                </div>
-            </div>
-            
-            <!-- Intermediate Card (NEW) -->
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card card-primary">
-                    <div class="icon"><i class="fa-solid fa-book-reader"></i></div>
-                    <h5>Intermediate Mock Test <span class="new-badge">NEW</span></h5>
-                    <p>Practice tests for Intermediate students. Prepare for your board exams with our curated mock tests.</p>
-                    <div style="min-height: 10px;"></div>
-                    <a class="btn btn-outline-primary" href="https://intermediate-mock-test.netlify.app/" target="_blank">Start Test</a> <!-- Using # as placeholder link -->
-                </div>
-            </div>
-
-            <!-- Graduation Card (MODIFIED) -->
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card card-secondary">
-                    <div class="icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                    <h5>Graduation Mock Test <span class="new-badge">NEW</span></h5>
-                    <p>Comprehensive mock tests for Graduation level exams. Covers essential subjects and latest patterns.</p>
-                    <div style="min-height: 10px;"></div>
-                    <button class="btn btn-outline-secondary disabled" disabled>Tests Ended</button>
-                </div>
-            </div>
-            
-            <!-- JST Card (Existing) -->
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card card-danger">
-                    <div class="icon"><i class="fa-solid fa-vial"></i></div>
-                    <h5>JST Mock Test <span class="new-badge">NEW</span></h5>
-                    <p>Designed for Junior Science Teacher (JST), aligning with the newest syllabus.</p>
-                    <div style="min-height: 10px;"></div> <a class="btn btn-outline-danger" href="https://jst-mock-test.netlify.app" target="_blank">Start Test</a>
-                </div>
-            </div>
-            
-            <!-- Vaccinator Card (Existing) -->
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card card-primary">
-                    <div class="icon"><i class="fa-solid fa-syringe"></i></div>
-                    <h5>Vaccinator (BPS-06) Test <span class="new-badge">NEW</span></h5>
-                    <p>Specialized mock tests for Vaccinator (BPS-06) positions. Covers all essential topics as per the official syllabus.</p>
-                    <div style="min-height: 10px;"></div>
-                    <a class="btn btn-outline-primary" href="https://vaccinator-mock-test.netlify.app" target="_blank">Start Test</a>
-                </div>
-            </div>
-            
-            <!-- MDCAT Card (MODIFIED) -->
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card card-secondary">
-                    <div class="icon"><i class="fa-solid fa-user-doctor"></i></div>
-                    <h5>MDCAT 2025 Test Preparation <span class="new-badge">NEW</span></h5>
-                    <p>Comprehensive mock tests for MDCAT 2025, covering all subjects and the latest exam pattern.</p>
-                    <div style="min-height: 10px;"></div>
-                    <button class="btn btn-outline-secondary disabled" disabled>Tests Ended</button>
-                </div>
-            </div>
-            
-             <!-- Subject Wise Card (Existing) -->
-             <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card card-success">
-                    <div class="icon"><i class="fa-solid fa-list-ol"></i></div>
-                    <h5>Subject Wise Mock Tests <span class="new-badge">NEW</span></h5>
-                    <p>Dive deep into specific subjects. Comprehensive tests for Math, Physics, Chemistry, Biology, and more. Perfect for targeted practice and strengthening weak areas.</p>
-                    <div style="min-height: 10px;"></div>
-                    <a class="btn btn-outline-success" href="https://subjectwise-mock-test.netlify.app/" target="_blank">View Subject Tests</a>
-                </div>
-            </div>
-            
-            <!-- University of Sindh Card (MODIFIED) -->
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card card-secondary">
-                    <div class="icon"><img src="uos-logo.png" alt="University of Sindh Logo"></div>
-                    <h5>University Of Sindh<br> Pre Entry Test Preparation <span class="new-badge">NEW</span></h5>
-                    <p>Specialized mock tests for University Of Sindh Pre Entry Test Preparation. Covers all essential topics as per the official syllabus.</p>
-                    <div style="min-height: 10px;"></div>
-                    <button class="btn btn-outline-secondary disabled" disabled>Tests Ended</button>
-                </div>
-            </div>
-            
-            <!-- Premium Stuff Card (Existing) -->
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card card-primary" style="position: relative;">
-                    <div class="premium-badge">For Paid Users</div>
-                    <div class="icon">👑</div>
-                    <h5>Premium Stuff <span class="new-badge">NEW</span></h5>
-                    <p>Access exclusive premium content, advanced practice materials, and specialized resources for enhanced exam preparation.</p>
-                    <div style="min-height: 10px;"></div>
-                    <a class="btn btn-outline-primary" href="Premium-Stuff/index.html" target="_blank">Access Premium</a>
-                </div>
-            </div>
-            
-            <!-- PST Card (Existing) -->
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card card-secondary">
-                    <div class="icon"><i class="fa-solid fa-chalkboard-user"></i></div>
-                    <h5>PST Mock Test <span class="new-badge">COMING SOON</span></h5>
-                    <p>Prepare for Primary School Teacher (PST) exams with our expert-crafted, upcoming series.</p>
-                    <div style="min-height: 10px;"></div>
-                    <button class="btn btn-outline-secondary disabled" disabled>Coming Soon</button>
-                </div>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img alt="Mock Test Hub Logo" src="mock_test_hub_logo_transparent.png" />
+                Mock Test Hub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tests">Tests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Why Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <button id="themeToggle" class="btn btn-sm btn-outline-secondary ms-2">🌙</button>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
-</section>
+    </nav>
 
-<section class="section-padding" id="how-it-works">
-    <div class="container">
-        <h2 class="section-title fade-in-up gradient-text">How Mock Test Hub Works</h2>
-        <p class="section-description fade-in-up">Simple steps to kickstart your exam preparation journey with us.</p>
-        <div class="row g-4 align-items-center justify-content-center mt-4">
-            <div class="col-lg-3 col-md-6 fade-in-up">
-                <div class="step-item">
-                    <div class="step-icon-circle"><i class="fa-solid fa-1"></i></div>
-                    <h4>Choose Your Test</h4>
-                    <p>Select the mock test category relevant to your exam.</p>
-                </div>
-            </div>
-            <div class="col-lg-1 col-md-0 d-none d-lg-flex justify-content-center fade-in-up">
-                <div class="step-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-            </div>
-            <div class="col-lg-3 col-md-6 fade-in-up">
-                <div class="step-item">
-                    <div class="step-icon-circle"><i class="fa-solid fa-2"></i></div>
-                    <h4>Take the Mock Test</h4>
-                    <p>Experience realistic exam simulation with our comprehensive tests.</p>
-                </div>
-            </div>
-            <div class="col-lg-1 col-md-0 d-none d-lg-flex justify-content-center fade-in-up">
-                <div class="step-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-            </div>
-            <div class="col-lg-3 col-md-6 fade-in-up">
-                <div class="step-item">
-                    <div class="step-icon-circle"><i class="fa-solid fa-3"></i></div>
-                    <h4>Analyze Results</h4>
-                    <p>Receive instant feedback and detailed performance analysis.</p>
-                </div>
-            </div>
+
+    <div class="hero fade-in-up" id="home">
+        <div id="particles-js" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 0;">
+        </div>
+        <div class="container hero-content">
+            <h1>Ace Your Exams, Confidently.</h1>
+            <p>Your ultimate platform for high-quality mock tests, designed to help you excel in competitive
+                examinations.</p>
+            <a class="btn-cta btn-gradient" href="#tests">Start Practicing Now <i
+                    class="fa-solid fa-arrow-right ms-2"></i></a>
         </div>
     </div>
-</section>
 
-<section class="section-padding" id="features">
-    <div class="container">
-        <h2 class="section-title fade-in-up gradient-text">Why Choose Mock Test Hub?</h2>
-        <p class="section-description fade-in-up">Unlock your full potential with our key features designed for success.</p>
-        <div class="row g-4 justify-content-center mt-4">
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card">
-                    <div class="icon"><i class="fa-solid fa-flask"></i></div>
-                    <h5>Realistic Simulations</h5>
-                    <p>Experience exam conditions with tests mirroring actual patterns and difficulty levels.</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card">
-                    <div class="icon"><i class="fa-solid fa-chart-line"></i></div>
-                    <h5>Performance Analytics</h5>
-                    <p>Gain insights with detailed reports, identifying strengths and areas for improvement.</p>
+    <section class="section-padding" id="tests">
+        <div class="container">
+            <h2 class="section-title fade-in-up gradient-text">Our Comprehensive Mock Tests</h2>
+            <p class="section-description fade-in-up">Access diverse, meticulously designed mock tests, tailored to
+                match latest exam patterns.</p>
+            <div class="row g-4 justify-content-center mt-4">
+                <!-- Matric Card (Existing) -->
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card card-secondary">
+                        <div class="icon"><i class="fa-solid fa-book-open"></i></div>
+                        <h5>Matric Mock Test</h5>
+                        <p>High-quality practice for Matric level exams. Covers essential subjects for thorough prep.
+                        </p>
+                        <p class="badge-update"><span class="text-muted">Official Sample Paper (Tests Ended)</span></p>
+                        <button class="btn btn-outline-secondary disabled" disabled>Tests Ended</button>
                     </div>
-            </div>
-            <div class="col-md-6 col-lg-4 fade-in-up">
-                <div class="app-card">
-                    <div class="icon"><i class="fa-solid fa-arrows-rotate"></i></div>
-                    <h5>Regular Updates</h5>
-                    <p>Stay current with frequently updated content aligned to the latest syllabi and exam trends.</p>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<section class="stats-section section-padding">
-    <div class="container">
-        <h2 class="section-title fade-in-up gradient-text">📈 Our Impact in Numbers</h2>
-        <p class="section-description fade-in-up">Discover the growing community and reach of Mock Test Hub.</p>
-        <div class="row g-4 justify-content-center mt-4">
-            <div class="col-md-6 col-lg-3 fade-in-up">
-                <div class="stat-item">
-                    <div class="stat-icon-wrap">
-                        <i class="fa-solid fa-file-invoice"></i>
-                    </div>
-                    <div>
-                        <div class="stat-value" data-count="12">0</div>
-                        <div class="stat-label">Comprehensive Mock Tests</div>
+                <!-- Intermediate Card (NEW) -->
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card card-primary">
+                        <div class="icon"><i class="fa-solid fa-book-reader"></i></div>
+                        <h5>Intermediate Mock Test <span class="new-badge">NEW</span></h5>
+                        <p>Practice tests for Intermediate students. Prepare for your board exams with our curated mock
+                            tests.</p>
+                        <div style="min-height: 10px;"></div>
+                        <a class="btn btn-outline-primary" href="intermediate-mock-test.netlify.app"
+                            target="_blank">Start Test</a>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-3 fade-in-up">
-                <div class="stat-item">
-                    <div class="stat-icon-wrap">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <div>
-                        <div class="stat-value" data-count="8000">0</div>
-                        <div class="stat-label">Empowered Students</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3 fade-in-up">
-                <div class="stat-item">
-                    <div class="stat-icon-wrap">
-                        <i class="fa-solid fa-clipboard-question"></i>
-                    </div>
-                    <div>
-                        <div class="stat-value" data-count="100">0</div>
-                        <div class="stat-label">Avg. Questions per Test</div>
+
+                <!-- Graduation Card (MODIFIED) -->
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card card-secondary">
+                        <div class="icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <h5>Graduation Mock Test <span class="new-badge">NEW</span></h5>
+                        <p>Comprehensive mock tests for Graduation level exams. Covers essential subjects and latest
+                            patterns.</p>
+                        <div style="min-height: 10px;"></div>
+                        <button class="btn btn-outline-secondary disabled" disabled>Tests Ended</button>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-3 fade-in-up">
-                <div class="stat-item">
-                    <div class="stat-icon-wrap">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
+
+                <!-- JST Card (Existing) -->
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card card-danger">
+                        <div class="icon"><i class="fa-solid fa-vial"></i></div>
+                        <h5>JST Mock Test <span class="new-badge">NEW</span></h5>
+                        <p>Designed for Junior Science Teacher (JST), aligning with the newest syllabus.</p>
+                        <div style="min-height: 10px;"></div> <a class="btn btn-outline-danger"
+                            href="https://jst-mock-test.netlify.app" target="_blank">Start Test</a>
                     </div>
-                    <div>
-                        <div class="stat-value" data-count="24">0</div>
-                        <div class="stat-label">Hours Dedicated Support</div>
+                </div>
+
+                <!-- Vaccinator Card (Existing) -->
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card card-primary">
+                        <div class="icon"><i class="fa-solid fa-syringe"></i></div>
+                        <h5>Vaccinator (BPS-06) Test <span class="new-badge">NEW</span></h5>
+                        <p>Specialized mock tests for Vaccinator (BPS-06) positions. Covers all essential topics as per
+                            the official syllabus.</p>
+                        <div style="min-height: 10px;"></div>
+                        <a class="btn btn-outline-primary" href="https://vaccinator-mock-test.netlify.app"
+                            target="_blank">Start Test</a>
+                    </div>
+                </div>
+
+                <!-- MDCAT Card (MODIFIED) -->
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card card-success">
+                        <div class="icon"><i class="fa-solid fa-user-doctor"></i></div>
+                        <h5>MDCAT 2025 Test Preparation <span class="new-badge">NEW</span></h5>
+                        <p>Comprehensive mock tests for MDCAT 2025, covering all subjects and the latest exam pattern.
+                        </p>
+                        <div style="min-height: 10px;"></div>
+                        <a class="btn btn-outline-success" href="https://mdcat-mock-test.netlify.app"
+                            target="_blank">Start Test</a>
+                    </div>
+                </div>
+
+                <!-- Subject Wise Card (Existing) -->
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card card-success">
+                        <div class="icon"><i class="fa-solid fa-list-ol"></i></div>
+                        <h5>Subject Wise Mock Tests <span class="new-badge">NEW</span></h5>
+                        <p>Dive deep into specific subjects. Comprehensive tests for Math, Physics, Chemistry, Biology,
+                            and more. Perfect for targeted practice and strengthening weak areas.</p>
+                        <div style="min-height: 10px;"></div>
+                        <a class="btn btn-outline-success" href="https://subjectwise-mock-test.netlify.app/"
+                            target="_blank">View Subject Tests</a>
+                    </div>
+                </div>
+
+                <!-- University of Sindh Card (MODIFIED) -->
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card card-secondary">
+                        <div class="icon"><img src="uos-logo.png" alt="University of Sindh Logo"></div>
+                        <h5>University Of Sindh<br> Pre Entry Test Preparation <span class="new-badge">NEW</span></h5>
+                        <p>Specialized mock tests for University Of Sindh Pre Entry Test Preparation. Covers all
+                            essential topics as per the official syllabus.</p>
+                        <div style="min-height: 10px;"></div>
+                        <button class="btn btn-outline-secondary disabled" disabled>Tests Ended</button>
+                    </div>
+                </div>
+
+                <!-- Premium Stuff Card (Existing) -->
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card card-primary" style="position: relative;">
+                        <div class="premium-badge">For Paid Users</div>
+                        <div class="icon">👑</div>
+                        <h5>Premium Stuff <span class="new-badge">NEW</span></h5>
+                        <p>Access exclusive premium content, advanced practice materials, and specialized resources for
+                            enhanced exam preparation.</p>
+                        <div style="min-height: 10px;"></div>
+                        <a class="btn btn-outline-primary" href="Premium-Stuff/index.html" target="_blank">Access
+                            Premium</a>
+                    </div>
+                </div>
+
+                <!-- PST Card (Existing) -->
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card card-secondary">
+                        <div class="icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+                        <h5>PST Mock Test <span class="new-badge">COMING SOON</span></h5>
+                        <p>Prepare for Primary School Teacher (PST) exams with our expert-crafted, upcoming series.</p>
+                        <div style="min-height: 10px;"></div>
+                        <button class="btn btn-outline-secondary disabled" disabled>Coming Soon</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="section-padding" id="about">
-    <div class="container">
-        <div class="content-card-general fade-in-up">
-            <h2 class="section-title gradient-text">About Mock Test Hub</h2>
-            <p>Mock Test Hub is your dedicated platform to empower students for IBA STS-based and other competitive tests. We provide meticulously crafted mock tests covering Matric, Intermediate, Graduation, JST, PST, JEST, ECT, and more.</p>
-            <p>Our mission: equip you with accurate, real-time, comprehensive practice. We simulate actual exams, ensuring you're prepared and confident. We continuously update content to align with latest syllabi and trends, giving you an edge.</p>
-        </div>
-    </div>
-</section>
-
-<section class="section-padding" id="contact">
-    <div class="container">
-        <h2 class="section-title fade-in-up gradient-text">Get In Touch With Us</h2>
-        <p class="section-description fade-in-up">Your success is our priority. For questions, support, or suggestions, we're here. Connect with us through any channel below for prompt response.</p>
-        <div class="row g-4 justify-content-center mt-4">
-            <div class="col-md-6 col-lg-3 fade-in-up">
-                <div class="contact-card-item">
-                    <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
-                    <h6>Direct WhatsApp</h6>
-                    <h6>Admin Mukesh Kumar</h6>
-                    <a href="https://wa.me/923480358640" target="_blank">+92 348 0358640</a>
+    <section class="section-padding" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title fade-in-up gradient-text">How Mock Test Hub Works</h2>
+            <p class="section-description fade-in-up">Simple steps to kickstart your exam preparation journey with us.
+            </p>
+            <div class="row g-4 align-items-center justify-content-center mt-4">
+                <div class="col-lg-3 col-md-6 fade-in-up">
+                    <div class="step-item">
+                        <div class="step-icon-circle"><i class="fa-solid fa-1"></i></div>
+                        <h4>Choose Your Test</h4>
+                        <p>Select the mock test category relevant to your exam.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-3 fade-in-up">
-                <div class="contact-card-item">
-                    <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
-                    <h6>Direct WhatsApp</h6>
-                    <h6>Admin Amrat Chohan</h6>
-                    <a href="https://wa.me/923432852423" target="_blank">+92  343 2852423</a>
+                <div class="col-lg-1 col-md-0 d-none d-lg-flex justify-content-center fade-in-up">
+                    <div class="step-arrow"><i class="fa-solid fa-arrow-right"></i></div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-3 fade-in-up">
-                <div class="contact-card-item">
-                    <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
-                    <h6>WhatsApp Channel</h6>
-                    <a href="https://whatsapp.com/channel/0029VbAoVyXHwXbBQ8pjlc1o" target="_blank">Subscribe for Updates</a>
+                <div class="col-lg-3 col-md-6 fade-in-up">
+                    <div class="step-item">
+                        <div class="step-icon-circle"><i class="fa-solid fa-2"></i></div>
+                        <h4>Take the Mock Test</h4>
+                        <p>Experience realistic exam simulation with our comprehensive tests.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-3 fade-in-up">
-                <div class="contact-card-item">
-                    <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
-                    <h6>WhatsApp Group</h6>
-                    <a href=" https://chat.whatsapp.com/KMb4eG7Sp2S0xu2OvRfxVB?mode=ems_copy_t" target="_blank">Join Our WhatsApp Group</a>
+                <div class="col-lg-1 col-md-0 d-none d-lg-flex justify-content-center fade-in-up">
+                    <div class="step-arrow"><i class="fa-solid fa-arrow-right"></i></div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-3 fade-in-up">
-                <div class="contact-card-item">
-                    <div class="contact-icon"><i class="fa-brands fa-facebook-f"></i></div>
-                    <h6>Official Facebook</h6>
-                    <a href="https://facebook.com/mocktesthub" target="_blank">Visit Our Page</a>
+                <div class="col-lg-3 col-md-6 fade-in-up">
+                    <div class="step-item">
+                        <div class="step-icon-circle"><i class="fa-solid fa-3"></i></div>
+                        <h4>Analyze Results</h4>
+                        <p>Receive instant feedback and detailed performance analysis.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<footer>
-    <div class="container">
-        <p class="mb-0">&copy; 2025 Mock Test Hub. All rights reserved.</p>
-    </div>
-</footer>
+    <section class="section-padding" id="features">
+        <div class="container">
+            <h2 class="section-title fade-in-up gradient-text">Why Choose Mock Test Hub?</h2>
+            <p class="section-description fade-in-up">Unlock your full potential with our key features designed for
+                success.</p>
+            <div class="row g-4 justify-content-center mt-4">
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card">
+                        <div class="icon"><i class="fa-solid fa-flask"></i></div>
+                        <h5>Realistic Simulations</h5>
+                        <p>Experience exam conditions with tests mirroring actual patterns and difficulty levels.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card">
+                        <div class="icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <h5>Performance Analytics</h5>
+                        <p>Gain insights with detailed reports, identifying strengths and areas for improvement.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 fade-in-up">
+                    <div class="app-card">
+                        <div class="icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+                        <h5>Regular Updates</h5>
+                        <p>Stay current with frequently updated content aligned to the latest syllabi and exam trends.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<a class="whatsapp-bubble" href="https://wa.me/923480358640" target="_blank" title="Chat on WhatsApp">
-    <i class="fa-brands fa-whatsapp"></i>
-    <span>Need help? Chat with us</span>
-</a>
+    <section class="stats-section section-padding">
+        <div class="container">
+            <h2 class="section-title fade-in-up gradient-text">📈 Our Impact in Numbers</h2>
+            <p class="section-description fade-in-up">Discover the growing community and reach of Mock Test Hub.</p>
+            <div class="row g-4 justify-content-center mt-4">
+                <div class="col-md-6 col-lg-3 fade-in-up">
+                    <div class="stat-item">
+                        <div class="stat-icon-wrap">
+                            <i class="fa-solid fa-file-invoice"></i>
+                        </div>
+                        <div>
+                            <div class="stat-value" data-count="12">0</div>
+                            <div class="stat-label">Comprehensive Mock Tests</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 fade-in-up">
+                    <div class="stat-item">
+                        <div class="stat-icon-wrap">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div>
+                            <div class="stat-value" data-count="8000">0</div>
+                            <div class="stat-label">Empowered Students</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 fade-in-up">
+                    <div class="stat-item">
+                        <div class="stat-icon-wrap">
+                            <i class="fa-solid fa-clipboard-question"></i>
+                        </div>
+                        <div>
+                            <div class="stat-value" data-count="100">0</div>
+                            <div class="stat-label">Avg. Questions per Test</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 fade-in-up">
+                    <div class="stat-item">
+                        <div class="stat-icon-wrap">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
+                        <div>
+                            <div class="stat-value" data-count="24">0</div>
+                            <div class="stat-label">Hours Dedicated Support</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<button id="backToTop" title="Back to Top">
-    <i class="fa-solid fa-arrow-up"></i>
-</button>
+    <section class="section-padding" id="about">
+        <div class="container">
+            <div class="content-card-general fade-in-up">
+                <h2 class="section-title gradient-text">About Mock Test Hub</h2>
+                <p>Mock Test Hub is your dedicated platform to empower students for IBA STS-based and other competitive
+                    tests. We provide meticulously crafted mock tests covering Matric, Intermediate, Graduation, JST,
+                    PST, JEST, ECT, and more.</p>
+                <p>Our mission: equip you with accurate, real-time, comprehensive practice. We simulate actual exams,
+                    ensuring you're prepared and confident. We continuously update content to align with latest syllabi
+                    and trends, giving you an edge.</p>
+            </div>
+        </div>
+    </section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Intersection Observer for fade-in-up animation
-        const faders = document.querySelectorAll(".fade-in-up");
-        const appearOptions = { threshold: 0.1 };
-        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) {
-                    return;
-                } else {
-                    entry.target.classList.add("visible");
-                    appearOnScroll.unobserve(entry.target);
-                }
+    <section class="section-padding" id="contact">
+        <div class="container">
+            <h2 class="section-title fade-in-up gradient-text">Get In Touch With Us</h2>
+            <p class="section-description fade-in-up">Your success is our priority. For questions, support, or
+                suggestions, we're here. Connect with us through any channel below for prompt response.</p>
+            <div class="row g-4 justify-content-center mt-4">
+                <div class="col-md-6 col-lg-3 fade-in-up">
+                    <div class="contact-card-item">
+                        <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                        <h6>Direct WhatsApp</h6>
+                        <h6>Admin Mukesh Kumar</h6>
+                        <a href="https://wa.me/923480358640" target="_blank">+92 348 0358640</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 fade-in-up">
+                    <div class="contact-card-item">
+                        <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                        <h6>Direct WhatsApp</h6>
+                        <h6>Admin Amrat Chohan</h6>
+                        <a href="https://wa.me/923432852423" target="_blank">+92 343 2852423</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 fade-in-up">
+                    <div class="contact-card-item">
+                        <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                        <h6>WhatsApp Channel</h6>
+                        <a href="https://whatsapp.com/channel/0029VbAoVyXHwXbBQ8pjlc1o" target="_blank">Subscribe for
+                            Updates</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 fade-in-up">
+                    <div class="contact-card-item">
+                        <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                        <h6>WhatsApp Group</h6>
+                        <a href=" https://chat.whatsapp.com/KMb4eG7Sp2S0xu2OvRfxVB?mode=ems_copy_t" target="_blank">Join
+                            Our WhatsApp Group</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 fade-in-up">
+                    <div class="contact-card-item">
+                        <div class="contact-icon"><i class="fa-brands fa-facebook-f"></i></div>
+                        <h6>Official Facebook</h6>
+                        <a href="https://facebook.com/mocktesthub" target="_blank">Visit Our Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Mock Test Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <a class="whatsapp-bubble" href="https://wa.me/923480358640" target="_blank" title="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>Need help? Chat with us</span>
+    </a>
+
+    <button id="backToTop" title="Back to Top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Intersection Observer for fade-in-up animation
+            const faders = document.querySelectorAll(".fade-in-up");
+            const appearOptions = { threshold: 0.1 };
+            const appearOnScroll = new IntersectionObserver(function (entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add("visible");
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
             });
-        }, appearOptions);
-        faders.forEach(fader => {
-            appearOnScroll.observe(fader);
-        });
 
-        // Animated Counters for Stats Section
-        const counters = document.querySelectorAll(".stat-value");
-        const animateCounter = (el) => {
-            const target = +el.getAttribute("data-count");
-            const duration = 2000;
-            let start = null;
+            // Animated Counters for Stats Section
+            const counters = document.querySelectorAll(".stat-value");
+            const animateCounter = (el) => {
+                const target = +el.getAttribute("data-count");
+                const duration = 2000;
+                let start = null;
 
-            const step = (timestamp) => {
-                if (!start) start = timestamp;
-                const progress = Math.min((timestamp - start) / duration, 1);
-                const current = Math.floor(progress * target);
-                el.textContent = current.toLocaleString();
-                if (progress < 1) {
-                    requestAnimationFrame(step);
-                } else {
-                    el.textContent = target.toLocaleString();
-                }
+                const step = (timestamp) => {
+                    if (!start) start = timestamp;
+                    const progress = Math.min((timestamp - start) / duration, 1);
+                    const current = Math.floor(progress * target);
+                    el.textContent = current.toLocaleString();
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        el.textContent = target.toLocaleString();
+                    }
+                };
+                requestAnimationFrame(step);
             };
-            requestAnimationFrame(step);
-        };
 
-        const statsObserver = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    counters.forEach(animateCounter);
-                    statsObserver.disconnect();
-                }
-            });
-        }, { threshold: 0.4 });
+            const statsObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        counters.forEach(animateCounter);
+                        statsObserver.disconnect();
+                    }
+                });
+            }, { threshold: 0.4 });
 
-        const statsSection = document.querySelector('.stats-section');
-        if (statsSection) {
-            statsObserver.observe(statsSection);
-        }
-
-        // Back to Top Button visibility
-        const backToTopBtn = document.getElementById("backToTop");
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 400) {
-                backToTopBtn.style.display = "flex"; /* Changed to flex to ensure centering */
-            } else {
-                backToTopBtn.style.display = "none";
+            const statsSection = document.querySelector('.stats-section');
+            if (statsSection) {
+                statsObserver.observe(statsSection);
             }
-        });
-        backToTopBtn.addEventListener("click", () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        });
 
-        // Navbar active link on scroll - This function handles the underline on scroll
-        const navLinks = document.querySelectorAll("nav .nav-link");
-        const sections = document.querySelectorAll("section, .hero");
-
-        function updateNavActiveLink() {
-            let currentActive = '';
-            sections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                const offset = 150; // Offset from the top of the viewport
-                
-                // Check if the section is mostly in view or is the last visible section
-                if (rect.top <= offset && rect.bottom > offset || 
-                    (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2 && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50)) {
-                    currentActive = section.getAttribute('id');
+            // Back to Top Button visibility
+            const backToTopBtn = document.getElementById("backToTop");
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 400) {
+                    backToTopBtn.style.display = "flex"; /* Changed to flex to ensure centering */
+                } else {
+                    backToTopBtn.style.display = "none";
                 }
             });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                // Ensure currentActive is not empty and matches the link's href ID exactly
-                if (currentActive && link.getAttribute('href') === `#${currentActive}`) {
-                    link.classList.add('active');
-                }
+            backToTopBtn.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
             });
-        }
-        window.addEventListener('scroll', updateNavActiveLink);
-        updateNavActiveLink(); // Call on load to set initial active link
 
-        // Dark Mode Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            themeToggle.textContent = isDark ? '☀️' : '🌙';
-        });
+            // Navbar active link on scroll - This function handles the underline on scroll
+            const navLinks = document.querySelectorAll("nav .nav-link");
+            const sections = document.querySelectorAll("section, .hero");
 
-        // Particles.js initialization
-        particlesJS('particles-js', {
-            "particles": {
-                "number": {
-                    "value": 80,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
+            function updateNavActiveLink() {
+                let currentActive = '';
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const offset = 150; // Offset from the top of the viewport
+
+                    // Check if the section is mostly in view or is the last visible section
+                    if (rect.top <= offset && rect.bottom > offset ||
+                        (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2 && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50)) {
+                        currentActive = section.getAttribute('id');
                     }
-                },
-                "color": {
-                    "value": "#ffffff"
-                },
-                "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000000"
-                    },
-                    "polygon": {
-                        "nb_sides": 5
-                    },
-                    "image": {
-                        "src": "img/github.svg",
-                        "width": 100,
-                        "height": 100
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    // Ensure currentActive is not empty and matches the link's href ID exactly
+                    if (currentActive && link.getAttribute('href') === `#${currentActive}`) {
+                        link.classList.add('active');
                     }
-                },
-                "opacity": {
-                    "value": 0.5,
-                    "random": false,
-                    "anim": {
-                        "enable": false,
-                        "speed": 1,
-                        "opacity_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "size": {
-                    "value": 6, // Increased particle size
-                    "random": true,
-                    "anim": {
-                        "enable": false,
-                        "speed": 40,
-                        "size_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#ffffff",
-                    "opacity": 0.4,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 6,
-                    "direction": "none",
-                    "random": false,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": false,
-                        "rotateX": 600,
-                        "rotateY": 1200
-                    }
-                }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "grab"
-                    },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "push"
-                    },
-                    "resize": true
-                },
-                "modes": {
-                    "grab": {
-                        "distance": 140,
-                        "line_linked": {
-                            "opacity": 1
+                });
+            }
+            window.addEventListener('scroll', updateNavActiveLink);
+            updateNavActiveLink(); // Call on load to set initial active link
+
+            // Dark Mode Toggle
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const isDark = document.body.classList.contains('dark-mode');
+                themeToggle.textContent = isDark ? '☀️' : '🌙';
+            });
+
+            // Particles.js initialization
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
                         }
                     },
-                    "bubble": {
-                        "distance": 400,
-                        "size": 40,
-                        "duration": 2,
-                        "opacity": 8,
-                        "speed": 3
+                    "color": {
+                        "value": "#ffffff"
                     },
-                    "repulse": {
-                        "distance": 200,
-                        "duration": 0.4
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        },
+                        "image": {
+                            "src": "img/github.svg",
+                            "width": 100,
+                            "height": 100
+                        }
                     },
-                    "push": {
-                        "particles_nb": 4
+                    "opacity": {
+                        "value": 0.5,
+                        "random": false,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
                     },
-                    "remove": {
-                        "particles_nb": 2
+                    "size": {
+                        "value": 6, // Increased particle size
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffffff",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 6,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
                     }
-                }
-            },
-            "retina_detect": true
-        });
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
 
-    });
-</script>
+        });
+    </script>
 </body>
+
 </html>
