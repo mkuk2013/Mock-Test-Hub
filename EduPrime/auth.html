@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up - EduPrime</title>
+    <meta name="description" content="Join EduPrime to start your learning journey.">
+    <meta name="theme-color" content="#4F46E5">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --secondary: #EC4899;
+            --accent: #8B5CF6;
+            --dark-bg: #0F172A;
+            --card-bg: rgba(30, 41, 59, 0.7);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--dark-bg);
+            color: #F8FAFC;
+            overflow-x: hidden;
+            cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z' fill='%236366F1' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 2 2, default;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        /* Interactive Elements Cursor */
+        a,
+        button,
+        input {
+            cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 2L22 6L9 19L5 19L5 15L18 2Z' fill='%23EC4899' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M14 6L18 10' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 2 20, pointer !important;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #818cf8, #e879f9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Animations */
+        @keyframes blob {
+            0% {
+                transform: translate(0px, 0px) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+        }
+
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        .form-container {
+            transition: all 0.5s ease-in-out;
+        }
+
+        .hidden-form {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+        }
+
+        .visible-form {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="antialiased min-h-screen relative selection:bg-indigo-500 selection:text-white flex items-center justify-center">
+
+    <!-- Background Blobs -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div
+            class="hero-blob bg-indigo-600 w-96 h-96 rounded-full top-0 left-0 mix-blend-multiply filter blur-3xl opacity-20 animate-blob">
+        </div>
+        <div
+            class="hero-blob bg-purple-600 w-96 h-96 rounded-full bottom-0 right-0 mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000">
+        </div>
+    </div>
+
+    <!-- Navigation (Minimal) -->
+    <nav class="fixed top-0 w-full z-50 p-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                <div
+                    class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/20">
+                    E</div>
+                <span class="text-2xl font-bold tracking-tight text-white">EduPrime</span>
+            </div>
+            <a href="index.html" class="text-gray-400 hover:text-white transition-colors"><i
+                    class="fas fa-times text-xl"></i></a>
+        </div>
+    </nav>
+
+    <!-- Auth Container -->
+    <main class="w-full max-w-md px-4 relative z-10">
+        <div class="glass rounded-3xl p-8 sm:p-10 shadow-2xl border border-white/10 slide-up">
+
+            <!-- Login Form -->
+            <div id="login-form" class="visible-form">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold mb-2">Welcome Back</h2>
+                    <p class="text-gray-400">Enter your details to access your account</p>
+                </div>
+
+                <form onsubmit="handleLogin(event)" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Email Address</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-gray-500"></i>
+                            </div>
+                            <input type="email" id="login-email" required
+                                class="block w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl leading-5 text-gray-300 placeholder-gray-600 focus:outline-none focus:bg-white/10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                placeholder="you@example.com">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-500"></i>
+                            </div>
+                            <input type="password" id="login-password" required
+                                class="block w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl leading-5 text-gray-300 placeholder-gray-600 focus:outline-none focus:bg-white/10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                placeholder="••••••••">
+                        </div>
+                        <div class="flex justify-end mt-2">
+                            <a href="#" class="text-xs text-indigo-400 hover:text-indigo-300">Forgot Password?</a>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="login-btn"
+                        class="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl font-bold text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2">
+                        <span>Sign In</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="mt-8 text-center">
+                    <p class="text-gray-400 text-sm">Don't have an account? <button onclick="toggleAuth('signup')"
+                            class="text-white font-bold hover:underline">Sign Up</button></p>
+                </div>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div id="signup-form" class="hidden-form">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold mb-2">Create Account</h2>
+                    <p class="text-gray-400">Start your learning journey today</p>
+                </div>
+
+                <form onsubmit="handleSignup(event)" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Full Name</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-user text-gray-500"></i>
+                            </div>
+                            <input type="text" id="signup-name" required
+                                class="block w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl leading-5 text-gray-300 placeholder-gray-600 focus:outline-none focus:bg-white/10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                placeholder="John Doe">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Email Address</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-gray-500"></i>
+                            </div>
+                            <input type="email" id="signup-email" required
+                                class="block w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl leading-5 text-gray-300 placeholder-gray-600 focus:outline-none focus:bg-white/10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                placeholder="you@example.com">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-500"></i>
+                            </div>
+                            <input type="password" id="signup-password" required
+                                class="block w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl leading-5 text-gray-300 placeholder-gray-600 focus:outline-none focus:bg-white/10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="signup-btn"
+                        class="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl font-bold text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2">
+                        <span>Create Account</span>
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                </form>
+
+                <div class="mt-8 text-center">
+                    <p class="text-gray-400 text-sm">Already have an account? <button onclick="toggleAuth('login')"
+                            class="text-white font-bold hover:underline">Sign In</button></p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast"
+        class="fixed bottom-8 right-8 bg-white text-black px-6 py-4 rounded-xl shadow-2xl transform translate-y-32 transition-transform duration-300 z-[110] flex items-center gap-3 font-bold border-l-4 border-green-500">
+        <i class="fas fa-check-circle text-green-500 text-xl"></i>
+        <span id="toast-message">Notification</span>
+    </div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Auth Logic -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        function toggleAuth(view) {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+
+            if (view === 'signup') {
+                loginForm.classList.remove('visible-form');
+                loginForm.classList.add('hidden-form');
+                setTimeout(() => {
+                    loginForm.style.display = 'none';
+                    signupForm.style.display = 'block';
+                    setTimeout(() => {
+                        signupForm.classList.remove('hidden-form');
+                        signupForm.classList.add('visible-form');
+                    }, 50);
+                }, 300);
+            } else {
+                signupForm.classList.remove('visible-form');
+                signupForm.classList.add('hidden-form');
+                setTimeout(() => {
+                    signupForm.style.display = 'none';
+                    loginForm.style.display = 'block';
+                    setTimeout(() => {
+                        loginForm.classList.remove('hidden-form');
+                        loginForm.classList.add('visible-form');
+                    }, 50);
+                }, 300);
+            }
+        }
+
+        // Toast Helper
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            const icon = toast.querySelector('i');
+
+            toastMsg.textContent = message;
+
+            if (type === 'error') {
+                toast.classList.remove('border-green-500');
+                toast.classList.add('border-red-500');
+                icon.classList.remove('fa-check-circle', 'text-green-500');
+                icon.classList.add('fa-exclamation-circle', 'text-red-500');
+            } else {
+                toast.classList.remove('border-red-500');
+                toast.classList.add('border-green-500');
+                icon.classList.remove('fa-exclamation-circle', 'text-red-500');
+                icon.classList.add('fa-check-circle', 'text-green-500');
+            }
+
+            toast.classList.remove('translate-y-32');
+            setTimeout(() => {
+                toast.classList.add('translate-y-32');
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

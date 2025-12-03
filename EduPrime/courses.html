@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - EduPrime</title>
+    <meta name="description" content="Explore our premium courses.">
+    <meta name="theme-color" content="#4F46E5">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --secondary: #EC4899;
+            --accent: #8B5CF6;
+            --dark-bg: #0F172A;
+            --card-bg: rgba(30, 41, 59, 0.7);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--dark-bg);
+            color: #F8FAFC;
+            overflow-x: hidden;
+            cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z' fill='%236366F1' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 2 2, default;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        a,
+        button,
+        .course-card,
+        .category-pill {
+            cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 2L22 6L9 19L5 19L5 15L18 2Z' fill='%23EC4899' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M14 6L18 10' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 2 20, pointer !important;
+        }
+
+        .glass {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .course-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -5px rgba(79, 70, 229, 0.3);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #818cf8, #e879f9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        .category-filter.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(99, 102, 241, 0.5);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen relative selection:bg-indigo-500 selection:text-white">
+
+    <!-- Navigation -->
+    <nav id="navbar"
+        class="fixed w-full z-50 transition-all duration-300 border-b border-transparent bg-[#0F172A]/90 backdrop-blur-md shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/20">
+                        E</div>
+                    <span class="text-2xl font-bold tracking-tight text-white">EduPrime</span>
+                </div>
+
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-8">
+                        <a href="index.html"
+                            class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Home</a>
+                        <a href="categories.html"
+                            class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Categories</a>
+                        <a href="courses.html" class="text-white text-sm font-medium transition-colors">Courses</a>
+                        <a href="mentors.html"
+                            class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Mentors</a>
+                        <button onclick="showToast('Login feature coming soon!')"
+                            class="text-white hover:text-indigo-300 font-medium text-sm">Log in</button>
+                        <button onclick="showToast('Welcome to EduPrime!')"
+                            class="bg-white text-indigo-600 hover:bg-indigo-50 px-5 py-2.5 rounded-full text-sm font-bold transition-all transform hover:scale-105 shadow-lg hover:shadow-white/10">Get
+                            Started</button>
+                    </div>
+                </div>
+
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white p-2">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden glass border-t border-white/10 absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="index.html"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10">Home</a>
+                <a href="categories.html"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10">Categories</a>
+                <a href="courses.html"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/10">Courses</a>
+                <button onclick="showToast('Welcome to EduPrime!')"
+                    class="w-full mt-4 bg-indigo-600 text-white px-5 py-3 rounded-xl font-bold">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-32 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+        <h1 class="text-4xl sm:text-5xl font-bold mb-4">Explore Our <span class="text-gradient">Courses</span></h1>
+        <p class="text-gray-400 text-lg max-w-2xl mx-auto mb-8">Discover the perfect course to upgrade your skills and
+            advance your career.</p>
+
+        <!-- Search & Filter -->
+        <div class="flex flex-col md:flex-row gap-4 justify-center items-center max-w-4xl mx-auto">
+            <div class="relative w-full md:w-96 group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400 group-focus-within:text-indigo-400 transition-colors"></i>
+                </div>
+                <input type="text" id="hero-search"
+                    class="block w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl leading-5 text-gray-300 placeholder-gray-500 focus:outline-none focus:bg-white/10 focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 sm:text-sm transition-all"
+                    placeholder="Search courses...">
+            </div>
+
+            <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto no-scrollbar">
+                <button
+                    class="category-filter active px-4 py-2 rounded-lg glass text-sm font-bold whitespace-nowrap hover:bg-white/10 transition-colors"
+                    data-filter="all">All</button>
+                <button
+                    class="category-filter px-4 py-2 rounded-lg glass text-sm font-bold whitespace-nowrap hover:bg-white/10 transition-colors"
+                    data-filter="dev">Development</button>
+                <button
+                    class="category-filter px-4 py-2 rounded-lg glass text-sm font-bold whitespace-nowrap hover:bg-white/10 transition-colors"
+                    data-filter="design">Design</button>
+                <button
+                    class="category-filter px-4 py-2 rounded-lg glass text-sm font-bold whitespace-nowrap hover:bg-white/10 transition-colors"
+                    data-filter="business">Business</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Courses Grid -->
+    <section class="pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div id="courses-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Courses will be populated by JS -->
+        </div>
+    </section>
+
+    <!-- Course Modal -->
+    <div id="course-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl p-4">
+            <div class="glass bg-[#1E293B] rounded-3xl overflow-hidden shadow-2xl border border-white/10 transform scale-95 opacity-0 transition-all duration-300"
+                id="modal-content">
+                <div class="relative h-64">
+                    <img id="modal-image" src="" alt="Course" class="w-full h-full object-cover">
+                    <button onclick="closeModal()"
+                        class="absolute top-4 right-4 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full text-white flex items-center justify-center backdrop-blur transition-colors">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="absolute bottom-4 left-4 flex gap-2">
+                        <span id="modal-category"
+                            class="text-xs font-bold text-white bg-indigo-500 px-3 py-1 rounded-full shadow-lg"></span>
+                        <span
+                            class="text-xs font-bold text-black bg-white px-3 py-1 rounded-full shadow-lg flex items-center gap-1"><i
+                                class="fas fa-star text-yellow-500"></i> <span id="modal-rating"></span></span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <h2 id="modal-title" class="text-3xl font-bold mb-4"></h2>
+                    <p id="modal-description" class="text-gray-300 mb-6 leading-relaxed"></p>
+
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="bg-white/5 p-4 rounded-xl">
+                            <p class="text-gray-400 text-xs uppercase font-bold mb-1">Instructor</p>
+                            <div class="flex items-center gap-2">
+                                <img id="modal-instructor-img" src="" class="w-8 h-8 rounded-full" alt="">
+                                <p id="modal-instructor" class="font-bold"></p>
+                            </div>
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-xl">
+                            <p class="text-gray-400 text-xs uppercase font-bold mb-1">Duration</p>
+                            <p class="font-bold"><i class="far fa-clock mr-2 text-indigo-400"></i> 12 Weeks</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-6 border-t border-white/10">
+                        <div class="text-3xl font-bold text-white" id="modal-price"></div>
+                        <button onclick="showToast('Enrolled Successfully!')"
+                            class="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold shadow-lg shadow-indigo-500/25 transition-all transform hover:-translate-y-1">Enroll
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast"
+        class="fixed bottom-8 right-8 bg-white text-black px-6 py-4 rounded-xl shadow-2xl transform translate-y-32 transition-transform duration-300 z-[110] flex items-center gap-3 font-bold border-l-4 border-green-500">
+        <i class="fas fa-check-circle text-green-500 text-xl"></i>
+        <span id="toast-message">Notification</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 bg-black/40 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+                            E</div>
+                        <span class="text-2xl font-bold">EduPrime</span>
+                    </div>
+                    <p class="text-gray-400 max-w-sm leading-relaxed">Empowering learners worldwide with accessible,
+                        high-quality education.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-6 text-lg">Platform</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li><a href="courses.html" class="hover:text-white transition-colors flex items-center gap-2"><i
+                                    class="fas fa-chevron-right text-xs text-indigo-500"></i> Browse Courses</a></li>
+                        <li><a href="mentors.html" class="hover:text-white transition-colors flex items-center gap-2"><i
+                                    class="fas fa-chevron-right text-xs text-indigo-500"></i> Mentorship</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-6 text-lg">Support</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i
+                                    class="fas fa-chevron-right text-xs text-indigo-500"></i> Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i
+                                    class="fas fa-chevron-right text-xs text-indigo-500"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-sm">© 2025 EduPrime Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const courses = [
+            {
+                id: 1,
+                title: "Full Stack Web Development Bootcamp",
+                category: "dev",
+                image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-4.0.3&auto=format&fit=crop&w=1031&q=80",
+                instructor: "John Doe",
+                instructorImg: "https://i.pravatar.cc/100?img=12",
+                rating: 4.9,
+                price: "$89.99",
+                description: "Become a full-stack web developer with just one course. HTML, CSS, Javascript, Node, React, MongoDB and more!",
+                badge: "BESTSELLER",
+                badgeColor: "indigo"
+            },
+            {
+                id: 2,
+                title: "UI/UX Design Masterclass",
+                category: "design",
+                image: "https://images.unsplash.com/photo-1626785774573-4b7993125486?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                instructor: "Sarah Smith",
+                instructorImg: "https://i.pravatar.cc/100?img=5",
+                rating: 5.0,
+                price: "$64.99",
+                description: "Learn how to design beautiful interfaces and user experiences. Covers Figma, Adobe XD, and design principles.",
+                badge: "NEW",
+                badgeColor: "purple"
+            },
+            {
+                id: 3,
+                title: "Python for Data Science",
+                category: "dev",
+                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                instructor: "Mike Ross",
+                instructorImg: "https://i.pravatar.cc/100?img=8",
+                rating: 4.8,
+                price: "$75.00",
+                description: "Master Python and learn how to analyze data, create beautiful visualizations, and use powerful machine learning algorithms.",
+                badge: "-20% OFF",
+                badgeColor: "red"
+            },
+            {
+                id: 4,
+                title: "Digital Marketing Strategy",
+                category: "business",
+                image: "https://images.unsplash.com/photo-1557838923-2985c318be48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1631&q=80",
+                instructor: "Emily Blunt",
+                instructorImg: "https://i.pravatar.cc/100?img=9",
+                rating: 4.7,
+                price: "$49.99",
+                description: "Learn how to market your business online. SEO, Social Media, Email Marketing, and more.",
+                badge: "POPULAR",
+                badgeColor: "green"
+            },
+            {
+                id: 5,
+                title: "Photography Masterclass",
+                category: "photo",
+                image: "https://images.unsplash.com/photo-1554048612-387768052bf7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1535&q=80",
+                instructor: "David Lens",
+                instructorImg: "https://i.pravatar.cc/100?img=11",
+                rating: 4.9,
+                price: "$59.99",
+                description: "Understand your camera and take stunning photos. Portrait, Landscape, Wildlife, and Product photography.",
+                badge: null,
+                badgeColor: null
+            },
+            {
+                id: 6,
+                title: "Business Leadership",
+                category: "business",
+                image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                instructor: "Robert Fox",
+                instructorImg: "https://i.pravatar.cc/100?img=13",
+                rating: 4.6,
+                price: "$99.99",
+                description: "Learn how to lead teams, manage projects, and grow your business effectively.",
+                badge: "PREMIUM",
+                badgeColor: "yellow"
+            }
+        ];
+
+        const coursesGrid = document.getElementById('courses-grid');
+        const searchInput = document.getElementById('hero-search');
+        const filterButtons = document.querySelectorAll('.category-filter');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function init() {
+            renderCourses(courses);
+            setupEventListeners();
+        }
+
+        function renderCourses(data) {
+            coursesGrid.innerHTML = '';
+            if (data.length === 0) {
+                coursesGrid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fas fa-search text-4xl text-gray-600 mb-4"></i>
+                        <p class="text-xl text-gray-400">No courses found matching your criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            data.forEach((course, index) => {
+                const badgeHtml = course.badge ? `
+                    <div class="absolute top-4 right-4 bg-${course.badgeColor}-500 text-white text-xs font-bold px-2 py-1 rounded shadow-lg">
+                        ${course.badge}
+                    </div>
+                ` : '';
+
+                const card = document.createElement('div');
+                card.className = 'course-card glass rounded-2xl overflow-hidden group opacity-0 slide-up';
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animationFillMode = 'forwards';
+                card.onclick = () => openModal(course);
+
+                card.innerHTML = `
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="${course.image}" alt="${course.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        ${badgeHtml}
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-xs font-bold text-indigo-400 bg-indigo-400/10 px-2 py-1 rounded uppercase">${course.category}</span>
+                            <div class="flex text-yellow-500 text-xs gap-0.5">
+                                ${getStarRating(course.rating)}
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 group-hover:text-indigo-400 transition-colors line-clamp-2">${course.title}</h3>
+                        <p class="text-gray-400 text-sm mb-4 line-clamp-2">${course.description}</p>
+                        <div class="flex items-center justify-between border-t border-white/10 pt-4">
+                            <div class="flex items-center gap-2">
+                                <img src="${course.instructorImg}" class="w-8 h-8 rounded-full border border-white/20" alt="${course.instructor}">
+                                <span class="text-sm text-gray-300">${course.instructor}</span>
+                            </div>
+                            <span class="text-xl font-bold text-white">${course.price}</span>
+                        </div>
+                    </div>
+                `;
+                coursesGrid.appendChild(card);
+            });
+        }
+
+        function getStarRating(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) stars += '<i class="fas fa-star"></i>';
+                else if (i - 0.5 <= rating) stars += '<i class="fas fa-star-half-alt"></i>';
+                else stars += '<i class="far fa-star"></i>';
+            }
+            return stars;
+        }
+
+        function filterCourses(category) {
+            filterButtons.forEach(btn => {
+                if (btn.dataset.filter === category || (category === 'all' && btn.dataset.filter === 'all')) {
+                    btn.classList.add('active', 'bg-white/10');
+                } else {
+                    btn.classList.remove('active', 'bg-white/10');
+                }
+            });
+
+            const filtered = category === 'all'
+                ? courses
+                : courses.filter(c => c.category === category);
+
+            renderCourses(filtered);
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = courses.filter(c =>
+                c.title.toLowerCase().includes(term) ||
+                c.description.toLowerCase().includes(term) ||
+                c.instructor.toLowerCase().includes(term)
+            );
+            renderCourses(filtered);
+        });
+
+        function openModal(course) {
+            const modal = document.getElementById('course-modal');
+            const content = document.getElementById('modal-content');
+
+            document.getElementById('modal-image').src = course.image;
+            document.getElementById('modal-title').textContent = course.title;
+            document.getElementById('modal-description').textContent = course.description;
+            document.getElementById('modal-instructor').textContent = course.instructor;
+            document.getElementById('modal-instructor-img').src = course.instructorImg;
+            document.getElementById('modal-price').textContent = course.price;
+            document.getElementById('modal-rating').textContent = course.rating;
+            document.getElementById('modal-category').textContent = course.category.toUpperCase();
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('course-modal');
+            const content = document.getElementById('modal-content');
+
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('translate-y-32');
+            setTimeout(() => {
+                toast.classList.add('translate-y-32');
+            }, 3000);
+        }
+
+        function setupEventListeners() {
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => filterCourses(btn.dataset.filter));
+            });
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            });
+        }
+
+        init();
+    </script>
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

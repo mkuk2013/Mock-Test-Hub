@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentors - EduPrime</title>
+    <meta name="description" content="Meet our expert mentors.">
+    <meta name="theme-color" content="#4F46E5">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --secondary: #EC4899;
+            --accent: #8B5CF6;
+            --dark-bg: #0F172A;
+            --card-bg: rgba(30, 41, 59, 0.7);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--dark-bg);
+            color: #F8FAFC;
+            overflow-x: hidden;
+            cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z' fill='%236366F1' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 2 2, default;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        a,
+        button,
+        .mentor-card {
+            cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 2L22 6L9 19L5 19L5 15L18 2Z' fill='%23EC4899' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M14 6L18 10' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 2 20, pointer !important;
+        }
+
+        .glass {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mentor-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mentor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -5px rgba(79, 70, 229, 0.3);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #818cf8, #e879f9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen relative selection:bg-indigo-500 selection:text-white">
+
+    <!-- Navigation -->
+    <nav id="navbar"
+        class="fixed w-full z-50 transition-all duration-300 border-b border-transparent bg-[#0F172A]/90 backdrop-blur-md shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/20">
+                        E</div>
+                    <span class="text-2xl font-bold tracking-tight text-white">EduPrime</span>
+                </div>
+
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-8">
+                        <a href="index.html"
+                            class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Home</a>
+                        <a href="categories.html"
+                            class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Categories</a>
+                        <a href="courses.html"
+                            class="text-gray-300 hover:text-white text-sm font-medium transition-colors">Courses</a>
+                        <a href="mentors.html" class="text-white text-sm font-medium transition-colors">Mentors</a>
+                        <button onclick="showToast('Login feature coming soon!')"
+                            class="text-white hover:text-indigo-300 font-medium text-sm">Log in</button>
+                        <button onclick="showToast('Welcome to EduPrime!')"
+                            class="bg-white text-indigo-600 hover:bg-indigo-50 px-5 py-2.5 rounded-full text-sm font-bold transition-all transform hover:scale-105 shadow-lg hover:shadow-white/10">Get
+                            Started</button>
+                    </div>
+                </div>
+
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white p-2">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden glass border-t border-white/10 absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="index.html"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10">Home</a>
+                <a href="categories.html"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10">Categories</a>
+                <a href="courses.html"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10">Courses</a>
+                <a href="mentors.html"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-white/10">Mentors</a>
+                <button onclick="showToast('Welcome to EduPrime!')"
+                    class="w-full mt-4 bg-indigo-600 text-white px-5 py-3 rounded-xl font-bold">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-32 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+        <h1 class="text-4xl sm:text-5xl font-bold mb-4">Meet Our <span class="text-gradient">Mentors</span></h1>
+        <p class="text-gray-400 text-lg max-w-2xl mx-auto mb-8">Learn from the best in the industry. Our mentors are
+            experienced professionals dedicated to your success.</p>
+    </header>
+
+    <!-- Mentors Grid -->
+    <section class="pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div id="mentors-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Mentors will be populated by JS -->
+        </div>
+    </section>
+
+    <!-- Toast Notification -->
+    <div id="toast"
+        class="fixed bottom-8 right-8 bg-white text-black px-6 py-4 rounded-xl shadow-2xl transform translate-y-32 transition-transform duration-300 z-[110] flex items-center gap-3 font-bold border-l-4 border-green-500">
+        <i class="fas fa-check-circle text-green-500 text-xl"></i>
+        <span id="toast-message">Notification</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 bg-black/40 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+                            E</div>
+                        <span class="text-2xl font-bold">EduPrime</span>
+                    </div>
+                    <p class="text-gray-400 max-w-sm leading-relaxed">Empowering learners worldwide with accessible,
+                        high-quality education.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-6 text-lg">Platform</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li><a href="courses.html" class="hover:text-white transition-colors flex items-center gap-2"><i
+                                    class="fas fa-chevron-right text-xs text-indigo-500"></i> Browse Courses</a></li>
+                        <li><a href="mentors.html" class="hover:text-white transition-colors flex items-center gap-2"><i
+                                    class="fas fa-chevron-right text-xs text-indigo-500"></i> Mentorship</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-6 text-lg">Support</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i
+                                    class="fas fa-chevron-right text-xs text-indigo-500"></i> Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors flex items-center gap-2"><i
+                                    class="fas fa-chevron-right text-xs text-indigo-500"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-sm">© 2025 EduPrime Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const mentors = [
+            {
+                id: 1,
+                name: "John Doe",
+                title: "Senior Full Stack Developer",
+                company: "Google",
+                image: "https://i.pravatar.cc/300?img=12",
+                bio: "10+ years of experience in web development. Passionate about teaching clean code and architecture.",
+                skills: ["React", "Node.js", "AWS"]
+            },
+            {
+                id: 2,
+                name: "Sarah Smith",
+                title: "Lead Product Designer",
+                company: "Airbnb",
+                image: "https://i.pravatar.cc/300?img=5",
+                bio: "Award-winning designer with a focus on user-centric design and accessibility.",
+                skills: ["Figma", "UI/UX", "Prototyping"]
+            },
+            {
+                id: 3,
+                name: "Mike Ross",
+                title: "Data Scientist",
+                company: "Netflix",
+                image: "https://i.pravatar.cc/300?img=8",
+                bio: "Expert in machine learning and data visualization. Helping you make sense of big data.",
+                skills: ["Python", "TensorFlow", "SQL"]
+            },
+            {
+                id: 4,
+                name: "Emily Blunt",
+                title: "Marketing Director",
+                company: "Spotify",
+                image: "https://i.pravatar.cc/300?img=9",
+                bio: "Strategic marketer with a track record of growing brands globally.",
+                skills: ["SEO", "Content Strategy", "Analytics"]
+            },
+            {
+                id: 5,
+                name: "David Lens",
+                title: "Professional Photographer",
+                company: "Nat Geo",
+                image: "https://i.pravatar.cc/300?img=11",
+                bio: "Capturing the world's beauty one shot at a time. Specializing in landscape and wildlife.",
+                skills: ["Photography", "Lightroom", "Composition"]
+            },
+            {
+                id: 6,
+                name: "Robert Fox",
+                title: "Business Consultant",
+                company: "McKinsey",
+                image: "https://i.pravatar.cc/300?img=13",
+                bio: "Helping businesses scale and optimize operations. MBA from Harvard.",
+                skills: ["Leadership", "Strategy", "Management"]
+            }
+        ];
+
+        const mentorsGrid = document.getElementById('mentors-grid');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function init() {
+            renderMentors(mentors);
+            setupEventListeners();
+        }
+
+        function renderMentors(data) {
+            mentorsGrid.innerHTML = '';
+            data.forEach((mentor, index) => {
+                const card = document.createElement('div');
+                card.className = 'mentor-card glass rounded-2xl overflow-hidden group opacity-0 slide-up';
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animationFillMode = 'forwards';
+
+                const skillsHtml = mentor.skills.map(skill =>
+                    `<span class="text-xs font-bold text-indigo-300 bg-indigo-500/20 px-2 py-1 rounded">${skill}</span>`
+                ).join('');
+
+                card.innerHTML = `
+                    <div class="p-6 text-center">
+                        <div class="relative w-32 h-32 mx-auto mb-4">
+                            <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full blur opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                            <img src="${mentor.image}" alt="${mentor.name}" class="relative w-full h-full object-cover rounded-full border-4 border-[#0F172A] shadow-xl">
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 text-white">${mentor.name}</h3>
+                        <p class="text-indigo-400 text-sm font-medium mb-1">${mentor.title}</p>
+                        <p class="text-gray-500 text-xs mb-4 uppercase tracking-wider">at ${mentor.company}</p>
+                        <p class="text-gray-400 text-sm mb-6 line-clamp-2">${mentor.bio}</p>
+                        <div class="flex flex-wrap justify-center gap-2 mb-6">
+                            ${skillsHtml}
+                        </div>
+                        <button onclick="showToast('Followed ${mentor.name}!')" class="w-full py-2 border border-white/20 rounded-xl text-sm font-bold hover:bg-white hover:text-black transition-all">Follow</button>
+                    </div>
+                `;
+                mentorsGrid.appendChild(card);
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('translate-y-32');
+            setTimeout(() => {
+                toast.classList.add('translate-y-32');
+            }, 3000);
+        }
+
+        function setupEventListeners() {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            });
+        }
+
+        init();
+    </script>
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
