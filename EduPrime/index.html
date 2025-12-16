@@ -34,8 +34,7 @@
             background-color: var(--dark-bg);
             color: #F8FAFC;
             overflow-x: hidden;
-            /* Custom Cursor */
-            cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z' fill='%236366F1' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 2 2, default;
+            cursor: auto !important;
         }
 
         h1,
@@ -59,14 +58,6 @@
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(to bottom, var(--primary), var(--secondary));
             border-radius: 4px;
-        }
-
-        /* Interactive Elements Cursor */
-        a,
-        button,
-        .course-card,
-        .category-pill {
-            cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 2L22 6L9 19L5 19L5 15L18 2Z' fill='%23EC4899' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M14 6L18 10' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 2 20, pointer !important;
         }
 
         /* Glassmorphism */
@@ -425,7 +416,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-4xl sm:text-5xl font-bold mb-4">Featured <span
-                        class="text-gradient">Masterclasses</span></h2>
+                        class="text-gradient">Masterclasses</span>
+                </h2>
                 <p class="text-gray-400 text-lg max-w-2xl mx-auto">Hand-picked courses to help you master new skills and
                     advance your career.</p>
             </div>
@@ -661,20 +653,20 @@
 
             if (data.length === 0) {
                 coursesGrid.innerHTML = `
-                    <div class="col-span-full text-center py-12">
-                        <i class="fas fa-search text-4xl text-gray-600 mb-4"></i>
-                        <p class="text-xl text-gray-400">No courses found matching your criteria.</p>
-                    </div>
-                `;
+                        <div class="col-span-full text-center py-12">
+                            <i class="fas fa-search text-4xl text-gray-600 mb-4"></i>
+                            <p class="text-xl text-gray-400">No courses found matching your criteria.</p>
+                        </div>
+                    `;
                 return;
             }
 
             data.forEach((course, index) => {
                 const badgeHtml = course.badge ? `
-                    <div class="absolute top-4 right-4 bg-${course.badgeColor}-500 text-white text-xs font-bold px-2 py-1 rounded shadow-lg">
-                        ${course.badge}
-                    </div>
-                ` : '';
+                        <div class="absolute top-4 right-4 bg-${course.badgeColor}-500 text-white text-xs font-bold px-2 py-1 rounded shadow-lg">
+                            ${course.badge}
+                        </div>
+                    ` : '';
 
                 const card = document.createElement('div');
                 card.className = 'course-card glass rounded-2xl overflow-hidden group opacity-0 slide-up';
@@ -683,29 +675,29 @@
                 card.onclick = () => openModal(course);
 
                 card.innerHTML = `
-                    <div class="relative h-48 overflow-hidden">
-                        <img src="${course.image}" alt="${course.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        ${badgeHtml}
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="text-xs font-bold text-indigo-400 bg-indigo-400/10 px-2 py-1 rounded uppercase">${course.category}</span>
-                            <div class="flex text-yellow-500 text-xs gap-0.5">
-                                ${getStarRating(course.rating)}
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="${course.image}" alt="${course.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            ${badgeHtml}
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="text-xs font-bold text-indigo-400 bg-indigo-400/10 px-2 py-1 rounded uppercase">${course.category}</span>
+                                <div class="flex text-yellow-500 text-xs gap-0.5">
+                                    ${getStarRating(course.rating)}
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 group-hover:text-indigo-400 transition-colors line-clamp-2">${course.title}</h3>
+                            <p class="text-gray-400 text-sm mb-4 line-clamp-2">${course.description}</p>
+                            <div class="flex items-center justify-between border-t border-white/10 pt-4">
+                                <div class="flex items-center gap-2">
+                                    <img src="${course.instructorImg}" class="w-8 h-8 rounded-full border border-white/20" alt="${course.instructor}">
+                                    <span class="text-sm text-gray-300">${course.instructor}</span>
+                                </div>
+                                <span class="text-xl font-bold text-white">${course.price}</span>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 group-hover:text-indigo-400 transition-colors line-clamp-2">${course.title}</h3>
-                        <p class="text-gray-400 text-sm mb-4 line-clamp-2">${course.description}</p>
-                        <div class="flex items-center justify-between border-t border-white/10 pt-4">
-                            <div class="flex items-center gap-2">
-                                <img src="${course.instructorImg}" class="w-8 h-8 rounded-full border border-white/20" alt="${course.instructor}">
-                                <span class="text-sm text-gray-300">${course.instructor}</span>
-                            </div>
-                            <span class="text-xl font-bold text-white">${course.price}</span>
-                        </div>
-                    </div>
-                `;
+                    `;
                 coursesGrid.appendChild(card);
             });
         }

@@ -103,6 +103,7 @@
             font-feature-settings: "cv03", "cv04", "cv11";
         }
 
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: var(--gradient-primary);
@@ -115,6 +116,7 @@
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
             position: relative;
+            cursor: auto !important;
         }
 
         body::before {
@@ -1989,61 +1991,8 @@
             transform: translateZ(20px);
         }
 
-        /* Custom Cursor */
-        .custom-cursor {
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--primary-color);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-            mix-blend-mode: difference;
-            display: none;
-            /* Hidden on touch devices via JS */
-        }
 
-        .custom-cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate(-50%, -50%);
-            display: none;
-        }
 
-        @media (hover: hover) and (pointer: fine) {
-
-            .custom-cursor,
-            .custom-cursor-dot {
-                display: block;
-            }
-
-            body {
-                cursor: none;
-            }
-
-            a,
-            button,
-            .card,
-            input,
-            .nav-tab {
-                cursor: none;
-                /* Hide default cursor on interactive elements */
-            }
-        }
-
-        .custom-cursor.hovered {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(99, 102, 241, 0.1);
-            border-color: transparent;
-        }
 
         /* Scroll Reveal Animation */
         .reveal-on-scroll {
@@ -2060,9 +2009,7 @@
 </head>
 
 <body>
-    <!-- Custom Cursor Elements -->
-    <div class="custom-cursor" id="custom-cursor"></div>
-    <div class="custom-cursor-dot" id="custom-cursor-dot"></div>
+
 
     <!-- Particle Background Container -->
     <canvas id="particles-js"></canvas>
@@ -3269,10 +3216,7 @@
             animate();
         }
 
-        // 2. Native Cursor (CSS based)
-        const initCursor = () => {
-            // Logic moved to CSS for better performance
-        };
+
 
         // 3. Optimized 3D Tilt Effect
         const initTilt = () => {
@@ -3347,36 +3291,16 @@
 
             if (!isReducedMotion) {
                 initParticles();
-                initCursor();
+
                 initTilt();
             }
             initScrollReveal();
         });
 
     </script>
-    <!-- Custom Cursor Elements -->
-    <!-- Custom Cursor Elements Removed (Using CSS Cursor) -->
+
 
     <style>
-        /* Native Custom Cursors */
-        body {
-            /* Default Arrow */
-            cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z' fill='%236366F1' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 2 2, default;
-        }
-
-        a,
-        button,
-        input,
-        select,
-        textarea,
-        .card,
-        .nav-tab,
-        .security-icon,
-        .quiz-option {
-            /* Pencil Pointer for clickable elements */
-            cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 2L22 6L9 19L5 19L5 15L18 2Z' fill='%23EC4899' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M14 6L18 10' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 2 20, pointer !important;
-        }
-
         /* Premium Scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
@@ -3400,24 +3324,6 @@
         ::selection {
             background: rgba(99, 102, 241, 0.3);
             color: white;
-        }
-
-        /* Hide on mobile */
-        @media (max-width: 768px) {
-
-            /* Custom cursors are not displayed on mobile, default to auto */
-            body,
-            a,
-            button,
-            input,
-            select,
-            textarea,
-            .card,
-            .nav-tab,
-            .security-icon,
-            .quiz-option {
-                cursor: auto !important;
-            }
         }
     </style>
 </body>

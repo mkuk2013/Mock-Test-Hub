@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPrime | Infinite Learning</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            accent: '#00f2ea', // Cyan
+                            purple: '#ff0055', // Pinkish Red
+                        },
+                        dark: {
+                            bg: '#050505',
+                            card: '#121212',
+                            border: '#262626'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'tilt': 'tilt 10s infinite linear',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        tilt: {
+                            '0%, 50%, 100%': { transform: 'rotate(0deg)' },
+                            '25%': { transform: 'rotate(1deg)' },
+                            '75%': { transform: 'rotate(-1deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* Hide Scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Glass Effects */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .glass-nav {
+            background: rgba(18, 18, 18, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #00f2ea, #ff0055);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gray-100 dark:bg-dark-bg text-slate-900 dark:text-white font-sans transition-colors duration-500 overflow-hidden selection:bg-brand-accent selection:text-black"
+    x-data="app()" x-init="initApp()" :class="{ 'dark': isDark }">
+
+    <!-- Background Ambient Glow -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden">
+        <div
+            class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-accent/20 rounded-full blur-[120px] animate-float opacity-50">
+        </div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-purple/20 rounded-full blur-[120px] animate-float opacity-50"
+            style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Auth Overlay -->
+    <div x-show="!isAuthenticated"
+        class="fixed inset-0 z-[100] bg-gray-100 dark:bg-dark-bg flex items-center justify-center transition-opacity duration-700"
+        x-transition:leave="opacity-0">
+
+        <div class="relative w-full max-w-md p-6">
+            <!-- Decorative Ring -->
+            <div
+                class="absolute -inset-1 bg-gradient-to-r from-brand-accent to-brand-purple rounded-2xl blur opacity-30 animate-tilt">
+            </div>
+
+            <div
+                class="relative bg-white dark:bg-dark-card rounded-xl p-8 shadow-2xl border border-gray-200 dark:border-dark-border">
+                <div class="text-center mb-8">
+                    <h1 class="text-4xl font-display font-bold mb-2 tracking-tighter">EduPrime<span
+                            class="text-brand-accent">.</span></h1>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Enter access code to unlock</p>
+                </div>
+
+                <form @submit.prevent="login">
+                    <input type="password" x-model="password"
+                        class="w-full bg-gray-50 dark:bg-black/50 border border-gray-200 dark:border-dark-border rounded-lg px-4 py-3 text-center text-lg tracking-widest focus:outline-none focus:border-brand-accent transition-colors mb-4"
+                        placeholder="••••••">
+
+                    <button type="submit"
+                        class="w-full bg-slate-900 dark:bg-white text-white dark:text-black font-bold py-3 rounded-lg hover:scale-[1.02] active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+                        <span x-show="!isLoading">Enter</span>
+                        <div x-show="isLoading"
+                            class="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin">
+                        </div>
+                    </button>
+
+                    <p x-show="loginError" class="text-red-500 text-xs text-center mt-4 font-bold">Access Denied</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Interface -->
+    <div x-show="isAuthenticated" x-cloak class="relative h-screen flex flex-col md:flex-row overflow-hidden">
+
+        <!-- Floating Navigation (Left Rail) -->
+        <nav class="hidden md:flex flex-col items-center justify-between w-20 py-8 z-50">
+            <!-- Logo -->
+            <div
+                class="w-10 h-10 bg-gradient-to-br from-brand-accent to-brand-purple rounded-xl flex items-center justify-center text-black font-bold text-xl shadow-lg shadow-brand-accent/20">
+                E
+            </div>
+
+            <!-- Menu Items -->
+            <div class="flex flex-col gap-4 glass-nav rounded-full px-2 py-4 shadow-2xl">
+                <template x-for="tab in tabs" :key="tab.id">
+                    <button @click="activeTab = tab.id"
+                        class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 relative group"
+                        :class="activeTab === tab.id ? 'bg-slate-900 dark:bg-white text-white dark:text-black scale-110' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10'">
+                        <i :class="tab.icon"></i>
+
+                        <!-- Tooltip -->
+                        <div
+                            class="absolute left-14 bg-slate-900 dark:bg-white text-white dark:text-black text-xs font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                            <span x-text="tab.label"></span>
+                        </div>
+                    </button>
+                </template>
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="flex flex-col gap-4">
+                <button @click="toggleTheme"
+                    class="w-10 h-10 rounded-full bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border flex items-center justify-center text-slate-500 hover:text-brand-accent transition-colors">
+                    <i class="fas" :class="isDark ? 'fa-sun' : 'fa-moon'"></i>
+                </button>
+                <img src="https://i.pravatar.cc/150?img=33"
+                    class="w-10 h-10 rounded-full border-2 border-white dark:border-dark-border cursor-pointer hover:border-brand-accent transition-colors"
+                    @click="logout">
+            </div>
+        </nav>
+
+        <!-- Mobile Navigation (Bottom Bar) -->
+        <nav
+            class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white dark:bg-dark-card border-t border-gray-200 dark:border-dark-border z-50 flex items-center justify-around px-4">
+            <template x-for="tab in tabs.slice(0, 5)" :key="tab.id">
+                <button @click="activeTab = tab.id" class="flex flex-col items-center gap-1"
+                    :class="activeTab === tab.id ? 'text-brand-accent' : 'text-slate-400'">
+                    <i :class="tab.icon" class="text-lg"></i>
+                    <span class="text-[10px] font-bold" x-text="tab.shortLabel"></span>
+                </button>
+            </template>
+        </nav>
+
+        <!-- Content Area -->
+        <main class="flex-1 relative overflow-hidden flex flex-col">
+
+            <!-- Top Bar -->
+            <header class="h-20 flex items-center justify-between px-6 md:px-10 z-40">
+                <div class="flex items-center gap-4">
+                    <h2 class="text-2xl font-display font-bold tracking-tight" x-text="currentTitle"></h2>
+                </div>
+
+                <!-- Search Pill -->
+                <div class="relative group">
+                    <div
+                        class="absolute -inset-0.5 bg-gradient-to-r from-brand-accent to-brand-purple rounded-full blur opacity-20 group-hover:opacity-50 transition duration-500">
+                    </div>
+                    <div
+                        class="relative flex items-center bg-white dark:bg-dark-card rounded-full px-4 py-2 w-48 md:w-80 transition-all focus-within:w-64 md:focus-within:w-96">
+                        <i class="fas fa-search text-slate-400 mr-3"></i>
+                        <input type="text" x-model="searchQuery" @input.debounce.500ms="performSearch"
+                            class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder-slate-400"
+                            placeholder="Search resources...">
+                        <span
+                            class="hidden md:block text-xs text-slate-500 border border-slate-200 dark:border-dark-border rounded px-1.5 ml-2">⌘K</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Scrollable Canvas -->
+            <div class="flex-1 overflow-y-auto px-6 md:px-10 pb-24 md:pb-10 scroll-smooth no-scrollbar"
+                id="main-scroll">
+
+                <!-- Dashboard (Bento Grid) -->
+                <div x-show="activeTab === 'dashboard'" x-transition:enter="transition ease-out duration-500"
+                    x-transition:enter-start="opacity-0 scale-95">
+
+                    <!-- Welcome Hero -->
+                    <div
+                        class="mb-10 relative overflow-hidden rounded-3xl bg-slate-900 dark:bg-white text-white dark:text-black p-8 md:p-12">
+                        <div
+                            class="absolute top-0 right-0 w-64 h-64 bg-brand-accent rounded-full blur-[100px] opacity-50 translate-x-1/2 -translate-y-1/2">
+                        </div>
+                        <div class="relative z-10 max-w-2xl">
+                            <h1 class="text-4xl md:text-5xl font-display font-bold mb-4">Ready to <span
+                                    class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-brand-purple">Level
+                                    Up?</span></h1>
+                            <p class="text-lg opacity-80 mb-8">You have 12 new resources waiting for you today.</p>
+                            <button @click="activeTab = 'pdf-books'"
+                                class="bg-white dark:bg-black text-black dark:text-white px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform">
+                                Resume Learning
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bento Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[180px]">
+
+                        <!-- Stats Card (Large) -->
+                        <div
+                            class="md:col-span-2 md:row-span-2 bg-white dark:bg-dark-card rounded-3xl p-6 border border-gray-200 dark:border-dark-border relative overflow-hidden group hover:border-brand-accent/50 transition-colors">
+                            <div
+                                class="absolute top-4 right-4 w-10 h-10 bg-gray-100 dark:bg-dark-bg rounded-full flex items-center justify-center">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-2">Weekly Progress
+                            </h3>
+                            <div class="text-4xl font-display font-bold mb-4">85% <span
+                                    class="text-sm text-green-500 font-normal">+12%</span></div>
+                            <!-- Mock Chart -->
+                            <div class="flex items-end gap-2 h-32 mt-auto">
+                                <div
+                                    class="flex-1 bg-gray-100 dark:bg-dark-bg rounded-t-lg h-[40%] group-hover:bg-brand-accent/20 transition-colors">
+                                </div>
+                                <div
+                                    class="flex-1 bg-gray-100 dark:bg-dark-bg rounded-t-lg h-[60%] group-hover:bg-brand-accent/40 transition-colors">
+                                </div>
+                                <div
+                                    class="flex-1 bg-gray-100 dark:bg-dark-bg rounded-t-lg h-[30%] group-hover:bg-brand-accent/20 transition-colors">
+                                </div>
+                                <div
+                                    class="flex-1 bg-gray-100 dark:bg-dark-bg rounded-t-lg h-[80%] group-hover:bg-brand-accent/60 transition-colors">
+                                </div>
+                                <div
+                                    class="flex-1 bg-brand-accent rounded-t-lg h-[90%] shadow-[0_0_20px_rgba(0,242,234,0.5)]">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Action 1 -->
+                        <div @click="activeTab = 'test-notes'"
+                            class="bg-gradient-to-br from-purple-500 to-pink-600 rounded-3xl p-6 text-white cursor-pointer hover:scale-[1.02] transition-transform relative overflow-hidden">
+                            <i
+                                class="fas fa-sticky-note text-4xl opacity-20 absolute bottom-[-10px] right-[-10px] rotate-[-15deg]"></i>
+                            <h3 class="font-bold text-lg">Test Notes</h3>
+                            <p class="text-sm opacity-80">Quick revision</p>
+                        </div>
+
+                        <!-- Quick Action 2 -->
+                        <div @click="activeTab = 'past-papers'"
+                            class="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-3xl p-6 text-white cursor-pointer hover:scale-[1.02] transition-transform relative overflow-hidden">
+                            <i
+                                class="fas fa-history text-4xl opacity-20 absolute bottom-[-10px] right-[-10px] rotate-[-15deg]"></i>
+                            <h3 class="font-bold text-lg">Past Papers</h3>
+                            <p class="text-sm opacity-80">Archive access</p>
+                        </div>
+
+                        <!-- Notification Box -->
+                        <div
+                            class="md:col-span-2 bg-white dark:bg-dark-card rounded-3xl p-6 border border-gray-200 dark:border-dark-border flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 bg-red-100 dark:bg-red-900/20 text-red-500 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold">New Mock Test Available</h3>
+                                    <p class="text-sm text-slate-500">Physics Chapter 4 - Advanced</p>
+                                </div>
+                            </div>
+                            <button
+                                class="px-4 py-2 bg-slate-100 dark:bg-dark-bg rounded-lg text-sm font-bold hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">View</button>
+                        </div>
+
+                        <!-- Video Lectures -->
+                        <div @click="activeTab = 'video-lectures'"
+                            class="md:col-span-2 bg-black rounded-3xl p-6 relative overflow-hidden group cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent">
+                            </div>
+                            <div class="relative z-10 h-full flex flex-col justify-end">
+                                <div
+                                    class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white mb-2">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                                <h3 class="text-white font-bold text-xl">Video Lectures</h3>
+                                <p class="text-gray-300 text-sm">Continue watching</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Resource Lists (Masonry) -->
+                <div x-show="activeTab !== 'dashboard'" x-transition:enter="transition ease-out duration-500"
+                    x-transition:enter-start="opacity-0 translate-y-10">
+
+                    <!-- Loading -->
+                    <div x-show="isLoadingContent" class="flex justify-center py-20">
+                        <div
+                            class="w-12 h-12 border-4 border-brand-accent border-t-transparent rounded-full animate-spin">
+                        </div>
+                    </div>
+
+                    <!-- Grid -->
+                    <div x-show="!isLoadingContent" class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                        <template x-for="item in contentItems" :key="item.id">
+                            <div
+                                class="break-inside-avoid bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-200 dark:border-dark-border hover:border-brand-accent transition-colors group cursor-pointer relative overflow-hidden">
+                                <!-- Hover Glow -->
+                                <div
+                                    class="absolute inset-0 bg-brand-accent/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                </div>
+
+                                <div class="flex justify-between items-start mb-4 relative z-10">
+                                    <div
+                                        class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-dark-bg flex items-center justify-center text-slate-900 dark:text-white group-hover:bg-brand-accent group-hover:text-black transition-colors">
+                                        <i :class="item.icon || 'fas fa-file'"></i>
+                                    </div>
+                                    <a :href="item.link" target="_blank"
+                                        class="w-8 h-8 rounded-full border border-gray-200 dark:border-dark-border flex items-center justify-center hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                                        <i class="fas fa-arrow-up rotate-45"></i>
+                                    </a>
+                                </div>
+
+                                <h3 class="text-lg font-bold mb-2 leading-tight relative z-10" x-text="item.title"></h3>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-3 relative z-10"
+                                    x-text="item.description"></p>
+
+                                <div
+                                    class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider relative z-10">
+                                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                    Available
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div x-show="!isLoadingContent && contentItems.length === 0"
+                        class="flex flex-col items-center justify-center py-20 opacity-50">
+                        <i class="fas fa-ghost text-4xl mb-4"></i>
+                        <p>No content found here.</p>
+                    </div>
+                </div>
+                </nav>
+
+                <!-- Content Area -->
+                <main class="flex-1 relative overflow-hidden flex flex-col">
+
+                    <!-- Top Bar -->
+                    <header class="h-20 flex items-center justify-between px-6 md:px-10 z-40">
+                        <div class="flex items-center gap-4">
+                            <h2 class="text-2xl font-display font-bold tracking-tight" x-text="currentTitle"></h2>
+                        </div>
+
+                        <!-- Search Pill -->
+                        <div class="relative group">
+                            <div
+                                class="absolute -inset-0.5 bg-gradient-to-r from-brand-accent to-brand-purple rounded-full blur opacity-20 group-hover:opacity-50 transition duration-500">
+                            </div>
+                            <div
+                                class="relative flex items-center bg-white dark:bg-dark-card rounded-full px-4 py-2 w-48 md:w-80 transition-all focus-within:w-64 md:focus-within:w-96">
+                                <i class="fas fa-search text-slate-400 mr-3"></i>
+                                <input type="text" x-model="searchQuery" @input.debounce.500ms="performSearch"
+                                    class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder-slate-400"
+                                    placeholder="Search resources...">
+                                <span
+                                    class="hidden md:block text-xs text-slate-500 border border-slate-200 dark:border-dark-border rounded px-1.5 ml-2">⌘K</span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Scrollable Canvas -->
+                    <div class="flex-1 overflow-y-auto px-6 md:px-10 pb-24 md:pb-10 scroll-smooth no-scrollbar"
+                        id="main-scroll">
+
+                        <!-- Dashboard (Bento Grid) -->
+                        <div x-show="activeTab === 'dashboard'" x-transition:enter="transition ease-out duration-500"
+                            x-transition:enter-start="opacity-0 scale-95">
+
+                            <!-- Welcome Hero -->
+                            <div
+                                class="mb-10 relative overflow-hidden rounded-3xl bg-slate-900 dark:bg-white text-white dark:text-black p-8 md:p-12">
+                                <div
+                                    class="absolute top-0 right-0 w-64 h-64 bg-brand-accent rounded-full blur-[100px] opacity-50 translate-x-1/2 -translate-y-1/2">
+                                </div>
+                                <div class="relative z-10 max-w-2xl">
+                                    <h1 class="text-4xl md:text-5xl font-display font-bold mb-4">Ready to <span
+                                            class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-brand-purple">Level
+                                            Up?</span></h1>
+                                    <p class="text-lg opacity-80 mb-8">You have 12 new resources waiting for you today.
+                                    </p>
+                                    <button @click="activeTab = 'pdf-books'"
+                                        class="bg-white dark:bg-black text-black dark:text-white px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform">
+                                        Resume Learning
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Bento Grid -->
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[180px]">
+
+                                <!-- Stats Card (Large) -->
+                                <div
+                                    class="md:col-span-2 md:row-span-2 bg-white dark:bg-dark-card rounded-3xl p-6 border border-gray-200 dark:border-dark-border relative overflow-hidden group hover:border-brand-accent/50 transition-colors">
+                                    <div
+                                        class="absolute top-4 right-4 w-10 h-10 bg-gray-100 dark:bg-dark-bg rounded-full flex items-center justify-center">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <h3 class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-2">Weekly
+                                        Progress
+                                    </h3>
+                                    <div class="text-4xl font-display font-bold mb-4">85% <span
+                                            class="text-sm text-green-500 font-normal">+12%</span></div>
+                                    <!-- Mock Chart -->
+                                    <div class="flex items-end gap-2 h-32 mt-auto">
+                                        <div
+                                            class="flex-1 bg-gray-100 dark:bg-dark-bg rounded-t-lg h-[40%] group-hover:bg-brand-accent/20 transition-colors">
+                                        </div>
+                                        <div
+                                            class="flex-1 bg-gray-100 dark:bg-dark-bg rounded-t-lg h-[60%] group-hover:bg-brand-accent/40 transition-colors">
+                                        </div>
+                                        <div
+                                            class="flex-1 bg-gray-100 dark:bg-dark-bg rounded-t-lg h-[30%] group-hover:bg-brand-accent/20 transition-colors">
+                                        </div>
+                                        <div
+                                            class="flex-1 bg-gray-100 dark:bg-dark-bg rounded-t-lg h-[80%] group-hover:bg-brand-accent/60 transition-colors">
+                                        </div>
+                                        <div
+                                            class="flex-1 bg-brand-accent rounded-t-lg h-[90%] shadow-[0_0_20px_rgba(0,242,234,0.5)]">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quick Action 1 -->
+                                <div @click="activeTab = 'test-notes'"
+                                    class="bg-gradient-to-br from-purple-500 to-pink-600 rounded-3xl p-6 text-white cursor-pointer hover:scale-[1.02] transition-transform relative overflow-hidden">
+                                    <i
+                                        class="fas fa-sticky-note text-4xl opacity-20 absolute bottom-[-10px] right-[-10px] rotate-[-15deg]"></i>
+                                    <h3 class="font-bold text-lg">Test Notes</h3>
+                                    <p class="text-sm opacity-80">Quick revision</p>
+                                </div>
+
+                                <!-- Quick Action 2 -->
+                                <div @click="activeTab = 'past-papers'"
+                                    class="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-3xl p-6 text-white cursor-pointer hover:scale-[1.02] transition-transform relative overflow-hidden">
+                                    <i
+                                        class="fas fa-history text-4xl opacity-20 absolute bottom-[-10px] right-[-10px] rotate-[-15deg]"></i>
+                                    <h3 class="font-bold text-lg">Past Papers</h3>
+                                    <p class="text-sm opacity-80">Archive access</p>
+                                </div>
+
+                                <!-- Notification Box -->
+                                <div
+                                    class="md:col-span-2 bg-white dark:bg-dark-card rounded-3xl p-6 border border-gray-200 dark:border-dark-border flex items-center justify-between">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-12 h-12 bg-red-100 dark:bg-red-900/20 text-red-500 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-bell"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold">New Mock Test Available</h3>
+                                            <p class="text-sm text-slate-500">Physics Chapter 4 - Advanced</p>
+                                        </div>
+                                    </div>
+                                    <button
+                                        class="px-4 py-2 bg-slate-100 dark:bg-dark-bg rounded-lg text-sm font-bold hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">View</button>
+                                </div>
+
+                                <!-- Video Lectures -->
+                                <div @click="activeTab = 'video-lectures'"
+                                    class="md:col-span-2 bg-black rounded-3xl p-6 relative overflow-hidden group cursor-pointer">
+                                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                        class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent">
+                                    </div>
+                                    <div class="relative z-10 h-full flex flex-col justify-end">
+                                        <div
+                                            class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white mb-2">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <h3 class="text-white font-bold text-xl">Video Lectures</h3>
+                                        <p class="text-gray-300 text-sm">Continue watching</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Resource Lists (Masonry) -->
+                        <div x-show="activeTab !== 'dashboard'" x-transition:enter="transition ease-out duration-500"
+                            x-transition:enter-start="opacity-0 translate-y-10">
+
+                            <!-- Loading -->
+                            <div x-show="isLoadingContent" class="flex justify-center py-20">
+                                <div
+                                    class="w-12 h-12 border-4 border-brand-accent border-t-transparent rounded-full animate-spin">
+                                </div>
+                            </div>
+
+                            <!-- Grid -->
+                            <div x-show="!isLoadingContent" class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                                <template x-for="item in contentItems" :key="item.id">
+                                    <div
+                                        class="break-inside-avoid bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-200 dark:border-dark-border hover:border-brand-accent transition-colors group cursor-pointer relative overflow-hidden">
+                                        <!-- Hover Glow -->
+                                        <div
+                                            class="absolute inset-0 bg-brand-accent/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                        </div>
+
+                                        <div class="flex justify-between items-start mb-4 relative z-10">
+                                            <div
+                                                class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-dark-bg flex items-center justify-center text-slate-900 dark:text-white group-hover:bg-brand-accent group-hover:text-black transition-colors">
+                                                <i :class="item.icon || 'fas fa-file'"></i>
+                                            </div>
+                                            <a :href="item.link" target="_blank"
+                                                class="w-8 h-8 rounded-full border border-gray-200 dark:border-dark-border flex items-center justify-center hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors">
+                                                <i class="fas fa-arrow-up rotate-45"></i>
+                                            </a>
+                                        </div>
+
+                                        <h3 class="text-lg font-bold mb-2 leading-tight relative z-10"
+                                            x-text="item.title"></h3>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-3 relative z-10"
+                                            x-text="item.description"></p>
+
+                                        <div
+                                            class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider relative z-10">
+                                            <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                            Available
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- Empty State -->
+                            <div x-show="!isLoadingContent && contentItems.length === 0"
+                                class="flex flex-col items-center justify-center py-20 opacity-50">
+                                <i class="fas fa-ghost text-4xl mb-4"></i>
+                                <p>No content found here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+
+            <!-- Supabase & Logic -->
+            <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0"></script>
+            <script>
+                document.addEventListener('alpine:init', () => {
+                    Alpine.data('app', () => ({
+                        isAuthenticated: false,
+                        password: '',
+                        isLoading: false,
+                        loginError: false,
+                        isDark: localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+                        activeTab: 'dashboard',
+                        searchQuery: '',
+                        isLoadingContent: false,
+                        contentItems: [],
+                        connectionStatus: 'Connecting...',
+                        usingMockData: false,
+
+                        // Tabs Config
+                        tabs: [
+                            { id: 'dashboard', label: 'Dashboard', shortLabel: 'Home', icon: 'fas fa-home' },
+                            { id: 'pdf-books', label: 'PDF Books', shortLabel: 'Books', icon: 'fas fa-book', table: 'pdfbooks' },
+                            { id: 'test-notes', label: 'Test Notes', shortLabel: 'Notes', icon: 'fas fa-sticky-note', table: 'testnotes' },
+                            { id: 'past-papers', label: 'Past Papers', shortLabel: 'Papers', icon: 'fas fa-history', table: 'pastpapers' },
+                            { id: 'mock-tests-offline', label: 'Offline Mocks', shortLabel: 'Offline', icon: 'fas fa-file-download', table: 'mocktestsoffline' },
+                            { id: 'mock-tests-online', label: 'Online Mocks', shortLabel: 'Online', icon: 'fas fa-laptop-code', table: 'mocktestsonline' },
+                            { id: 'video-lectures', label: 'Video Lectures', shortLabel: 'Videos', icon: 'fas fa-play-circle', table: 'videolectures' },
+                            { id: 'it-digital-learning', label: 'IT & Digital', shortLabel: 'Skills', icon: 'fas fa-microchip', table: 'itdigitallearning' }
+                        ],
+
+                        // Mock Data for Fallback (with IDs now)
+                        mockData: {
+                            'pdf-books': [
+                                { id: 1, title: 'Physics Grade 11', description: 'Comprehensive physics textbook for grade 11 students covering mechanics, thermodynamics, and waves.', icon: 'fas fa-book', link: '#' },
+                                { id: 2, title: 'Chemistry Organic Notes', description: 'Detailed notes on organic chemistry reactions and mechanisms.', icon: 'fas fa-flask', link: '#' },
+                                { id: 3, title: 'Mathematics Calculus', description: 'Advanced calculus problems and solutions.', icon: 'fas fa-calculator', link: '#' },
+                                { id: 4, title: 'Biology: Genetics', description: 'In-depth study of genetics and heredity.', icon: 'fas fa-dna', link: '#' },
+                                { id: 5, title: 'Computer Science Basics', description: 'Introduction to algorithms and data structures.', icon: 'fas fa-laptop-code', link: '#' },
+                            ],
+                            'test-notes': [
+                                { id: 6, title: 'Quick Revision: Physics', description: 'Key formulas and concepts for last-minute revision.', icon: 'fas fa-bolt', link: '#' },
+                                { id: 7, title: 'History Timeline', description: 'Major historical events summary.', icon: 'fas fa-landmark', link: '#' },
+                                { id: 8, title: 'English Grammar Rules', description: 'Essential grammar rules for writing.', icon: 'fas fa-pen-nib', link: '#' },
+                            ],
+                            'past-papers': [
+                                { id: 9, title: '2023 Physics Paper 1', description: 'Solved past paper for Physics.', icon: 'fas fa-file-alt', link: '#' },
+                                { id: 10, title: '2022 Math Paper 2', description: 'Mathematics past paper with marking scheme.', icon: 'fas fa-file-alt', link: '#' },
+                            ],
+                            'mock-tests-offline': [
+                                { id: 11, title: 'Full Syllabus Mock A', description: '3-hour mock test for complete syllabus practice.', icon: 'fas fa-file-pdf', link: '#' },
+                            ],
+                            'mock-tests-online': [
+                                { id: 12, title: 'Chapter 1 Quiz', description: 'Interactive quiz for Chapter 1.', icon: 'fas fa-mouse-pointer', link: '#' },
+                            ],
+                            'video-lectures': [
+                                { id: 13, title: 'Intro to Quantum Mechanics', description: 'Video lecture explaining basics of QM.', icon: 'fas fa-video', link: '#' },
+                            ],
+                            'it-digital-learning': [
+                                { id: 14, title: 'Python for Beginners', description: 'Start coding with Python.', icon: 'fab fa-python', link: '#' },
+                            ]
+                        },
+
+                        // Supabase Client
+                        supabase: null,
+
+                        get currentTitle() {
+                            const tab = this.tabs.find(t => t.id === this.activeTab);
+                            return tab ? tab.label : 'Search Results';
+                        },
+
+                        async initApp() {
+                            // Init Supabase
+                            const supabaseUrl = 'https://zbxinuoktkkgxtvarqik.supabase.co';
+                            const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpieGludW9rdGtrZ3h0dmFycWlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ4NTA2MDAsImV4cCI6MjA3MDQyNjYwMH0.8PrjVQRnHwf2zZdDQOOeqQtWP9-ZgjzEL2Pp2TQzsek';
+                            this.supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+                            // Test Connection
+                            this.checkConnection();
+
+                            // Check Session
+                            const session = localStorage.getItem('secureSession');
+                            if (session) {
+                                const s = JSON.parse(session);
+                                if (s.authenticated && (Date.now() - s.startTime < 3600000)) {
+                                    this.isAuthenticated = true;
+                                }
+                            }
+
+                            // Watch for Tab Changes
+                            this.$watch('activeTab', (val) => {
+                                if (val !== 'dashboard') {
+                                    this.loadContent(val);
+                                }
+                            });
+
+                            // Keyboard Shortcuts
+                            document.addEventListener('keydown', (e) => {
+                                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                                    e.preventDefault();
+                                    document.querySelector('input[type="text"]').focus();
+                                }
+                            });
+                        },
+
+                        async checkConnection() {
+                            try {
+                                const { data, error } = await this.supabase.from('securitysettings').select('count', { count: 'exact', head: true });
+                                if (error) throw error;
+                                this.connectionStatus = 'Connected to Database';
+                            } catch (e) {
+                                console.error('Connection check failed:', e);
+                                this.connectionStatus = 'Database Connection Failed';
+                            }
+                        },
+
+                        async login() {
+                            if (!this.password) return;
+                            this.isLoading = true;
+                            this.loginError = false;
+
+                            try {
+                                const inputHash = await this.sha256(this.password);
+
+                                // Check DB
+                                const { data } = await this.supabase.from('securitysettings').select('accesspassword').limit(1);
+                                let isValid = false;
+
+                                if (data && data.length > 0) {
+                                    const dbHash = await this.sha256(data[0].accesspassword);
+                                    if (inputHash === dbHash) isValid = true;
+                                }
+
+                                // Fallback
+                                const validPasswords = ['hon3y', 'admin123'];
+                                if (!isValid) {
+                                    for (const p of validPasswords) {
+                                        if (inputHash === await this.sha256(p)) {
+                                            isValid = true;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if (isValid) {
+                                    localStorage.setItem('secureSession', JSON.stringify({
+                                        startTime: Date.now(),
+                                        authenticated: true
+                                    }));
+                                    setTimeout(() => {
+                                        this.isAuthenticated = true;
+                                        this.isLoading = false;
+                                    }, 500);
+                                } else {
+                                    throw new Error('Invalid password');
+                                }
+
+                            } catch (e) {
+                                this.isLoading = false;
+                                this.loginError = true;
+                            }
+                        },
+
+                        logout() {
+                            localStorage.removeItem('secureSession');
+                            this.isAuthenticated = false;
+                            this.password = '';
+                        },
+
+                        toggleTheme() {
+                            this.isDark = !this.isDark;
+                            localStorage.theme = this.isDark ? 'dark' : 'light';
+                            if (this.isDark) {
+                                document.documentElement.classList.add('dark');
+                            } else {
+                                document.documentElement.classList.remove('dark');
+                            }
+                        },
+
+                        async loadContent(tabId) {
+                            this.isLoadingContent = true;
+                            this.usingMockData = false;
+                            const tab = this.tabs.find(t => t.id === tabId);
+
+                            if (!tab || !tab.table) {
+                                this.isLoadingContent = false;
+                                return;
+                            }
+
+                            try {
+                                // Try fetching from Supabase
+                                const { data, error } = await this.supabase
+                                    .from(tab.table)
+                                    .select('*')
+                                    .order('created_at', { ascending: false });
+
+                                if (error) throw error;
+
+                                // If data exists, use it. If empty, use mock data.
+                                if (data && data.length > 0) {
+                                    this.contentItems = data;
+                                } else {
+                                    console.log('No data found in DB, using mock data for demo.');
+                                    this.contentItems = this.mockData[tabId] || [];
+                                    this.usingMockData = true;
+                                }
+
+                            } catch (e) {
+                                console.error('Supabase fetch error:', e);
+                                // Fallback to mock data on error
+                                this.contentItems = this.mockData[tabId] || [];
+                                this.usingMockData = true;
+                            } finally {
+                                this.isLoadingContent = false;
+                            }
+                        },
+
+                        async performSearch() {
+                            if (this.searchQuery.length < 3) return;
+
+                            this.activeTab = 'search';
+                            this.isLoadingContent = true;
+
+                            const tables = this.tabs.filter(t => t.table).map(t => t.table);
+                            const promises = tables.map(t =>
+                                this.supabase.from(t).select('*').or(`title.ilike.%${this.searchQuery}%,description.ilike.%${this.searchQuery}%`)
+                            );
+
+                            try {
+                                const results = await Promise.all(promises);
+                                const allMatches = results.flatMap(r => r.data || []);
+
+                                if (allMatches.length > 0) {
+                                    this.contentItems = allMatches;
+                                    this.usingMockData = false;
+                                } else {
+                                    // Mock search results
+                                    this.contentItems = Object.values(this.mockData).flat().filter(item =>
+                                        item.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                                        item.description.toLowerCase().includes(this.searchQuery.toLowerCase())
+                                    );
+                                    this.usingMockData = true;
+                                }
+                            } catch (e) {
+                                console.error(e);
+                                this.contentItems = [];
+                            } finally {
+                                this.isLoadingContent = false;
+                            }
+                        },
+
+                        async sha256(message) {
+                            const msgBuffer = new TextEncoder().encode(message);
+                            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                            const hashArray = Array.from(new Uint8Array(hashBuffer));
+                            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                        }
+                    }));
+                });
+            </script>
+</body>
+
+</html>

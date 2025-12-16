@@ -34,7 +34,7 @@
             background-color: var(--dark-bg);
             color: #F8FAFC;
             overflow-x: hidden;
-            cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z' fill='%236366F1' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 2 2, default;
+
         }
 
         h1,
@@ -44,61 +44,13 @@
         h5,
         h6 {
             font-family: 'Outfit', sans-serif;
+            transform: translateY(20px);
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
-
-        ::-webkit-scrollbar-track {
-            background: var(--dark-bg);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
-            border-radius: 4px;
-        }
-
-        a,
-        button,
-        .mentor-card {
-            cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 2L22 6L9 19L5 19L5 15L18 2Z' fill='%23EC4899' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M14 6L18 10' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") 2 20, pointer !important;
-        }
-
-        .glass {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .mentor-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .mentor-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px -5px rgba(79, 70, 229, 0.3);
-            border-color: rgba(99, 102, 241, 0.5);
-        }
-
-        .text-gradient {
-            background: linear-gradient(to right, #818cf8, #e879f9);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .slide-up {
