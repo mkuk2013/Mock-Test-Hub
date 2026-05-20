@@ -1,0 +1,25 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Runs everyday at 12:00 AM UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allows you to run it manually from GitHub
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase API
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          echo "Pinging Supabase to keep it awake..."
+          response=$(curl -s -o /dev/null -w "%{http_code}" -H "apikey: $SUPABASE_ANON_KEY" -H "Authorization: Bearer $SUPABASE_ANON_KEY" "$SUPABASE_URL/rest/v1/securitysettings?select=accesspassword&limit=1")
+          
+          if [ "$response" == "200" ]; then
+            echo "✅ Supabase is active and pinged successfully! (Status: $response)"
+          else
+            echo "⚠️ Warning: Supabase returned status $response. It might be paused or starting up."
+          fi
