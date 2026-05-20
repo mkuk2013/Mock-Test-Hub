@@ -354,13 +354,15 @@
         <section id="password-screen" class="screen">
             <h2>Enter Password to Start</h2>
             <p>Please enter the provided password to begin your mock test. This ensures the integrity of the test environment.</p>
-            <div class="input-group">
-                <input type="password" id="password-input" placeholder="Enter password">
-                <span class="toggle-password" id="toggle-password">
-                    <i class="fas fa-eye"></i>
-                </span>
-            </div>
-            <button class="btn btn-primary" id="start-button">Start Test</button>
+            <form id="password-form" onsubmit="handlePasswordSubmit(event)">
+                <div class="input-group">
+                    <input type="password" id="password-input" placeholder="Enter password" required>
+                    <span class="toggle-password" id="toggle-password">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+                <button type="submit" class="btn btn-primary" id="start-button">Start Test</button>
+            </form>
         </section>
 
         <section id="instructions-screen" class="screen hidden">
